@@ -1,0 +1,184 @@
+html {
+	background: #216149;
+	overflow-y: scroll;
+}
+
+body {
+	/* height: 100%; */
+	margin: 0;
+	
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	
+	font-family: Verdana, Arial, sans-serif;
+	
+	background-color: #216149;
+	background-color: -moz-linear-gradient(#000, #216149); /* For Firefox 3.6 to 15 */
+	background-color: -webkit-linear-gradient(#000, #216149); /* For Safari 5.1 to 6.0 */
+	background-color: -o-linear-gradient(#000, #216149); /* For Opera 11.1 to 12.0 */
+	background-color: -ms-linear-gradient(#000, #216149); /*For IE 10 */
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#000000', endColorstr='#216149'); /* For IE7-8-9 */ 
+	height: 1%; /* For IE 7*/ 
+	background: linear-gradient(#000, #216149); /* Standard syntax */
+	
+	
+}
+
+h1, h2, h3 {
+	margin: 0;
+}
+
+#contenedor {
+	background-color: #E1F2E3;
+	width: 950px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#encabezado {
+	background-color: #0E5875;
+	color: white;
+	font-family: Tahoma, Arial, sans-serif;
+	text-align: center;
+	padding: 10px;
+}
+
+#contenido {
+	padding: 10px 10px 40px 10px;
+	position: relative;
+	height: 180px;
+}
+
+#navegacion {
+	width: 180px;
+	float: left;
+	padding-bottom: 40px;
+}
+
+#navegacion a {
+	text-decoration: none;
+	color: blue;
+}
+
+#navegacion ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+#navegacion ul li{
+	padding-bottom: 5px;
+}
+
+#navegacion .selected {
+	font-weight: bold;
+}
+
+#principal {
+	width: 750px;
+	float: right;
+	background: #E1F2E3;
+	padding-bottom: 40px;
+	/*visibility: hidden;*/
+	/*display: none;*/
+}
+
+#bienvenida {
+	display: none;
+}
+
+p {
+	margin-top: 0;
+}
+
+#nuevaReserva_div {
+	display: none;
+}
+
+#nuevaReserva_div h3 {
+	padding-bottom: 20px;	
+}
+
+.linea_form label {
+	display: inline-block;
+    text-align: left;
+	width: 200px;
+}
+
+.form_text {
+    width: 160px;
+}
+
+#colores {
+	padding: 10px 0 0 200px;
+}
+
+#botones_form {	
+	padding-top: 20px;
+	text-align: left;
+}
+
+#botones_form input {
+	font-size: large;
+}
+
+#boton_borrar {
+	float: left;
+}
+
+#boton_enviar {
+	text-align: right;
+	padding-right: 40px;
+}
+
+#pie {
+	clear: both;
+	padding: 10px;
+	background-color: #999999;
+	color: white;
+	text-align: right;
+}
+
+
+
+
+
+.hoverbox {
+	display: none;
+	width: 350px;
+	height: 113px;
+	color: white;
+    background: #0E5875;
+	position: absolute;
+	top: 53px;
+	right: 10px;
+	padding: 5px;
+	font-size: small;
+	z-index: 10;
+}
+
+.titulo_hoverbox {
+	text-align: center;
+	padding: 0;
+}
+
+#hoverbox_verde {
+	background: #197019;
+}
+
+#hoverbox_azul {
+	background: #191970;
+}
+
+#hoverbox_rojo {
+	background: #701919;
+}
+
+#hoverbox_amarillo {
+	background: #707019;
+}
+
+
+.max{
+  height: auto;
+  min-height: 400px;
+}
