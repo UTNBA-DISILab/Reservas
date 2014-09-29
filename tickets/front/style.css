@@ -4,7 +4,6 @@ html {
 }
 
 body {
-	/* height: 100%; */
 	margin: 0;
 	
 	background-repeat: no-repeat;
@@ -26,17 +25,18 @@ body {
 
 h1, h2, h3 {
 	margin: 0;
+	letter-spacing: 1px;
 }
 
 #contenedor {
-	background-color: #E1F2E3;
-	width: 950px;
+	background: #E1F2E3;
+	width: 1000px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 #encabezado {
-	background-color: #0E5875;
+	background: #0E5875;
 	color: white;
 	font-family: Tahoma, Arial, sans-serif;
 	text-align: center;
@@ -50,52 +50,96 @@ h1, h2, h3 {
 }
 
 #navegacion {
-	width: 180px;
+	width: 170px;
 	float: left;
-	padding-bottom: 40px;
+	/*padding-bottom: 40px;*/
+	
+	border-style: solid solid none solid;
+	border-color: #94AA74;
+	border-width: 1px;
+	
+	margin-right: 30px;
 }
 
+/* este no esta en el cssmenu original /*
 #navegacion a {
 	text-decoration: none;
 	color: blue;
 }
+*/
 
 #navegacion ul {
 	list-style-type: none;
+	list-style: none;
 	padding: 0;
+	margin: 0;
 }
 
+/* nuevos para cssmenu */
+#navegacion li a {
+  height: 32px;
+  height: 24px;
+  text-decoration: none;
+  font-weight: normal;
+  outline: none;
+}
+
+#navegacion li a:link,
+#navegacion li a:visited {
+  color: #5E7830;
+  display: block;
+  background: url(images/menu1.gif);
+  background-repeat: no-repeat;
+  padding: 8px 0 0 10px;
+}
+
+#navegacion li a:hover {
+  color: #26370A;
+  background: url(images/menu1.gif) 0 -32px;
+  background-repeat: no-repeat;
+  padding: 8px 0 0 10px;
+}
+
+#navegacion li a:active {
+  color: #26370A;
+  background: url(images/menu1.gif) 0 -64px;
+  background-repeat: no-repeat;
+  padding: 8px 0 0 10px;
+}
+/* hasta aca los nuevos */
+
+/* estos tampoco estan en el cssmenu
 #navegacion ul li{
 	padding-bottom: 5px;
 }
 
+
 #navegacion .selected {
 	font-weight: bold;
 }
+*/
 
 #principal {
 	width: 750px;
 	float: right;
 	background: #E1F2E3;
-	padding-bottom: 40px;
-	/*visibility: hidden;*/
-	/*display: none;*/
+	padding-bottom: 30px;
 }
 
-#bienvenida {
+.opcion_menu {
 	display: none;
+}
+
+#inicio_div {
+	display: inline;
 }
 
 p {
 	margin-top: 0;
 }
 
-#nuevaReserva_div {
-	display: none;
-}
-
-#nuevaReserva_div h3 {
-	padding-bottom: 20px;	
+.titulo_pantalla {
+	padding-bottom: 20px;
 }
 
 .linea_form label {
@@ -104,8 +148,12 @@ p {
 	width: 200px;
 }
 
-.form_text {
+.linea_form input[type=text] {
     width: 160px;
+}
+
+.input_deshabilitado {
+	background : #D1D1D1;
 }
 
 #colores {
@@ -127,19 +175,17 @@ p {
 
 #boton_enviar {
 	text-align: right;
-	padding-right: 40px;
+	padding-right: 20px;
 }
 
 #pie {
 	clear: both;
 	padding: 10px;
-	background-color: #999999;
+	background: #5E783A;
 	color: white;
 	text-align: right;
+	font-size: small;
 }
-
-
-
 
 
 .hoverbox {
@@ -154,6 +200,12 @@ p {
 	padding: 5px;
 	font-size: small;
 	z-index: 10;
+	-webkit-border-radius:10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	-webkit-box-shadow: #B3B3B3 2px 2px 2px;
+	-moz-box-shadow: #B3B3B3 2px 2px 2px;
+	box-shadow: #B3B3B3 2px 2px 2px;
 }
 
 .titulo_hoverbox {
@@ -161,24 +213,83 @@ p {
 	padding: 0;
 }
 
-#hoverbox_verde {
-	background: #197019;
+
+.tabla_normal {
+	border: 4px solid #D1D1D1;
+	width: 730px;
 }
 
-#hoverbox_azul {
-	background: #191970;
+.tabla_normal thead th {
+    background: #0E5875;
+	color: white;
+	border: 2px solid #D1D1D1;
 }
 
-#hoverbox_rojo {
-	background: #701919;
+.tabla_normal th, .tabla_normal td {
+    text-align:center; 
+    vertical-align:middle;
+	padding: 4px;
+	border: 2px solid #D1D1D1;
+	height: 52px;
 }
 
-#hoverbox_amarillo {
-	background: #707019;
+.tabla_normal tbody tr:nth-of-type(even) {
+	background:#F0F0F0;
+}
+
+.tabla_normal tbody tr:hover {
+	background:#EEFFFF;
+}
+
+.solicitada {
+	background: #FFF8DC; /* Cornsilk */
+}
+
+.rechazada {
+	background: #DC143C; /* Crimson */
+}
+
+.contraofertada {
+	background: #FF7F50; /* Coral */
+}
+
+.confirmada {
+	background: #90EE90; /* LightGreen */
 }
 
 
-.max{
+.lab_verde {
+	background: #006400; /* DarkGreen */
+}
+
+.lab_azul {
+	background: #00008B; /* DarkBlue */
+}
+
+.lab_rojo {
+	background: #8B0000; /* DarkRed */
+}
+
+.lab_amarillo {
+	background: #B8860B; /* DarkGoldenRod */
+}
+
+.nombre_lab_span {
+	/*display: inline-block;
+	width: 76px;*/
+	color: white;
+	padding: 0px 5px 0px 5px;	
+	-webkit-border-radius:5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	text-transform: capitalize;
+}
+
+.primera_mayus {
+	text-transform: capitalize;
+}
+
+.extendido{
   height: auto;
-  min-height: 400px;
+  min-height: 420px;
 }
