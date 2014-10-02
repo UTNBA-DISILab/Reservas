@@ -8,33 +8,16 @@ $(document).ready(function(){
 	PANTALLA_INICIO = document.getElementById('inicio_div');
 	PANTALLA_SOLICITAR_RESERVAS = document.getElementById('solicitar_reservas_div');
 	PANTALLA_VER_RESERVAS = document.getElementById('ver_reservas_div');
-	
-	BOTON_AGREGAR_FECHA = document.getElementById('agregar_fecha');
 	/* ---------------------------- */
 	
 	pantallaActual = PANTALLA_INICIO;
-	cant_fechas = 1;
-	cant_inicial_nodos_fechas = document.getElementById('fechas').childNodes.length;
-	id_input_texto_ultima_fecha = 'datepicker1';
 	
 	// y se establecen los eventos para las distintas acciones sobre los distintos elementos.
 	bindearTodasLasOpciones();
-	//bindearTodosLosRadios(); //reemplazar por crearElementosDeLaboratorios
-	crearElementosDeLosLaboratorios();
-	bindearTodosLosDatepickers();	
-	bindearElBotonAgregarFecha();
-	bindearElBotonBorrarTodo();
-	
-	inicializarDatepickers();
+	cargarElementosDeLaboratorios();
+	cargarElementosDeFechas();
 
 });
-
-// Funcion auxiliar para transformar el string "datepickerN" en "datepickerN+1"
-incrementarIdDeInputFecha = function (idFecha) {
-    return idFecha.replace(/\d+$/, function(s) {
-        return +s+1;
-    });
-}
 
 bindearTodasLasOpciones = function() {
 	
@@ -60,7 +43,7 @@ bindearOpcionSolicitarReservas = function() {
 	$('a[href="#solicitar_reservas"]').click(function(){
 		
 		// se cambia la pantalla actual por la de solicitar reservas, y luego
-		cambiarPantallaActualYLuego(PANTALLA_SOLICITAR_RESERVAS, function() {
+		cambiarPantalla(PANTALLA_SOLICITAR_RESERVAS, function() {}, null, function() {
 			// se autocompleta el nombre del docente, que ya se conoce porque ya se logueo,
 			$('#nombre').val('Cosme Fulanito'); // Pendiente: obtener el nombre del docente de la sesion actual
 			// se prohibe modificar ese campo,
@@ -72,25 +55,76 @@ bindearOpcionSolicitarReservas = function() {
 	});
 }
 
+function Reserva(reservaJSON) {
+	
+	//this.docente = docente;
+	this.fecha_alta = reservaJSON.fecha_alta;
+	this.cant_alumnos = reservaJSON.cant_alumnos;
+	this.laboratorio = reservaJSON.laboratorio;
+	this.turno = reservaJSON.turno;
+	this.fecha_pedida = reservaJSON.fecha_pedida;
+	this.estado = reservaJSON.estado;
+	this.lab_ofrecido = reservaJSON.lab_ofrecido;
+}
+
+Reserva.prototype.toHtml = function() {
+	
+	var estadoExtra = '';
+	
+	// Si el campo lab_ofrecido tiene datos, es decir, si se confirmó una reserva que era por cualquier lab, o si el estado de la reserva es contra-ofertada,
+	if(this.lab_ofrecido) {
+		estadoExtra = '<br>&#40;Lab&nbsp;<span class="nombre_lab_span lab_' + this.lab_ofrecido + '">' + this.lab_ofrecido + '</span>&#41;'
+	}
+	
+	return '<tr><td>' + this.fecha_alta + '</td><td>' + this.cant_alumnos + '</td><td><span class="nombre_lab_span lab_' + this.laboratorio + '">' + this.laboratorio + '</span></td><td class="primera_mayus">' + this.turno + '</td><td>' + this.fecha_pedida + '</td><td class="' + this.estado + ' primera_mayus">' + this.estado + estadoExtra + '</td></tr>';
+}
+
+Reserva.celdaLoadingHtml = function() {
+	
+	var numColumnas = 6;
+	var texto = 'Consultando la base de datos...';
+	
+	return '<tr><td colspan="' + numColumnas.toString() + '">' + texto + '</td></tr>';
+}
+
 bindearOpcionVerReservas = function() {
 	$('a[href="#ver_reservas"]').click(function(){
 		
-		cambiarPantallaActualPor(PANTALLA_VER_RESERVAS);
+		var reservasDelDocente = getReservasDeDocente() // Si facilita algo, se puede pasar por parametro el nombre del docente, debe ser el logueado.
 		
-		/*
-		 * Se agrega una fila de ejemplo. Pendiente: un POST o GET por Ajax a PHP y que me devuelva
-		 * todos los campos de todas las solicitudes/reservas para el docente logueado
-		 * cuyas fechas de alta sean mayores o iguales a hoy.
-		 * Luego $.each( append( la fila i-esima armada en html )) y sanseacabó.
-		 */
-		$('#cuerpo_tabla_reservas').append('<tr><td>19&#47;09&#47;2014</td><td>25</td><td><span class="nombre_lab_span lab_azul">Azul</span></td><td>Noche</td><td>01/10/2014</td><td class="solicitada">Solicitada</td></tr>');
+		llenarTablaConReservas = function(reservas) {
+			
+			// se vacía la tabla,
+			$('#cuerpo_tabla_reservas').html(Reserva.celdaLoadingHtml());
+			// Acá debería 'esperar' hasta que llegue la info del servidor. Si llega bien, sigue con la siguiente linea. Si no, se queda trabado acá. Habrá que ajustarlo a getJSON
+			$('#cuerpo_tabla_reservas').html('');
+			$.each(reservas, function(indice, reserva) {
+				
+				$('#cuerpo_tabla_reservas').append(reserva.toHtml());
+				
+			});
+		}
 		
-		/* Capaz es demasiado complicado, pero lo ideal seria: mandar el pedido a php,
-		 * mientras se espera la respuesta, se oculta la pantalla vieja (y quizas meter una tipo Loading...) . Luego de que responda,
-		 * procesar, agregar la fila, y luego de eso mostrar la pantalla nueva.
-		 */
+		cambiarPantalla(PANTALLA_VER_RESERVAS, llenarTablaConReservas, reservasDelDocente, function() {});
 		
 	});
+}
+
+// Pendiente: un GET por Ajax a PHP que devuelva todos los campos de todas las solicitudes/reservas para el docente logueado (va por parametro o ya lo tiene?) cuyas fechas de alta sean mayores o iguales a hoy.
+getReservasDeDocente = function() {
+	var reservas_string = '[{"fecha_alta":"19/09/2014","cant_alumnos":"20","laboratorio":"verde","turno":"maniana","fecha_pedida":"29/09/2014","estado":"rechazada"},{"fecha_alta":"20/09/2014","cant_alumnos":"21","laboratorio":"rojo","turno":"tarde","fecha_pedida":"30/09/2014","estado":"contra-ofertada","lab_ofrecido":"amarillo"},{"fecha_alta":"20/09/2014","cant_alumnos":"21","laboratorio":"medrano","turno":"noche","fecha_pedida":"30/09/2014","estado":"confirmada","lab_ofrecido":"azul"},{"fecha_alta":"20/09/2014","cant_alumnos":"21","laboratorio":"campus","turno":"noche","fecha_pedida":"30/09/2014","estado":"solicitada"}]';
+	
+	var reservas_JSON = JSON.parse(reservas_string);
+	
+	var reservas_mias = new Array();
+	
+	$.each(reservas_JSON, function(indice, reserva_JSON) {
+			
+		reservas_mias[indice] = new Reserva(reserva_JSON);
+			
+	});
+	
+	return reservas_mias;
 }
 
 bindearOpcionCerrarSesion = function() {
@@ -102,10 +136,12 @@ bindearOpcionCerrarSesion = function() {
 	});
 }
 
-cambiarPantallaActualYLuego = function(pantallaNueva, yLuego) {
+cambiarPantalla = function(pantallaNueva, yLuegoDeOcultarLaAnterior, parametro, yLuegoDeMostrarLaNueva) {
 		
 	// se esconde la pantalla actual rapido, y luego
 	$(pantallaActual).fadeOut('fast', function() {
+		// se hace lo que quiera el llamador en esta instancia,
+		yLuegoDeOcultarLaAnterior(parametro);
 		// se determina el metodo a utilizar en la linea siguiente
 		// en base a si el div 'contenido' debe quedar largo o corto,
 		// lo cual depende a su vez de la clase de la pantalla nueva (chica o no chica);
@@ -116,136 +152,14 @@ cambiarPantallaActualYLuego = function(pantallaNueva, yLuego) {
 			$(pantallaNueva).fadeIn(function() {
 				// se actualiza la variable de la pantalla actual
 				pantallaActual = pantallaNueva;
-				// y el flujo de ejecucion sigue con la funcion parametro.
-				yLuego();
+				// y se hace lo que quiera el llamador en esta instancia.
+				yLuegoDeMostrarLaNueva();
 			});
 		});
 	});	
 }
 
-// Otra version, esta no hace nada luego de cambiar la pantalla.
+// Otra version, esta no hace nada más que cambiar la pantalla.
 cambiarPantallaActualPor = function(pantallaNueva) {
-	cambiarPantallaActualYLuego(pantallaNueva, function() {});
-}
-
-bindearTodosLosDatepickers = function() {
-
-	// Cada vez que gana o pierde el foco un campo para fechas,
-	$(".datepicker_recurring_start").on('change', function() {
-				
-		// si cualquiera de las fechas ingresadas es invalida, se deshabilita el boton para agregar mas fechas
-		if( todosCumplen($(".datepicker_recurring_start"), contieneFechaValida) ) {
-			BOTON_AGREGAR_FECHA.disabled = false;
-		} else {
-			BOTON_AGREGAR_FECHA.disabled = true;
-		}
-		
-	});
-}
-
-// Una primera validacion para las fechas, hay que validar todo bien desde php.
-contieneFechaValida = function (campo) {
-	return /^[0-3]?[0-9]\/[0-1]?[0-9]\/[2-3][0-9]{3}$/.test(campo.value);
-}
-
-// Funcion auxiliar equivalente al allSatisfy: de Smalltalk
-todosCumplen = function(jQo, condicion) {
-	
-	var cumplen = true;
-	jQo.each(function(indice, campo) {
-		if(!condicion(campo)) {
-			cumplen = false;
-			return false; // Esto es como 'break'; corta el each, no retorna la funcion
-		}
-	});
-	return cumplen;
-}
-
-bindearElBotonAgregarFecha = function() {
-	
-	// Cuando se hace click en el boton de agregar fecha,
-	$("#agregar_fecha").on('click', function () {
-		
-		var fechaAnterior_string = "";
-		
-		cant_fechas = cant_fechas + 1;
-		
-		// se agrega el label y el input para la nueva fecha en la pantalla.
-		$('#fechas').append('<br><label id="l_fecha' + cant_fechas.toString() + '">Fecha&nbsp;' + cant_fechas.toString() + ': </label><input type="text" class="datepicker_recurring_start" id="datepicker' + cant_fechas.toString() + '" name="fecha' + cant_fechas.toString() + '" maxlength="10" />');   
-		
-		/*
-		 * Luego de actualizar el DOM, es necesario que JS vuelva a buscar
-		 * todos los datepickers que existen para bindearles a todos
-		 * el codigo para el evento change.
-		 */
-		bindearTodosLosDatepickers();
-		
-		var fechaAnterior_string = document.getElementById(id_input_texto_ultima_fecha).value; // eg. "04/10/2014"
-		
-		var fechaSiguiente_date = $.datepicker.parseDate('dd/mm/yy', fechaAnterior_string);
-		// El cuadro para la fecha extra se autocompleta con la fecha anterior mas una semana
-		// (que es la que el docente mas probablemente quiera),
-		fechaSiguiente_date.setDate(fechaSiguiente_date.getDate() + 7);		
-		
-		// el id de la ultima fecha pasa de "datepickerN" a "datepickerN+1",
-		id_input_texto_ultima_fecha = incrementarIdDeInputFecha(id_input_texto_ultima_fecha);
-		
-		// se coloca la fecha nueva en el campo nuevo,
-		document.getElementById(id_input_texto_ultima_fecha).value = $.datepicker.formatDate('dd/mm/yy', fechaSiguiente_date).toString();
-		
-		//  y se autoselecciona el dia y el mes de la fecha nueva para agilizar un posible ajuste
-		createSelection(document.getElementById(id_input_texto_ultima_fecha) , 0, 5);
-		
-    });
-}
-
-bindearElBotonBorrarTodo = function() {
-	$("#boton_borrar").click(function () {
-		reiniciar();		
-    });
-}
-
-reiniciar = function() {
-		
-	// Se borran los campos de las fechas extra
-	$(document.getElementById("fechas").childNodes).each(function(indice, nodoHijo) {
-		if (indice >= cant_inicial_nodos_fechas) {
-			nodoHijo.remove();
-		}
-	});
-	
-	cant_fechas = 1;
-	
-	// Se borran todos los datos ingresados
-	document.getElementById("solicitar_reservas_form").reset();
-	document.getElementById("agregar_fecha").disabled = true;
-}
-
-inicializarDatepickers = function() {
-	// Cuando se pone el foco en un campo de texto para fechas,
-	$('body').on('focus',".datepicker_recurring_start", function(){
-		/* 
-		 * se inicializan los datepickers configurados
-		 * para que no permitan seleccionar fechas pasadas, y
-		 * para excluir los domingos.
-		*/
-		$(this).datepicker({ minDate: 0, maxDate: "+5Y", beforeShowDay: function(date) { return [(date.getDay() != 0), '']; } });
-	});
-}
-
-// Funcion auxiliar para seleccionar texto dentro de un input
-function createSelection(field, start, end) {
-    if( field.createTextRange ) {
-        var selRange = field.createTextRange();
-        selRange.collapse(true);
-        selRange.moveStart('character', start);
-        selRange.moveEnd('character', end-start);
-        selRange.select();
-    } else if( field.setSelectionRange ) {
-        field.setSelectionRange(start, end);
-    } else if( field.selectionStart ) {
-        field.selectionStart = start;
-        field.selectionEnd = end;
-    }
-    field.focus();
+	cambiarPantalla(pantallaNueva, function() {}, null, function() {});
 }

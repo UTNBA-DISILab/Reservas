@@ -142,7 +142,7 @@ p {
 	padding-bottom: 20px;
 }
 
-.linea_form label {
+.linea_form .nombre_campo {
 	display: inline-block;
     text-align: left;
 	width: 200px;
@@ -154,6 +154,11 @@ p {
 
 .input_deshabilitado {
 	background : #D1D1D1;
+}
+
+.nombre_radio {
+	margin-left: 7px;
+	margin-right: 14px;
 }
 
 #colores {
@@ -249,7 +254,7 @@ p {
 	background: #DC143C; /* Crimson */
 }
 
-.contraofertada {
+.contra-ofertada {
 	background: #FF7F50; /* Coral */
 }
 
@@ -257,6 +262,10 @@ p {
 	background: #90EE90; /* LightGreen */
 }
 
+
+.lab_medrano {
+	background: #000000;
+}
 
 .lab_verde {
 	background: #006400; /* DarkGreen */
@@ -272,6 +281,10 @@ p {
 
 .lab_amarillo {
 	background: #B8860B; /* DarkGoldenRod */
+}
+
+.lab_campus {
+	background: #AAAAAA;
 }
 
 .nombre_lab_span {
