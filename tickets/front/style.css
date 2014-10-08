@@ -306,3 +306,23 @@ p {
   height: auto;
   min-height: 420px;
 }
+
+
+.date {
+	width: 100px !important;
+}
+
+.time {
+	width: 50px !important;
+}
+
+.subnombre_campo {
+	display: inline-block;
+	text-align: left;
+	margin-left: 30px;
+	margin-right: 8px;
+}
+
+#agregar_fecha {
+	margin-top: 30px;
+}

@@ -31,6 +31,8 @@
 		<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="jquery-ui.min.js"></script>
 		<script type="text/javascript" src="datepicker-es.js"></script>
+		<script type="text/javascript" src="jquery-ui-timepicker-addon.js"></script>
+		<script type="text/javascript" src="timepicker-es.js"></script>
 		
 		<script type="text/javascript" src="radiosLab.js"></script>
 		<script type="text/javascript" src="hoverboxes.js"></script>
@@ -42,6 +44,7 @@
 		
 		<link rel="stylesheet" type="text/css" href="normalize.css" />
 		<link rel="stylesheet" href="jquery-ui.css">
+		<link rel="stylesheet" href="jquery-ui-timepicker-addon.css">
 		<link rel="stylesheet" type="text/css" href="style.css" />
 		
 	
@@ -125,19 +128,14 @@
 							<br>
 							-->
 							
-							<div class="linea_form">
-								<label class="nombre_campo">Turno: </label><!--
-							 --><input type="radio" id="maniana" name="turno" value="maniana" /><label for="maniana" class="nombre_radio">Ma&ntilde;ana</label><!--
-							 --><input type="radio" id="tarde" name="turno" value="tarde" /><label for="tarde" class="nombre_radio">Tarde</label><!--
-							 --><input type="radio" id="noche" name="turno" value="noche" checked="true" /><label for="noche" class="nombre_radio">Noche</label>
-																
-							</div>
-							<br>
-							<br>
+							
 							
 							<div id="fechas" class="linea_form">
-								<label class="nombre_campo" for="datepicker1">Fecha: </label><input type="text" class="datepicker_recurring_start" id="datepicker1" name="fecha" maxlength="10" />
-								
+								<label class="nombre_campo" for="datepicker1">Fecha&nbsp;y&nbsp;horario:</label><input type="text" class="date picker" id="datepicker1" name="fecha" maxlength="10" /><!--
+							 --><label class="subnombre_campo" for="timepicker1_comienzo">Desde:</label><input type="text" class="time picker" id="timepicker1_comienzo" name="hora1_comienzo" maxlength="5" /><!--
+							 --><label class="subnombre_campo" for="timepicker1_fin">Hasta:</label><input type="text" class="time picker" id="timepicker1_fin" name="hora1_fin" maxlength="5" />
+							</div>
+							<div>
 								<button type="button" id="agregar_fecha" disabled="true">Agregar otra fecha</button>
 							</div>
 							<br>
@@ -166,9 +164,6 @@
 									</th>
 									<th>
 										Laboratorio
-									</th>
-									<th>
-										Turno
 									</th>
 									<th>
 										Fecha Pedida

@@ -61,8 +61,9 @@ function Reserva(reservaJSON) {
 	this.fecha_alta = reservaJSON.fecha_alta;
 	this.cant_alumnos = reservaJSON.cant_alumnos;
 	this.laboratorio = reservaJSON.laboratorio;
-	this.turno = reservaJSON.turno;
 	this.fecha_pedida = reservaJSON.fecha_pedida;
+	this.hora_inicio = reservaJSON.hora_inicio;
+	this.hora_fin = reservaJSON.hora_fin;
 	this.estado = reservaJSON.estado;
 	this.lab_ofrecido = reservaJSON.lab_ofrecido;
 }
@@ -76,12 +77,12 @@ Reserva.prototype.toHtml = function() {
 		estadoExtra = '<br>&#40;Lab&nbsp;<span class="nombre_lab_span lab_' + this.lab_ofrecido + '">' + this.lab_ofrecido + '</span>&#41;'
 	}
 	
-	return '<tr><td>' + this.fecha_alta + '</td><td>' + this.cant_alumnos + '</td><td><span class="nombre_lab_span lab_' + this.laboratorio + '">' + this.laboratorio + '</span></td><td class="primera_mayus">' + this.turno + '</td><td>' + this.fecha_pedida + '</td><td class="' + this.estado + ' primera_mayus">' + this.estado + estadoExtra + '</td></tr>';
+	return '<tr><td>' + this.fecha_alta + '</td><td>' + this.cant_alumnos + '</td><td><span class="nombre_lab_span lab_' + this.laboratorio + '">' + this.laboratorio + '</span></td><td>' + this.fecha_pedida + '<br>' + this.hora_inicio + '-' + this.hora_fin + '</td><td class="' + this.estado + ' primera_mayus">' + this.estado + estadoExtra + '</td></tr>';
 }
 
 Reserva.celdaLoadingHtml = function() {
 	
-	var numColumnas = 6;
+	var numColumnas = 5;
 	var texto = 'Consultando la base de datos...';
 	
 	return '<tr><td colspan="' + numColumnas.toString() + '">' + texto + '</td></tr>';
@@ -112,7 +113,7 @@ bindearOpcionVerReservas = function() {
 
 // Pendiente: un GET por Ajax a PHP que devuelva todos los campos de todas las solicitudes/reservas para el docente logueado (va por parametro o ya lo tiene?) cuyas fechas de alta sean mayores o iguales a hoy.
 getReservasDeDocente = function() {
-	var reservas_string = '[{"fecha_alta":"19/09/2014","cant_alumnos":"20","laboratorio":"verde","turno":"maniana","fecha_pedida":"29/09/2014","estado":"rechazada"},{"fecha_alta":"20/09/2014","cant_alumnos":"21","laboratorio":"rojo","turno":"tarde","fecha_pedida":"30/09/2014","estado":"contra-ofertada","lab_ofrecido":"amarillo"},{"fecha_alta":"20/09/2014","cant_alumnos":"21","laboratorio":"medrano","turno":"noche","fecha_pedida":"30/09/2014","estado":"confirmada","lab_ofrecido":"azul"},{"fecha_alta":"20/09/2014","cant_alumnos":"21","laboratorio":"campus","turno":"noche","fecha_pedida":"30/09/2014","estado":"solicitada"}]';
+	var reservas_string = '[{"fecha_alta":"19/09/2014","cant_alumnos":"20","laboratorio":"verde","fecha_pedida":"29/09/2014","hora_inicio":"08:15","hora_fin":"10:30","estado":"rechazada"},{"fecha_alta":"20/09/2014","cant_alumnos":"21","laboratorio":"rojo","fecha_pedida":"30/09/2014","hora_inicio":"14:15","hora_fin":"16:30","estado":"contra-ofertada","lab_ofrecido":"amarillo"},{"fecha_alta":"20/09/2014","cant_alumnos":"21","laboratorio":"medrano","fecha_pedida":"30/09/2014","hora_inicio":"19:00","hora_fin":"21:30","estado":"confirmada","lab_ofrecido":"azul"},{"fecha_alta":"20/09/2014","cant_alumnos":"21","laboratorio":"campus","fecha_pedida":"30/09/2014","hora_inicio":"19:15","hora_fin":"20:30","estado":"solicitada"}]';
 	
 	var reservas_JSON = JSON.parse(reservas_string);
 	
