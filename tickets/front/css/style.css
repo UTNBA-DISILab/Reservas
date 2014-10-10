@@ -23,9 +23,17 @@ body {
 	
 }
 
+
 h1, h2, h3 {
+	top: 0;
 	margin: 0;
 	letter-spacing: 1px;
+}
+
+
+
+#autenticacion {
+    text-align: right;
 }
 
 #contenedor {
@@ -39,7 +47,6 @@ h1, h2, h3 {
 	background: #0E5875;
 	color: white;
 	font-family: Tahoma, Arial, sans-serif;
-	text-align: center;
 	padding: 10px;
 }
 
@@ -50,12 +57,13 @@ h1, h2, h3 {
 }
 
 #navegacion {
+	margin-top: 10px;
 	width: 170px;
+	height: 500px;
 	float: left;
 	/*padding-bottom: 40px;*/
 	
-	border-style: solid solid none solid;
-	border-color: #94AA74;
+	
 	border-width: 1px;
 	
 	margin-right: 30px;
@@ -77,11 +85,13 @@ h1, h2, h3 {
 
 /* nuevos para cssmenu */
 #navegacion li a {
-  height: 32px;
-  height: 24px;
-  text-decoration: none;
-  font-weight: normal;
-  outline: none;
+	border-style: solid solid none solid;
+	border-color: #94AA74;
+	height: 32px;
+	height: 24px;
+	text-decoration: none;
+	font-weight: normal;
+	outline: none;
 }
 
 #navegacion li a:link,
@@ -126,10 +136,6 @@ h1, h2, h3 {
 	padding-bottom: 30px;
 }
 
-.opcion_menu {
-	display: none;
-}
-
 #inicio_div {
 	display: inline;
 }
@@ -139,6 +145,7 @@ p {
 }
 
 .titulo_pantalla {
+	margin-top: 10px;
 	padding-bottom: 20px;
 }
 
@@ -326,3 +333,5 @@ p {
 #agregar_fecha {
 	margin-top: 30px;
 }
+
+
