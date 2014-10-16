@@ -1,0 +1,38 @@
+<form>
+	<div>
+		Mostrar: 
+		<select ng-model="diasSolicitados" ng-options="dia for dia in diasDesdeAhora" ng-change='actualizarPlanilla()'>
+		</select>
+		días
+	</div>
+	<div ng-show='$parent.usuario.inicioSesion && !$parent.usuario.esEncargado'><!-- O bien, el encargado seleccionó un docente (falta hacer esa parte) -->
+		Curso:
+		<select ng-model='cursoElegida' ng-options='curso.nombre for curso in cursos'>
+			<option value="">Elija un curso</option>
+		</select>
+	</div>
+	<div>
+	</div>
+</form>
+
+<div id='calendario'>
+	<div id='columnaDeFechas'><!--Tamaño fijo para fechas-->
+		<div class='encabezado'>
+			<h3>Fecha</h3>
+		</div>
+		<div class='dia' ng-repeat='dia in dias'>
+			<h4 class='fecha'>{{dia.fecha.getDate()}}/{{dia.fecha.getMonth()}}</h4>
+		</div>
+	</div>
+	<div id='columnaDeTodosLosLaboratorios'><!--100% del tamaño restante-->
+		<div class='columnaDeUnLaboratorio' ng-repeat='laboratorio in laboratorios'>
+			<div  class='encabezado'>
+				<h3>{{laboratorio.nombre}}</h3>
+			</div>
+			<div class='diaDeLaboratorio' ng-repeat='dia in laboratorio.dias'>
+				<button class='momento' ng-style='estiloSegun(dia.momentos[$index-1], momento, dia.momentos[$index+1])' ng-repeat='momento in dia.momentos' ng-click='mostrarElMomento(momento)'>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

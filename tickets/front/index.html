@@ -35,34 +35,80 @@
 		<script type="text/javascript" src="lib/jQuery/jquery-ui-timepicker-addon.js"></script>
 		<script type="text/javascript" src="lib/jQuery/timepicker-es.js"></script>
 		
-		<script type="text/javascript" src="js/radiosLab.js"></script>
-		<script type="text/javascript" src="js/hoverboxes.js"></script>
-		<script type="text/javascript" src="js/laboratorios.js"></script>
-		<script type="text/javascript" src="js/fechas.js"></script>
-		<script type="text/javascript" src="js/reservas.js"></script>
+		<script type="text/javascript" src="jsAnterior/radiosLab.js"></script>
+		<script type="text/javascript" src="jsAnterior/hoverboxes.js"></script>
+		<script type="text/javascript" src="jsAnterior/laboratorios.js"></script>
+		<script type="text/javascript" src="jsAnterior/fechas.js"></script>
+		<script type="text/javascript" src="jsAnterior/reservas.js"></script>
 
 		<script type="text/javascript" src="lib/angular/angular.js"></script>
-		<scripttype="text/javascript"src="lib/angular/angular.min.js"></script>
 		<script type="text/javascript" src="lib/angular/angular-animate.js"></script>
-		<script type="text/javascript" src="lib/angular/angular-route.js"></script>
-		<script type="text/javascript" src="lib/angular/angular-route.min.js"></script>
+		<script type="text/javascript" src="lib/angular/angular-ui-router.js"></script>
 		
 
-		<script type="text/javascript" src="modules/app.js"></script>
-		<script type="text/javascript" src="modules/menu.js"></script>
-		<script type="text/javascript" src="modules/solicitarReservas.js"></script>
-		<script type="text/javascript" src="modules/horariosOcupados.js"></script>
-		<script type="text/javascript" src="modules/cursosDelDocente.js"></script>
-		<script type="text/javascript" src="modules/reservasAnteriores.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/planillaCtrl.js"></script>
+		<script type="text/javascript" src="js/encabezadoCtrl.js"></script>
+		<script type="text/javascript" src="js/obtenerInformacionDelServidorService.js"></script>
+		<script type="text/javascript" src="js/comunicadorEntreVistasService.js"></script>
+		<script type="text/javascript" src="js/cancelarReservaCtrl.js"></script>
+
 
 		<title>Reservas Online - UTN FRBA</title>
 		
 		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
 		<link rel="stylesheet" href="css/jquery-ui.css">
 		<link rel="stylesheet" href="css/jquery-ui-timepicker-addon.css">
-		<link rel="stylesheet" type="text/css" href="css/style.css" />	
+		<link rel="stylesheet" type="text/css" href="css/estilos.css" />	
 	
 	</head>
+
+	<!--Trae los datos de las reservas realizadas desde hoy a X días-->
+	<body ng-app='reservasApp'>
+
+		
+		<div ng-controller='encabezadoCtrl as encabezado'>
+
+			<!--
+			Título, Logueo/Deslogueo 
+				
+			-->
+			<encabezado></encabezado>
+			   <div ui-view></div>
+
+			<!--
+			Opciones: 
+				Eleger a un Profesor: Es un switch habilitado sólo para encargados del laboratorio.
+				Elegir una Materia: switch habilitado tanto para profesores como para el encargado si es que seleccionó a algún profesor.
+				Cantidad de días: Días que se muestran de cada laboratorio con sus estados de reserva.
+				Botón a Reservas anteriores (sólo si hay seleccionado un profe).
+
+			Planilla de horarios:
+				Gris: Ocupados (por otros profes) o No disponibles (por remodelación o por ser anteriores al horario actual).
+				Azul claro: Disponibles.
+				Azul oscuro: Disponibles y que coinciden con el horario de la materia del profesor.
+				Verde: Reservados por el profesor (sin importar en cuál de sus materias).
+				Amarillo: Una o más personas pidieron una reserva en ese horario. Esto sólo es visible para un encargado.
+
+				Sólo se habilitan los botones si hay alguien logueado.
+					Si es Docente, sólo puede pulsar algún sector azul (claro u oscuro). Se le aparece la pantalla para confirmar.
+					Si es un encargado, y seleccionó un docente y una materia, también puede pulsar un sector azul y confirmar el pedido. Queda registrado sin la necesidad de que el encargado lo apruebe.
+					Además, si es encargado, podrá pulsar las secciones rojas u amarillas. En tal caso, se le abrirá una ventana para aceptar pedidos no confirmados, y borrar pedidos anteriores.
+				-->
+
+			<!--Info de la página y creadores-->
+			
+		</div>
+
+		<footer ng-include="'templates/pie.html'"></footer>
+	</body>
+
+
+
+
+
+
+<!-- Versión anterior:
 
 	<body ng-app='reservasApp'>
 		<div id="contenedor">
@@ -76,17 +122,8 @@
 		</div>
 		</div>
 	</body>
-			
-				
-				
-				
 
-
-
-
-
-
-
+-->
 
 
 

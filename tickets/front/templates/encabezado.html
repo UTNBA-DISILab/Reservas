@@ -1,8 +1,31 @@
-<div id="encabezado">
-	<h1>Reservas de laboratorios</h1>
-	<form id='autenticacion'>
-		<input type="text" name="usuario" ng-model="usuario.nombre" placeholder='Usuario' required>
-		<input type="text" name="password" ng-model="usuario.password" placeholder='Contraseña' required>
+<header id='encabezado'>
+	<h1 id='titulo'>DISI Labs</h1>
+	<form id='inicioDeSesion'>
+		<input type="text" class='ingresarTexto' ng-model="usuario.nombre" placeholder='Usuario SinAp' ng-hide='usuario.inicioSesion'>
+		<input type="text" class='ingresarTexto' ng-model="usuario.password" placeholder='Contraseña' ng-hide='usuario.inicioSesion'>
+		<button class= 'botonDeFormulario' ng-click="iniciarSesion()" ng-hide='usuario.inicioSesion'>Iniciar Sesión</button>
+		<button class= 'botonDeFormulario' ng-click="cerrarSesion()" ng-show='usuario.inicioSesion'>Cerrar Sesión</button>
 	</form>
-	<!-- Hay que usar ngShow/ngHide para mostrar el logueo sólo cuando no inició sesión, y el cartel de cerrar sesión sólo si está logueado.-->
+</header>
+
+
+
+<div ng-hide='usuario.inicioSesion'>
+	<p class='informacionGeneral'>Bienvenido al Sistema de Reservas de Laboratorios del Depto. de Ing. en Sistemas de Información de la UTN FRBA.</p>
 </div>
+
+<form id='controlDePlanilla'>
+	<div class="checkbox"> 
+		<input type="checkbox" ng-model="mostrarAyuda" id="mostrarAyuda" name="mostrarAyudaCheck" /> 
+		<label for="mostrarAyuda" name="mostrarAyudaCheck"> 
+			¿Mostrar ayuda? 
+		</label> 
+	</div>
+</form>
+
+<div ng-show='mostrarAyuda' class='explicacionDeColores' ng-repeat='explicacion in explicaciones | filter:{debeHaberIniciadoSesion: usuario.inicioSesion, esParaEncargado: usuario.esEncargado}'>
+	<button class='colores' ng-style='{"background-color" : explicacion.color}'>{{explicacion.nombreDeColor}}</button>
+	<p class='explicacion'>{{explicacion.texto}}</p>
+</div>
+
+
