@@ -174,7 +174,7 @@ angular.module('reservasApp').controller('planillaCtrl',function($scope, $state,
             }
             else {
                 if(momento.evento.tipo == 'libre'){
-                    alert('Libre, aún no se asignó a ningún docente' + '\nSi desea hacer una reserva, inicie sesión.');
+                    $state.go('nuevaReserva');
                 }
                 else {
                     alert('Inhabilitado');
