@@ -1,5 +1,28 @@
-<div>
-	<div ng-repeat='franja in franjasHorarias'>
-		Franja: {{$index}}, Horario de {{franja.de}} a {{franja.a}} 
+<div id="nuevaReserva"
+		
+	<span id="instrucciones-slider">Arrastre los extremos para definir el horario deseado:</span>
+	<div id="selectorDeFranja" range-slider min="minimoPermitido()" max="maximoPermitido()" model-min="franjaSeleccionada.de" model-max="franjaSeleccionada.a" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
+	
+	<div id="horarioAclarado">
+		<span>Horario deseado: desde las <strong>{{franjaSeleccionada.de | hourMinFilter}}</strong> hasta las <strong>{{franjaSeleccionada.a | hourMinFilter}}</strong>.</span>
+		<div id="divBotonListo">
+			<input type="button" value="Listo!" ng-disabled="pareceQueNoJustifico()">
+		</div>
 	</div>
+	
+	
+	<div id="explicacionHorarioImpropio" ng-show="eseHorarioNoEsPropio(franjaSeleccionada)">
+		<div id="divIconoWarning">
+			<img id="iconoWarning" src="img/warning.png" height="32" width="32" align="middle">
+		</div>
+		<div id="mensajeHorarioImpropio">
+			<span id="mensajeAdvertencia">El horario seleccionado no est&aacute; incluido totalmente en el de su materia.</span>
+			<br>
+			<span id="instruccionesJustificacion">Por favor describa brevemente el motivo por el cual desea el horario extra:</span>
+		</div>
+		<div id="cuadroJustificacion">
+			<textarea id="justificacion" class="ingresarTexto" ng-model="justificacionIngresada"></textarea>
+		</div>
+	</div>
+
 </div>

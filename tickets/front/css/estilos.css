@@ -11,6 +11,12 @@
     background: -ms-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(209,209,209,1) 33%, rgba(219,219,219,1) 69%, rgba(254,254,254,1) 100%);
     background: linear-gradient(to bottom, rgba(226,226,226,1) 0%, rgba(209,209,209,1) 33%, rgba(219,219,219,1) 69%, rgba(254,254,254,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe', GradientType=0 );
+	
+	position:fixed;top:0;left:0;right:0;
+}
+
+#controlDePlanilla {
+	margin-top: 60px;
 }
 
 button {
@@ -263,4 +269,65 @@ h4.fecha {
 	border: 0px;
 	width: 100%;
     float: left;
+}
+
+
+
+
+
+#nuevaReserva {
+	width: 50%;
+	text-align: left;
+	margin: 40px auto 40px auto;
+}
+
+#selectorDeFranja {
+	margin: 10px 0px 20px;
+}
+
+#horarioAclarado {
+	font-size: small;
+	text-align: center;
+}
+
+#divBotonListo {
+	text-align: right;
+	font-size: large;
+	margin-bottom: 30px;
+}
+
+#divIconoWarning {
+	float: left;
+	margin-top: 5px;
+}
+
+#iconoWarning {
+	margin-right: 10px;
+}
+
+#cuadroJustificacion {
+	clear: both;
+	margin: 10px 0px 10px;
+}
+
+#justificacion {
+	width: 85%;
+	height: 2.5em;
+}
+
+
+
+#pie {
+	clear: both;
+	padding: 5px;
+	/*background: #5E783A;*/
+	background-color:rgba(0,0,0,0.7);
+	color: white;
+	text-align: right;
+	font-size: small;
+	position:fixed;bottom:0;left:0;right:0;height:1em;
+}
+
+#contacto {
+	color: #FFFFFF;
 }
