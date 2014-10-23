@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `sigma_user_id` int(11) DEFAULT NULL,
   `name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `surname` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `acces_level` int(1) NOT NULL,
+  `access_level` int(1) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
