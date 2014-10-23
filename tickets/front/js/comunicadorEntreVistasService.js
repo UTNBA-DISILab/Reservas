@@ -25,7 +25,7 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
         getUsuario: function(){
             return usuario;
         }
-    }
+    };
 
     return cosasDeUnaVista;
 })

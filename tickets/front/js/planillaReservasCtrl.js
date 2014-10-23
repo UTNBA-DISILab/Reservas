@@ -6,6 +6,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     var obtener = obtenerInformacionDelServidorService;
     var comunicador = comunicadorEntreVistasService;
+    $scope.usuario = comunicador.getUsuario();
 
     //Esto quizá se podría poner en un servicio que se "configuraciónPorDefecto" por ejemplo.
     $scope.diasDesdeAhora = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
@@ -103,7 +104,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
         //El server debe traernos los pedidos según el nombre y tipo de usuario.
         //Si los datos de usuario y contraseña son erróneos, devuelve un array vacío.
-        $scope.pedidosDeReservas = obtener.pedidosSegun($scope.diasSolicitados, comunicador.getUsuario());
+        console.log($scope.usuario);
+        $scope.pedidosDeReservas = obtener.pedidosSegun($scope.diasSolicitados, $scope.usuario);
         $scope.pedidosDeReservas.forEach(function(pedido){pedido.tipo = 'pedido'; meterEnElCalendario(pedido);});
 
         //Si se logueó un docente (o si el encargado le reserva algo en su nombre), trae sus materias. 
@@ -129,7 +131,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     $scope.estiloSegun = function(momentoAnterior, momento, momentoPosterior){
         
-        if(comunicador.getUsuario().esEncargado){
+        if($scope.usuario.esEncargado){
             if (momento.evento.tipo == 'reserva'){color = '#800080';
             } else {
                 if(momento.evento.tipo == 'pedido'){
@@ -139,7 +141,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
             }
         } else {
             if (momento.evento.tipo == 'reserva'){
-                if(comunicador.getUsuario().inicioSesion && momento.evento.docente.nombre == comunicador.getUsuario().nombre) {
+                if($scope.usuario.inicioSesion && momento.evento.docente.nombre == $scope.usuario.nombre) {
                     color = '#800080';
                 } else {
                     color = '#888888';
@@ -165,9 +167,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     }
 
     $scope.mostrarElMomento = function(momento){
-        if(comunicador.getUsuario().inicioSesion){
+        if($scope.usuario.inicioSesion){
             if(momento.evento.tipo == 'reserva'){
-                if(comunicador.getUsuario().esEncargado || momento.evento.docente.nombre == comunicador.getUsuario().nombre){
+                if($scope.usuario.esEncargado || momento.evento.docente.nombre == $scope.usuario.nombre){
                     comunicador.setEvento(momento.evento);
                     $state.go('cancelarReserva');
                 }
@@ -199,5 +201,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
             }
         }
         
-    }
+    };
+    $scope.$watch('usuario.inicioSesion',function(){
+        //Cada vez que el usuario se loguea o se desloguea, se actualiza la planilla.
+        $scope.actualizarPlanilla();
+    });
 });
