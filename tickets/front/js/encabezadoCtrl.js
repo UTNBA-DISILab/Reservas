@@ -1,4 +1,11 @@
-angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $state){
+angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $state, comunicadorEntreVistasService){
+    
+    var comunicador = comunicadorEntreVistasService;
+
+    $scope.usuario = {nombre: '', password: '', inicioSesion: false, esEncargado: false};
+
+    comunicador.setUsuario($scope.usuario);
+
     $scope.mostrarAyuda = true;
     $scope.explicaciones = [
         {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Inhabilitado.', color: '#888888'},
@@ -12,7 +19,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
         {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Libre y, además, coincide con el horario del curso que seleccione debajo.', color: '#00ffff'},
         {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Reservado por algún docente o inhabilitado.', color: '#888888'},
         {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Libre, aún no se ha asignado a ningún docente.', color: '#e0ffff'}];
-	$scope.usuario = {nombre: '', password: '', inicioSesion: false, esEncargado: false};
+	
     $scope.iniciarSesion = function(){
 
         // Falta alidar que hayan ingresado caracteres correctos.
@@ -34,9 +41,13 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
                 $scope.usuario.inicioSesion = true;
             }
         }
+
     };
     $scope.cerrarSesion = function(){
-        $state.go('reservas');
-        $scope.usuario = {nombre: '', password: '', inicioSesion: false, esEncargado: false};
+        $scope.usuario.nombre = '';
+        $scope.usuario.password = '';
+        $scope.usuario.inicioSesion = false;
+        $scope.usuario.esEncargado = false;
+        $state.go('planillaReservas');
     };
 });

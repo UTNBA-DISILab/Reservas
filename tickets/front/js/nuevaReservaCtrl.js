@@ -1,4 +1,4 @@
-angular.module('reservasApp').controller('nuevaReservaCtrl',function($scope, comunicadorEntreVistasService){
+angular.module('reservasApp').controller('nuevaReservaCtrl',function($scope, $state, comunicadorEntreVistasService){
 	var vistaAnterior = comunicadorEntreVistasService;
 
 	//Un poco de hardcodeo provisorio para lo que deberá otorgar la vistaAnterior.
@@ -71,6 +71,10 @@ angular.module('reservasApp').controller('nuevaReservaCtrl',function($scope, com
 	
 	$scope.pareceQueNoJustifico = function() {
 		return !$scope.laFranjaEstaPerfecta && $scope.justificacionIngresada.length <= 2;
+	}
+
+	$scope.volver = function(){
+		$state.go('planillaReservas')
 	}
 	
 });

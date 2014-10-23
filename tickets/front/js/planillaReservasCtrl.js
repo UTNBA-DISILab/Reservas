@@ -1,7 +1,11 @@
-angular.module('reservasApp').controller('planillaReservasCtrl',function($scope, $state, obtenerInformacionDelServidorService, comunicadorEntreVistasService){
+angular.module('reservasApp').controller('planillaReservasCtrl',function($scope, $state, $location, obtenerInformacionDelServidorService, comunicadorEntreVistasService){
+
+    $scope.$on('$viewContentLoaded', function(){
+        $location.replace(); //Limpia el historial de ruta
+    });
 
     var obtener = obtenerInformacionDelServidorService;
-    var siguienteVista = comunicadorEntreVistasService;
+    var comunicador = comunicadorEntreVistasService;
 
     //Esto quizá se podría poner en un servicio que se "configuraciónPorDefecto" por ejemplo.
     $scope.diasDesdeAhora = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
@@ -99,7 +103,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
         //El server debe traernos los pedidos según el nombre y tipo de usuario.
         //Si los datos de usuario y contraseña son erróneos, devuelve un array vacío.
-        $scope.pedidosDeReservas = obtener.pedidosSegun($scope.diasSolicitados, $scope.$parent.usuario);
+        $scope.pedidosDeReservas = obtener.pedidosSegun($scope.diasSolicitados, comunicador.getUsuario());
         $scope.pedidosDeReservas.forEach(function(pedido){pedido.tipo = 'pedido'; meterEnElCalendario(pedido);});
 
         //Si se logueó un docente (o si el encargado le reserva algo en su nombre), trae sus materias. 
@@ -125,7 +129,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     $scope.estiloSegun = function(momentoAnterior, momento, momentoPosterior){
         
-        if($scope.$parent.usuario.esEncargado){
+        if(comunicador.getUsuario().esEncargado){
             if (momento.evento.tipo == 'reserva'){color = '#800080';
             } else {
                 if(momento.evento.tipo == 'pedido'){
@@ -135,7 +139,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
             }
         } else {
             if (momento.evento.tipo == 'reserva'){
-                if($scope.$parent.usuario.inicioSesion && momento.evento.docente.nombre == $scope.$parent.usuario.nombre) {
+                if(comunicador.getUsuario().inicioSesion && momento.evento.docente.nombre == comunicador.getUsuario().nombre) {
                     color = '#800080';
                 } else {
                     color = '#888888';
@@ -161,11 +165,10 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     }
 
     $scope.mostrarElMomento = function(momento){
-        if($scope.$parent.usuario.inicioSesion){
+        if(comunicador.getUsuario().inicioSesion){
             if(momento.evento.tipo == 'reserva'){
-                if($scope.$parent.usuario.esEncargado || momento.evento.docente.nombre == $scope.$parent.usuario.nombre){
-                    siguienteVista.setEvento(momento.evento);
-                    console.log(siguienteVista);
+                if(comunicador.getUsuario().esEncargado || momento.evento.docente.nombre == comunicador.getUsuario().nombre){
+                    comunicador.setEvento(momento.evento);
                     $state.go('cancelarReserva');
                 }
                 else {
@@ -197,15 +200,4 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         }
         
     }
-
-    $scope.$parent.$watch('usuario.inicioSesion',function(){
-        //Cada vez que el usuario se loguea o se desloguea, se actualiza la planilla.
-        $scope.actualizarPlanilla();
-    });
-
-    $scope.$parent.$watch('usuario.esEncargado',function(){
-        //Esto actualiza la lista cada vez que se toca el botón para cambiar a Encargado.
-        //De más está decir que esta parte hay que borrarla al tener los usuarios para probar.
-        $scope.actualizarPlanilla();
-    });
 });
