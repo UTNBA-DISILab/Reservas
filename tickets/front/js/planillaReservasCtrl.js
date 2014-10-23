@@ -1,4 +1,4 @@
-angular.module('reservasApp').controller('planillaCtrl',function($scope, $state, obtenerInformacionDelServidorService, comunicadorEntreVistasService){
+angular.module('reservasApp').controller('planillaReservasCtrl',function($scope, $state, obtenerInformacionDelServidorService, comunicadorEntreVistasService){
 
     var obtener = obtenerInformacionDelServidorService;
     var siguienteVista = comunicadorEntreVistasService;

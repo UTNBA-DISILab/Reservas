@@ -10,10 +10,10 @@ reservasApp.directive('encabezado',function(){
 
 reservasApp.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
     $stateProvider
-    .state('reservas', {
+    .state('planillaReservas', {
         url: '/',
-        templateUrl: 'templates/reservas.html',
-        controller: 'planillaCtrl'
+        templateUrl: 'templates/planillaReservas.html',
+        controller: 'planillaReservasCtrl'
     })
     .state('nuevaReserva', {
         url: '/nuevaReserva',
