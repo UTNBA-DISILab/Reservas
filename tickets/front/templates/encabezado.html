@@ -9,12 +9,16 @@
 </header>
 
 
-
 <div ng-hide='usuario.inicioSesion'>
 	<p class='informacionGeneral'>Bienvenido al Sistema de Reservas de Laboratorios del Depto. de Ing. en Sistemas de Información de la UTN FRBA.</p>
 </div>
 
+
+
 <form id='controlDePlanilla'>
+	<div>
+		<button class= 'botonDeFormulario' ng-show='usuario.inicioSesion && !usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irAlHistorial()">Historial de Reservas</button>
+	</div>
 	<div class="checkbox"> 
 		<input type="checkbox" ng-model="mostrarAyuda" id="mostrarAyuda" name="mostrarAyudaCheck" /> 
 		<label for="mostrarAyuda" name="mostrarAyudaCheck"> 

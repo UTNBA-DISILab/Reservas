@@ -1,6 +1,7 @@
 angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $state, comunicadorEntreVistasService){
     
     var comunicador = comunicadorEntreVistasService;
+    $scope.$state = $state;
 
     $scope.usuario = {nombre: '', password: '', inicioSesion: false, esEncargado: false};
 
@@ -50,4 +51,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
         $scope.usuario.esEncargado = false;
         $state.go('planillaReservas');
     };
+    $scope.irAlHistorial = function(){
+        $state.go('reservasAnteriores');
+    }
 });
