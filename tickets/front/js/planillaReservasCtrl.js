@@ -104,7 +104,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
         //El server debe traernos los pedidos según el nombre y tipo de usuario.
         //Si los datos de usuario y contraseña son erróneos, devuelve un array vacío.
-        console.log($scope.usuario);
         $scope.pedidosDeReservas = obtener.pedidosSegun($scope.diasSolicitados, $scope.usuario);
         $scope.pedidosDeReservas.forEach(function(pedido){pedido.tipo = 'pedido'; meterEnElCalendario(pedido);});
 
@@ -179,10 +178,15 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
             }
             else {
                 if(momento.evento.tipo == 'libre'){
-                    $state.go('nuevaReserva');
+                    $state.go('pedidoDeReserva');
                 }
                 else {
-                    alert('Inhabilitado');
+                    if(momento.evento.tipo == 'pedido'){
+                        $state.go('pedidoDeReserva');
+                    }
+                    else {
+                        alert('Inhabilitado');
+                    }
                 }
             }
                 

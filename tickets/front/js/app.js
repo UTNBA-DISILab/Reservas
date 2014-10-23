@@ -15,10 +15,10 @@ reservasApp.config(['$stateProvider','$urlRouterProvider',function($stateProvide
         templateUrl: 'templates/planillaReservas.html',
         controller: 'planillaReservasCtrl'
     })
-    .state('nuevaReserva', {
-        url: '/nuevaReserva',
-        templateUrl: 'templates/nuevaReserva.html',
-        controller: 'nuevaReservaCtrl'
+    .state('pedidoDeReserva', {
+        url: '/pedidoDeReserva',
+        templateUrl: 'templates/pedidoDeReserva.html',
+        controller: 'pedidoDeReservaCtrl'
     })
     .state('cancelarReserva', {
         url: '/cancelarReserva',

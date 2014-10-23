@@ -8,7 +8,6 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
 
         setEvento: function(unEvento){
             evento = unEvento;
-            console.log('Evento seteado');
         },
         getEvento: function () {
             return evento;

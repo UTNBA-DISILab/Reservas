@@ -1,9 +1,9 @@
-angular.module('reservasApp').controller('nuevaReservaCtrl',function($scope, $state, comunicadorEntreVistasService){
+angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, $state, comunicadorEntreVistasService){
 	var vistaAnterior = comunicadorEntreVistasService;
 
 	if(!vistaAnterior.getUsuario().inicioSesion){
 		$state.go('planillaReservas');
-	}
+	};
 
 	//Un poco de hardcodeo provisorio para lo que deberá otorgar la vistaAnterior.
 	//Sólo se enviarán la franja clickeada y todas las libres contiguas.
