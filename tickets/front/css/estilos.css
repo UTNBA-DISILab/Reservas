@@ -321,6 +321,93 @@ h4.fecha {
 
 
 
+
+
+.tabla_normal {
+	border: 4px solid #D1D1D1;
+	width: 730px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.tabla_normal thead th {
+    background: #0E5875;
+	color: white;
+	border: 2px solid #D1D1D1;
+}
+
+.tabla_normal th, .tabla_normal td {
+    text-align:center; 
+    vertical-align:middle;
+	padding: 4px;
+	border: 2px solid #D1D1D1;
+	height: 52px;
+}
+
+.tabla_normal tbody tr:nth-of-type(even) {
+	background:#F0F0F0;
+}
+
+.tabla_normal tbody tr:hover {
+	background:#EEFFFF;
+}
+
+.solicitada {
+	background: #FFF8DC; /* Cornsilk */
+}
+
+.rechazada {
+	background: #DC143C; /* Crimson */
+}
+
+.contra-ofertada {
+	background: #FF7F50; /* Coral */
+}
+
+.confirmada {
+	background: #90EE90; /* LightGreen */
+}
+
+.lab_verde {
+	background: #006400; /* DarkGreen */
+}
+
+.lab_azul {
+	background: #00008B; /* DarkBlue */
+}
+
+.lab_rojo {
+	background: #8B0000; /* DarkRed */
+}
+
+.lab_amarillo {
+	background: #B8860B; /* DarkGoldenRod */
+}
+
+.lab_campus {
+	background: #AAAAAA;
+}
+
+.nombre_lab_span {
+	/*display: inline-block;
+	width: 76px;*/
+	color: white;
+	padding: 0px 5px 0px 5px;	
+	-webkit-border-radius:5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	text-transform: capitalize;
+}
+
+.primera_mayus {
+	text-transform: capitalize;
+}
+
+
+
+
+
+
 #pie {
 	clear: both;
 	padding: 5px;

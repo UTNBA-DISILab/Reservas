@@ -1,26 +1,36 @@
-<div id="ver_reservas_div" class="opcion_menu pantalla_grande">
-<h3 class ="titulo_pantalla">Estado de sus reservas</h3>
-<table id="reservas_table" class="tabla_normal">
-	<thead>
-		<tr>
-			<th>
-				Fecha de Alta
-			</th>
-			<th>
-				&#35;Alumnos
-			</th>
-			<th>
-				Laboratorio
-			</th>
-			<th>
-				Fecha Pedida
-			</th>
-			<th>
-				Estado
-			</th>
-		</tr>
-	</thead>
-	<tbody id="cuerpo_tabla_reservas"><!-- se completa con JS -->
-	</tbody>
-</table>
+<div id="estado_reservas">
+	<h3>Estado de sus reservas</h3>
+	<table id="reservas_table" class="tabla_normal">
+		<thead>
+			<tr>
+				<th>
+					Fecha de Alta
+				</th>
+				<th>
+					&#35;Alumnos
+				</th>
+				<th>
+					Laboratorio
+				</th>
+				<th>
+					Fecha Pedida
+				</th>
+				<th>
+					Estado
+				</th>
+			</tr>
+		</thead>
+		<tbody id="cuerpo_tabla_reservas">
+			<tr ng-hide="reservas">
+				<td colspan="5">Consultando la base de datos...</td>
+			</tr>
+			<tr ng-repeat="reserva in reservas">
+				<td>{{reserva.fecha_alta}}</td>
+				<td>{{reserva.cant_alumnos}}</td>
+				<td><span class="nombre_lab_span lab_{{reserva.laboratorio}}">{{reserva.laboratorio}}</span></td>
+				<td>{{reserva.fecha_pedida}}<br>{{reserva.hora_inicio}}-{{reserva.hora_fin}}</td>
+				<td class="{{reserva.estado}} primera_mayus">{{reserva.estado}}<span ng-if="reserva.lab_ofrecido"><br>&#40;Lab&nbsp;<span class="nombre_lab_span lab_{{reserva.lab_ofrecido}}">{{reserva.lab_ofrecido}}</span>&#41;</span></td>
+			</tr>
+		</tbody>
+	</table>
 </div>
