@@ -19,6 +19,9 @@
 	<div>
 		<button class= 'botonDeFormulario' ng-show='usuario.inicioSesion && !usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irAlHistorial()">Historial de Reservas</button>
 	</div>
+	<div>
+		<button class= 'botonDeFormulario' ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irALasSolicitudesPendientes()">Solicitudes Pendientes</button>
+	</div>
 	<div class="checkbox"> 
 		<input type="checkbox" ng-model="mostrarAyuda" id="mostrarAyuda" name="mostrarAyudaCheck" /> 
 		<label for="mostrarAyuda" name="mostrarAyudaCheck"> 

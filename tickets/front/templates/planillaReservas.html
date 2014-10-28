@@ -21,13 +21,38 @@
 			<h3>Fecha</h3>
 		</div>
 		<div class='dia' ng-repeat='dia in dias'>
-			<h4 class='fecha'>{{dia.fecha.getDate()}}/{{dia.fecha.getMonth()}}</h4>
+			<h4 class='fecha'>{{dia.fecha.getDate()}}/{{dia.fecha.getMonth()+1}}</h4>
 		</div>
 	</div>
 	<div id='columnaDeTodosLosLaboratorios'><!--100% del tamaño restante-->
 		<div class='columnaDeUnLaboratorio' ng-repeat='laboratorio in laboratorios'>
-			<div  class='encabezado'>
-				<h3>{{laboratorio.nombre}}</h3>
+			<div class='encabezado'>
+				<h3><span class="nombre_lab_span lab_{{laboratorio.nombre | lowercase}}">{{laboratorio.nombre}}</span><img id="iconoInformation" src="img/information.png" alt="Ver prestaciones" height="26" width="26" align="top" ng-click="laboratorio.clickEnInfo = true"</h3>
+				<modal-dialog show="laboratorio.clickEnInfo">
+					<div id="hoverbox_{{laboratorio.nombre | lowercase}}" class="hoverbox lab_{{laboratorio.nombre | lowercase}}">
+						<div class="titulo_hoverbox" >Prestaciones del laboratorio <span class="primera_mayus">{{laboratorio.nombre}}</span></div>
+						<table>
+							<tbody>
+								<tr>
+									<td>Cantidad de puestos:</td>
+									<td>{{laboratorio.prestaciones.cantPuestos}}</td>
+								</tr>
+								<tr>
+									<td>Sistema operativo:</td>
+									<td>{{laboratorio.prestaciones.sisOp}}</td>
+								</tr>
+								<tr>
+									<td>Memoria:</td>
+									<td>{{laboratorio.prestaciones.memoria}}</td>
+								</tr>
+								<tr>
+									<td>Otros datos:</td>
+									<td>{{laboratorio.prestaciones.otrosDatos}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</modal-dialog>
 			</div>
 			<div class='diaDeLaboratorio' ng-repeat='dia in laboratorio.dias'>
 				<button class='momento' ng-style='estiloSegun(dia.momentos[$index-1], momento, dia.momentos[$index+1])' ng-repeat='momento in dia.momentos' ng-click='mostrarElMomento(momento)'>

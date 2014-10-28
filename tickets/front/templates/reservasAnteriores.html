@@ -1,5 +1,6 @@
 <div id="estado_reservas">
 	<h3>Estado de sus reservas</h3>
+	<input type="text" id="busqueda_reservas" class="ingresarTexto" ng-model="query" placeholder="Buscar..."></input>
 	<table id="reservas_table" class="tabla_normal">
 		<thead>
 			<tr>
@@ -24,7 +25,7 @@
 			<tr ng-hide="reservas">
 				<td colspan="5">Consultando la base de datos...</td>
 			</tr>
-			<tr ng-repeat="reserva in reservas">
+			<tr ng-repeat="reserva in reservas | filter:query | orderBy:'fecha_alta'">
 				<td>{{reserva.fecha_alta}}</td>
 				<td>{{reserva.cant_alumnos}}</td>
 				<td><span class="nombre_lab_span lab_{{reserva.laboratorio}}">{{reserva.laboratorio}}</span></td>

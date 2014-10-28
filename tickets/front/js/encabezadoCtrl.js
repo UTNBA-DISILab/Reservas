@@ -54,4 +54,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     $scope.irAlHistorial = function(){
         $state.go('reservasAnteriores');
     }
+	$scope.irALasSolicitudesPendientes = function(){
+        $state.go('pedidosDeUnDia'); // PENDIENTE
+    }
 });

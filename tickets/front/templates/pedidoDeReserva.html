@@ -1,12 +1,12 @@
 <div id="pedidoDeReserva"
 		
 	<span id="instrucciones-slider">Arrastre los extremos para definir el horario deseado:</span>
-	<div id="selectorDeFranja" range-slider min="minimoPermitido()" max="maximoPermitido()" model-min="franjaSeleccionada.de" model-max="franjaSeleccionada.a" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
+	<div class="selectorDeFranja" range-slider min="minimoPermitido()" max="maximoPermitido()" model-min="franjaSeleccionada.de" model-max="franjaSeleccionada.a" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
 	
-	<div id="horarioAclarado">
+	<div class="horarioAclarado">
 		<span>Horario deseado: desde las <strong>{{franjaSeleccionada.de | hourMinFilter}}</strong> hasta las <strong>{{franjaSeleccionada.a | hourMinFilter}}</strong>.</span>
 		<div id="divBotonListo">
-			<input type="button" value="Listo!" ng-disabled="pareceQueNoJustifico()">
+			<button class="botonDeFormulario" ng-click="" ng-disabled="pareceQueNoJustifico()">Listo!</button>
 		</div>
 	</div>
 	

@@ -1,1 +1,26 @@
-pedidos
+<div id="solicitudes_pendientes">
+	<h3>Solicitudes Pendientes</h3>
+	<div class="solicitud" ng-repeat="franja in franjasHorariasSolicitadas">
+	
+		<div range-slider min="510" max="1320" model-min="franja.de" model-max="franja.a" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>
+		
+		<div class="horarioAclarado">
+			<span>Horario deseado: desde las <strong>{{franja.de | hourMinFilter}}</strong> hasta las <strong>{{franja.a | hourMinFilter}}</strong>.</span>
+		</div>
+		
+		<span>Docente: {{franja.docente}}</span>
+		<br>
+		<span>Materia: {{franja.materia}}</span>
+		<div id="opciones_solicitud">
+			<button class= 'botonDeFormulario' ng-click="">Confirmar</button>
+			<button class= 'botonDeFormulario' ng-click="">Contraofertar</button>
+			<button class= 'botonDeFormulario' ng-click="">Rechazar</button>
+		</div>
+	
+	</div>
+	
+	
+	
+	<button class= 'botonDeFormulario' ng-click='volver()'>Volver</button>
+
+</div>

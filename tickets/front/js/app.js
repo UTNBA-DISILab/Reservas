@@ -1,8 +1,8 @@
-var reservasApp = angular.module('reservasApp', ['ui.router','ngAnimate', 'ui-rangeSlider']);
+var reservasApp = angular.module('reservasApp', ['ui.router','ngAnimate', 'ui-rangeSlider', 'ngModal']);
 
 reservasApp.controller('confirmarCtrl',function(){});
-reservasApp.controller('reservasAnterioresCtrl',function(){});
-reservasApp.controller('pedidosDeUnDiaCtrl',function(){});
+
+//reservasApp.controller('pedidosDeUnDiaCtrl',function(){});
 
 reservasApp.directive('encabezado',function(){
     return{restrict: 'E',templateUrl: 'templates/encabezado.html'};
@@ -29,6 +29,11 @@ reservasApp.config(['$stateProvider','$urlRouterProvider',function($stateProvide
         url: '/reservasAnteriores',
         templateUrl: 'templates/reservasAnteriores.html',
         controller: 'reservasAnterioresCtrl'
+    })
+	.state('pedidosDeUnDia', {
+        url: '/pedidosDeUnDia',
+        templateUrl: 'templates/pedidosDeUnDia.html',
+        controller: 'pedidosDeUnDiaCtrl'
     });
 
     // Si no es ninguno de los anteriores, ir a:

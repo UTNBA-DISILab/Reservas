@@ -89,7 +89,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         //Crea a los laboratorios y a los días sin nada dentro.
         $scope.laboratorios = [];
         nombresDeLaboratorios.forEach(function(nombreDeLaboratorio){
-            var laboratorio = {nombre: nombreDeLaboratorio, dias: []};
+            var laboratorio = {nombre: nombreDeLaboratorio, sede: 'Medrano', prestaciones: {cantPuestos: 20, sisOp: 'Windows 7 Enterprise', memoria: '4 GB', otrosDatos: 'Intel Core i7'}, dias: []};
             for(numeroDeDia = 0; numeroDeDia < $scope.diasSolicitados; numeroDeDia++){
                 var fecha = new Date();
                 fecha.setDate(fecha.getDate() + numeroDeDia);

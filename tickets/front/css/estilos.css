@@ -231,6 +231,10 @@ input[type="checkbox"]:focus + label:before {
 	margin-bottom: 10px;
 }
 
+#iconoInformation {
+	margin-left: 8px;
+}
+
 .dia, .diaDeLaboratorio{
     width: 100%;
 	height: 150px;
@@ -285,13 +289,19 @@ h4.fecha {
 	margin: 40px auto 40px auto;
 }
 
-#selectorDeFranja {
+.selectorDeFranja {
 	margin: 10px 0px 20px;
 }
 
-#horarioAclarado {
+.horarioAclarado {
 	font-size: small;
 	text-align: center;
+}
+
+.solicitud {
+	padding: 5px 10px 20px 10px;
+	margin-bottom: 20px;
+	border: 2px solid #D1D1D1;
 }
 
 #divBotonListo {
@@ -320,12 +330,33 @@ h4.fecha {
 }
 
 
+#solicitudes_pendientes {
+	width: 50%;
+	text-align: left;
+	margin: 40px auto 40px auto;
+}
+
+#opciones_solicitud {
+	float: right;
+}
 
 
+#estado_reservas {
+	width: 80%;
+	/*text-align: center;*/
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#busqueda_reservas {
+	float: right;
+	margin-bottom: 5px;
+}
 
 .tabla_normal {
 	border: 4px solid #D1D1D1;
-	width: 730px;
+	/*width: 730px;*/
+	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -339,6 +370,7 @@ h4.fecha {
 .tabla_normal th, .tabla_normal td {
     text-align:center; 
     vertical-align:middle;
+	/*padding: 10px 30px 10px 30px;*/
 	padding: 4px;
 	border: 2px solid #D1D1D1;
 	height: 52px;
@@ -401,6 +433,31 @@ h4.fecha {
 
 .primera_mayus {
 	text-transform: capitalize;
+}
+
+.hoverbox table {
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+}
+
+
+.hoverbox table tr td {
+	padding-right: 20px;
+}
+
+.hoverbox {
+	color: white;
+	-webkit-border-radius:10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 10px 30px 10px 30px;
+}
+
+.titulo_hoverbox {
+	text-align: center;
+	padding: 0;
 }
 
 
