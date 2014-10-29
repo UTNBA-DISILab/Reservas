@@ -104,7 +104,7 @@ if($user->accessLvl > 0) {
 		}
 	}
 }
-$response = array('access_level'=>$user->accessLvl);
+$response = array('id'=>$user->id,'access_level'=>$user->accessLvl);
 echo json_encode($response);
 
 $dbhandler->disconnect();

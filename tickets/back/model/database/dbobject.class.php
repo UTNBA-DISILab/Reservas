@@ -122,9 +122,7 @@ class DBObject {
 			}
 		}
 		
-		$query .= $strfields." FROM `".$this->table;
-		$query .= " WHERE `id`= '".$this->id."'";
-		
+		$query .= $strfields." FROM `".$this->table."`";
 		$result = $dbhandler->query($query);
 		if($result) {
 			$row = mysqli_fetch_array($result);
