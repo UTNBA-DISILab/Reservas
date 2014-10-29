@@ -2,9 +2,9 @@
 /**
 * 
 */
-include 'database/dbobject.class.php';
-include 'user.class.php';
-include 'subject.class.php';
+include_once 'database/dbobject.class.php';
+//include_once 'user.class.php';
+//include_once 'subject.class.php';
 
 class Reservation extends DBObject {
 	//owner. the one who opens this request

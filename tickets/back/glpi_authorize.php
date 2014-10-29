@@ -47,7 +47,6 @@ function getGLPIUserInfo(&$dbhandler, $username) {
 function getGLPIUserAccessLevel(&$dbhandler, $userid) {
 	$query = "SELECT A.name as level FROM `glpi_profiles` as A, `glpi_users_profiles` as B";
 	$query .= " WHERE B.FK_profiles = A.ID AND B.FK_users = '".$userid."'";
-	echo $query;
 	$result = $dbhandler->query($query);
 	if(!$result) {
 		return false;

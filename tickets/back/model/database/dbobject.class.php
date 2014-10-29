@@ -39,12 +39,12 @@ class DBObject {
 	function commit(&$dbhandler) {
 		if($this->fromDB()) {
 			if($this->deleteTag) {
-				$this->delete($dbhandler);
+				return $this->delete($dbhandler);
 			} else {
-				$this->update($dbhandler);
+				return $this->update($dbhandler);
 			}
 		} else {
-			$this->insert($dbhandler);
+			return $this->insert($dbhandler);
 		}
 	}
 	
@@ -190,11 +190,22 @@ class DBObject {
 	}
 	
 	function sqlDateTime($phpDateTime) {
-		return date( 'Y-m-d H:i:s', $phpDateTime );
+		return date( 'Y-m-d H:i:s', $phpDateTime->getTimestamp() );
 	}
 	
 	function phpDateTime($sqlDateTime) {
-		return strtotime( $sqlDateTime );
+		$date = new DateTime();
+		$date->setTimestamp(strtotime( $sqlDateTime ));
+	}
+	
+	function ipToNumber($strIP) {
+		$lngIP = ip2long($strIP);
+		if ($lngIP && $lngIP < 0){ $lngIP += 4294967296 ;} 
+		return $lngIP;
+	}
+	
+	function numberToIp($lngIP) {
+		return long2ip($lngIP);
 	}
 }
 ?>

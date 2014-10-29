@@ -85,6 +85,25 @@ if(!$success) {
 	}
 	$user->commit($dbhandler);
 }
+//check if we have to log this login on the system
+if($user->accessLvl > 0) {
+	// get ip
+	$ip = (getenv("HTTP_X_FORWARDED_FOR") ? getenv("HTTP_X_FORWARDED_FOR") : getenv("REMOTE_ADDR"));
+	$terminal = new Terminal();
+	$success = $terminal->loadUsingValues($dbhandler, array("lan_ip_address"), array($terminal->ipToNumber($ip)));
+	if($success) {
+		$session = new Session();
+		$session->user = $user;
+		$session->terminal = $terminal;
+		$session->operation = 0; //login code
+		$ok = $session->commit($dbhandler);
+		if(!$ok) {
+			returnError(500, "server error");
+			$dbhandler->disconnect();
+			return;
+		}
+	}
+}
 $response = array('access_level'=>$user->accessLvl);
 echo json_encode($response);
 
