@@ -1,5 +1,8 @@
-angular.module('reservasApp').controller('reservasAnterioresCtrl',function($scope, $state, comunicadorEntreVistasService){
+angular.module('reservasApp').controller('reservasAnterioresCtrl',function($scope, $state, comunicadorEntreVistasService, ayudaService){
 	var vistaAnterior = comunicadorEntreVistasService;
+	var ayuda = ayudaService;
+    ayuda.actualizarExplicaciones();
+    $scope.margen = ayuda.getMargen();
 
 	if(!vistaAnterior.getUsuario().inicioSesion){
 		$state.go('planillaReservas');

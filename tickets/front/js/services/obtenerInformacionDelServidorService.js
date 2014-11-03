@@ -1,4 +1,4 @@
-angular.module('reservasApp').service('obtenerInformacionDelServidorService',function(){
+angular.module('reservasApp').service('comunicadorConServidorService',function(){
 
 	var hoy = new Date();
     var maniana = new Date(); maniana.setDate(maniana.getDate() + 1);

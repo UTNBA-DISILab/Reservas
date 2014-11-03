@@ -1,6 +1,7 @@
-angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $state, comunicadorEntreVistasService){
+angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $state, comunicadorEntreVistasService, ayudaService){
     
     var comunicador = comunicadorEntreVistasService;
+    var ayuda = ayudaService;
     $scope.$state = $state;
 
     $scope.usuario = {nombre: '', password: '', inicioSesion: false, esEncargado: false};
@@ -8,19 +9,19 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     comunicador.setUsuario($scope.usuario);
 
     $scope.mostrarAyuda = true;
-    $scope.explicaciones = [
-        {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Inhabilitado.', color: '#888888'},
-        {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Reservado por algún docente.', color: '#800080'},
-        {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Solicitado por uno o más docentes.', color: '#ff00ff'},
-        {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Libre, aún no se ha asignado a ningún docente.', color: '#e0ffff'},
-        {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Reservado por otros docentes o inhabilitado.', color: '#888888'},
-        {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Reservado a mi nombre.', color: '#800080'},
-        {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Pedidos a mi nombre que aún no me aceptaron.', color: '#ff00ff'},
-        {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Libre, aún no se ha asignado a ningún docente.', color: '#e0ffff'},
-        {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Libre y, además, coincide con el horario del curso que seleccione debajo.', color: '#00ffff'},
-        {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Reservado por algún docente o inhabilitado.', color: '#888888'},
-        {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Libre, aún no se ha asignado a ningún docente.', color: '#e0ffff'}];
 	
+    $scope.actualizarMargen = function(){
+        if($scope.mostrarAyuda){
+            ayuda.actualizarMargen();
+        }
+        else {
+            ayuda.setMargen(0);
+        };
+        $scope.alturaDeAyudas = ayuda.getAlturaDeAyudas();
+    };
+    $scope.explicaciones = ayuda.getExplicacionesSegun($scope.usuario);
+    $scope.actualizarMargen();
+
     $scope.iniciarSesion = function(){
 
         // Falta alidar que hayan ingresado caracteres correctos.
@@ -42,19 +43,20 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
                 $scope.usuario.inicioSesion = true;
             }
         }
-
+        ayuda.actualizarExplicaciones();
     };
     $scope.cerrarSesion = function(){
         $scope.usuario.nombre = '';
         $scope.usuario.password = '';
         $scope.usuario.inicioSesion = false;
         $scope.usuario.esEncargado = false;
+        ayuda.actualizarExplicaciones();
         $state.go('planillaReservas');
     };
     $scope.irAlHistorial = function(){
         $state.go('reservasAnteriores');
-    }
+    };
 	$scope.irALasSolicitudesPendientes = function(){
         $state.go('pedidosDeUnDia'); // PENDIENTE
-    }
+    };
 });

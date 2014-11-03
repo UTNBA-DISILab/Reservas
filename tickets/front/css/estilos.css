@@ -16,7 +16,20 @@
 }
 
 #controlDePlanilla {
-	margin-top: 60px;
+    background: white;
+	position: fixed;
+    top:60px;
+    left: 0;
+    right: 0;
+    height: 35px;
+}
+
+#ayuda {
+    background: white;
+    position: fixed;
+    top:95px;
+    left:0;
+    right:0;
 }
 
 button {

@@ -8,13 +8,6 @@
 	</form>
 </header>
 
-
-<div ng-hide='usuario.inicioSesion'>
-	<p class='informacionGeneral'>Bienvenido al Sistema de Reservas de Laboratorios del Depto. de Ing. en Sistemas de Información de la UTN FRBA.</p>
-</div>
-
-
-
 <form id='controlDePlanilla'>
 	<div>
 		<button class= 'botonDeFormulario' ng-show='usuario.inicioSesion && !usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irAlHistorial()">Historial de Reservas</button>
@@ -23,16 +16,17 @@
 		<button class= 'botonDeFormulario' ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irALasSolicitudesPendientes()">Solicitudes Pendientes</button>
 	</div>
 	<div class="checkbox"> 
-		<input type="checkbox" ng-model="mostrarAyuda" id="mostrarAyuda" name="mostrarAyudaCheck" /> 
+		<input type="checkbox" ng-model="mostrarAyuda" id="mostrarAyuda" name="mostrarAyudaCheck" ng-click="actualizarMargen()"/>
 		<label for="mostrarAyuda" name="mostrarAyudaCheck"> 
 			¿Mostrar ayuda? 
 		</label> 
 	</div>
 </form>
-
-<div ng-show='mostrarAyuda' class='explicacionDeColores' ng-repeat='explicacion in explicaciones | filter:{debeHaberIniciadoSesion: usuario.inicioSesion, esParaEncargado: usuario.esEncargado}'>
-	<button class='colores' ng-style='{"background-color" : explicacion.color}'>{{explicacion.nombreDeColor}}</button>
-	<p class='explicacion'>{{explicacion.texto}}</p>
+<div id='ayuda' ng-style='alturaDeAyudas'>
+	<div ng-show='mostrarAyuda' class='explicacionDeColores' ng-repeat='explicacion in explicaciones'>
+		<button class='colores' ng-style='{"background-color" : explicacion.color}'>{{explicacion.nombreDeColor}}</button>
+		<p class='explicacion'>{{explicacion.texto}}</p>
+	</div>
 </div>
 
 

@@ -1,4 +1,4 @@
-<form>
+<form ng-style='margen'>
 	<div>
 		Mostrar: 
 		<select ng-model="diasSolicitados" ng-options="dia for dia in diasDesdeAhora" ng-change='actualizarPlanilla()'>
@@ -15,7 +15,7 @@
 	</div>
 </form>
 
-<div id='calendario'>
+<div id='calendario' >
 	<div id='columnaDeFechas'><!--Tamaño fijo para fechas-->
 		<div class='encabezado'>
 			<h3>Fecha</h3>

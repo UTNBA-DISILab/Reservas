@@ -53,16 +53,17 @@
 		<link rel="stylesheet" type="text/css" href="lib/ngModal/ng-modal.css">
 
 		<script type="text/javascript" src="js/app.js"></script>
-		<script type="text/javascript" src="js/planillaReservasCtrl.js"></script>
-		<script type="text/javascript" src="js/encabezadoCtrl.js"></script>
-		<script type="text/javascript" src="js/obtenerInformacionDelServidorService.js"></script>
-		<script type="text/javascript" src="js/comunicadorEntreVistasService.js"></script>
-		<script type="text/javascript" src="js/cancelarReservaCtrl.js"></script>
-		<script type="text/javascript" src="js/pedidoDeReservaCtrl.js"></script>
-		<script type="text/javascript" src="js/reservasAnterioresCtrl.js"></script>
-		<script type="text/javascript" src="js/cancelarReservaCtrl.js"></script>
-		
-		<script type="text/javascript" src="js/pedidosDeUnDiaCtrl.js"></script>
+		<script type="text/javascript" src="js/controllers/planillaReservasCtrl.js"></script>
+		<script type="text/javascript" src="js/controllers/encabezadoCtrl.js"></script>
+		<script type="text/javascript" src="js/controllers/cancelarReservaCtrl.js"></script>
+		<script type="text/javascript" src="js/controllers/pedidoDeReservaCtrl.js"></script>
+		<script type="text/javascript" src="js/controllers/reservasAnterioresCtrl.js"></script>
+		<script type="text/javascript" src="js/controllers/cancelarReservaCtrl.js"></script>
+		<script type="text/javascript" src="js/controllers/pedidosDeUnDiaCtrl.js"></script>
+
+		<script type="text/javascript" src="js/services/obtenerInformacionDelServidorService.js"></script>
+		<script type="text/javascript" src="js/services/comunicadorEntreVistasService.js"></script>
+		<script type="text/javascript" src="js/services/ayudaService.js"></script>
 
 		<title>Reservas Online - UTN FRBA</title>
 		
@@ -84,7 +85,7 @@
 				
 			-->
 			<encabezado></encabezado>
-			   <div ui-view></div>
+			  <div ui-view></div>
 
 			<!--
 			Opciones: 

@@ -1,12 +1,15 @@
-angular.module('reservasApp').controller('planillaReservasCtrl',function($scope, $state, $location, obtenerInformacionDelServidorService, comunicadorEntreVistasService){
+angular.module('reservasApp').controller('planillaReservasCtrl',function($scope, $state, $location, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService){
 
     $scope.$on('$viewContentLoaded', function(){
         $location.replace(); //Limpia el historial de ruta
     });
 
-    var obtener = obtenerInformacionDelServidorService;
+    var servidor = comunicadorConServidorService;
     var comunicador = comunicadorEntreVistasService;
     $scope.usuario = comunicador.getUsuario();
+    var ayuda = ayudaService;
+    ayuda.actualizarExplicaciones();
+    $scope.margen = ayuda.getMargen();
 
     //Esto quizá se podría poner en un servicio que se "configuraciónPorDefecto" por ejemplo.
     $scope.diasDesdeAhora = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
@@ -99,17 +102,17 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         });
 
         //El server nos traerá las reservas sin importar el tipo de usuario:
-        $scope.reservas = obtener.reservas($scope.diasSolicitados);
+        $scope.reservas = servidor.reservas($scope.diasSolicitados);
         $scope.reservas.forEach(function(reserva){reserva.tipo = 'reserva'; meterEnElCalendario(reserva);});
 
         //El server debe traernos los pedidos según el nombre y tipo de usuario.
         //Si los datos de usuario y contraseña son erróneos, devuelve un array vacío.
-        $scope.pedidosDeReservas = obtener.pedidosSegun($scope.diasSolicitados, $scope.usuario);
+        $scope.pedidosDeReservas = servidor.pedidosSegun($scope.diasSolicitados, $scope.usuario);
         $scope.pedidosDeReservas.forEach(function(pedido){pedido.tipo = 'pedido'; meterEnElCalendario(pedido);});
 
         //Si se logueó un docente (o si el encargado le reserva algo en su nombre), trae sus materias. 
         //Si no, trae un array vacío.
-        //$scope.cursos = obtener.cursosDelDocente(usuario);
+        //$scope.cursos = servidor.cursosDelDocente(usuario);
         //var diasDeLaMateria = $scope.cursos.filter(function(curso){
         //    curso.codigoDeCurso: 'K1111'
         //});
