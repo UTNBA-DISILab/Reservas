@@ -2,13 +2,13 @@
 /**
 * 
 abstract class DBObject
-anyone who wants to use this must override values and setValues funcions
+anyone who wants to use this must override:
+- values()
+- setValues($row)
+- fields()
+- table()
 */
 class DBObject {
-	//table from db
-	var $table = "";
-	//fields from db
-	var $fields = array();
 	//id ( >= 0 --> comes from db)
 	var $id = -1;
 	//must be deleted
@@ -20,6 +20,14 @@ class DBObject {
 	}
 	
 //abstract
+	function table() {
+		return "";
+	}
+	
+	function fields() {
+		return array();
+	}
+	
 	function values() {
 		return array();
 	}
@@ -49,14 +57,15 @@ class DBObject {
 	}
 	
 	function insert(&$dbhandler) {
-		$query = "INSERT INTO `".$this->table."` (";
+		$query = "INSERT INTO `".$this->table()."` (";
 		$values = $this->values();
-		$len = count($this->fields);
+		$fieldnames = $this->fields();
+		$len = count($fieldnames);
 		
 		$strfields = "";
 		$strvalues = "";
 		for($i=0; $i < $len; $i++) {
-			$strfields.= "`".$this->fields[$i]."`";
+			$strfields.= "`".$fieldnames[$i]."`";
 			if ($values[$i]=='NULL'){
 				$strvalues .= $values[$i];
 			} else {
@@ -76,13 +85,14 @@ class DBObject {
 	}
 	
 	function update(&$dbhandler) {
-		$query = "UPDATE `".$this->table."` SET ";
+		$query = "UPDATE `".$this->table()."` SET ";
 		$values = $this->values();
-		$len = count($this->fields);
+		$fieldnames = $this->fields();
+		$len = count($fieldnames);
 		
 		for($i=0; $i < $len; $i++) {
 			$strvalue;
-			$strfield = "`".$this->fields[$i]."`";
+			$strfield = "`".$fieldnames[$i]."`";
 			if ($values[$i]=='NULL'){
 				$strvalue = $values[$i];
 			} else {
@@ -100,7 +110,7 @@ class DBObject {
 	}
 	
 	function delete(&$dbhandler) {
-		$query = "DELETE FROM `".$this->table."`";
+		$query = "DELETE FROM `".$this->table()."`";
 		$query .= " WHERE `id`= '".$this->id."'";
 		
 		$result = $dbhandler->query($query);
@@ -112,17 +122,18 @@ class DBObject {
 			return;
 		}
 		$query = "SELECT ";
-		$len = count($this->fields);
+		$fieldnames = $this->fields();
+		$len = count($fieldnames);
 		
 		$strfields = "";
 		for($i=0; $i < $len; $i++) {
-			$strfields.= "`".$this->fields[$i]."`";
+			$strfields.= "`".$fieldnames[$i]."`";
 			if ($i!=$len-1) {
 				$strfields .= ",";
 			}
 		}
 		
-		$query .= $strfields." FROM `".$this->table."`";
+		$query .= $strfields." FROM `".$this->table()."`";
 		$result = $dbhandler->query($query);
 		if($result) {
 			$row = mysqli_fetch_array($result);
@@ -134,31 +145,34 @@ class DBObject {
 		return false;
 	}
 	
-	function loadUsingValues(&$dbhandler, $fields, $values) {
+	function loadUsingValues(&$dbhandler, $fields = array(), $values = array()) {
 		$query = "SELECT ";
-		$len = count($this->fields);
+		$fieldnames = $this->fields();
+		$len = count($fieldnames);
 		
 		$strfields = "`id`";
 		if($len > 0) {
 			$strfields .= ",";
 		}
 		for($i=0; $i < $len; $i++) {
-			$strfields.= "`".$this->fields[$i]."`";
+			$strfields.= "`".$fieldnames[$i]."`";
 			if ($i!=$len-1) {
 				$strfields .= ",";
 			}
 		}
-		
+		$wherestr = "";
 		$len = count($fields);
-		$wherestr = " WHERE ";
-		for($i=0; $i < $len ; $i++) {
-			$wherestr.= "`".$fields[$i]."`='".$values[$i]."'";
-			if ($i!=$len-1) {
-				$wherestr .= " AND ";
+		if($len > 0) {
+			$wherestr = " WHERE ";
+			for($i=0; $i < $len ; $i++) {
+				$wherestr.= "`".$fields[$i]."`='".$values[$i]."'";
+				if ($i!=$len-1) {
+					$wherestr .= " AND ";
+				}
 			}
 		}
 		
-		$query .= $strfields." FROM `".$this->table."`".$wherestr;
+		$query .= $strfields." FROM `".$this->table()."`".$wherestr;
 		$result = $dbhandler->query($query);
 		if($result) {
 			$row = mysqli_fetch_array($result);
@@ -169,6 +183,47 @@ class DBObject {
 			}
 		}
 		return false;
+	}
+	
+	public static function listAll(&$dbhandler, $fields = array(), $values = array()) {
+		$query = "SELECT ";
+		$fieldnames = static::fields();
+		$len = count($fieldnames);
+		
+		$strfields = "`id`";
+		if($len > 0) {
+			$strfields .= ",";
+		}
+		for($i=0; $i < $len; $i++) {
+			$strfields.= "`".$fieldnames[$i]."`";
+			if ($i!=$len-1) {
+				$strfields .= ",";
+			}
+		}
+		$wherestr = "";
+		$len = count($fields);
+		if($len > 0) {
+			$wherestr = " WHERE ";
+			for($i=0; $i < $len ; $i++) {
+				$wherestr.= "`".$fields[$i]."`='".$values[$i]."'";
+				if ($i!=$len-1) {
+					$wherestr .= " AND ";
+				}
+			}
+		}
+		
+		$query .= $strfields." FROM `".static::table()."`".$wherestr;
+		$ret = array();
+		$result = $dbhandler->query($query);
+		if($result) {
+			while($row = mysqli_fetch_array($result)) {
+				$obj = new static();
+				$obj->id = $row['id'];
+				$obj->setValues($row);
+				array_push($ret, $obj);
+			}
+		}
+		return $ret;
 	}
 	
 //utils

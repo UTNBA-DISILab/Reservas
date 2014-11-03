@@ -13,14 +13,20 @@ class User extends DBObject {
 	
 	function User($objid = -1) {
 		$this->id = $objid;
-		$this->table = "users";
-		$this->fields = array("glpi_user_id", "sigma_user_id",
-							  "name", "surname", "access_level");
 		$this->sigmaId = -1;
 		$this->glpiId = -1;
 		$this->name = "";
 		$this->surname = "";
 		$this->accessLvl = 0;
+	}
+	
+	function table() {
+		return "users";
+	}
+	
+	function fields() {
+		return array("glpi_user_id", "sigma_user_id",
+					 "name", "surname", "access_level");
 	}
 	
 	function values() {

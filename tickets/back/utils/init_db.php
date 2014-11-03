@@ -2,7 +2,7 @@
 /**
 * Default Initializer for Database
 */
-include_once 'autoloader.php';
+//include_once 'autoloader.php';
 
 function getDatabase() {
 //override these params

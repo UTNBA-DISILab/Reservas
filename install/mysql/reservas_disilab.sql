@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-10-2014 a las 01:17:23
+-- Tiempo de generación: 03-11-2014 a las 16:53:27
 -- Versión del servidor: 5.6.16
 -- Versión de PHP: 5.5.11
 
@@ -19,8 +19,22 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `reservas_disilab`
 --
-CREATE DATABASE IF NOT EXISTS `reservas_disilab` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `reservas_disilab`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `labs`
+--
+
+DROP TABLE IF EXISTS `labs`;
+CREATE TABLE IF NOT EXISTS `labs` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(10) COLLATE utf8_unicode_ci NOT NULL,
+  `location` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `size` int(3) NOT NULL,
+  `specifications` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -72,7 +86,6 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   `date` datetime NOT NULL,
   `operation` int(2) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -100,7 +113,6 @@ CREATE TABLE IF NOT EXISTS `terminals` (
   `lan_ip_address` int(10) unsigned NOT NULL,
   `lan_network` int(10) unsigned NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -117,7 +129,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `surname` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `access_level` int(1) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

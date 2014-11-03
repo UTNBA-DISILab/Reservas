@@ -1,16 +1,20 @@
 <?php
 /**
 * Tickets System login script
+
 params:
 - username
 - password
 - from_sigma (optional)#
 - from_glpi (optional)#
  # one of this fields must be included in order to autenticate user
+ 
+return:
+{"id":<id>,"access_level":<int>} or error string if error
 */
-include_once 'autoloader.php';
-include_once 'init_db.php';
-include_once 'glpi_authorize.php';
+include_once 'utils/autoloader.php';
+include_once 'utils/init_db.php';
+include_once 'utils/glpi_authorize.php';
 
 $username = "";
 $password = "";

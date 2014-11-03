@@ -1,15 +1,15 @@
 <?php
 /**
-* Tickets System login script
+* Tickets System logout script
+
 params:
-- username
-- password
-- from_sigma (optional)#
-- from_glpi (optional)#
- # one of this fields must be included in order to autenticate user
+- user_id
+
+return:
+nothing or error string
 */
-include_once 'autoloader.php';
-include_once 'init_db.php';
+include_once 'utils/autoloader.php';
+include_once 'utils/init_db.php';
 
 $user_id = "";
 
@@ -57,16 +57,6 @@ return;
 
 
 //-----------------------------------------------------------
-
-function loginSigmaUser($username, $password) {
-	//TODO validation against SIGMA
-	//return SIGMA data
-	return false;
-}
-
-function loginGLPIUser($username, $password) {
-	return authorizeGLPIUser($username, $password);
-}
 
 function returnError($error_code, $error_msg) {
 	http_response_code($error_code);

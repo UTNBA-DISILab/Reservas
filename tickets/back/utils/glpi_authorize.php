@@ -2,7 +2,7 @@
 /**
 * Default Initializer for Database
 */
-include_once 'autoloader.php';
+//include_once 'autoloader.php';
 
 function authorizeGLPIUser($username, $md5password) {
 	$dbhandler = getGLPIDatabase();

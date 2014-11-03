@@ -12,12 +12,18 @@ class Session extends DBObject {
 	
 	function Session($objid = -1) {
 		$this->id = $objid;
-		$this->table = "sessions";
-		$this->fields = array("user_id", "terminal_id", "date", "operation");
 		$this->userId = new User();
 		$this->terminal = new Terminal();
 		$this->datetime = new DateTime("now");
 		$this->operation = -1;
+	}
+	
+	function table() {
+		return "sessions";
+	}
+	
+	function fields() {
+		return array("user_id", "terminal_id", "date", "operation");
 	}
 	
 	function values() {

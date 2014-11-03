@@ -9,9 +9,15 @@ class Subject extends DBObject {
 	
 	function Subject($objid = -1) {
 		$this->id = $objid;
-		$this->table = "subjects";
-		$this->fields = array("name");
 		$this->name = "";
+	}
+	
+	function table() {
+		return "subjects";
+	}
+	
+	function fields() {
+		return array("name");
 	}
 	
 	function values() {

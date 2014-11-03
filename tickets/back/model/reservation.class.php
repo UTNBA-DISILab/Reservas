@@ -24,9 +24,6 @@ class Reservation extends DBObject {
 	
 	function Reservation($objid = -1) {
 		$this->id = $objid;
-		$this->table = "reservations";
-		$this->fields = array("owner_id", "validator_id", "begin_date",
-							  "end_date", "lab_id", "subject_id", "students_amount");
 		$this->owner = new User();
 		$this->validator = new User();
 		$this->beginDate = new DateTime("now");
@@ -34,6 +31,15 @@ class Reservation extends DBObject {
 		$this->lab = -1;
 		$this->subject = new Subject();
 		$this->studentsAmount = 0;
+	}
+	
+	function table() {
+		return "reservations";
+	}
+	
+	function fields() {
+		return array("owner_id", "validator_id", "begin_date",
+					 "end_date", "lab_id", "subject_id", "students_amount");
 	}
 	
 	function values() {
