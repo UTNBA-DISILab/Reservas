@@ -10,6 +10,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     var ayuda = ayudaService;
     ayuda.actualizarExplicaciones();
     $scope.margen = ayuda.getMargen();
+	
+	// Se obtiene la info de todos los laboratorios del servidor
+	$scope.laboratorios = servidor.obtenerLaboratorios();
 
     //Esto quizá se podría poner en un servicio que se "configuraciónPorDefecto" por ejemplo.
     $scope.diasDesdeAhora = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
@@ -17,14 +20,19 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     $scope.horaDeApertura = 9;
     $scope.horaDeCierre = 22;
     //ToDo: Ponerles la capacidad de personas para poder filtrar según cantidad de alumnos
-    var nombresDeLaboratorios = ['Azul','Amarillo','Verde','Rojo','Workgroup'];
+    //var nombresDeLaboratorios = ['Azul','Amarillo','Verde','Rojo','Workgroup'];
+	var nombresDeLaboratorios = [];
+	$scope.laboratorios.forEach(function(laboratorio){
+		nombresDeLaboratorios.push(laboratorio.nombre);	
+	});
+	
 
     var elHorarioDelPrimeroEsAnterior = function(momento1, momento2){return momento1.horario.de - momento2.horario.de;}
 
     var meterEnElCalendario = function(eventoCompleto){
 
         var laboratorio = $scope.laboratorios.filter(function(unLaboratorio){return unLaboratorio.nombre == eventoCompleto.laboratorio})[0];
-
+//alert(laboratorio.dias.length);
         var dia = laboratorio.dias.filter(function(unDia){
             return Math.floor(unDia.fecha.getTime() / (1000 * 3600 * 24)) == Math.floor(eventoCompleto.fecha.getTime() / (1000 * 3600 * 24))
         })[0];
@@ -89,30 +97,32 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
                 $scope.dias.push({fecha: fecha});
             }
 
-        //Crea a los laboratorios y a los días sin nada dentro.
-        $scope.laboratorios = [];
-        nombresDeLaboratorios.forEach(function(nombreDeLaboratorio){
-            var laboratorio = {nombre: nombreDeLaboratorio, sede: 'Medrano', prestaciones: {cantPuestos: 20, sisOp: 'Windows 7 Enterprise', memoria: '4 GB', otrosDatos: 'Intel Core i7'}, dias: []};
-            for(numeroDeDia = 0; numeroDeDia < $scope.diasSolicitados; numeroDeDia++){
+        //Agrega los dias sin nada dentro a los laboratorios.
+        $scope.laboratorios.forEach(function(laboratorio){
+            
+			laboratorio.dias = [];
+			
+			for(numeroDeDia = 0; numeroDeDia < $scope.diasSolicitados; numeroDeDia++){
                 var fecha = new Date();
                 fecha.setDate(fecha.getDate() + numeroDeDia);
-                laboratorio.dias.push({fecha: fecha, momentos: []});
+                
+				laboratorio.dias.push({fecha: fecha, momentos: []});
             }
-            $scope.laboratorios.push(laboratorio);
+			
         });
 
         //El server nos traerá las reservas sin importar el tipo de usuario:
-        $scope.reservas = servidor.reservas($scope.diasSolicitados);
+        $scope.reservas = servidor.obtenerReservas($scope.diasSolicitados);
         $scope.reservas.forEach(function(reserva){reserva.tipo = 'reserva'; meterEnElCalendario(reserva);});
 
         //El server debe traernos los pedidos según el nombre y tipo de usuario.
         //Si los datos de usuario y contraseña son erróneos, devuelve un array vacío.
-        $scope.pedidosDeReservas = servidor.pedidosSegun($scope.diasSolicitados, $scope.usuario);
+        $scope.pedidosDeReservas = servidor.obtenerPedidosSegun($scope.diasSolicitados, $scope.usuario);
         $scope.pedidosDeReservas.forEach(function(pedido){pedido.tipo = 'pedido'; meterEnElCalendario(pedido);});
 
         //Si se logueó un docente (o si el encargado le reserva algo en su nombre), trae sus materias. 
         //Si no, trae un array vacío.
-        //$scope.cursos = servidor.cursosDelDocente(usuario);
+        //$scope.cursos = servidor.obtenerCursosDelDocente(usuario);
         //var diasDeLaMateria = $scope.cursos.filter(function(curso){
         //    curso.codigoDeCurso: 'K1111'
         //});

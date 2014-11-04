@@ -1,12 +1,45 @@
-angular.module('reservasApp').service('comunicadorConServidorService',function(){
+angular.module('reservasApp').service('comunicadorConServidorService',function($http){
 
 	var hoy = new Date();
     var maniana = new Date(); maniana.setDate(maniana.getDate() + 1);
     var pasadoManiana = new Date(); pasadoManiana.setDate(pasadoManiana.getDate() + 2);
+	
+	var url = 'sistemas.frba.utn.edu.ar/disilab';
 
-	var obtener = {
-
-		reservas: function(diasSolicitados){
+	//var obtener = {
+	return {
+		obtenerLaboratorios: function(){
+			
+			var laboratorios;
+			
+			$http.get( url + '/labs')
+				.success(function(data, status, headers, config) {
+					// this callback will be called asynchronously
+					// when the response is available
+					laboratorios = data;
+					console.log('Obtenidos los laboratorios exitosamente');
+				})
+				.error(function(data, status, headers, config) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error status.
+					console.log('Se produjo un error al obtener los laboratorios');
+				});
+			
+			
+			// Por ahora se asume que el request falla
+			laboratorios = [{nombre:"Azul", sede:"Medrano", cant_puestos:"24", sis_op:"Windows 7 Enterprise", memoria:"4 GB", otros:"Intel Core i5"},
+						{nombre:"Rojo", sede:"Medrano", cant_puestos:"20", sis_op:"Windows 7 Enterprise", memoria:"4 GB", otros:"Intel Core i7"},
+						{nombre:"Verde", sede:"Medrano", cant_puestos:"12", sis_op:"Windows 7 Enterprise", memoria:"10x4GB y 2x2GB", otros:"10xIntel Core i7 y 2xIntel Core i3"},
+						{nombre:"Amarillo", sede:"Medrano", cant_puestos:"5", sis_op:"Windows 7 Enterprise", memoria:"2 GB", otros:"Intel Core i3"},
+						{nombre:"Multimedia", sede:"Medrano", cant_puestos:"5", sis_op:"Windows XP", memoria:"2 GB", otros:"Intel Core i3"},
+						{nombre:"Campus", sede:"Campus", cant_puestos:"14", sis_op:"Windows 7 Enterprise", memoria:"4 GB", otros:"Intel Core i3"},
+						{nombre:"Campus Lab II", sede:"Campus", cant_puestos:"4", sis_op:"Windows 7 Enterprise", memoria:"4 GB", otros:"Intel Core i3"}
+					];
+			
+			return laboratorios;
+		},
+		
+		obtenerReservas: function(diasSolicitados){
 			//Esto debería comunicarse con el servidor y traer reservas que al menos tengan lo de acá abajo
 			//No importa el tipo de usuario y tampoco la sesión.
 			var reservas = [
@@ -36,7 +69,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function()
 			return reservas;
 		},
 
-		pedidosSegun: function (diasSolicitados, usuario) {
+		obtenerPedidosSegun: function (diasSolicitados, usuario) {
 			var pedidos = [];
 
 			if(usuario.inicioSesion){
@@ -84,7 +117,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function()
 		    return pedidos;
 		},
 
-		cursosDelDocente: function(diasSolicitados, usuario){
+		obtenerCursosDelDocente: function(diasSolicitados, usuario){
 			//El server debe traernos las materias que dicta el docente.
 			//Y en caso de haberse logueado un encargado, devolver un array vacío
 			materiasDeJuan = [
@@ -122,5 +155,5 @@ angular.module('reservasApp').service('comunicadorConServidorService',function()
 		}
 	}
 
-	return obtener;
+	//return obtener;
 })
