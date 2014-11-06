@@ -17,8 +17,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     //Esto quizá se podría poner en un servicio que se "configuraciónPorDefecto" por ejemplo.
     $scope.diasDesdeAhora = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     $scope.diasSolicitados = 3;
-    $scope.horaDeApertura = 9;
-    $scope.horaDeCierre = 22;
+    $scope.horaDeApertura = 540; // 540 minutos desde las 00:00 = las 9 de la maniana
+    $scope.horaDeCierre = 1320; // 1320 minutos desde las 00:00 = las 10 de la noche (22 hs)
     //ToDo: Ponerles la capacidad de personas para poder filtrar según cantidad de alumnos
     //var nombresDeLaboratorios = ['Azul','Amarillo','Verde','Rojo','Workgroup'];
 	var nombresDeLaboratorios = [];
@@ -29,12 +29,19 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     var elHorarioDelPrimeroEsAnterior = function(momento1, momento2){return momento1.horario.de - momento2.horario.de;}
 
-    var meterEnElCalendario = function(eventoCompleto){
+    var esElMismoDia = function(unDia, otroDia){
+		return (unDia.getDate() == otroDia.getDate() 
+        && unDia.getMonth() == otroDia.getMonth()
+        && unDia.getFullYear() == otroDia.getFullYear());
+	};
+	
+	var meterEnElCalendario = function(eventoCompleto){
 
         var laboratorio = $scope.laboratorios.filter(function(unLaboratorio){return unLaboratorio.nombre == eventoCompleto.laboratorio})[0];
-//alert(laboratorio.dias.length);
+//alert(laboratorio.dias);
         var dia = laboratorio.dias.filter(function(unDia){
-            return Math.floor(unDia.fecha.getTime() / (1000 * 3600 * 24)) == Math.floor(eventoCompleto.fecha.getTime() / (1000 * 3600 * 24))
+            //return Math.floor(unDia.fecha.getTime() / (1000 * 3600 * 24)) == Math.floor(eventoCompleto.fecha.getTime() / (1000 * 3600 * 24))
+			return esElMismoDia(unDia.fecha, eventoCompleto.fecha);
         })[0];
 
         var momentoNuevo = {horario: {de: eventoCompleto.horario.de, a: eventoCompleto.horario.a}, evento: eventoCompleto};
@@ -112,7 +119,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         });
 
         //El server nos traerá las reservas sin importar el tipo de usuario:
-        $scope.reservas = servidor.obtenerReservas($scope.diasSolicitados);
+        $scope.reservas = servidor.obtenerReservas( new Date(), $scope.diasSolicitados);
         $scope.reservas.forEach(function(reserva){reserva.tipo = 'reserva'; meterEnElCalendario(reserva);});
 
         //El server debe traernos los pedidos según el nombre y tipo de usuario.
@@ -139,7 +146,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         diasLibresParaRrellenarEspaciosVacios.forEach(function(libre){libre.tipo = 'libre'; meterEnElCalendario(libre);});
     };
 
-    $scope.actualizarPlanilla();    
+    $scope.actualizarPlanilla();
 
     $scope.estiloSegun = function(momentoAnterior, momento, momentoPosterior){
         
