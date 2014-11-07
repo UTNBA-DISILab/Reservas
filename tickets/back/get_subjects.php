@@ -1,12 +1,14 @@
 <?php
 /**
-* Tickets System labs information display
+* Tickets System subject information display
+request:
+GET
 
 params:
 none
 
 return:
-[{name:<string>, location:<string>, size:<string>, ..}, ..] or error string
+[{name:<string>, code:<string>}, ..] or error string
 */
 include_once 'utils/autoloader.php';
 include_once 'utils/init_db.php';
@@ -14,16 +16,15 @@ include_once 'utils/init_db.php';
 $dbhandler = getDatabase();
 $dbhandler->connect();
 
-$labs = Lab::listAll($dbhandler);
+$subjects = Subject::listAll($dbhandler);
 
 $return = array();
-if(is_array($labs)) {
-	foreach($labs as &$lab) {
-		$labinfo = array("name"=>$lab->name,
-						 "location"=>$lab->location,
-						 "size"=>$lab->size);
-		array_push($return, array_merge($labinfo, (array)$lab->specifications));
-		unset($lab);
+if(is_array($subjects)) {
+	foreach($subjects as &$subject) {
+		$info = array("name"=>$subject->name,
+					  "code"=>$subject->code);
+		array_push($return, $info);
+		unset($subject);
 	}
 }
 
