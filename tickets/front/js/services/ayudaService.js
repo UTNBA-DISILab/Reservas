@@ -29,7 +29,13 @@ angular.module('reservasApp').service('ayudaService',function($state){
         'pedidosDeUnDia': [
             {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Explicación a modo de ejemplo, acá se podría prescindir de los colores de la izquierda', color: '#e0ffff'}
         ],
+		'cargarMaterias': [
+            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Explicación a modo de ejemplo, acá se podría prescindir de los colores de la izquierda', color: '#e0ffff'}
+        ],
         'reservasAnteriores': [
+
+        ],
+		'cancelarReserva': [
 
         ]
     };

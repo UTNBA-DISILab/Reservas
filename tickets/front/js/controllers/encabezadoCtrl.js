@@ -59,4 +59,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 	$scope.irALasSolicitudesPendientes = function(){
         $state.go('pedidosDeUnDia'); // PENDIENTE
     };
+	$scope.irACargarMaterias = function(){
+        $state.go('cargarMaterias');
+    };
 });

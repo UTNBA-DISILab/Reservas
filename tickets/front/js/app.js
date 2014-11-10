@@ -34,6 +34,11 @@ reservasApp.config(['$stateProvider','$urlRouterProvider',function($stateProvide
         url: '/pedidosDeUnDia',
         templateUrl: 'templates/pedidosDeUnDia.html',
         controller: 'pedidosDeUnDiaCtrl'
+    })
+	.state('cargarMaterias', {
+        url: '/cargarMaterias',
+        templateUrl: 'templates/cargarMaterias.html',
+        controller: 'cargarMateriasCtrl'
     });
 
     // Si no es ninguno de los anteriores, ir a:

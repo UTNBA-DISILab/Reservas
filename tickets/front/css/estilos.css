@@ -482,7 +482,16 @@ h4.fecha {
 }
 
 
+.materias_cargadas {
+	background: #BBFFFF;
+	margin: 20px;
+}
 
+#cargar_materias {
+	width: 50%;
+	text-align: left;
+	margin: 40px auto 40px auto;
+}
 
 
 
