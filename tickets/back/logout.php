@@ -1,6 +1,8 @@
 <?php
 /**
 * Tickets System logout script
+request:
+POST
 
 params:
 - user_id
@@ -10,6 +12,7 @@ nothing or error string
 */
 include_once 'utils/autoloader.php';
 include_once 'utils/init_db.php';
+include_once 'utils/user_session.php';
 
 $user_id = "";
 
@@ -53,6 +56,7 @@ if($user->accessLvl > 0) {
 	}
 }
 $dbhandler->disconnect();
+cleanSession();
 return;
 
 

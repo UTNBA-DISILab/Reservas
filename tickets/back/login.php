@@ -1,6 +1,8 @@
 <?php
 /**
 * Tickets System login script
+request:
+POST
 
 params:
 - username
@@ -15,6 +17,7 @@ return:
 include_once 'utils/autoloader.php';
 include_once 'utils/init_db.php';
 include_once 'utils/glpi_authorize.php';
+include_once 'utils/user_session.php';
 
 $username = "";
 $password = "";
@@ -108,7 +111,8 @@ if($user->accessLvl > 0) {
 		}
 	}
 }
-$response = array('id'=>$user->id,'access_level'=>$user->accessLvl);
+$sessionid = createSessionForUser($user);
+$response = array('id'=>$user->id,'access_level'=>$user->accessLvl, 'session'=>$sessionid);
 echo json_encode($response);
 
 $dbhandler->disconnect();

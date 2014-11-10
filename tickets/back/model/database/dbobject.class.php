@@ -186,6 +186,37 @@ class DBObject {
 	}
 	
 	public static function listAll(&$dbhandler, $fields = array(), $values = array()) {
+		$wherestr = "";
+		$len = count($fields);
+		if($len > 0) {
+			$wherestr = " WHERE ";
+			for($i=0; $i < $len ; $i++) {
+				$wherestr.= "`".$fields[$i]."`='".$values[$i]."'";
+				if ($i!=$len-1) {
+					$wherestr .= " AND ";
+				}
+			}
+		}
+		return static::_listAll($dbhandler, $wherestr );
+	}
+	
+	public static function listAllBetween(&$dbhandler, $fields = array(), $minvalues = array(), $maxvalues = array()) {
+		$wherestr = "";
+		$len = count($fields);
+		if($len > 0) {
+			$wherestr = " WHERE ";
+			for($i=0; $i < $len ; $i++) {
+				$wherestr.= "`".$fields[$i]."`>='".$minvalues[$i]."'";
+				$wherestr.= " AND `".$fields[$i]."`<='".$maxvalues[$i]."'";
+				if ($i!=$len-1) {
+					$wherestr .= " AND ";
+				}
+			}
+		}
+		return static::_listAll($dbhandler, $wherestr );
+	}
+		
+	public static function _listAll(&$dbhandler, $wherestr ) {
 		$query = "SELECT ";
 		$fieldnames = static::fields();
 		$len = count($fieldnames);
@@ -198,17 +229,6 @@ class DBObject {
 			$strfields.= "`".$fieldnames[$i]."`";
 			if ($i!=$len-1) {
 				$strfields .= ",";
-			}
-		}
-		$wherestr = "";
-		$len = count($fields);
-		if($len > 0) {
-			$wherestr = " WHERE ";
-			for($i=0; $i < $len ; $i++) {
-				$wherestr.= "`".$fields[$i]."`='".$values[$i]."'";
-				if ($i!=$len-1) {
-					$wherestr .= " AND ";
-				}
 			}
 		}
 		
@@ -225,7 +245,6 @@ class DBObject {
 		}
 		return $ret;
 	}
-	
 //utils
 	function replaceNullValue($value, $nullvalue = -1) {
 		if($value == $nullvalue) {
