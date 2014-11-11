@@ -15,11 +15,12 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
             ayuda.actualizarMargen();
         }
         else {
-            ayuda.setMargen(0);
+            ayuda.sinAyudas();
         };
         $scope.alturaDeAyudas = ayuda.getAlturaDeAyudas();
     };
-    $scope.explicaciones = ayuda.getExplicacionesSegun($scope.usuario);
+    $scope.explicaciones = [];
+    ayuda.setUsuarioYExplicaciones($scope.usuario, $scope.explicaciones);//Con esto siempre tendrá el usuario  y las explicaciones actualizadas
     $scope.actualizarMargen();
 
     $scope.iniciarSesion = function(){

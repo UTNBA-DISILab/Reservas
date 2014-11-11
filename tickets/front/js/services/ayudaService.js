@@ -42,32 +42,31 @@ angular.module('reservasApp').service('ayudaService',function($state){
     var explicacionesDeEstaVista = [];
 
     var cosasDeUnaVista = {
-        getExplicacionesSegun: function(usuarioRecibido){
+        setUsuarioYExplicaciones: function(usuarioRecibido, explicacionesRecibidas){
             usuario = usuarioRecibido;
-            this.actualizarExplicaciones(usuario);
-            return explicacionesDeEstaVista;
+            explicacionesDeEstaVista = explicacionesRecibidas;
         },
         actualizarExplicaciones: function(){
             var nombreDeLaVista = $state.current.name;
-            if(!nombreDeLaVista){nombreDeLaVista='planillaReservas'};//Esto se tiene que ir en cuanto se llame desde la vista
             explicacionesDeEstaVista.splice(0, explicacionesDeEstaVista.length);
             explicaciones[nombreDeLaVista].forEach(function(explicacion){
                 if(explicacion.debeHaberIniciadoSesion == usuario.inicioSesion && explicacion.esParaEncargado == usuario.esEncargado){
                     explicacionesDeEstaVista.push(explicacion);
                 };
             });
-            this.actualizarMargen(explicacionesDeEstaVista.length);
+            this.actualizarMargen();
         },
         actualizarMargen: function(){
             var cantidadDeExplicaciones = explicacionesDeEstaVista.length;
             margen['margin-top'] = (margenMinimo + margenPorCadaExplicacion * cantidadDeExplicaciones).toString() + 'px';
             altura['height'] = (alturaMinima + margenPorCadaExplicacion * cantidadDeExplicaciones).toString() + 'px';
         },
+        sinAyudas: function(){
+            margen['margin-top'] = margenMinimo.toString() + 'px';
+            altura['height'] = alturaMinima.toString() + 'px';
+        },
         getMargen: function(){
             return margen;
-        },
-        setMostrarAyuda: function(unUsuario){
-            usuario = unUsuario;
         },
         getAlturaDeAyudas: function(){
             return altura;
