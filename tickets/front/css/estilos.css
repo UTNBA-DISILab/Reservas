@@ -53,7 +53,8 @@ button {
 .botonDeFormulario {
     font-size: 14px;
     height: 35px;
-    padding: 0.5em 1.5em 0.5em;
+    /*padding: 0.5em 1.5em 0.5em;*/
+	margin: 0px 5px;
     color: #030303;
     background-color: #c6c6c7;
 }
@@ -481,18 +482,56 @@ h4.fecha {
 	padding: 0;
 }
 
+#materias {
+	text-align: center;
+}
+
+.especialidad {
+	margin-bottom: 20px;
+}
 
 .materias_cargadas {
-	background: #BBFFFF;
+	background: #c6c6c7;
+	-webkit-border-radius:5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 	margin: 20px;
 }
 
+.nombre_campo {
+	margin-left: 0px;
+}
+
+.materias_cargadas ul {
+  columns: 3;
+  -webkit-columns: 3;
+  -moz-columns: 3;
+  text-align: left;
+}
+
+.cargando {
+	margin-left: 50px;
+}
+
+.botonEncabezado {
+	float: right;
+	margin: 0px 5px;
+}
+
 #cargar_materias {
-	width: 50%;
+	width: 80%;
 	text-align: left;
 	margin: 40px auto 40px auto;
 }
 
+#especificacionDeMateria {
+	text-align: left;
+	margin-left: 20%;
+}
+
+.volver {
+	margin-top: 50px;
+}
 
 
 #pie {

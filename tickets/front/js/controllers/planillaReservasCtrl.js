@@ -8,6 +8,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	$scope.reservas = [];
 	$scope.laboratorios = [];
 	var nombresDeLaboratorios = [];
+	
+	$scope.laboratoriosObtenidos = false;
 
     var comunicador = comunicadorEntreVistasService;
     $scope.usuario = comunicador.getUsuario();
@@ -16,13 +18,14 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     ayuda.actualizarExplicaciones();
     $scope.margen = ayuda.getMargen();
 	
-	$scope.hoy = new Date();
+	$scope.primerDiaSolicitado = new Date();
 
 	var servidor = comunicadorConServidorService;
 
 	var porDefecto = valoresPorDefectoService;
     $scope.diasDesdeAhora = porDefecto.getDiasParaVerLaPlanilla();
     $scope.diasSolicitados = porDefecto.getDiasMostradosIniciales();
+	$scope.cuantosDiasMasCargar = porDefecto.getCuantosDiasMas();
     $scope.horaDeApertura = porDefecto.getHoraDeApertura();
     $scope.horaDeCierre = porDefecto.getHoraDeCierre();
     //ToDo: Ponerles la capacidad de personas para poder filtrar según cantidad de alumnos
@@ -48,7 +51,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	
 	var completarEspaciosLibres = function() {
 		//Generamos días libres para rellenar los espacios vacíos:
-		alert('llenando dias libres');
 		var diasLibresParaRrellenarEspaciosVacios = generarPosiblesDiasLibres();
 		diasLibresParaRrellenarEspaciosVacios.forEach(function(libre) {
 			libre.tipo = 'libre';
@@ -108,6 +110,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         nombresDeLaboratorios.forEach(function(nombreDeLaboratorio){
             for(numeroDeDia = 0; numeroDeDia < $scope.diasSolicitados; numeroDeDia++){
                 var fecha = new Date();
+				//var fecha = $scope.primerDiaSolicitado;
                 fecha.setDate(fecha.getDate() + numeroDeDia);
                 diasLibres.push({laboratorio: nombreDeLaboratorio, fecha: fecha, horario: horario});
             }
@@ -118,8 +121,10 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     $scope.actualizarPlanilla = function (){
     	servidor.inicializar($scope);
     	servidor.obtenerLaboratorios($scope.laboratorios, nombresDeLaboratorios);
-		servidor.obtenerReservas($scope.hoy, $scope.diasSolicitados, $scope.reservas);
-		servidor.obtenerPedidosSegun($scope.hoy, $scope.diasSolicitados, $scope.usuario, $scope.pedidosDeReservas);		
+		servidor.obtenerReservas($scope.primerDiaSolicitado, $scope.cuantosDiasMasCargar, $scope.reservas);
+		servidor.obtenerPedidosSegun($scope.primerDiaSolicitado, $scope.cuantosDiasMasCargar, $scope.usuario, $scope.pedidosDeReservas);
+		
+		$scope.obtenerMaterias();
     };
 
     $scope.insertarDatos = function(){
@@ -128,6 +133,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         $scope.dias = [];
         for(numeroDeDia = 0; numeroDeDia < $scope.diasSolicitados; numeroDeDia++){
                 var fecha = new Date();
+				//var fecha = $scope.primerDiaSolicitado;
                 fecha.setDate(fecha.getDate() + numeroDeDia);
                 $scope.dias.push({fecha: fecha});
             }
@@ -137,6 +143,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			laboratorio.dias = [];
 			for(numeroDeDia = 0; numeroDeDia < $scope.diasSolicitados; numeroDeDia++){
                 var fecha = new Date();
+				//var fecha = $scope.primerDiaSolicitado;
                 fecha.setDate(fecha.getDate() + numeroDeDia);
 				laboratorio.dias.push({fecha: fecha, momentos: []});
             }
@@ -240,6 +247,36 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         }
         
     };
+	
+	$scope.obtenerMaterias = function() {
+		servidor.obtenerMaterias()
+		.success(function(materiasObtenidas, status, headers, config) {
+			
+			$scope.especialidades = materiasObtenidas;
+			console.log('Obtenidas las materias y especialidades exitosamente!');
+		})
+		.error(function(data, status, headers, config) {
+			
+			console.log('Se produjo un error al obtener las materias del servidor.');
+			
+			// TEMP
+			$scope.especialidades = porDefecto.getEspecialidades();
+		});
+	};
+	
+	$scope.seConocenLasMateriasDe = function(especialidad) {
+		if (especialidad.nombre == 'Sistemas') {
+			return true;
+		}
+		return false;
+	}
+	
+	$scope.cargarMasDias = function() {
+		$scope.primerDiaSolicitado.setDate($scope.primerDiaSolicitado.getDate() + $scope.cuantosDiasMasCargar);
+		$scope.diasSolicitados =  $scope.diasSolicitados + $scope.cuantosDiasMasCargar;
+		$scope.actualizarPlanilla();
+	}
+	
 	$scope.$watch('usuario.inicioSesion',function(){
 		//Cada vez que el usuario se loguea o se desloguea, se actualiza la planilla.
 		$scope.actualizarPlanilla();

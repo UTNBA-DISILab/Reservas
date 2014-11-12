@@ -1,7 +1,8 @@
 angular.module('reservasApp').service('valoresPorDefectoService',function(){
 
-    diasParaVerLaPlanilla = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
-    diasMostradosIniciales = 3;
+    diasParaVerLaPlanilla = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
+    diasMostradosIniciales = 7;
+	cuantosDiasMas = 7;
     horaDeApertura = 540; // 540 minutos desde las 00:00 = las 9 de la maniana
     horaDeCierre = 1320; // 1320 minutos desde las 00:00 = las 10 de la noche (22 hs)
     //ToDo: Ponerles la capacidad de personas para poder filtrar según cantidad de alumnos
@@ -80,6 +81,50 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
         fecha: pasadoManiana,
         horario: {de: 1140, a: 1260}} // de 19 a 21
     ];
+	
+	var especialidades = [
+		{
+			nombre: "Civil",
+			materias: []
+		},
+		{
+			nombre: "El\xE9ctrica",
+			materias: []
+		},
+		{
+			nombre: "Electr\xF3nica",
+			materias: []
+		},
+		{
+			nombre: "Industrial",
+			materias: []
+		},
+		{
+			nombre: "Mec\xE1nica",
+			materias: []
+		},
+		{
+			nombre: "Naval",
+			materias: []
+		},
+		{
+			nombre: "Qu\xEDmica",
+			materias: []
+		},
+		{
+			nombre: "Sistemas",
+			materias: ['Redes','Simulacion','Operativos']
+		},
+		{
+			nombre: "Textil",
+			materias: []
+		},
+		{
+			nombre: "Otra no especificada",
+			materias: []
+		}
+	
+	];
 
     var valoresPorDefecto = {
         getLaboratorios: function(){
@@ -100,12 +145,18 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
         getDiasMostradosIniciales: function(){
             return diasMostradosIniciales;
         },
+		getCuantosDiasMas: function() {
+			return cuantosDiasMas;
+		},
         getHoraDeApertura: function(){
             return horaDeApertura;
         },
         getHoraDeCierre: function(){
             return horaDeCierre;
-        }
+        },
+		getEspecialidades: function(){
+			return especialidades;
+		}
     };
     return valoresPorDefecto;
 })

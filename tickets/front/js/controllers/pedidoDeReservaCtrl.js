@@ -1,6 +1,10 @@
-angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, $state, comunicadorEntreVistasService, ayudaService){
+angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService){
 	var vistaAnterior = comunicadorEntreVistasService;
 	var ayuda = ayudaService;
+	var a = '';
+	var b = '';
+	var servidor = comunicadorConServidorService;
+	
     ayuda.actualizarExplicaciones();
     $scope.margen = ayuda.getMargen();
 
@@ -8,13 +12,20 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 		$state.go('planillaReservas');
 	};
 
-	//Un poco de hardcodeo provisorio para lo que deberá otorgar la vistaAnterior.
+	//********* Un poco de hardcodeo provisorio para lo que deberá otorgar la vistaAnterior **********
 	//Sólo se enviarán la franja clickeada y todas las libres contiguas.
 	$scope.franjasHorarias = [
 		{de: 10, a: 14, tipo: 'libre', clickeada: false},
 		{de: 14, a: 18, tipo: 'libre y coincide con su materia', clickeada: false},
 		{de: 18, a: 20, tipo: 'libre', clickeada: true}//Supongamos que quiere reservar un rato LUEGO de su clase por X motivo.
 	];
+	
+	// Tambien es necesario que la vistaAnterior pase el dia clickeado
+	$scope.dia = new Date();
+	// Y el laboratorio
+	$scope.laboratorio = 'Azul';
+	
+	// *****************************************************************
 	
 	
 	// Para el rangeSlider, necesitamos que cada hora esté en formato 'minutos desde las 00:00 de ese dia'.
@@ -78,6 +89,17 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	
 	$scope.pareceQueNoJustifico = function() {
 		return !$scope.laFranjaEstaPerfecta && $scope.justificacionIngresada.length <= 2;
+	}
+	
+	$scope.enviarSolicitud = function() {
+		
+		servidor.enviarNuevaReserva($scope.laboratorio, $scope.dia, $scope.franjaSeleccionada.de, $scope.franjaSeleccionada.a, 'solicitada')
+			.success(function(data, status, headers, config) {
+				alert('Su solicitud fue recibida exitosamente!');
+			})
+			.error(function(laboratoriosRecibidos, status, headers, config) {
+				alert('Se produjo un error. Pruebe tocando Listo nuevamente.');
+			});
 	}
 
 	$scope.volver = function(){

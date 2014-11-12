@@ -72,6 +72,9 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 					reservas.splice(0,reservas.length);
 					reservasRecibidas.forEach(function(reserva){reservas.push(reserva)});
 					sePudieronTraerReservas = true;
+					if(transaccionFinalizada()){
+						scope.insertarDatos();
+					};
 				})
 				.error(function(reservasRecibidas, status, headers, config) {
 					console.log('Se produjo un error al obtener las reservas en ' + primerDiaSolicitado + ' y en los ' + cantDiasSolicitados + ' dias siguientes' );
@@ -144,9 +147,31 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			return $http.get( url + '/materias');
 		},
 		
-		enviarNuevaReserva: function(reserva) {
+		cargarMateria: function(nombre, especialidad) {
 			
+			var materiaNueva = {};
+			
+			materiaNueva.nombre = nombre;
+			materiaNueva.especialidad = especialidad;
+			
+			return $http.post( url + '/materias', materiaNueva);
 		},
+		
+		enviarNuevaReserva: function(laboratorio, dia, minutosInicio, minutosFin, estado) {
+			
+			var timestampMedianoche = dia.getTime() - ( dia.getTime() % (1000 * 60 * 60 * 24) ) // las 00:00 de ese dia
+			
+			var reservaNueva = {};
+			
+			reservaNueva.creation_date = new Date();
+			reservaNueva.requested_lab = laboratorio;
+			reservaNueva.from = timestampMedianoche + (minutosInicio * 60 * 1000);
+			reservaNueva.to = timestampMedianoche + (minutosFin * 60 * 1000);
+			reservaNueva.state = estado;
+			
+			return $http.post( url + '/reservas', reservaNueva);
+		},
+		
 		inicializar: function(scopeActual){
 			scope = scopeActual;
 			sePudieronTraerLaboratorios = false;

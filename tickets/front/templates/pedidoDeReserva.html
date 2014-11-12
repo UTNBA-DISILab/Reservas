@@ -6,7 +6,7 @@
 	<div class="horarioAclarado">
 		<span>Horario deseado: desde las <strong>{{franjaSeleccionada.de | hourMinFilter}}</strong> hasta las <strong>{{franjaSeleccionada.a | hourMinFilter}}</strong>.</span>
 		<div id="divBotonListo">
-			<button class="botonDeFormulario" ng-click="" ng-disabled="pareceQueNoJustifico()">Listo!</button>
+			<button class="botonDeFormulario" ng-click="enviarSolicitud()" ng-disabled="pareceQueNoJustifico()">Listo!</button>
 		</div>
 	</div>
 	
