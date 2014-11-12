@@ -1,16 +1,31 @@
 <div id="pedidoDeReserva" ng-style='margen'>
 		
-	<span id="instrucciones-slider">Arrastre los extremos para definir el horario deseado:</span>
-	<div class="selectorDeFranja" range-slider min="minimoPermitido()" max="maximoPermitido()" model-min="franjaSeleccionada.de" model-max="franjaSeleccionada.a" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
-	
-	<div class="horarioAclarado">
-		<span>Horario deseado: desde las <strong>{{franjaSeleccionada.de | hourMinFilter}}</strong> hasta las <strong>{{franjaSeleccionada.a | hourMinFilter}}</strong>.</span>
-		<div id="divBotonListo">
-			<button class="botonDeFormulario" ng-click="enviarSolicitud()" ng-disabled="pareceQueNoJustifico()">Listo!</button>
+	<div class="reserva">
+		<div class="fechaSolicitadaSlider">
+			<span>Fecha: {{evento.fecha.toLocaleDateString()}}</span>
+		</div>
+		<br>
+		
+		<span id="instrucciones-slider">Arrastre los extremos para definir el horario deseado:</span>
+		<div class="selectorDeFranja" range-slider min="minimoPermitido()" max="maximoPermitido()" model-min="franjaSeleccionada.de" model-max="franjaSeleccionada.a" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
+		
+		<div class="horarioAclarado">
+			<span>Horario deseado: desde las <strong>{{franjaSeleccionada.de | hourMinFilter}}</strong> hasta las <strong>{{franjaSeleccionada.a | hourMinFilter}}</strong>.</span>
+			<div id="divBotonListo">
+				<button class="botonDeFormulario" ng-click="enviarSolicitud()">Listo!</button>
+			</div>
+		</div>
+		
+		<div>
+			<span>Laboratorio: {{evento.laboratorio}}</span>
+			<br>
+			<span>Docente: {{docente.nombre}}</span>
+			<br>
+			<span>Materia: {{materia}}</span>
 		</div>
 	</div>
 	
-	
+	<!-- No tenemos info sobre cursos
 	<div id="explicacionHorarioImpropio" ng-show="eseHorarioNoEsPropio(franjaSeleccionada)">
 		<div id="divIconoWarning">
 			<img id="iconoWarning" src="img/warning.png" height="32" width="32" align="middle">
@@ -24,6 +39,7 @@
 			<textarea id="justificacion" class="ingresarTexto" ng-model="justificacionIngresada"></textarea>
 		</div>
 	</div>
+	-->
 
 	<button class= 'botonDeFormulario' ng-click='volver()'>Volver</button>
 

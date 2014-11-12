@@ -301,7 +301,7 @@ h4.fecha {
 
 
 
-#pedidoDeReserva {
+#pedidoDeReserva, #cancelarReserva {
 	width: 50%;
 	text-align: left;
 	margin: 40px auto 40px auto;
@@ -326,16 +326,17 @@ h4.fecha {
 	margin-bottom: 20px;
 }
 
-.solicitud {
+.reserva {
 	padding: 5px 10px 20px 10px;
 	margin-bottom: 20px;
 	border: 2px solid #D1D1D1;
 }
 
-#divBotonListo {
-	text-align: right;
+#divBotonListo, #divBotonCancelar {
+	/*text-align: right;*/
 	font-size: large;
 	margin-bottom: 30px;
+	margin-top: 10px;
 }
 
 #divIconoWarning {

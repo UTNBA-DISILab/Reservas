@@ -13,6 +13,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	$scope.laboratorios = [];
 	$scope.sePudieronTraerLaboratorios = false;
 	
+	$scope.docentes = [];
+	$scope.sePudieronTraerDocentes = false;
+	
 	$scope.nombresDeLaboratorios = [];
 	
 	$scope.especialidades = [];
@@ -20,6 +23,16 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     var comunicador = comunicadorEntreVistasService;
     $scope.usuario = comunicador.getUsuario();
+	$scope.materia = comunicador.getMateria();
+	$scope.especialidad = comunicador.getEspecialidad();
+	
+	$scope.actualizarEspecialidad = function() {
+		comunicador.setEspecialidad($scope.especialidad);
+	};
+	
+	$scope.actualizarMateria = function() {
+		comunicador.setMateria($scope.materia);
+	};
 
     var ayuda = ayudaService;
     ayuda.actualizarExplicaciones();
@@ -138,7 +151,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				$scope.nombresDeLaboratorios.push(laboratorio.nombre);
 			});
 			$scope.sePudieronTraerLaboratorios = true;
-			//if(transaccionFinalizada()){ // JUJU
+			//if(transaccionFinalizada()){
 				$scope.insertarDatos(); // deberia 'insertar' solo los laboratorios
 			//}
 			
@@ -158,6 +171,31 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
 			// TEMP
 			comportamientoSiRequestExitoso(porDefecto.getLaboratorios());
+		});
+		
+	};
+	
+	$scope.obtenerDocentes = function() {
+		
+		var comportamientoSiRequestExitoso = function(docentesRecibidos) {
+			
+			$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
+			docentesRecibidos.forEach(function(docente){
+				$scope.docentes.push(docente);
+			});
+			$scope.sePudieronTraerDocentes = true;
+		};
+		
+		servidor.obtenerDocentes()
+		.success(function(docentesRecibidos, status, headers, config) {
+			console.log('Obtenidos los docentes exitosamente');
+			comportamientoSiRequestExitoso(docentesRecibidos);
+		})
+		.error(function(docentesRecibidos, status, headers, config) {
+			console.log('Se produjo un error al obtener los docentes del servidor');
+
+			// TEMP
+			comportamientoSiRequestExitoso(porDefecto.getDocentes());
 		});
 		
 	};
@@ -195,7 +233,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		
 		var comportamientoSiRequestExitoso = function(pedidosRecibidos) {
 			
-			//$scope.pedidos.splice(0,$scope.reservas.length); Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
+			//$scope.pedidos.splice(0,$scope.pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
 				$scope.pedidos.push(pedido)
 			});
@@ -234,6 +272,10 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		
 		if(!$scope.sePudieronTraerLaboratorios) {
 			$scope.obtenerLaboratorios();
+		};
+		
+		if(!$scope.sePudieronTraerDocentes && $scope.usuario.esEncargado) {
+			$scope.obtenerDocentes();
 		};
 		
 		$scope.sePudieronTraerReservasEstaVuelta = false;
@@ -328,28 +370,38 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     $scope.mostrarElMomento = function(momento){
         if($scope.usuario.inicioSesion){
-            if(momento.evento.tipo == 'reserva'){
-                if($scope.usuario.esEncargado || momento.evento.docente.nombre == $scope.usuario.nombre){
-                    comunicador.setEvento(momento.evento);
-                    $state.go('cancelarReserva');
-                }
-                else {
-					alert('Reservado para la materia ' + momento.evento.subject);
-                }
+            if(momento.evento.tipo == 'reserva' && ($scope.usuario.esEncargado || momento.evento.docente.nombre == $scope.usuario.nombre)){
+                comunicador.setEvento(momento.evento);
+				comunicador.setMateria(momento.evento.subject);
+                $state.go('cancelarReserva');
             }
-            else {
-                if(momento.evento.tipo == 'libre'){
-                    $state.go('pedidoDeReserva');
-                }
-                else {
-                    if(momento.evento.tipo == 'pedido'){
-                        $state.go('pedidoDeReserva');
-                    }
-                    else {
-                        alert('Inhabilitado');
-                    }
-                }
-            }
+			else {
+			
+				if(momento.evento.tipo == 'pedido'){
+					if($scope.usuario.esEncargado) {
+						comunicador.setEvento(momento.evento);
+						comunicador.setMateria(momento.evento.subject);
+						$state.go('pedidosDeUnDia');
+					}
+					else {
+						if(momento.evento.docente.nombre == $scope.usuario.nombre) {
+							comunicador.setEvento(momento.evento);
+							comunicador.setMateria(momento.evento.subject);
+							$state.go('cancelarReserva');
+						}
+					}
+				}
+				else {
+					if(momento.evento.tipo == 'libre'){
+						comunicador.setEvento(momento.evento);
+						comunicador.setMateria($scope.materia);
+						$state.go('pedidoDeReserva');
+					}
+					else {
+						alert('Inhabilitado');
+					}
+				}
+			}
                 
         }
         else {

@@ -12,10 +12,17 @@ angular.module('reservasApp').controller('pedidosDeUnDiaCtrl',function($scope, $
 
 	if(!vistaAnterior.getUsuario().inicioSesion){
 		$state.go('planillaReservas');
-	};
-
-	$scope.solicitudes = porDefecto.getPedidos(vistaAnterior.getUsuario());
-	//$scope.solicitudes = vistaAnterior.getPedidos()); deberia ser asi
+	};	
+	
+	var evento = vistaAnterior.getEvento();	
+	if(evento.tipo == 'pedido') {
+		$scope.solicitudes = [];
+		$scope.solicitudes.push(evento);
+	}
+	else {
+		$scope.solicitudes = porDefecto.getPedidos(vistaAnterior.getUsuario());
+		//$scope.solicitudes = vistaAnterior.getPedidos()); deberia ser asi
+	}
 	
 	$scope.solicitudes.forEach(function(solicitud) {
 		solicitud.listo = false;
@@ -35,7 +42,7 @@ angular.module('reservasApp').controller('pedidosDeUnDiaCtrl',function($scope, $
 			console.log('Se produjo un error al confirmar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + reserva.laboratorio + ' el d\xEDa ' + reserva.fecha + ')');
 			
 			// TEMP
-			reserva.listo = true
+			reserva.listo = true;
 		});
 	};
 	
@@ -43,11 +50,13 @@ angular.module('reservasApp').controller('pedidosDeUnDiaCtrl',function($scope, $
 		servidor.rechazarReserva(reserva.id)
 		.success(function(data, status, headers, config) {
 			console.log('Rechazada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + reserva.laboratorio + ' el d\xEDa ' + reserva.fecha + ')');
-			
+			reserva.listo = true;
 		})
 		.error(function(data, status, headers, config) {
 			console.log('Se produjo un error al rechazar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + reserva.laboratorio + ' el d\xEDa ' + reserva.fecha + ')');
-
+			
+			// TEMP
+			reserva.listo = true;
 		});
 	};
 	

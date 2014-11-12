@@ -73,11 +73,19 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		},
 		
 		confirmarReserva: function(id) {
-			return $http.get( url + '/reservas/' + '?action=confirm');
+			return $http.get( url + '/reservas/' + id + '?action=confirm');
 		},
 		
 		rechazarReserva: function(id) {
-			return $http.get( url + '/reservas/' + '?action=reject');
+			return $http.get( url + '/reservas/' + id + '?action=reject');
+		},
+		
+		cancelarReserva: function(id) {
+			return $http.delete( url + '/reservas/' + id);
+		},
+		
+		obtenerDocentes: function() {
+			return $http.get( url + '/docentes');
 		}
 		
 	}

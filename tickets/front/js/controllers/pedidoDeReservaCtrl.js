@@ -1,8 +1,6 @@
 angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService){
 	var vistaAnterior = comunicadorEntreVistasService;
 	var ayuda = ayudaService;
-	var a = '';
-	var b = '';
 	var servidor = comunicadorConServidorService;
 	
     ayuda.actualizarExplicaciones();
@@ -11,56 +9,61 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	if(!vistaAnterior.getUsuario().inicioSesion){
 		$state.go('planillaReservas');
 	};
-
-	//********* Un poco de hardcodeo provisorio para lo que deberá otorgar la vistaAnterior **********
-	//Sólo se enviarán la franja clickeada y todas las libres contiguas.
-	$scope.franjasHorarias = [
-		{de: 10, a: 14, tipo: 'libre', clickeada: false},
-		{de: 14, a: 18, tipo: 'libre y coincide con su materia', clickeada: false},
-		{de: 18, a: 20, tipo: 'libre', clickeada: true}//Supongamos que quiere reservar un rato LUEGO de su clase por X motivo.
-	];
 	
-	// Tambien es necesario que la vistaAnterior pase el dia clickeado
-	$scope.dia = new Date();
-	// Y el laboratorio
-	$scope.laboratorio = 'Azul';
-	// Y la materia especificada
-	$scope.materia = 'Simulacion'
+	$scope.evento = vistaAnterior.getEvento();
 	
-	// *****************************************************************
+	// El rango libre es todo el tiempo libre contiguo al punto del click
+	$scope.rangoLibre = $scope.evento.horario; // PENDIENTE No esta llegando bien el pedazo libre clickeado
+	
+	$scope.materia = vistaAnterior.getMateria();
+	
+	if(vistaAnterior.getUsuario().esEncargado) {
+		$scope.docente = vistaAnterior.getUsuario().docenteElegido;
+	}
+	else {
+		$scope.docente = vistaAnterior.getUsuario();
+	};
 	
 	
-	// Para el rangeSlider, necesitamos que cada hora esté en formato 'minutos desde las 00:00 de ese dia'.
-	// Copio aca el ejemplo de arriba con ese formato.
+	/* No tenemos info sobre cursos
 	$scope.franjasHorariasEnMinutos = [
 		{de: 600, a: 840, tipo: 'libre', clickeada: false},
 		{de: 840, a: 1080, tipo: 'libre y coincide con su materia', clickeada: false},
 		{de: 1080, a: 1200, tipo: 'libre', clickeada: true}//Supongamos que quiere reservar un rato LUEGO de su clase por X motivo.
 	];
+	*/
 	
 	
 	$scope.minimoPermitido = function() {
-		return $scope.franjasHorariasEnMinutos[0].de;
+		//return $scope.franjasHorariasEnMinutos[0].de; No tenemos info sobre cursos
+		return $scope.rangoLibre.de;
 	};
 	
 	$scope.maximoPermitido = function() {
-		return $scope.franjasHorariasEnMinutos[$scope.franjasHorariasEnMinutos.length - 1].a;
+		//return $scope.franjasHorariasEnMinutos[$scope.franjasHorariasEnMinutos.length - 1].a; No tenemos info sobre cursos
+		return $scope.rangoLibre.a;
 	}
 	
+	/* No tenemos info sobre cursos
 	var franjaClickeada = $scope.franjasHorariasEnMinutos.filter(
 		function(unaFranja) {
 			return unaFranja.clickeada;
 		}
 	)[0];
+	*/
 	
-	var franjaSeleccionadaInicio = franjaClickeada.de;
-	var franjaSeleccionadaFin = franjaClickeada.a;
-	var franjaSeleccionadaTipo = franjaClickeada.tipo;
-	var franjaSeleccionadaClickeada = franjaClickeada.clickeada;
+	//var franjaSeleccionadaInicio = franjaClickeada.de; No tenemos info sobre cursos
+	var franjaSeleccionadaInicio = $scope.rangoLibre.de;
+	//var franjaSeleccionadaFin = franjaClickeada.a; No tenemos info sobre cursos
+	var franjaSeleccionadaFin = $scope.rangoLibre.a;
+	//var franjaSeleccionadaTipo = franjaClickeada.tipo; No tenemos info sobre cursos
+	var franjaSeleccionadaTipo = 'libre';
+	//var franjaSeleccionadaClickeada = franjaClickeada.clickeada; No tenemos info sobre cursos
+	var franjaSeleccionadaClickeada = true;
 	
 	$scope.franjaSeleccionada = {de: franjaSeleccionadaInicio, a: franjaSeleccionadaFin, tipo: franjaSeleccionadaTipo, clickeada: franjaSeleccionadaClickeada};
 	
-	
+	/* No tenemos info sobre cursos
 	$scope.laFranjaEstaPerfecta = false;
 	
 	$scope.eseHorarioNoEsPropio = function(franjaSeleccionada) {
@@ -92,15 +95,22 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	$scope.pareceQueNoJustifico = function() {
 		return !$scope.laFranjaEstaPerfecta && $scope.justificacionIngresada.length <= 2;
 	}
+	*/
 	
 	$scope.enviarSolicitud = function() {
 		
-		servidor.enviarNuevaReserva($scope.laboratorio, $scope.dia, $scope.franjaSeleccionada.de, $scope.franjaSeleccionada.a, 'solicitada')
+		servidor.enviarNuevaReserva($scope.evento.laboratorio, $scope.evento.fecha, $scope.franjaSeleccionada.de, $scope.franjaSeleccionada.a, 'solicitada')
 		.success(function(data, status, headers, config) {
+			console.log('Enviada la solicitud de reserva exitosamente' + ' (' + $scope.materia + ' en el lab ' + $scope.evento.laboratorio + ' el d\xEDa ' + $scope.evento.fecha + ')');
 			alert('Su solicitud fue recibida exitosamente!');
+			$state.go('planillaReservas');
 		})
 		.error(function(data, status, headers, config) {
+			console.log('Se produjo un error al enviar la solicitud de reserva' + ' (' + $scope.materia + ' en el lab ' + $scope.evento.laboratorio + ' el d\xEDa ' + $scope.evento.fecha + ')');
 			alert('Se produjo un error. Pruebe tocando Listo nuevamente.');
+			
+			// TEMP
+			$state.go('planillaReservas');
 		});
 	}
 
