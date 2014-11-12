@@ -6,7 +6,7 @@
 		</select>
 		días
 	</div>-->
-	<div id="especificacionDeMateria" ng-show='$parent.usuario.inicioSesion && !$parent.usuario.esEncargado'><!-- O bien, el encargado seleccionó un docente (falta hacer esa parte) -->
+	<div id="especificacionDeMateria" ng-show='$parent.usuario.inicioSesion'><!-- O bien, el encargado seleccionó un docente (falta hacer esa parte) -->
 		
 		<label class="nombre_campo">Especialidad: </label>
 		<select ng-model="especialidad" name="especialidad"
@@ -25,7 +25,7 @@
 	</div>
 </form>
 
-<div id='calendario' infinite-scroll="cargarMasDias(7)" ng-show="(!$parent.usuario.inicioSesion) || ($parent.usuario.inicioSesion && !$parent.usuario.esEncargado && materia)" >
+<div id='calendario' infinite-scroll="cargarMasDias(7)" ng-show="(!$parent.usuario.inicioSesion) || ($parent.usuario.esEncargado) || materia" >
 	<div id='columnaDeFechas'><!--Tamaño fijo para fechas-->
 		<div class='encabezado'>
 			<h3>Fecha</h3>

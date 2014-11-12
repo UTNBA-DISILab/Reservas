@@ -311,9 +311,19 @@ h4.fecha {
 	margin: 10px 0px 20px;
 }
 
-.horarioAclarado {
+.fechaAltaSlider {
 	font-size: small;
+}
+
+.fechaSolicitadaSlider {
 	text-align: center;
+	margin-top: 20px;
+}
+
+.horarioAclarado {
+	/*font-size: small;*/
+	text-align: center;
+	margin-bottom: 20px;
 }
 
 .solicitud {

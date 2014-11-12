@@ -1,6 +1,5 @@
 angular.module('reservasApp').service('valoresPorDefectoService',function(){
 
-    diasParaVerLaPlanilla = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
     diasMostradosIniciales = 7;
 	cuantosDiasMas = 7;
     horaDeApertura = 540; // 540 minutos desde las 00:00 = las 9 de la maniana
@@ -26,7 +25,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 
     //En cuanto se pruebe contra el servidor, el valor por defecto será una lista vacía.
     var reservas = [
-        {
+        /*
+		{
             laboratorio: 'Azul',
             docente: {nombre:'Juan', legajo: '5555555'},
             fecha: hoy,
@@ -50,39 +50,185 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
             fecha: pasadoManiana,
             horario: {de: 780, a: 1140}
         } // de 13 a 19
+		*/
+		
+		{
+            id: 250,
+			teacher_id: 31,
+			creation_date: 1415806603991,
+			subject: 'Simulacion',
+			laboratorio: 'Azul',
+            docente: {nombre:'Juan', legajo: '5555555'}, // TEMP
+			fecha: hoy,
+            horario: {de: 900, a: 1080}, // de 15 a 18
+            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
+			state: 'confirmada'
+        },
+		{
+            id: 251,
+			teacher_id: 32,
+			creation_date: 1415806604200,
+			subject: 'Operativos',
+			laboratorio: 'Azul',
+            docente: {nombre:'Pedro', legajo: '3333333'}, // TEMP
+			fecha: hoy,
+            horario: {de: 1140, a: 1260}, // de 19 a 21
+            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
+			state: 'confirmada'
+        },
+		{
+            id: 252,
+			teacher_id: 33,
+			creation_date: 1415806605321,
+			subject: 'Operativos',
+			laboratorio: 'Azul',
+            docente: {nombre:'Ignacio', legajo: '4444444'}, // TEMP
+			fecha: maniana,
+            horario: {de: 1140, a: 1260}, // de 19 a 21
+            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
+			state: 'confirmada'
+        },
+		{
+            id: 253,
+			teacher_id: 31,
+			creation_date: 1415806607640,
+			subject: 'Operativos',
+			laboratorio: 'Azul',
+            docente: {nombre:'Ignacio', legajo: '4444444'}, // TEMP
+			fecha: pasadoManiana,
+            horario: {de: 780, a: 1140}, // de 13 a 19
+            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
+			state: 'confirmada'
+        }
     ];
 
     //En cuanto se pruebe contra el servidor, habrá una única lista de pedidos por defecto, que estará vacía.
     var pedidosDeJuan = [
-        {laboratorio: 'Azul',
-        docente: {nombre:'Juan', legajo: '4444444'},
-        fecha: maniana,
-        horario: {de: 720, a: 1080}}, // de 12 a 18
-        {laboratorio: 'Azul',
-        docente: {nombre:'Juan', legajo: '4444444'},
-        fecha: pasadoManiana,
-        horario: {de: 1200, a: 1320}} // de 20 a 22
+        /*
+		{
+			laboratorio: 'Azul',
+			docente: {nombre:'Juan', legajo: '4444444'},
+			fecha: maniana,
+			horario: {de: 720, a: 1080}
+		}, // de 12 a 18
+        {
+			laboratorio: 'Azul',
+			docente: {nombre:'Juan', legajo: '4444444'},
+			fecha: pasadoManiana,
+			horario: {de: 1200, a: 1320}
+		} // de 20 a 22
+		*/
+		
+		{
+            id: 254,
+			teacher_id: 31,
+			creation_date: 1415806615432,
+			subject: 'Simulacion',
+			laboratorio: 'Azul',
+            docente: {nombre:'Juan', legajo: '5555555'}, // TEMP
+			fecha: maniana,
+            horario: {de: 720, a: 1080}, // de 12 a 18
+            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
+			state: 'solicitada'
+        },
+		{
+            id: 255,
+			teacher_id: 31,
+			creation_date: 1415806615908,
+			subject: 'Simulacion',
+			laboratorio: 'Azul',
+            docente: {nombre:'Juan', legajo: '5555555'}, // TEMP
+			fecha: pasadoManiana,
+            horario: {de: 1200, a: 1320}, // de 20 a 22
+            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
+			state: 'solicitada'
+        }
+		
     ];
     var pedidosDeTodos = [
-        {laboratorio: 'Azul',
-        docente: {nombre:'Juan', legajo: '4444444'},
-        fecha: maniana,
-        horario: {de: 720, a: 1080}}, // de 12 a 18
-        {laboratorio: 'Azul',
-        docente: {nombre:'Juan', legajo: '4444444'},
-        fecha: pasadoManiana,
-        horario: {de: 1200, a: 1320}}, // de 20 a 22
-        {laboratorio: 'Azul',
-        docente: {nombre:'Pedro', legajo: '4444444'},
-        fecha: maniana,
-        horario: {de: 900, a: 1140}}, // de 15 a 19
-        {laboratorio: 'Azul',
-        docente: {nombre:'Ignacio', legajo: '4444444'},
-        fecha: pasadoManiana,
-        horario: {de: 1140, a: 1260}} // de 19 a 21
+        /*
+		{
+			laboratorio: 'Azul',
+			docente: {nombre:'Juan', legajo: '4444444'},
+			fecha: maniana,
+			horario: {de: 720, a: 1080}
+		}, // de 12 a 18
+        {
+			laboratorio: 'Azul',
+			docente: {nombre:'Juan', legajo: '4444444'},
+			fecha: pasadoManiana,
+			horario: {de: 1200, a: 1320}
+		}, // de 20 a 22
+        {
+			laboratorio: 'Azul',
+			docente: {nombre:'Pedro', legajo: '4444444'},
+			fecha: maniana,
+			horario: {de: 900, a: 1140}
+		}, // de 15 a 19
+        {
+			laboratorio: 'Azul',
+			docente: {nombre:'Ignacio', legajo: '4444444'},
+			fecha: pasadoManiana,
+			horario: {de: 1140, a: 1260} // de 19 a 21
+		}
+		*/
+		
+		{
+            id: 254,
+			teacher_id: 31,
+			creation_date: 1415806615432,
+			subject: 'Simulacion',
+			laboratorio: 'Azul',
+            docente: {nombre:'Juan', legajo: '5555555'}, // TEMP
+			fecha: maniana,
+            horario: {de: 720, a: 1080}, // de 12 a 18
+            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
+			state: 'solicitada'
+        },
+		{
+            id: 255,
+			teacher_id: 31,
+			creation_date: 1415806615908,
+			subject: 'Simulacion',
+			laboratorio: 'Azul',
+            docente: {nombre:'Juan', legajo: '5555555'}, // TEMP
+			fecha: pasadoManiana,
+            horario: {de: 1200, a: 1320}, // de 20 a 22
+            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
+			state: 'solicitada'
+        },
+		{
+            id: 256,
+			teacher_id: 32,
+			creation_date: 1415806615908,
+			subject: 'Simulacion',
+			laboratorio: 'Azul',
+            docente: {nombre:'Pedro', legajo: '4444444'}, // TEMP
+			fecha: maniana,
+            horario: {de: 900, a: 1140}, // de 15 a 19
+            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
+			state: 'solicitada'
+        },
+		{
+            id: 257,
+			teacher_id: 33,
+			creation_date: 1415806615908,
+			subject: 'Simulacion',
+			laboratorio: 'Azul',
+            docente: {nombre:'Ignacio', legajo: '4444444'}, // TEMP
+			fecha: pasadoManiana,
+            horario: {de: 1140, a: 1260}, // de 19 a 21
+            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
+			state: 'solicitada'
+        }
+		
     ];
 	
 	var especialidades = [
+		{
+			nombre: "Homog\xE9neas",
+			materias: []
+		},
 		{
 			nombre: "Civil",
 			materias: []
@@ -139,9 +285,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
         getPedidosDeTodos: function(){
             return pedidosDeTodos;
         },
-        getDiasParaVerLaPlanilla: function(){
-            return diasParaVerLaPlanilla;
-        },
+		getPedidos: function(usuario) {
+			return usuario.esEncargado ? pedidosDeTodos : pedidosDeJuan;
+		},
         getDiasMostradosIniciales: function(){
             return diasMostradosIniciales;
         },

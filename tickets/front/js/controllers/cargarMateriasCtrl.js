@@ -24,17 +24,29 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 	
 	$scope.cargarMateria = function() {
 		
-		$scope.cargando = true;
-		servidor.cargarMateria($scope.materiaIngresada, $scope.especialidadSeleccionada)
+		var yaEstaCargada = function() {
+			return $scope.especialidades[$scope.especialidades.indexOf($scope.especialidadSeleccionada)].materias.filter(function(materia) {
+				return materia == $scope.materiaIngresada
+			}).length;
+		}
+		
+		if(!yaEstaCargada()) {
+			
+			$scope.cargando = true;
+			
+			servidor.cargarMateria($scope.materiaIngresada, $scope.especialidadSeleccionada)
 			.success(function(data, status, headers, config) {
 				
 				// Se agrega a la lista visible de materias la nueva
 				$scope.especialidades[$scope.especialidades.indexOf($scope.especialidadSeleccionada)].materias.push($scope.materiaIngresada);
 				
+				console.log('Se ha cargado exitosamente la materia ' + $scope.materiaIngresada + ' (' +  $scope.especialidadSeleccionada.nombre + ').');
+				
 				$scope.cargando = false;
 			})
 			.error(function(data, status, headers, config) {
 				//alert('Se produjo un error al cargar la materia ' + $scope.materiaIngresada + ' (' +  $scope.especialidadSeleccionada + ').');
+				console.log('Se produjo un error al cargar la materia ' + $scope.materiaIngresada + ' (' +  $scope.especialidadSeleccionada.nombre + ').');
 				
 				// TEMP
 				$scope.especialidades[$scope.especialidades.indexOf($scope.especialidadSeleccionada)].materias.push($scope.materiaIngresada);
@@ -44,6 +56,15 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 				$scope.cargando = false;
 				
 			});
+		}
+		else {
+			alert('Esa materia ya est\xE1 cargada.');
+		}
+		
+	};
+	
+	$scope.volver = function(){
+		$state.go('planillaReservas');
 	};
 	
 	$scope.obtenerMaterias();

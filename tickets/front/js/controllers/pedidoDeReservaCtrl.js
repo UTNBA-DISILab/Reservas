@@ -24,6 +24,8 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	$scope.dia = new Date();
 	// Y el laboratorio
 	$scope.laboratorio = 'Azul';
+	// Y la materia especificada
+	$scope.materia = 'Simulacion'
 	
 	// *****************************************************************
 	
@@ -94,12 +96,12 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	$scope.enviarSolicitud = function() {
 		
 		servidor.enviarNuevaReserva($scope.laboratorio, $scope.dia, $scope.franjaSeleccionada.de, $scope.franjaSeleccionada.a, 'solicitada')
-			.success(function(data, status, headers, config) {
-				alert('Su solicitud fue recibida exitosamente!');
-			})
-			.error(function(laboratoriosRecibidos, status, headers, config) {
-				alert('Se produjo un error. Pruebe tocando Listo nuevamente.');
-			});
+		.success(function(data, status, headers, config) {
+			alert('Su solicitud fue recibida exitosamente!');
+		})
+		.error(function(data, status, headers, config) {
+			alert('Se produjo un error. Pruebe tocando Listo nuevamente.');
+		});
 	}
 
 	$scope.volver = function(){
