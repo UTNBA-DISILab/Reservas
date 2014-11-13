@@ -31,7 +31,7 @@ class ReservationState extends DBObject {
 	function values() {
 		$reservation_id = $this->replaceNullValue($this->reservation->id);
 		$user_id = $this->replaceNullValue($this->user->id);
-		$datetime = $this->sqlDateTime($this->beginDate);
+		$datetime = $this->sqlDateTime($this->datetime);
 		$state = $this->replaceNullValue($this->state);
 		$description = $this->replaceNullValue($this->description, "");
 		return array($reservation_id, $user_id,

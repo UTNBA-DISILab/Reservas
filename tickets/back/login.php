@@ -112,7 +112,7 @@ if($user->accessLvl > 0) {
 	}
 }
 $sessionid = createSessionForUser($user);
-$response = array('id'=>$user->id,'access_level'=>$user->accessLvl, 'session'=>$sessionid);
+$response = array('id'=>$user->id,'access_level'=>$user->accessLvl, 'session_id'=>$sessionid);
 echo json_encode($response);
 
 $dbhandler->disconnect();
