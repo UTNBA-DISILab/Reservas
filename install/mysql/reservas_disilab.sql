@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2014 a las 13:43:37
+-- Tiempo de generación: 14-11-2014 a las 03:59:23
 -- Versión del servidor: 5.6.16
 -- Versión de PHP: 5.5.11
 
@@ -124,8 +124,8 @@ CREATE TABLE IF NOT EXISTS `terminals` (
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `glpi_user_id` int(11) DEFAULT NULL,
-  `sigma_user_id` int(11) DEFAULT NULL,
+  `glpi_user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `sigma_user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `surname` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `access_level` int(1) NOT NULL,
