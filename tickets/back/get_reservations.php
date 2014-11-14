@@ -93,8 +93,8 @@ $return = array();
 if(is_array($reservations)) {
 	foreach($reservations as &$reservation) {
 		$info = array("id"=>$reservation->id,
-					  "begin"=>$reservation->beginDate,
-					  "end"=>$reservation->endDate,
+					  "begin"=>$reservation->beginDate->getTimestamp(),
+					  "end"=>$reservation->endDate->getTimestamp(),
 					  "lab_id"=>$reservation->lab->id);
 		array_push($return, $info);
 		unset($reservation);
