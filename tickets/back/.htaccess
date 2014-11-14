@@ -1,10 +1,13 @@
 RewriteEngine On    # Turn on the rewriting engine
 	#login/logout
-RewriteRule    ^login/?$    login.php    [NC,L]
+RewriteRule    ^sigma_login/?$    login.php?from_sigma=true&$    [NC,L]	
+RewriteRule    ^glpi_login/?$    login.php?from_glpi=true&$    [NC,L]
 RewriteRule    ^logout/?$    logout.php    [NC,L]
     # Handle labs requests
 RewriteRule    ^labs/?$    get_labs.php    [NC,L]
     # Handle subjects requests
 RewriteRule    ^subjects/?$    get_subjects.php    [NC,L]
+    # Handle user requests
+RewriteRule    ^users/?$    get_users.php    [NC,L]
     # Handle reservation requests
 RewriteRule    ^reservations/?$    get_reservations.php    [NC,L]

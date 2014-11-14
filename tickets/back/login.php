@@ -23,12 +23,11 @@ $username = "";
 $password = "";
 $from_sigma = false;
 $from_glpi = false;
-
-if(isset($_GET["username"])) {
-	$username = $_GET["username"];
+if(isset($_SERVER["PHP_AUTH_USER"])) {
+	$username = $_SERVER["PHP_AUTH_USER"];
 }
-if(isset($_GET["password"])) {
-	$password = $_GET["password"];
+if(isset($_SERVER["PHP_AUTH_PW"])) {
+	$password = $_SERVER["PHP_AUTH_PW"];
 }
 if(isset($_GET["from_sigma"])) {
 	$from_sigma = $_GET["from_sigma"];
@@ -71,7 +70,7 @@ if($from_glpi) {
 }
 if($from_sigma) {
 	array_push($fields, 'sigma_user_id');
-	//array_push($params, $user_data["id"]);	//TODO get sigma id
+	//array_push($params, $user_data["name"]);	//TODO get sigma id
 }
 
 $user = new User();
