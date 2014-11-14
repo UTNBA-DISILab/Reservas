@@ -17,7 +17,7 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	
 	$scope.materia = vistaAnterior.getMateria();
 	
-	if(vistaAnterior.getUsuario().esEncargado) {
+	if(vistaAnterior.getUsuario().esEncargado && $scope.materia) {
 		$scope.docente = vistaAnterior.getUsuario().docenteElegido;
 	}
 	else {
