@@ -19,6 +19,7 @@ nothing
 include_once 'utils/autoloader.php';
 include_once 'utils/init_db.php';
 include_once 'utils/user_session.php';
+include_once 'model/rs_states.php';
 
 $myUser = getUserFromSession();
 if(!$myUser) {
@@ -118,8 +119,14 @@ $reservation->commit($dbhandler);
 //push reservation state
 $resState = new ReservationState();
 $resState->reservation = $reservation;
-$resState->state = 0;
-$resState->description = $description;
+if(isset($owner)) {
+	$resState->state = STATE_CONFIRMED;
+} else {
+	$resState->state = STATE_APPROVED_BY_OWNER;
+}
+if(isset($description)) {
+	$resState->description = $description;
+}
 $resState->user = $myUser;
 $resState->commit($dbhandler);
 
