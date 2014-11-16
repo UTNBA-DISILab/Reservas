@@ -5,48 +5,32 @@ request:
 POST
 
 params:
-- user_id
+None
 
 return:
 nothing or error string
 */
-include_once 'utils/autoloader.php';
-include_once 'utils/init_db.php';
-include_once 'utils/user_session.php';
+include_once 'utils/includes.php';
 
-$user_id = "";
-
-if(isset($_GET["user_id"])) {
-	$user_id = $_GET["user_id"];
-}
-
-if(empty($user_id)) {
-	returnError(500, "missing user_id");
+$myUser = getUserFromSession();
+if(!$myUser) {
+	returnError(401, "unauthorized");
 	return;
 }
 
-$dbhandler = getDatabase();
-$dbhandler->connect();
-
-$user = new User();
-$user->id = $user_id;
-$success = $user->load($dbhandler);
-if(!$success) {
-	returnError(401, "invalid user");
-	$dbhandler->disconnect();
-	return;
-}
 //check if we have to log this logout on the system
-if($user->accessLvl > 0) {
+if($myUser->accessLvl > 0) {
+	$dbhandler = getDatabase();
+	$dbhandler->connect();
 	// get ip
 	$ip = (getenv("HTTP_X_FORWARDED_FOR") ? getenv("HTTP_X_FORWARDED_FOR") : getenv("REMOTE_ADDR"));
 	$terminal = new Terminal();
 	$success = $terminal->loadUsingValues($dbhandler, array("lan_ip_address"), array($terminal->ipToNumber($ip)));
 	if($success) {
 		$session = new Session();
-		$session->user = $user;
+		$session->user = $myUser;
 		$session->terminal = $terminal;
-		$session->operation = 1; //logout code
+		$session->operation = SES_LOGOUT; //logout code
 		$ok = $session->commit($dbhandler);
 		if(!$ok) {
 			returnError(500, "server error");
@@ -54,8 +38,8 @@ if($user->accessLvl > 0) {
 			return;
 		}
 	}
+	$dbhandler->disconnect();
 }
-$dbhandler->disconnect();
 cleanSession();
 return;
 

@@ -14,10 +14,8 @@ params:
 return:
 {"id":<id>,"access_level":<int>} or error string if error
 */
-include_once 'utils/autoloader.php';
-include_once 'utils/init_db.php';
+include_once 'utils/includes.php';
 include_once 'utils/glpi_authorize.php';
-include_once 'utils/user_session.php';
 
 $username = "";
 $password = "";
@@ -101,7 +99,7 @@ if($user->accessLvl > 0) {
 		$session = new Session();
 		$session->user = $user;
 		$session->terminal = $terminal;
-		$session->operation = 0; //login code
+		$session->operation = SES_LOGIN; //login code
 		$ok = $session->commit($dbhandler);
 		if(!$ok) {
 			returnError(500, "server error");
@@ -112,7 +110,7 @@ if($user->accessLvl > 0) {
 }
 $sessionid = createSessionForUser($user);
 $response = array('id'=>$user->id,'access_level'=>$user->accessLvl, 'session_id'=>$sessionid);
-echo json_encode($response);
+echo json_encode(objToUTF8($response));
 
 $dbhandler->disconnect();
 return;

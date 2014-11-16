@@ -11,10 +11,7 @@ params:
 return:
 nothing
 */
-include_once 'utils/autoloader.php';
-include_once 'utils/init_db.php';
-include_once 'utils/user_session.php';
-include_once 'model/rs_states.php';
+include_once 'utils/includes.php';
 
 $myUser = getUserFromSession();
 if(!$myUser) {
@@ -65,7 +62,7 @@ if(!$lab->load($dbhandler)) {
 //push reservation state
 $resState = new ReservationState();
 $resState->reservation = $reservation;
-$resState->state = STATE_CLOSED;
+$resState->state = RES_STATE_CLOSED;
 if(isset($description) {
 	$resState->description = $description;
 }

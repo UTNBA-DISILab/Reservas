@@ -5,13 +5,18 @@ request:
 GET
 
 params:
-level
++ level
 
 return:
 [{id:<int>,name:<string>, surname:<string>}, ..] or error string
 */
-include_once 'utils/autoloader.php';
-include_once 'utils/init_db.php';
+include_once 'utils/includes.php';
+
+$myUser = getUserFromSession();
+if(!$myUser) {
+	returnError(401, "unauthorized");
+	return;
+}
 
 $acclvl = 0;
 if(isset($_GET["level"])) {
@@ -37,7 +42,7 @@ if(is_array($usrs)) {
 	}
 }
 
-echo json_encode($return);
+echo json_encode(objToUTF8($return));
 
 $dbhandler->disconnect();
 return;

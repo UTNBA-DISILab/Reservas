@@ -16,10 +16,7 @@ params:
 return:
 nothing
 */
-include_once 'utils/autoloader.php';
-include_once 'utils/init_db.php';
-include_once 'utils/user_session.php';
-include_once 'model/rs_states.php';
+include_once 'utils/includes.php';
 
 $myUser = getUserFromSession();
 if(!$myUser) {
@@ -120,9 +117,9 @@ $reservation->commit($dbhandler);
 $resState = new ReservationState();
 $resState->reservation = $reservation;
 if(isset($owner)) {
-	$resState->state = STATE_CONFIRMED;
+	$resState->state = RES_STATE_CONFIRMED;
 } else {
-	$resState->state = STATE_APPROVED_BY_OWNER;
+	$resState->state = RES_STATE_APPROVED_BY_OWNER;
 }
 if(isset($description)) {
 	$resState->description = $description;

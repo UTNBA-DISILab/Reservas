@@ -14,9 +14,13 @@ params:
 return:
 [{"id":<int>, "begin":<datestr>, "end":<datestr>, "lab_id":<int>}, ..] or error string
 */
-include_once 'utils/autoloader.php';
-include_once 'utils/init_db.php';
-include_once 'utils/user_session.php';
+include_once 'utils/includes.php';
+
+$myUser = getUserFromSession();
+if(!$myUser) {
+	returnError(401, "unauthorized");
+	return;
+}
 
 if(!isset($_GET["year"]) ||
    !isset($_GET["month"]) ||
@@ -101,7 +105,7 @@ if(is_array($reservations)) {
 	}
 }
 
-echo json_encode($return);
+echo json_encode(objToUTF8($return));
 
 $dbhandler->disconnect();
 return;
