@@ -393,9 +393,14 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				}
 				else {
 					if(momento.evento.tipo == 'libre'){
-						comunicador.setEvento(momento.evento);
-						comunicador.setMateria($scope.materia);
-						$state.go('pedidoDeReserva');
+						if($scope.materia) {
+							comunicador.setEvento(momento.evento);
+							comunicador.setMateria($scope.materia);
+							$state.go('pedidoDeReserva');
+						}
+						else {
+							alert('Antes de reservar debe especificar su materia.');
+						}
 					}
 					else {
 						alert('Inhabilitado');
