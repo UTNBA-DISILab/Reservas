@@ -1,20 +1,29 @@
 <div id="solicitudes_pendientes" ng-style='margen'>
 	<h3>Solicitudes Pendientes</h3>
-	<div class="solicitud" ng-repeat="franja in franjasHorariasSolicitadas">
+	<div class="reserva" ng-repeat="solicitud in solicitudes">
 	
-		<div range-slider min="510" max="1320" model-min="franja.de" model-max="franja.a" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>
+		<span class="fechaAltaSlider">Fecha y hora de alta de solicitud: {{nuevoDate(solicitud.creation_date).toLocaleString()}}</span>
+		<br>
+		<div class="fechaSolicitadaSlider">
+			<span>Fecha solicitada: {{solicitud.fecha.toLocaleDateString()}}</span>
+		</div>
+		<br>
+		<div range-slider min="510" max="1320" model-min="solicitud.horario.de" model-max="solicitud.horario.a" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>
 		
 		<div class="horarioAclarado">
-			<span>Horario deseado: desde las <strong>{{franja.de | hourMinFilter}}</strong> hasta las <strong>{{franja.a | hourMinFilter}}</strong>.</span>
+			<span>Horario solicitado: desde las <strong>{{solicitud.horario.de | hourMinFilter}}</strong> hasta las <strong>{{solicitud.horario.a | hourMinFilter}}</strong>.</span>
 		</div>
 		
-		<span>Docente: {{franja.docente}}</span>
+		<span>Laboratorio: {{solicitud.laboratorio}}</span>
 		<br>
-		<span>Materia: {{franja.materia}}</span>
+		<span>Docente: {{solicitud.docente.nombre}}</span>
+		<br>
+		<span>Materia: {{solicitud.subject}}</span>
 		<div id="opciones_solicitud">
-			<button class= 'botonDeFormulario' ng-click="">Confirmar</button>
-			<button class= 'botonDeFormulario' ng-click="">Contraofertar</button>
-			<button class= 'botonDeFormulario' ng-click="">Rechazar</button>
+			<span id="listo" ng-show="solicitud.listo">Listo!</span>
+			<button class= 'botonDeFormulario' ng-click="confirmar(solicitud)" ng-disabled="solicitud.listo">Confirmar</button>
+			<button class= 'botonDeFormulario' ng-click="" ng-disabled="{{true}}">Contraofertar</button>
+			<button class= 'botonDeFormulario' ng-click="rechazar(solicitud)" ng-disabled="solicitud.listo">Rechazar</button>
 		</div>
 	
 	</div>

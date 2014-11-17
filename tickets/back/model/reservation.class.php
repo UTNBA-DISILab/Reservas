@@ -46,7 +46,7 @@ class Reservation extends DBObject {
 		$begin_date = $this->sqlDateTime($this->beginDate);
 		$end_date = $this->sqlDateTime($this->endDate);
 		$lab_id = $this->replaceNullValue($this->lab->id);
-		$subject_id = $this->replaceNullValue($this->subject->$id);
+		$subject_id = $this->replaceNullValue($this->subject->id);
 		$students_amount = $this->studentsAmount;
 		return array($owner_id, $validator_id, $begin_date,
 					 $end_date, $lab_id, $subject_id, $students_amount);

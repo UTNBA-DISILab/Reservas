@@ -3,6 +3,8 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
     var evento = {};
     var dia = {};
     var usuario = {};
+	var materia = '';
+	var especialidad = {};
 
     var cosasDeUnaVista = {
 
@@ -23,6 +25,18 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
         },
         getUsuario: function(){
             return usuario;
+        },
+		setMateria: function(unaMateria){
+            materia = unaMateria;
+        },
+        getMateria: function(){
+            return materia;
+        },
+		setEspecialidad: function(unaEspecialidad){
+            especialidad = unaEspecialidad;
+        },
+        getEspecialidad: function(){
+            return especialidad;
         }
     };
 

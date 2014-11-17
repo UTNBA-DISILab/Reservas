@@ -1,21 +1,36 @@
 <form ng-style='margen'>
+	<!--Asi se hacia antes del infinite scroll
 	<div>
 		Mostrar: 
 		<select ng-model="diasSolicitados" ng-options="dia for dia in diasDesdeAhora" ng-change='actualizarPlanilla()'>
 		</select>
 		días
-	</div>
-	<div ng-show='$parent.usuario.inicioSesion && !$parent.usuario.esEncargado'><!-- O bien, el encargado seleccionó un docente (falta hacer esa parte) -->
-		Curso:
-		<select ng-model='cursoElegida' ng-options='curso.nombre for curso in cursos'>
-			<option value="">Elija un curso</option>
+	</div>-->
+	<div id="especificacionDeMateria" ng-show='$parent.usuario.inicioSesion'><!-- O bien, el encargado seleccionó un docente (falta hacer esa parte) -->
+		
+		<label class="nombre_campo" ng-show='$parent.usuario.esEncargado'>Docente: </label>
+		<select ng-model="$parent.usuario.docenteElegido" name="docente" ng-show='$parent.usuario.esEncargado'
+				ng-options="docente.nombre for docente in docentes">
 		</select>
+		
+		<label class="nombre_campo">Especialidad: </label>
+		<select ng-model="especialidad" name="especialidad" ng-change="actualizarEspecialidad()"
+				ng-options="especialidad.nombre for especialidad in especialidades">
+		</select>
+		
+		<label class="nombre_campo" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" >Materia: </label>
+		<select ng-model="materia" name="materia" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" ng-change="actualizarMateria()"
+				ng-options="materia for materia in especialidad.materias">
+		</select>
+		
+		<label class="nombre_campo" for="materia" ng-show="especialidad && !seConocenLasMateriasDe(especialidad)">Ingrese la materia: </label><input type="text" id="materiaIngresada" name="materia" ng-model="materia" maxlength="50" ng-show="especialidad && !seConocenLasMateriasDe(especialidad)" ng-change="actualizarMateria()"/>
+		
 	</div>
 	<div>
 	</div>
 </form>
 
-<div id='calendario' >
+<div id='calendario' infinite-scroll="cargarMasDias(7)">
 	<div id='columnaDeFechas'><!--Tamaño fijo para fechas-->
 		<div class='encabezado'>
 			<h3>Fecha</h3>

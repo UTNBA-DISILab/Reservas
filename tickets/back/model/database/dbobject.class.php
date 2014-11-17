@@ -266,8 +266,9 @@ class DBObject {
 	}
 	
 	function phpDateTime($sqlDateTime) {
-		$date = new DateTime();
-		$date->setTimestamp(strtotime( $sqlDateTime ));
+		$dt = new DateTime();
+		$dt->setTimestamp(strtotime( $sqlDateTime ));
+		return $dt;
 	}
 	
 	function ipToNumber($strIP) {

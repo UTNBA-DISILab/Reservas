@@ -1,20 +1,70 @@
-angular.module('reservasApp').controller('pedidosDeUnDiaCtrl',function($scope, $state, comunicadorEntreVistasService, ayudaService){
+angular.module('reservasApp').controller('pedidosDeUnDiaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
+	
 	var vistaAnterior = comunicadorEntreVistasService;
 	var ayuda = ayudaService;
+	var servidor = comunicadorConServidorService;
+	var porDefecto = valoresPorDefectoService;
+	
     ayuda.actualizarExplicaciones();
     $scope.margen = ayuda.getMargen();
+	
+	
 
 	if(!vistaAnterior.getUsuario().inicioSesion){
 		$state.go('planillaReservas');
-	};
-
+	};	
 	
-	// Para el rangeSlider, necesitamos que cada hora esté en formato 'minutos desde las 00:00 de ese dia'.
-	$scope.franjasHorariasSolicitadas = [
-		{docente: 'Cosme Fulanito', materia: 'Redes de Informacion', de: 600, a: 840},
-		{docente: 'Cosme Fulanito', materia: 'Redes de Informacion', de: 840, a: 1080},
-		{docente: 'Cosme Fulanito', materia: 'Redes de Informacion', de: 1080, a: 1200}
-	];
+	var evento = vistaAnterior.getEvento();	
+	if(evento.tipo == 'pedido') {
+		$scope.solicitudes = [];
+		$scope.solicitudes.push(evento);
+	}
+	else {
+		$scope.solicitudes = porDefecto.getPedidos(vistaAnterior.getUsuario());
+		//$scope.solicitudes = vistaAnterior.getPedidos()); deberia ser asi
+	}
+	
+	$scope.solicitudes.forEach(function(solicitud) {
+		solicitud.listo = false;
+	});
+	
+	$scope.nuevoDate = function(fecha) {
+		return new Date(fecha);
+	};
+	
+	$scope.confirmar = function(reserva) {
+		servidor.confirmarReserva(reserva.id)
+		.success(function(data, status, headers, config) {
+			console.log('Confirmada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + reserva.laboratorio + ' el d\xEDa ' + reserva.fecha + ')');
+			reserva.listo = true;
+		})
+		.error(function(data, status, headers, config) {
+			console.log('Se produjo un error al confirmar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + reserva.laboratorio + ' el d\xEDa ' + reserva.fecha + ')');
+			
+			// TEMP
+			reserva.listo = true;
+		});
+	};
+	
+	$scope.rechazar = function(reserva) {
+		servidor.rechazarReserva(reserva.id)
+		.success(function(data, status, headers, config) {
+			console.log('Rechazada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + reserva.laboratorio + ' el d\xEDa ' + reserva.fecha + ')');
+			reserva.listo = true;
+		})
+		.error(function(data, status, headers, config) {
+			console.log('Se produjo un error al rechazar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + reserva.laboratorio + ' el d\xEDa ' + reserva.fecha + ')');
+			
+			// TEMP
+			reserva.listo = true;
+		});
+	};
+	
+	
+	
+	$scope.volver = function(){
+		$state.go('planillaReservas');
+	};
 
 });
 	

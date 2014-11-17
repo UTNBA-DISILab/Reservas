@@ -8,7 +8,6 @@ function createSessionForUser(&$user) {
 	session_start();
 	$_SESSION["user_id"] = $user->id;
 	$ret = session_id();
-	session_write_close();
 	return $ret;
 }
 
@@ -22,18 +21,16 @@ function getUserFromSession() {
 	$dbh->connect();
 	
 	$user = new User();
-	$user->id = $_GET["user_id"];
-	$success = $user->load($dbhandler);
+	$user->id = $_SESSION["user_id"];
+	$success = $user->load($dbh);
 	if(!$success) {
 		return false;
 	}
 	return $user;
-	session_write_close();
 }
 
 function cleanSession() {
-	session_start();
-	unset($_SESSION["user_id"]);
-	session_write_close();
+	session_unset(); 
+	session_destroy();
 }
 ?>

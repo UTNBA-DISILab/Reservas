@@ -3,25 +3,25 @@
 	<form id='inicioDeSesion'>
 		<input type="text" class='ingresarTexto' ng-model="usuario.nombre" placeholder='Usuario SinAp' ng-hide='usuario.inicioSesion'></input>
 		<input type="text" class='ingresarTexto' ng-model="usuario.password" placeholder='Contraseña' ng-hide='usuario.inicioSesion'></input>
-		<button class= 'botonDeFormulario' ng-click="iniciarSesion()" ng-hide='usuario.inicioSesion'>Iniciar Sesión</button>
-		<button class= 'botonDeFormulario' ng-click="cerrarSesion()" ng-show='usuario.inicioSesion'>Cerrar Sesión</button>
+		<button class= 'botonDeFormulario' ng-click="iniciarSesion()" ng-hide='usuario.inicioSesion'>Iniciar Sesi&oacute;n</button>
+		<button class= 'botonDeFormulario' ng-click="cerrarSesion()" ng-show='usuario.inicioSesion'>Cerrar Sesi&oacute;n</button>
 	</form>
 </header>
 
 <form id='controlDePlanilla'>
 	<div>
-		<button class= 'botonDeFormulario' ng-show='usuario.inicioSesion && !usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irAlHistorial()">Historial de Reservas</button>
+		<button class="botonDeFormulario botonEncabezado" ng-show='usuario.inicioSesion && !usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irAlHistorial()">Historial de Reservas</button>
 	</div>
-	<!---<div>
-		<button class= 'botonDeFormulario' ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irALasSolicitudesPendientes()">Solicitudes Pendientes</button>
-	</div>-->
 	<div>
-		<button class= 'botonDeFormulario' ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irACargarMaterias()">Cargar Materias</button>
+		<button class="botonDeFormulario botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irALasSolicitudesPendientes()">Solicitudes Pendientes</button>
+	</div>
+	<div>
+		<button class="botonDeFormulario botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irACargarMaterias()">Cargar Materias</button>
 	</div>
 	<div class="checkbox"> 
 		<input type="checkbox" ng-model="mostrarAyuda" id="mostrarAyuda" name="mostrarAyudaCheck" ng-click="actualizarMargen()"/>
 		<label for="mostrarAyuda" name="mostrarAyudaCheck"> 
-			¿Mostrar ayuda? 
+			&iquest;Mostrar ayuda? 
 		</label> 
 	</div>
 </form>

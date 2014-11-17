@@ -1,6 +1,5 @@
-angular.module('reservasApp').service('comunicadorConServidorService',function($http, valoresPorDefectoService){	
+angular.module('reservasApp').service('comunicadorConServidorService',function($http){	
 	
-	var porDefecto = valoresPorDefectoService;
 	// Pendiente: pensar un nombre para el sistema ej:"reservas" pero que no se llame igual que uno de nuestros recursos HTTP.
 	// (porque sino puede quedar blah.edu.ar/reservas/reservas/bleh y no queda bien)
 	// Para hacer pruebas, acá y sólo acá es donde hay que poner la IP del servidor
@@ -8,130 +7,33 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 	// Nosotros NO vamos a tener un index.html porque el index es el de la página de sistemas que ya existe.
 	// Nuestra página principal será otra, ej disilab.html
 	// Y el favicon también es el que ya existe en la pag de sistemas, el nuestro hay que sacarlo.
-	var hoy = new Date();
-
-	var sePudieronTraerLaboratorios = false;
-	var sePudieronTraerReservas = false;
-	var sePudieronTraerPedidos = false;
-	var algoTuvoUnError = false;
-	var scope = {};
-
-	var transaccionFinalizada = function(){
-		return sePudieronTraerLaboratorios && sePudieronTraerPedidos && sePudieronTraerReservas && !algoTuvoUnError;
-	}
 	
 	return {
-		obtenerLaboratorios: function(laboratorios, nombresDeLaboratorios){
-			$http.get( url + '/labs')
-				.success(function(laboratoriosRecibidos, status, headers, config) {
-					// Esta devolución se llamará asincrónicamente cuando la respuesta esté disponible.
-					console.log('Obtenidos los laboratorios exitosamente');
-					laboratorios.splice(0,laboratorios.length);
-					laboratoriosRecibidos.forEach(function(laboratorio){
-						laboratorios.push(laboratorio);
-						nombresDeLaboratorios.push(laboratorio.nombre);
-					});
-					sePudieronTraerLaboratorios = true;
-					if(transaccionFinalizada()){
-						scope.insertarDatos();
-					}
-				})
-				.error(function(laboratoriosRecibidos, status, headers, config) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error status.
-					console.log('Se produjo un error al obtener los laboratorios');
-					//algoTuvoUnError = true; -> Esto va descomentado cuando probemos con el server.
-
-					//Esto es para pruebas. Sin esto actualizado se debería abortar,
-					//mostrando un mensaje de error en vez de lo que está acá abajo.
-					laboratorios.splice(0,laboratorios.length);
-					laboratoriosRecibidos = porDefecto.getLaboratorios();
-					laboratoriosRecibidos.forEach(function(laboratorio){
-						laboratorios.push(laboratorio);
-						nombresDeLaboratorios.push(laboratorio.nombre);
-					});
-					sePudieronTraerLaboratorios = true;
-					if(transaccionFinalizada()){
-						scope.insertarDatos();
-					};
-				});
+		obtenerLaboratorios: function(/*laboratorios, nombresDeLaboratorios*/){
+			return $http.get( url + '/labs');
 		},
 		
-		obtenerReservas: function(primerDiaSolicitado, cantDiasSolicitados, reservas){
+		obtenerReservas: function(primerDiaSolicitado, cantDiasSolicitados){
 			
 			var from = primerDiaSolicitado.getTime() - ( primerDiaSolicitado.getTime() % (1000 * 60 * 60 * 24) ) // las 00:00 de ese dia
 			var to = from + cantDiasSolicitados * (24 * 60 * 60 * 1000);
 
 			//return $http.get( url + '/reservas/' + primerDiaSolicitado.getFullYear() + '/' + ('0' + (primerDiaSolicitado.getMonth()+1)).slice(-2) + '/' + ('0' + primerDiaSolicitado.getDate()).slice(-2) + '?cant_dias=' + cantDiasSolicitados);
-			$http.get( url + '/reservas/' + '?from=' + from + '&to=' + to)
-				.success(function(reservasRecibidas, status, headers, config) {
-					// this callback will be called asynchronously
-					// when the response is available	
-					console.log('Obtenidas las reservas en ' + primerDiaSolicitado + ' y en los ' + cantDiasSolicitados + ' dias siguientes exitosamente');
-					
-					reservas.splice(0,reservas.length);
-					reservasRecibidas.forEach(function(reserva){reservas.push(reserva)});
-					sePudieronTraerReservas = true;
-				})
-				.error(function(reservasRecibidas, status, headers, config) {
-					console.log('Se produjo un error al obtener las reservas en ' + primerDiaSolicitado + ' y en los ' + cantDiasSolicitados + ' dias siguientes' );
-					//algoTuvoUnError = true; -> Esto va descomentado cuando probemos con el server.
-
-					//Esto es para pruebas. Sin esto actualizado se debería abortar,
-					//mostrando un mensaje de error en vez de lo que está acá abajo.
-					reservasRecibidas = porDefecto.getReservas();
-					reservas.splice(0,reservas.length);
-					reservasRecibidas.forEach(function(reserva){reservas.push(reserva)});
-					sePudieronTraerReservas = true;
-					if(transaccionFinalizada()){
-						scope.insertarDatos();
-					};
-				});
+			return $http.get( url + '/reservas/' + '?from=' + from + '&to=' + to);
+			// El server NO debe leer la cookie. Siempre debe traer TODAS las reservas de la base
+			// siempre en el rango de timestamps mandados.
 		},
 
-		// TEMP Pendiente: unificar con obtenerReservas, usando el estado de la reserva. Si es 'confirmada' es reserva, si no es pedido.
-		obtenerPedidosSegun: function (primerDiaSolicitado, cantDiasSolicitados, usuario, pedidosDeReservas) {
+		obtenerPedidos: function (primerDiaSolicitado, cantDiasSolicitados) {
 			
-			// el parametro usuario no se usa; el usuario logueado se obtiene de la cookie.
-			//Pero mientras tanto:
-			if(usuario.inicioSesion){
-				var from = primerDiaSolicitado.getTime() - ( primerDiaSolicitado.getTime() % (1000 * 60 * 60 * 24) ) // las 00:00 de ese dia
-				var to = from + cantDiasSolicitados * (24 * 60 * 60 * 1000);
+			var from = primerDiaSolicitado.getTime() - ( primerDiaSolicitado.getTime() % (1000 * 60 * 60 * 24) ) // las 00:00 de ese dia
+			var to = from + cantDiasSolicitados * (24 * 60 * 60 * 1000);
 				
-				$http.get( url + '/reservas/' + '?from=' + from + '&to=' + to + '&solo_a_confirmar=true')
-					.success(function(pedidosRecibidos, status, headers, config) {
-						console.log('Obtenidos los pedidos en ' + primerDiaSolicitado + ' y en los ' + cantDiasSolicitados + ' dias siguientes exitosamente');
-						pedidosDeReservas.splice(0,pedidosDeReservas.length);
-						pedidosRecibidos.forEach(function(reserva){pedidosDeReservas.push(pedidoDeReserva)});
-						sePudieronTraerPedidos = true;
-						if(transaccionFinalizada()){
-							scope.insertarDatos();
-						};
-					})
-				
-					.error(function(pedidosRecibidos, status, headers, config) {
-						console.log('Se produjo un error al obtener los pedidos en ' + primerDiaSolicitado + ' y en los ' + cantDiasSolicitados + ' dias siguientes' );
-						//algoTuvoUnError = true; -> Esto va descomentado cuando probemos con el server.
-
-						//Esto es para pruebas. Sin esto actualizado se debería abortar,
-						//mostrando un mensaje de error en vez de lo que está acá abajo.
-						var pedidosDeJuan = porDefecto.getPedidosDeJuan();
-						var pedidosDeTodos = porDefecto.getPedidosDeTodos();
-						pedidosRecibidos = usuario.esEncargado ? pedidosDeTodos : pedidosDeJuan;
-						pedidosDeReservas.splice(0,pedidosDeReservas.length);
-						pedidosRecibidos.forEach(function(pedidoDeReserva){pedidosDeReservas.push(pedidoDeReserva)});
-						sePudieronTraerPedidos = true;
-						if(transaccionFinalizada()){
-							scope.insertarDatos();
-						};
-					});
-			} else {
-				pedidosDeReservas.splice(0,pedidosDeReservas.length);
-				sePudieronTraerPedidos = true;
-				if(transaccionFinalizada()){
-					scope.insertarDatos();
-				};
-			};			
+			return $http.get( url + '/reservas/' + '?from=' + from + '&to=' + to + '&solo_a_confirmar=true');
+			// El server debe leer la cookie. Si no hay usuario logueado, devuelve array vacio.
+			// Si hay usuario y es docente, trae sus reservas solicitadas.
+			// Si hay usuario y es encargado, trae TODAS las reservas solicitadas
+			// siempre en el rango de timestamps mandados.
 		},
 
 		obtenerCursosDelDocente: function(cantDiasSolicitados, usuario){
@@ -144,16 +46,48 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			return $http.get( url + '/materias');
 		},
 		
-		enviarNuevaReserva: function(reserva) {
+		cargarMateria: function(nombre, especialidad) {
 			
+			var materiaNueva = {};
+			
+			materiaNueva.nombre = nombre;
+			materiaNueva.especialidad = especialidad;
+			
+			return $http.post( url + '/materias', materiaNueva);
 		},
-		inicializar: function(scopeActual){
-			scope = scopeActual;
-			sePudieronTraerLaboratorios = false;
-			sePudieronTraerPedidos = false;
-			sePudieronTraerReservas = false;
-			algoTuvoUnError = false;
+		
+		enviarNuevaReserva: function(laboratorio, dia, minutosInicio, minutosFin, estado) {
+			
+			var timestampMedianoche = dia.getTime() - ( dia.getTime() % (1000 * 60 * 60 * 24) ) // las 00:00 de ese dia
+			
+			var reservaNueva = {};
+			
+			reservaNueva.creation_date = new Date();
+			reservaNueva.laboratorio = laboratorio;
+			reservaNueva.from = timestampMedianoche + (minutosInicio * 60 * 1000);
+			reservaNueva.to = timestampMedianoche + (minutosFin * 60 * 1000);
+			reservaNueva.state = estado;
+			// el teacher_id lo ponemos acá o lo saca el server viendo la cookie?
+			
+			return $http.post( url + '/reservas', reservaNueva);
+		},
+		
+		confirmarReserva: function(id) {
+			return $http.get( url + '/reservas/' + id + '?action=confirm');
+		},
+		
+		rechazarReserva: function(id) {
+			return $http.get( url + '/reservas/' + id + '?action=reject');
+		},
+		
+		cancelarReserva: function(id) {
+			return $http.delete( url + '/reservas/' + id);
+		},
+		
+		obtenerDocentes: function() {
+			return $http.get( url + '/docentes');
 		}
+		
 	}
 
 })

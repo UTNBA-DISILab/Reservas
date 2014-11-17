@@ -5,10 +5,10 @@ request:
 GET
 
 params:
-none
++ level
 
 return:
-[{name:<string>, code:<string>}, ..] or error string
+[{id:<int>,name:<string>, surname:<string>}, ..] or error string
 */
 include_once 'utils/includes.php';
 
@@ -18,18 +18,27 @@ if(!$myUser) {
 	return;
 }
 
+$acclvl = 0;
+if(isset($_GET["level"])) {
+	$acclvl = $_GET["level"];
+}
+
+$fields = array("access_level");
+$values = array($acclvl);
+
 $dbhandler = getDatabase();
 $dbhandler->connect();
 
-$subjects = Subject::listAll($dbhandler);
+$usrs = User::listAll($dbhandler, $fields, $values);
+
 $return = array();
-if(is_array($subjects)) {
-	foreach($subjects as &$subject) {
-		$info = array("id"=>$subject->id,
-					  "name"=>$subject->name,
-					  "code"=>$subject->code);
+if(is_array($usrs)) {
+	foreach($usrs as &$usr) {
+		$info = array("id"=>$usr->id,
+					  "name"=>$usr->name,
+					  "surname"=>$usr->surname);
 		array_push($return, $info);
-		unset($subject);
+		unset($usr);
 	}
 }
 

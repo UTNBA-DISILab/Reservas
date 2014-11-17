@@ -10,8 +10,13 @@ none
 return:
 [{name:<string>, location:<string>, size:<string>, ..}, ..] or error string
 */
-include_once 'utils/autoloader.php';
-include_once 'utils/init_db.php';
+include_once 'utils/includes.php';
+
+$myUser = getUserFromSession();
+if(!$myUser) {
+	returnError(401, "unauthorized");
+	return;
+}
 
 $dbhandler = getDatabase();
 $dbhandler->connect();

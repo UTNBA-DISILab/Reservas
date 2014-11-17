@@ -4,7 +4,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     var ayuda = ayudaService;
     $scope.$state = $state;
 
-    $scope.usuario = {nombre: '', password: '', inicioSesion: false, esEncargado: false};
+    $scope.usuario = {id: '', nombre: '', password: '', inicioSesion: false, esEncargado: false};
 
     comunicador.setUsuario($scope.usuario);
 
@@ -36,7 +36,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
         if (encargados.filter(function(nombre){return nombre == $scope.usuario.nombre}).length) {
             $scope.usuario.esEncargado = true;
             $scope.usuario.inicioSesion = true;
-            $scope.usuario.docenteElegido = '';//Esto es para después hacer reservas y demás por ellos.
+            $scope.usuario.docenteElegido = {};//Esto es para después hacer reservas y demás por ellos.
         }
         else {
             if (docentes.filter(function(nombre){return nombre == $scope.usuario.nombre}).length) {
@@ -47,7 +47,8 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
         ayuda.actualizarExplicaciones();
     };
     $scope.cerrarSesion = function(){
-        $scope.usuario.nombre = '';
+        $scope.usuario.id = '';
+		$scope.usuario.nombre = '';
         $scope.usuario.password = '';
         $scope.usuario.inicioSesion = false;
         $scope.usuario.esEncargado = false;
@@ -58,7 +59,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
         $state.go('reservasAnteriores');
     };
 	$scope.irALasSolicitudesPendientes = function(){
-        $state.go('pedidosDeUnDia'); // PENDIENTE
+        $state.go('pedidosDeUnDia');
     };
 	$scope.irACargarMaterias = function(){
         $state.go('cargarMaterias');

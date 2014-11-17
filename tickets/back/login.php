@@ -14,21 +14,18 @@ params:
 return:
 {"id":<id>,"access_level":<int>} or error string if error
 */
-include_once 'utils/autoloader.php';
-include_once 'utils/init_db.php';
+include_once 'utils/includes.php';
 include_once 'utils/glpi_authorize.php';
-include_once 'utils/user_session.php';
 
 $username = "";
 $password = "";
 $from_sigma = false;
 $from_glpi = false;
-
-if(isset($_GET["username"])) {
-	$username = $_GET["username"];
+if(isset($_SERVER["PHP_AUTH_USER"])) {
+	$username = $_SERVER["PHP_AUTH_USER"];
 }
-if(isset($_GET["password"])) {
-	$password = $_GET["password"];
+if(isset($_SERVER["PHP_AUTH_PW"])) {
+	$password = $_SERVER["PHP_AUTH_PW"];
 }
 if(isset($_GET["from_sigma"])) {
 	$from_sigma = $_GET["from_sigma"];
@@ -71,7 +68,7 @@ if($from_glpi) {
 }
 if($from_sigma) {
 	array_push($fields, 'sigma_user_id');
-	//array_push($params, $user_data["id"]);	//TODO get sigma id
+	//array_push($params, $user_data["name"]);	//TODO get sigma id
 }
 
 $user = new User();
@@ -102,7 +99,7 @@ if($user->accessLvl > 0) {
 		$session = new Session();
 		$session->user = $user;
 		$session->terminal = $terminal;
-		$session->operation = 0; //login code
+		$session->operation = SES_LOGIN; //login code
 		$ok = $session->commit($dbhandler);
 		if(!$ok) {
 			returnError(500, "server error");
@@ -112,8 +109,8 @@ if($user->accessLvl > 0) {
 	}
 }
 $sessionid = createSessionForUser($user);
-$response = array('id'=>$user->id,'access_level'=>$user->accessLvl, 'session'=>$sessionid);
-echo json_encode($response);
+$response = array('id'=>$user->id,'access_level'=>$user->accessLvl, 'session_id'=>$sessionid);
+echo json_encode(objToUTF8($response));
 
 $dbhandler->disconnect();
 return;
