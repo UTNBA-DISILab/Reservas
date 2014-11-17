@@ -49,7 +49,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     $scope.horaDeCierre = porDefecto.getHoraDeCierre();
     //ToDo: Ponerles la capacidad de personas para poder filtrar según cantidad de alumnos
 
-    var elHorarioDelPrimeroEsAnterior = function(momento1, momento2){return momento1.horario.de - momento2.horario.de;}
+    var elHorarioDelPrimeroEsAnterior = function(franja1, franja2){return franja1.horario.de - franja2.horario.de;}
 
     var esElMismoDia = function(unDia, otroDia){
 		return (unDia.getDate() == otroDia.getDate() 
@@ -75,6 +75,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			libre.tipo = 'libre';
 			meterEnElCalendario(libre);
 		});
+		unificarFranjas();
 	};
 	
 	var meterEnElCalendario = function(eventoCompleto){
@@ -90,41 +91,53 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			return esElMismoDia(unDia.fecha, eventoCompleto.fecha);
         })[0];
 
-        var momentoNuevo = {horario: {de: eventoCompleto.horario.de, a: eventoCompleto.horario.a}, evento: eventoCompleto};
+        var franjaNuevo = {horario: {de: eventoCompleto.horario.de, a: eventoCompleto.horario.a}, eventos: [eventoCompleto]};
 
         var insertadoCompletamenteODesechado = false;
         
         while(!insertadoCompletamenteODesechado){
-            if(momentoNuevo.horario.de >= momentoNuevo.evento.horario.a){
+            if(franjaNuevo.horario.de >= franjaNuevo.eventos[0].horario.a){
                     insertadoCompletamenteODesechado = true;
                 }
             else {
-                var momentosSuperpuestosAlPrincipio = dia.momentos.filter(function(momento){
-                    return momento.horario.de <= momentoNuevo.horario.de && momento.horario.a > momentoNuevo.horario.de});
-
-                if(momentosSuperpuestosAlPrincipio.length){//El comienzo del momentoNuevo será después de que el otro termine.    
-                    var momento = momentosSuperpuestosAlPrincipio[0];
-                    momentoNuevo.horario.de = momento.horario.a;
+                var franjaSuperpuestoAlPrincipio = dia.franjas.filter(function(franja){
+                	return franja.horario.de <= franjaNuevo.horario.de && franja.horario.a > franjaNuevo.horario.de})[0];
+                if(franjaSuperpuestoAlPrincipio){//El comienzo del franjaNuevo será después de que el otro termine.
+                    franjaNuevo.horario.de = franjaSuperpuestoAlPrincipio.horario.a;
                 } else {
-                    var momentosSuperpuestosMasAdelante = dia.momentos.filter(function(momento){
-                            return momento.horario.de > momentoNuevo.horario.de && momento.horario.de < momentoNuevo.horario.a
-                        }).sort(elHorarioDelPrimeroEsAnterior);
-                    if(momentosSuperpuestosMasAdelante.length){//Se deberá partir el momentoNuevo en dos: Uno antes de la superposición y otro después.
-                        var momento = momentosSuperpuestosMasAdelante[0];
-                        var momentoNuevoCortado = {horario: {de: momentoNuevo.horario.de, a: momento.horario.de}, evento: momentoNuevo.evento};
+                    var franjaSuperpuestoMasAdelante = dia.franjas.filter(function(franja){
+                            return franja.horario.de > franjaNuevo.horario.de && franja.horario.de < franjaNuevo.horario.a
+                        }).sort(elHorarioDelPrimeroEsAnterior)[0];
+                    if(franjaSuperpuestoMasAdelante){//Se deberá partir el franjaNuevo en dos: Uno antes de la superposición y otro después.
+                        var franjaNuevoCortado = {horario: {de: franjaNuevo.horario.de, a: franjaSuperpuestoMasAdelante.horario.de}, eventos: [franjaNuevo.eventos[0]]};
+
+                        dia.franjas.push(franjaNuevoCortado);
+                        dia.franjas = dia.franjas.sort(elHorarioDelPrimeroEsAnterior);
         
-                        dia.momentos.push(momentoNuevoCortado);
-                        dia.momentos = dia.momentos.sort(elHorarioDelPrimeroEsAnterior);
-        
-                        momentoNuevo.horario.de = momento.horario.a;
+                        franjaNuevo.horario.de = franjaSuperpuestoMasAdelante.horario.a;
                     } else {
-                        dia.momentos.push(momentoNuevo);
-                        dia.momentos = dia.momentos.sort(elHorarioDelPrimeroEsAnterior);
+                        dia.franjas.push(franjaNuevo);
+                        dia.franjas = dia.franjas.sort(elHorarioDelPrimeroEsAnterior);
                         insertadoCompletamenteODesechado = true;
                     }
                 }
             }
         }
+    };
+
+    var unificarFranjas = function(){
+    	
+    	$scope.laboratorios.forEach(function(laboratorio){
+    		laboratorio.dias.forEach(function(dia){
+    			for(numeroDefranja = 0; numeroDefranja < dia.franjas.length - 1; numeroDefranja++){
+	                if(dia.franjas[numeroDefranja].eventos[0].tipo == dia.franjas[numeroDefranja + 1].eventos[0].tipo){
+	                	dia.franjas[numeroDefranja].eventos = dia.franjas[numeroDefranja].eventos.concat(dia.franjas[numeroDefranja + 1].eventos);
+	                	dia.franjas[numeroDefranja].horario.a = dia.franjas[numeroDefranja + 1].horario.a;
+	                	dia.franjas.splice(numeroDefranja + 1, 1);
+	                }
+            	}
+    		})
+    	});
     };
     
     var generarPosiblesDiasLibres = function(){
@@ -307,7 +320,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
                 var fecha = new Date();
 				//var fecha = $scope.primerDiaSolicitado;
                 fecha.setDate(fecha.getDate() + numeroDeDia);
-				laboratorio.dias.push({fecha: fecha, momentos: []});
+				laboratorio.dias.push({fecha: fecha, franjas: []});
             }
         });
 
@@ -331,25 +344,25 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     };
 
 
-    $scope.estiloSegun = function(momentoAnterior, momento, momentoPosterior){
+    $scope.estiloSegun = function(franjaAnterior, franja, franjaPosterior){
         
         if($scope.usuario.esEncargado){
-            if (momento.evento.tipo == 'reserva'){color = '#800080';
+            if (franja.eventos[0].tipo == 'reserva'){color = '#800080';
             } else {
-                if(momento.evento.tipo == 'pedido'){
+                if(franja.eventos[0].tipo == 'pedido'){
                     color = '#ff00ff';
                 } else {
                     color = '#e0ffff';}
             }
         } else {
-            if (momento.evento.tipo == 'reserva'){
-                if($scope.usuario.inicioSesion && momento.evento.docente.nombre == $scope.usuario.nombre) {
+            if (franja.eventos[0].tipo == 'reserva'){
+                if($scope.usuario.inicioSesion && franja.eventos[0].docente.nombre == $scope.usuario.nombre) {
                     color = '#800080';
                 } else {
                     color = '#888888';
                 }
             } else {
-                if(momento.evento.tipo == 'pedido'){
+                if(franja.eventos[0].tipo == 'pedido'){
                     color = '#ff00ff'
                 } else {
                     color = '#e0ffff';
@@ -363,38 +376,38 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         //Falta ver si tiene anterior o posterior del mismo tipo, para cambiar el redondeo de bordes
 
         //tamaño de la franja
-        var altura = 100*(momento.horario.a - momento.horario.de)/($scope.horaDeCierre - $scope.horaDeApertura);
+        var altura = 100*(franja.horario.a - franja.horario.de)/($scope.horaDeCierre - $scope.horaDeApertura);
 
         return {'height': altura.toString() + '%', 'background-color': color}
     }
 
-    $scope.mostrarElMomento = function(momento){
+    $scope.mostrarLaFranja = function(franja){
         if($scope.usuario.inicioSesion){
-            if(momento.evento.tipo == 'reserva' && ($scope.usuario.esEncargado || momento.evento.docente.nombre == $scope.usuario.nombre)){
-                comunicador.setEvento(momento.evento);
-				comunicador.setMateria(momento.evento.subject);
+            if(franja.eventos[0].tipo == 'reserva' && ($scope.usuario.esEncargado || franja.eventos[0].docente.nombre == $scope.usuario.nombre)){
+                comunicador.setEvento(franja.eventos[0]);
+				comunicador.setMateria(franja.eventos[0].subject);
                 $state.go('cancelarReserva');
             }
 			else {
 			
-				if(momento.evento.tipo == 'pedido'){
+				if(franja.eventos[0].tipo == 'pedido'){
 					if($scope.usuario.esEncargado) {
-						comunicador.setEvento(momento.evento);
-						comunicador.setMateria(momento.evento.subject);
+						comunicador.setEvento(franja.eventos[0]);
+						comunicador.setMateria(franja.eventos[0].subject);
 						$state.go('pedidosDeUnDia');
 					}
 					else {
-						if(momento.evento.docente.nombre == $scope.usuario.nombre) {
-							comunicador.setEvento(momento.evento);
-							comunicador.setMateria(momento.evento.subject);
+						if(franja.eventos[0].docente.nombre == $scope.usuario.nombre) {
+							comunicador.setEvento(franja.eventos[0]);
+							comunicador.setMateria(franja.eventos[0].subject);
 							$state.go('cancelarReserva');
 						}
 					}
 				}
 				else {
-					if(momento.evento.tipo == 'libre'){
+					if(franja.eventos[0].tipo == 'libre'){
 						if($scope.materia) {
-							comunicador.setEvento(momento.evento);
+							comunicador.setEvento(franjas[0].evento);
 							comunicador.setMateria($scope.materia);
 							$state.go('pedidoDeReserva');
 						}
@@ -410,11 +423,11 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
                 
         }
         else {
-            if(momento.evento.tipo == 'reserva'){
-				alert('Reservado para la materia: ' + momento.evento.subject);
+            if(franja.eventos[0].tipo == 'reserva'){
+				alert('Reservado para la materia: ' + franja.eventos[0].subject);
             }
             else {
-                if(momento.evento.tipo == 'libre'){
+                if(franja.eventos[0].tipo == 'libre'){
                     alert('Libre, a\xFAn no se asign\xF3 a ning\xFAn docente' + '\nSi desea hacer una reserva, inicie sesi\xF3n.');
                 }
                 else {

@@ -70,7 +70,7 @@
 				</modal-dialog>
 			</div>
 			<div class='diaDeLaboratorio' ng-repeat='dia in laboratorio.dias'>
-				<button class='momento' ng-style='estiloSegun(dia.momentos[$index-1], momento, dia.momentos[$index+1])' ng-repeat='momento in dia.momentos' ng-click='mostrarElMomento(momento)'>
+				<button class='franja' ng-style='estiloSegun(dia.franjas[$index-1], franja, dia.franjas[$index+1])' ng-repeat='franja in dia.franjas' ng-click='mostrarLaFranja(franja)'>
 				</button>
 			</div>
 		</div>
