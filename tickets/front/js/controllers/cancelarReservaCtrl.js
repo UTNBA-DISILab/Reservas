@@ -9,8 +9,7 @@ angular.module('reservasApp').controller('cancelarReservaCtrl',function($scope, 
 		$state.go('planillaReservas');
 	};
 
-	$scope.reserva = vistaAnterior.getEvento();
-	
+	$scope.reserva = vistaAnterior.getEventos()[0];
 	
 	$scope.cancelarReserva = function() {
 		var seguro = confirm('Esta reserva se eliminar\xE1 del sistema. Desea continuar?');

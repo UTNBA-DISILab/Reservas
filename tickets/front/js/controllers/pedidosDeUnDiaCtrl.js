@@ -14,10 +14,9 @@ angular.module('reservasApp').controller('pedidosDeUnDiaCtrl',function($scope, $
 		$state.go('planillaReservas');
 	};	
 	
-	var evento = vistaAnterior.getEvento();	
-	if(evento.tipo == 'pedido') {
-		$scope.solicitudes = [];
-		$scope.solicitudes.push(evento);
+	var eventos = vistaAnterior.getEventos();	
+	if(eventos[0].tipo == 'pedido') {
+		$scope.solicitudes = eventos;
 	}
 	else {
 		$scope.solicitudes = porDefecto.getPedidos(vistaAnterior.getUsuario());

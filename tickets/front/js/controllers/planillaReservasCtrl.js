@@ -23,13 +23,13 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     var comunicador = comunicadorEntreVistasService;
     $scope.usuario = comunicador.getUsuario();
-	$scope.materia = comunicador.getMateria();
 	$scope.especialidad = comunicador.getEspecialidad();
 	
 	$scope.actualizarEspecialidad = function() {
 		comunicador.setEspecialidad($scope.especialidad);
 	};
 	
+	$scope.materia = "";
 	$scope.actualizarMateria = function() {
 		comunicador.setMateria($scope.materia);
 	};
@@ -382,24 +382,22 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     }
 
     $scope.mostrarLaFranja = function(franja){
+    	//Cada franja tiene varios eventos, todos del mismo tipo.
         if($scope.usuario.inicioSesion){
             if(franja.eventos[0].tipo == 'reserva' && ($scope.usuario.esEncargado || franja.eventos[0].docente.nombre == $scope.usuario.nombre)){
-                comunicador.setEvento(franja.eventos[0]);
-				comunicador.setMateria(franja.eventos[0].subject);
+                comunicador.setEventos(franja.eventos);
                 $state.go('cancelarReserva');
             }
 			else {
 			
 				if(franja.eventos[0].tipo == 'pedido'){
 					if($scope.usuario.esEncargado) {
-						comunicador.setEvento(franja.eventos[0]);
-						comunicador.setMateria(franja.eventos[0].subject);
+						comunicador.setEventos(franja.eventos);
 						$state.go('pedidosDeUnDia');
 					}
 					else {
 						if(franja.eventos[0].docente.nombre == $scope.usuario.nombre) {
-							comunicador.setEvento(franja.eventos[0]);
-							comunicador.setMateria(franja.eventos[0].subject);
+							comunicador.setEventos(franja.eventos);
 							$state.go('cancelarReserva');
 						}
 					}
@@ -407,8 +405,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				else {
 					if(franja.eventos[0].tipo == 'libre'){
 						if($scope.materia) {
-							comunicador.setEvento(franjas[0].evento);
-							comunicador.setMateria($scope.materia);
+							franja.eventos[0].subject = $scope.materia;
+							comunicador.setEventos(franja.eventos);
 							$state.go('pedidoDeReserva');
 						}
 						else {
@@ -471,6 +469,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	
 	$scope.$watch('usuario.inicioSesion',function(){
 		//Cada vez que el usuario se loguea o se desloguea, se actualiza la planilla.
+		$scope.pedidos = [];
 		$scope.actualizarPlanilla();
 	});
 });

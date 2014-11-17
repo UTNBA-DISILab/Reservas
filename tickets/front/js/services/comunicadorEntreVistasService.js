@@ -1,6 +1,6 @@
 angular.module('reservasApp').service('comunicadorEntreVistasService',function(){
 
-    var evento = {};
+    var eventos = {};
     var dia = {};
     var usuario = {};
 	var materia = '';
@@ -8,11 +8,11 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
 
     var cosasDeUnaVista = {
 
-        setEvento: function(unEvento){
-            evento = unEvento;
+        setEventos: function(unosEventos){
+            eventos = unosEventos;
         },
-        getEvento: function () {
-            return evento;
+        getEventos: function () {
+            return eventos;
         },
         setDia: function(unDia){
             dia = unDia;
@@ -25,12 +25,6 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
         },
         getUsuario: function(){
             return usuario;
-        },
-		setMateria: function(unaMateria){
-            materia = unaMateria;
-        },
-        getMateria: function(){
-            return materia;
         },
 		setEspecialidad: function(unaEspecialidad){
             especialidad = unaEspecialidad;

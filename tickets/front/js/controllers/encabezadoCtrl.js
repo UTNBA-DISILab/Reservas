@@ -52,8 +52,8 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
         $scope.usuario.password = '';
         $scope.usuario.inicioSesion = false;
         $scope.usuario.esEncargado = false;
-        ayuda.actualizarExplicaciones();
         $state.go('planillaReservas');
+        ayuda.actualizarExplicaciones();
     };
     $scope.irAlHistorial = function(){
         $state.go('reservasAnteriores');

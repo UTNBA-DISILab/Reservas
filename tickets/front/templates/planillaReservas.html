@@ -19,8 +19,7 @@
 		</select>
 		
 		<label class="nombre_campo" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" >Materia: </label>
-		<select ng-model="materia" name="materia" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" ng-change="actualizarMateria()"
-				ng-options="materia for materia in especialidad.materias">
+		<select ng-model="materia" name="materia" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" ng-options="materia for materia in especialidad.materias">
 		</select>
 		
 		<label class="nombre_campo" for="materia" ng-show="especialidad && !seConocenLasMateriasDe(especialidad)">Ingrese la materia: </label><input type="text" id="materiaIngresada" name="materia" ng-model="materia" maxlength="50" ng-show="especialidad && !seConocenLasMateriasDe(especialidad)" ng-change="actualizarMateria()"/>

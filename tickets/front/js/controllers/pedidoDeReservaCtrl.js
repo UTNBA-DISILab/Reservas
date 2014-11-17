@@ -9,13 +9,13 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	if(!vistaAnterior.getUsuario().inicioSesion){
 		$state.go('planillaReservas');
 	};
-	
-	$scope.evento = vistaAnterior.getEvento();
+
+	$scope.evento = vistaAnterior.getEventos()[0];
 	
 	// El rango libre es todo el tiempo libre contiguo al punto del click
 	$scope.rangoLibre = $scope.evento.horario; // PENDIENTE No esta llegando bien el pedazo libre clickeado
 	
-	$scope.materia = vistaAnterior.getMateria();
+	$scope.materia = $scope.evento.subject;
 	
 	if(vistaAnterior.getUsuario().esEncargado && $scope.materia) {
 		$scope.docente = vistaAnterior.getUsuario().docenteElegido;
