@@ -325,19 +325,19 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         });
 
         // por si otras partes del sistema no manejan timestamps
-		$scope.reservas.forEach(function(reserva) {
-			//$scope.agregarFechaYHorario(reserva); Descomentar esto cuando recibamos en el formato correcto
-			
-			reserva.tipo = 'reserva';
-			meterEnElCalendario(reserva);
-		});
-
-        // por si otras partes del sistema no manejan timestamps
 		$scope.pedidos.forEach( function(pedido) {
 			//$scope.agregarFechaYHorario(pedido); Descomentar esto cuando recibamos en el formato correcto
 			
 			pedido.tipo = 'pedido';
 			meterEnElCalendario(pedido);
+		});
+
+        // por si otras partes del sistema no manejan timestamps
+		$scope.reservas.forEach(function(reserva) {
+			//$scope.agregarFechaYHorario(reserva); Descomentar esto cuando recibamos en el formato correcto
+			
+			reserva.tipo = 'reserva';
+			meterEnElCalendario(reserva);
 		});
 
 		completarEspaciosLibres();
