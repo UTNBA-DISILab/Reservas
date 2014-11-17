@@ -2,8 +2,6 @@ var reservasApp = angular.module('reservasApp', ['ui.router','ngAnimate', 'ui-ra
 
 reservasApp.controller('confirmarCtrl',function(){});
 
-//reservasApp.controller('pedidosDeUnDiaCtrl',function(){});
-
 reservasApp.directive('encabezado',function(){
     return{restrict: 'E',templateUrl: 'templates/encabezado.html'};
 });
@@ -20,20 +18,20 @@ reservasApp.config(['$stateProvider','$urlRouterProvider',function($stateProvide
         templateUrl: 'templates/pedidoDeReserva.html',
         controller: 'pedidoDeReservaCtrl'
     })
-    .state('cancelarReserva', {
-        url: '/cancelarReserva',
-        templateUrl: 'templates/cancelarReserva.html',
-        controller: 'cancelarReservaCtrl'
+    .state('cancelarPedidoOReserva', {
+        url: '/cancelarPedidoOReserva',
+        templateUrl: 'templates/cancelarPedidoOReserva.html',
+        controller: 'cancelarPedidoOReservaCtrl'
     })
     .state('reservasAnteriores', {
         url: '/reservasAnteriores',
         templateUrl: 'templates/reservasAnteriores.html',
         controller: 'reservasAnterioresCtrl'
     })
-	.state('pedidosDeUnDia', {
-        url: '/pedidosDeUnDia',
-        templateUrl: 'templates/pedidosDeUnDia.html',
-        controller: 'pedidosDeUnDiaCtrl'
+	.state('pedidosDeUnaFranja', {
+        url: '/pedidosDeUnaFranjaHoraria',
+        templateUrl: 'templates/pedidosDeUnaFranja.html',
+        controller: 'pedidosDeUnaFranjaCtrl'
     })
 	.state('cargarMaterias', {
         url: '/cargarMaterias',

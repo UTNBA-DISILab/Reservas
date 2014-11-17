@@ -1,4 +1,4 @@
-angular.module('reservasApp').controller('pedidosDeUnDiaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
+angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
 	
 	var vistaAnterior = comunicadorEntreVistasService;
 	var ayuda = ayudaService;

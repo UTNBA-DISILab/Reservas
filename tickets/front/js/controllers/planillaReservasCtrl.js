@@ -386,19 +386,19 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         if($scope.usuario.inicioSesion){
             if(franja.eventos[0].tipo == 'reserva' && ($scope.usuario.esEncargado || franja.eventos[0].docente.nombre == $scope.usuario.nombre)){
                 comunicador.setEventos(franja.eventos);
-                $state.go('cancelarReserva');
+                $state.go('cancelarPedidoOReserva');
             }
 			else {
 			
 				if(franja.eventos[0].tipo == 'pedido'){
 					if($scope.usuario.esEncargado) {
 						comunicador.setEventos(franja.eventos);
-						$state.go('pedidosDeUnDia');
+						$state.go('pedidosDeUnaFranja');
 					}
 					else {
 						if(franja.eventos[0].docente.nombre == $scope.usuario.nombre) {
 							comunicador.setEventos(franja.eventos);
-							$state.go('cancelarReserva');
+							$state.go('cancelarPedidoOReserva');
 						}
 					}
 				}

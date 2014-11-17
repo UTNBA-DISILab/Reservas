@@ -1,4 +1,4 @@
-angular.module('reservasApp').controller('cancelarReservaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService){
+angular.module('reservasApp').controller('cancelarPedidoOReservaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService){
 	var vistaAnterior = comunicadorEntreVistasService;
 	var servidor = comunicadorConServidorService;
 	var ayuda = ayudaService;
@@ -9,9 +9,9 @@ angular.module('reservasApp').controller('cancelarReservaCtrl',function($scope, 
 		$state.go('planillaReservas');
 	};
 
-	$scope.reserva = vistaAnterior.getEventos()[0];
+	$scope.pedidosOReservas = vistaAnterior.getEventos();
 	
-	$scope.cancelarReserva = function() {
+	$scope.cancelar = function() {
 		var seguro = confirm('Esta reserva se eliminar\xE1 del sistema. Desea continuar?');
 		
 		if(seguro) {
