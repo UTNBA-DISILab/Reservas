@@ -108,7 +108,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			libre.tipo = 'libre';
 			meterEnElCalendario(libre);
 		});
-		unificarFranjas();
+		unificarPedidos();
 	};
 	
 	var meterEnElCalendario = function(eventoCompleto){
@@ -158,15 +158,17 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         }
     };
 
-    var unificarFranjas = function(){
-    	
+    var unificarPedidos = function(){
+    	//Se unifican los pedidos en una misma franja horaria con un array de todos ellos, debido a que  éstos pueden superponerse.
+    	//En principio también se unificaban las reservas, pero es más claro que estén diferenciadas.
     	$scope.laboratorios.forEach(function(laboratorio){
     		laboratorio.dias.forEach(function(dia){
-    			for(numeroDefranja = 0; numeroDefranja < dia.franjas.length - 1; numeroDefranja++){
-	                if(dia.franjas[numeroDefranja].eventos[0].tipo == dia.franjas[numeroDefranja + 1].eventos[0].tipo){
-	                	dia.franjas[numeroDefranja].eventos = dia.franjas[numeroDefranja].eventos.concat(dia.franjas[numeroDefranja + 1].eventos);
-	                	dia.franjas[numeroDefranja].horario.a = dia.franjas[numeroDefranja + 1].horario.a;
-	                	dia.franjas.splice(numeroDefranja + 1, 1);
+    			for(numeroDeFranja = 0; numeroDeFranja < dia.franjas.length - 1; numeroDeFranja++){
+	                if(dia.franjas[numeroDeFranja].eventos[0].tipo == "pedido" && dia.franjas[numeroDeFranja + 1].eventos[0].tipo == "pedido"){
+	                	dia.franjas[numeroDeFranja].eventos = dia.franjas[numeroDeFranja].eventos.concat(dia.franjas[numeroDeFranja + 1].eventos);
+	                	dia.franjas[numeroDeFranja].horario.a = dia.franjas[numeroDeFranja + 1].horario.a;
+	                	dia.franjas.splice(numeroDeFranja + 1, 1);
+	                	numeroDeFranja--;
 	                }
             	}
     		})
@@ -200,7 +202,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			//if(transaccionFinalizada()){
 				$scope.insertarDatos(); // deberia 'insertar' solo los laboratorios
 			//}
-			
 		};
 		
 		servidor.obtenerLaboratorios()
@@ -379,36 +380,24 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     $scope.estiloSegun = function(franjaAnterior, franja, franjaPosterior){
         
-        if($scope.usuario.esEncargado){
-            if (franja.eventos[0].tipo == 'reserva'){color = '#800080';
+    	if(franja.eventos[0].tipo == 'pedido'){
+            color = '#CD853F';
+        };
+
+        if(franja.eventos[0].tipo == 'libre'){
+            color = '#F5F5F5';
+        };
+
+        if(franja.eventos[0].tipo == 'reserva'){
+            if($scope.usuario.inicioSesion && (franja.eventos[0].docente.nombre == $scope.usuario.nombre || franja.eventos[0].docente.nombre == $scope.$parent.usuario.docenteElegido)){
+            	color = '#8B4513';
             } else {
-                if(franja.eventos[0].tipo == 'pedido'){
-                    color = '#ff00ff';
-                } else {
-                    color = '#e0ffff';}
+            	color = '#888888';
             }
-        } else {
-            if (franja.eventos[0].tipo == 'reserva'){
-                if($scope.usuario.inicioSesion && franja.eventos[0].docente.nombre == $scope.usuario.nombre) {
-                    color = '#800080';
-                } else {
-                    color = '#888888';
-                }
-            } else {
-                if(franja.eventos[0].tipo == 'pedido'){
-                    color = '#ff00ff'
-                } else {
-                    color = '#e0ffff';
-                }
-                //Falta libre y que coincida con mis horarios
-            }
-        }
+        };
 
         //Faltan horarios inutilizados: Lo que ya haya transcurrido del día de hoy, y lo de fines de semana.
 
-        //Falta ver si tiene anterior o posterior del mismo tipo, para cambiar el redondeo de bordes
-
-        //tamaño de la franja
         var altura = 100*(franja.horario.a - franja.horario.de)/($scope.horaDeCierre - $scope.horaDeApertura);
 
         return {'height': altura.toString() + '%', 'background-color': color}

@@ -191,7 +191,7 @@ input[type="checkbox"]:focus + label:before {
     overflow: hidden;
 }
 
-.colores {
+.color {
     width: 7%;
     border-radius: 5px;
     height: 15px;
@@ -199,6 +199,9 @@ input[type="checkbox"]:focus + label:before {
     margin-bottom: 5px;
     float: left;
     box-sizing:border-box;
+    border-color: grey;
+    border-style: solid;
+    border-width: 1px;
 }
 
 .explicacion {
@@ -275,7 +278,6 @@ h3 {
 	margin-top: 0px;
 	font-weight: bold;
 	text-align: center;
-	text-shadow: -1px 1px 3px #A1A1A1;
 }
 
 h4.fecha {
@@ -284,7 +286,6 @@ h4.fecha {
 	margin-top: 20px;
 	font-weight: bold;
 	text-align: center;
-	text-shadow: -1px 1px 2px #A1A1A1;
 }
 
 .franja {
