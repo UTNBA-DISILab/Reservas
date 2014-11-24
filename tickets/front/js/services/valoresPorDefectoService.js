@@ -70,6 +70,18 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'confirmada'
         },
+        {
+            id: 257,
+			teacher_id: 31,
+			creation_date: 1415806603991,
+			subject: 'Simulacion',
+			laboratorio: 'Azul',
+            docente: {id: 31, nombre:"Juan"}, // TEMP
+			fecha: hoy,
+            horario: {de: 1080, a: 1140}, // de 15 a 18
+            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
+			state: 'confirmada'
+        },
 		{
             id: 251,
 			teacher_id: 32,

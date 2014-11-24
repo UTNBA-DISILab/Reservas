@@ -27,7 +27,7 @@
 </form>
 <div id='ayuda' ng-style='alturaDeAyudas'>
 	<div ng-show='mostrarAyuda' class='explicacionDeColores' ng-repeat='explicacion in explicaciones'>
-		<button class='colores' ng-style='{"background-color" : explicacion.color}'>{{explicacion.nombreDeColor}}</button>
+		<button class='color' ng-style='{"background-color" : explicacion.color}'>{{explicacion.nombreDeColor}}</button>
 		<p class='explicacion'>{{explicacion.texto}}</p>
 	</div>
 </div>
