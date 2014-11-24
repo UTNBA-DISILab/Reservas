@@ -42,23 +42,14 @@ $reservation = new Reservation();
 $reservation->id = $res_id;
 if(!$reservation->load($dbhandler)) {
 	returnError(404, "reservation not found");
-	dbhandler->disconnect();
-}
-
-//check labs
-$lab = new Lab();
-$lab->id = $lab_id;
-if(!$lab->load($dbhandler)) {
-	returnError(500, "invalid params");
 	$dbhandler->disconnect();
-	return;
 }
 
 //push reservation state
 $resState = new ReservationState();
 $resState->reservation = $reservation;
 $resState->state = RES_STATE_CLOSED;
-if(isset($description) {
+if(isset($description)) {
 	$resState->description = $description;
 }
 $resState->user = $myUser;
