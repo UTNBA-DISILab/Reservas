@@ -49,6 +49,39 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     $scope.horaDeCierre = porDefecto.getHoraDeCierre();
     //ToDo: Ponerles la capacidad de personas para poder filtrar según cantidad de alumnos
 
+    $scope.diaDeLaSemana = function(numeroDeDia){
+    	var nombreDelDia;
+	    switch (numeroDeDia) {
+	        case 0: nombreDelDia = "Domingo"; break;
+	        case 1: nombreDelDia = "Lunes"; break;
+	        case 2: nombreDelDia = "Martes"; break;
+	        case 3: nombreDelDia = "Miércoles"; break;
+	        case 4: nombreDelDia = "Jueves"; break;
+	        case 5: nombreDelDia = "Viernes"; break;
+	        case 6: nombreDelDia = "Sábado"; break;
+    	}
+    	return nombreDelDia;
+    }
+
+    $scope.nombreDelMes = function(numeroDeMes){
+    	var nombreDelMes;
+	    switch (numeroDeMes) {
+	        case 0: nombreDelMes = "Enero"; break;
+	        case 1: nombreDelMes = "Febrero"; break;
+	        case 2: nombreDelMes = "Marzo"; break;
+	        case 3: nombreDelMes = "Abril"; break;
+	        case 4: nombreDelMes = "Mayo"; break;
+	        case 5: nombreDelMes = "Junio"; break;
+	        case 6: nombreDelMes = "Julio"; break;
+	        case 7: nombreDelMes = "Agost"; break;
+	        case 8: nombreDelMes = "Septiembre"; break;
+	        case 9: nombreDelMes = "Octubre"; break;
+	        case 10: nombreDelMes = "Noviembre"; break;
+	        case 11: nombreDelMes = "Diciembre"; break;
+    	}
+    	return nombreDelMes;
+    }
+
     var elHorarioDelPrimeroEsAnterior = function(franja1, franja2){return franja1.horario.de - franja2.horario.de;}
 
     var esElMismoDia = function(unDia, otroDia){
