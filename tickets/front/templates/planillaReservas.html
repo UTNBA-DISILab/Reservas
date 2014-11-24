@@ -1,15 +1,8 @@
 <form ng-style='margen'>
-	<!--Asi se hacia antes del infinite scroll
-	<div>
-		Mostrar: 
-		<select ng-model="diasSolicitados" ng-options="dia for dia in diasDesdeAhora" ng-change='actualizarPlanilla()'>
-		</select>
-		días
-	</div>-->
-	<div id="especificacionDeMateria" ng-show='$parent.usuario.inicioSesion'><!-- O bien, el encargado seleccionó un docente (falta hacer esa parte) -->
+	<div id="especificacionDeMateria" ng-show='usuario.inicioSesion'><!-- O bien, el encargado seleccionó un docente (falta hacer esa parte) -->
 		
-		<label class="nombre_campo" ng-show='$parent.usuario.esEncargado'>Docente: </label>
-		<select ng-model="$parent.usuario.docenteElegido" name="docente" ng-show='$parent.usuario.esEncargado'
+		<label class="nombre_campo" ng-show='usuario.esEncargado'>Docente: </label>
+		<select ng-model="usuario.docenteElegido" name="docente" ng-show='usuario.esEncargado'
 				ng-options="docente.nombre for docente in docentes">
 		</select>
 		

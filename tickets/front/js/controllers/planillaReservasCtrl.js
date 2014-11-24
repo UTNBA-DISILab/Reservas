@@ -4,22 +4,23 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         $location.replace(); //Limpia el historial de ruta
     });
 
-    $scope.pedidos = [];
-	$scope.sePudieronTraerPedidosEstaVuelta = false;
+    var pedidos = [];
+    var sePudieronTraerPedidosEstaVuelta = false;
+    var pedidosAuxiliares = [];
 	
-	$scope.reservas = [];
-	$scope.sePudieronTraerReservasEstaVuelta = false;
+	var reservas = [];
+	var sePudieronTraerReservasEstaVuelta = false;
 	
 	$scope.laboratorios = [];
-	$scope.sePudieronTraerLaboratorios = false;
+	var sePudieronTraerLaboratorios = false;
 	
 	$scope.docentes = [];
-	$scope.sePudieronTraerDocentes = false;
+	var sePudieronTraerDocentes = false;
 	
-	$scope.nombresDeLaboratorios = [];
+	var nombresDeLaboratorios = [];
 	
 	$scope.especialidades = [];
-	$scope.sePudieronTraerMaterias = false;
+	var sePudieronTraerMaterias = false;
 
     var comunicador = comunicadorEntreVistasService;
     $scope.usuario = comunicador.getUsuario();
@@ -38,15 +39,15 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     ayuda.actualizarExplicaciones();
     $scope.margen = ayuda.getMargen();
 	
-	$scope.primerDiaSolicitado = new Date();
+	var primerDiaSolicitado = new Date();
 
 	var servidor = comunicadorConServidorService;
 
 	var porDefecto = valoresPorDefectoService;
-    $scope.diasSolicitados = porDefecto.getDiasMostradosIniciales();
-	$scope.cuantosDiasMasCargar = porDefecto.getCuantosDiasMas();
-    $scope.horaDeApertura = porDefecto.getHoraDeApertura();
-    $scope.horaDeCierre = porDefecto.getHoraDeCierre();
+    var diasSolicitados = porDefecto.getDiasMostradosIniciales();
+	var cuantosDiasMasCargar = porDefecto.getCuantosDiasMas();
+    var horaDeApertura = porDefecto.getHoraDeApertura();
+    var horaDeCierre = porDefecto.getHoraDeCierre();
     //ToDo: Ponerles la capacidad de personas para poder filtrar según cantidad de alumnos
 
     $scope.diaDeLaSemana = function(numeroDeDia){
@@ -177,11 +178,11 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     
     var generarPosiblesDiasLibres = function(){
         var diasLibres = [];
-        var horario = {de: $scope.horaDeApertura, a: $scope.horaDeCierre};
-        $scope.nombresDeLaboratorios.forEach(function(nombreDeLaboratorio){
-            for(numeroDeDia = 0; numeroDeDia < $scope.diasSolicitados; numeroDeDia++){
+        var horario = {de: horaDeApertura, a: horaDeCierre};
+        nombresDeLaboratorios.forEach(function(nombreDeLaboratorio){
+            for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
                 var fecha = new Date();
-				//var fecha = $scope.primerDiaSolicitado;
+				//var fecha = primerDiaSolicitado;
                 fecha.setDate(fecha.getDate() + numeroDeDia);
                 diasLibres.push({laboratorio: nombreDeLaboratorio, fecha: fecha, horario: horario});
             }
@@ -196,9 +197,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			$scope.laboratorios.splice(0,$scope.laboratorios.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener labs repetidos.
 			laboratoriosRecibidos.forEach(function(laboratorio){
 				$scope.laboratorios.push(laboratorio);
-				$scope.nombresDeLaboratorios.push(laboratorio.nombre);
+				nombresDeLaboratorios.push(laboratorio.nombre);
 			});
-			$scope.sePudieronTraerLaboratorios = true;
+			sePudieronTraerLaboratorios = true;
 			//if(transaccionFinalizada()){
 				$scope.insertarDatos(); // deberia 'insertar' solo los laboratorios
 			//}
@@ -230,7 +231,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
 			});
-			$scope.sePudieronTraerDocentes = true;
+			sePudieronTraerDocentes = true;
 		};
 		
 		servidor.obtenerDocentes()
@@ -251,24 +252,24 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		
 		var comportamientoSiRequestExitoso = function(reservasRecibidas) {
 			
-			//$scope.reservas.splice(0,$scope.reservas.length); Por qué? cuando pida las de febrero, no quiero que se vayan del calendario las de maniana que ya tenia.
+			//reservas.splice(0,reservas.length); Por qué? cuando pida las de febrero, no quiero que se vayan del calendario las de maniana que ya tenia.
 			reservasRecibidas.forEach(function(reserva) {
-				$scope.reservas.push(reserva)
+				reservas.push(reserva)
 			});
-			$scope.sePudieronTraerReservasEstaVuelta = true;
-			if($scope.sePudieronTraerPedidosEstaVuelta) {
+			sePudieronTraerReservasEstaVuelta = true;
+			if(sePudieronTraerPedidosEstaVuelta) {
 				$scope.insertarDatos(); // deberia 'insertar' solo las reservas, no se si las recien obtenidas o todas
 			}
 			
 		};
 		
-		servidor.obtenerReservas($scope.primerDiaSolicitado, $scope.cuantosDiasMasCargar)
+		servidor.obtenerReservas(primerDiaSolicitado, cuantosDiasMasCargar)
 		.success(function(reservasRecibidas, status, headers, config) {
-			console.log('Obtenidas las reservas en ' + $scope.primerDiaSolicitado + ' y en los ' + ($scope.cuantosDiasMasCargar - 1) + ' d\xEDas siguientes exitosamente');
+			console.log('Obtenidas las reservas en ' + primerDiaSolicitado + ' y en los ' + (cuantosDiasMasCargar - 1) + ' d\xEDas siguientes exitosamente');
 			comportamientoSiRequestExitoso(reservasRecibidas);
 		})
 		.error(function(reservasRecibidas, status, headers, config) {
-			console.log('Se produjo un error al obtener las reservas en ' + $scope.primerDiaSolicitado + ' y en los ' + ($scope.cuantosDiasMasCargar - 1) + ' d\xEDas siguientes' );
+			console.log('Se produjo un error al obtener las reservas en ' + primerDiaSolicitado + ' y en los ' + (cuantosDiasMasCargar - 1) + ' d\xEDas siguientes' );
 
 			// TEMP
 			comportamientoSiRequestExitoso(porDefecto.getReservas());
@@ -280,12 +281,12 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		
 		var comportamientoSiRequestExitoso = function(pedidosRecibidos) {
 			
-			//$scope.pedidos.splice(0,$scope.pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
+			//pedidos.splice(0,pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
-				$scope.pedidos.push(pedido)
+				pedidos.push(pedido)
 			});
-			$scope.sePudieronTraerPedidosEstaVuelta = true;
-			if($scope.sePudieronTraerReservasEstaVuelta) {
+			sePudieronTraerPedidosEstaVuelta = true;
+			if(sePudieronTraerReservasEstaVuelta) {
 				$scope.insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
 			}
 			
@@ -294,21 +295,21 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		// el parametro usuario no se usa; el usuario logueado se obtiene de la cookie.
 		//Pero mientras tanto:
 		if($scope.usuario.inicioSesion) {
-			servidor.obtenerPedidos($scope.primerDiaSolicitado, $scope.cuantosDiasMasCargar)
+			servidor.obtenerPedidos(primerDiaSolicitado, cuantosDiasMasCargar)
 			.success(function(pedidosRecibidos, status, headers, config) {
-				console.log('Obtenidas los pedidos en ' + $scope.primerDiaSolicitado + ' y en los ' + ($scope.cuantosDiasMasCargar - 1) + ' d\xEDas siguientes exitosamente');
+				console.log('Obtenidas los pedidos en ' + primerDiaSolicitado + ' y en los ' + (cuantosDiasMasCargar - 1) + ' d\xEDas siguientes exitosamente');
 				comportamientoSiRequestExitoso(pedidosRecibidos);
 			})
 			.error(function(pedidosRecibidos, status, headers, config) {
-				console.log('Se produjo un error al obtener los pedidos en ' + $scope.primerDiaSolicitado + ' y en los ' + ($scope.cuantosDiasMasCargar - 1) + ' d\xEDas siguientes' );
+				console.log('Se produjo un error al obtener los pedidos en ' + primerDiaSolicitado + ' y en los ' + (cuantosDiasMasCargar - 1) + ' d\xEDas siguientes' );
 	
 				// TEMP
 				comportamientoSiRequestExitoso(porDefecto.getPedidos($scope.usuario));
 			});
 		}
 		else {
-			$scope.sePudieronTraerPedidosEstaVuelta = true;
-			if($scope.sePudieronTraerReservasEstaVuelta) {
+			sePudieronTraerPedidosEstaVuelta = true;
+			if(sePudieronTraerReservasEstaVuelta) {
 				$scope.insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
 			}
 		}
@@ -317,21 +318,21 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     $scope.actualizarPlanilla = function (){
 		
-		if(!$scope.sePudieronTraerLaboratorios) {
+		if(!sePudieronTraerLaboratorios) {
 			$scope.obtenerLaboratorios();
 		};
 		
-		if(!$scope.sePudieronTraerDocentes && $scope.usuario.esEncargado) {
+		if(!sePudieronTraerDocentes && $scope.usuario.esEncargado) {
 			$scope.obtenerDocentes();
 		};
 		
-		$scope.sePudieronTraerReservasEstaVuelta = false;
+		sePudieronTraerReservasEstaVuelta = false;
 		$scope.obtenerReservas();
 		
-		$scope.sePudieronTraerPedidosEstaVuelta = false;
+		sePudieronTraerPedidosEstaVuelta = false;
 		$scope.obtenerPedidos();
 		
-		if(!$scope.sePudieronTraerMaterias) {
+		if(!sePudieronTraerMaterias) {
 			$scope.obtenerMaterias();
 		};
     };
@@ -340,9 +341,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     	//alert('insertando datos');
 		//Crea los días para la columna de fechas
         $scope.dias = [];
-        for(numeroDeDia = 0; numeroDeDia < $scope.diasSolicitados; numeroDeDia++){
+        for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
                 var fecha = new Date();
-				//var fecha = $scope.primerDiaSolicitado;
+				//var fecha = primerDiaSolicitado;
                 fecha.setDate(fecha.getDate() + numeroDeDia);
                 $scope.dias.push({fecha: fecha});
             }
@@ -350,16 +351,16 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         //Agrega los días sin nada dentro de la columna de cada laboratorio.
         $scope.laboratorios.forEach(function(laboratorio){
 			laboratorio.dias = [];
-			for(numeroDeDia = 0; numeroDeDia < $scope.diasSolicitados; numeroDeDia++){
+			for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
                 var fecha = new Date();
-				//var fecha = $scope.primerDiaSolicitado;
+				//var fecha = primerDiaSolicitado;
                 fecha.setDate(fecha.getDate() + numeroDeDia);
 				laboratorio.dias.push({fecha: fecha, franjas: []});
             }
         });
 
         // por si otras partes del sistema no manejan timestamps
-		$scope.pedidos.forEach( function(pedido) {
+		pedidos.forEach( function(pedido) {
 			//$scope.agregarFechaYHorario(pedido); Descomentar esto cuando recibamos en el formato correcto
 			
 			pedido.tipo = 'pedido';
@@ -367,7 +368,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		});
 
         // por si otras partes del sistema no manejan timestamps
-		$scope.reservas.forEach(function(reserva) {
+		reservas.forEach(function(reserva) {
 			//$scope.agregarFechaYHorario(reserva); Descomentar esto cuando recibamos en el formato correcto
 			
 			reserva.tipo = 'reserva';
@@ -398,7 +399,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
         //Faltan horarios inutilizados: Lo que ya haya transcurrido del día de hoy, y lo de fines de semana.
 
-        var altura = 100*(franja.horario.a - franja.horario.de)/($scope.horaDeCierre - $scope.horaDeApertura);
+        var altura = 100*(franja.horario.a - franja.horario.de)/(horaDeCierre - horaDeApertura);
 
         return {'height': altura.toString() + '%', 'background-color': color}
     }
@@ -464,7 +465,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			
 			$scope.especialidades = materiasObtenidas;
 			console.log('Obtenidas las materias y especialidades exitosamente!');
-			$scope.sePudieronTraerMaterias = true;
+			sePudieronTraerMaterias = true;
 		})
 		.error(function(data, status, headers, config) {
 			
@@ -472,7 +473,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			
 			// TEMP
 			$scope.especialidades = porDefecto.getEspecialidades();
-			$scope.sePudieronTraerMaterias = true;
+			sePudieronTraerMaterias = true;
 		});
 	};
 	
@@ -484,14 +485,18 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	}
 	
 	$scope.cargarMasDias = function() {
-		$scope.primerDiaSolicitado.setDate($scope.primerDiaSolicitado.getDate() + $scope.cuantosDiasMasCargar);
-		$scope.diasSolicitados =  $scope.diasSolicitados + $scope.cuantosDiasMasCargar;
+		primerDiaSolicitado.setDate(primerDiaSolicitado.getDate() + cuantosDiasMasCargar);
+		diasSolicitados =  diasSolicitados + cuantosDiasMasCargar;
 		$scope.actualizarPlanilla();
 	}
 	
 	$scope.$watch('usuario.inicioSesion',function(){
 		//Cada vez que el usuario se loguea o se desloguea, se actualiza la planilla.
-		$scope.pedidos = [];
+		pedidos = [];
 		$scope.actualizarPlanilla();
+	});
+	$scope.$watch('$parent.usuario.docenteElegido',function(){
+		console.log("Actualizo Docente");
+
 	});
 });
