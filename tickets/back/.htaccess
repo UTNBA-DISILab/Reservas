@@ -12,5 +12,6 @@ RewriteRule    ^users/?$    get_users.php    [NC,L]
     # Handle reservation requests
 RewriteRule    ^reservations/([0-9]+)/update?$    modify_reservation.php?res_id=$1    [NC,L]
 RewriteRule    ^reservations/([0-9]+)/delete?$    delete_reservation.php?res_id=$1    [NC,L]
+RewriteRule    ^reservations/([0-9]+)/confirm?$    confirm_reservation.php?res_id=$1    [NC,L]
 RewriteRule    ^reservations/add?$    add_reservation.php    [NC,L]
 RewriteRule    ^reservations/?$    get_reservations.php    [NC,L]
