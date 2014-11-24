@@ -19,24 +19,19 @@ if(!$myUser) {
 	return;
 }
 
+if(!isset($_GET["res_id"])) {
+	returnError(500, "missing reservation");
+	return;
+}
+$res_id = $_GET["res_id"];
+$description = "";
+
 $body = file_get_contents('php://input');
-if(!isset($body)) {
-	returnError(500, "invalid params");
-	return;
-}
-
-$jsonparams = json_decode($body, true);
-
-if(!$jsonparams) {
-	returnError(500, "invalid params");
-	return;
-}
-$res_id = $jsonparams["reservation_id"];
-$description = $jsonparams["description"];
-
-if(!isset($res_id)) {
-	returnError(500, "invalid params");
-	return;
+if(isset($body)) {
+	$jsonparams = json_decode($body, true);
+	if($jsonparams) {
+		$description = $jsonparams["description"];
+	}
 }
 
 $dbhandler = getDatabase();

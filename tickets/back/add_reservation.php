@@ -36,13 +36,27 @@ if(!$jsonparams) {
 	returnError(500, "invalid params");
 	return;
 }
-$begin = $jsonparams["begin"];
-$end = $jsonparams["end"];
-$lab_id = $jsonparams["lab_id"];
-$amount = $jsonparams["amount"];
-$for_owner_id = $jsonparams["for_user_id"];
-$subject_id = $jsonparams["subject_id"];
-$description = $jsonparams["description"];
+if(isset($jsonparams["begin"])) {
+	$begin = $jsonparams["begin"];
+}
+if(isset($jsonparams["end"])) {
+	$end = $jsonparams["end"];
+}
+if(isset($jsonparams["lab_id"])) {
+	$lab_id = $jsonparams["lab_id"];
+}
+if(isset($jsonparams["amount"])) {
+	$amount = $jsonparams["amount"];
+}
+if(isset($jsonparams["subject_id"])) {
+	$subject_id = $jsonparams["subject_id"];
+}
+if(isset($jsonparams["description"])) {
+	$description = $jsonparams["description"];
+}
+if(isset($jsonparams["for_user_id"])) {
+	$for_owner_id = $jsonparams["for_user_id"];
+}
 
 if(!isset($begin )|| !isset($end) || !isset($lab_id) || 
    !isset($amount) || !isset($subject_id)) {
@@ -59,6 +73,15 @@ $endDate->setTimestamp($end);
 $dbhandler = getDatabase();
 $dbhandler->connect();
 
+//check labs
+$lab = new Lab();
+$lab->id = $lab_id;
+if(!$lab->load($dbhandler)) {
+	returnError(500, "invalid params");
+	$dbhandler->disconnect();
+	return;
+}
+
 //check existing reservations in that time
 $fields = array("begin_date", "end_date");
 $minvalues = array(Reservation::sqlDateTime($beginDate), Reservation::sqlDateTime($beginDate));
@@ -66,9 +89,12 @@ $maxvalues = array(Reservation::sqlDateTime($endDate), Reservation::sqlDateTime(
 
 $existing_reservations = Reservation::listAllBetween($dbhandler, $fields, $minvalues, $maxvalues);
 if(!empty($existing_reservations)) {
-	returnError(500, "invalid params");
-	$dbhandler->disconnect();
-	return;
+	foreach($existing_reservations as &$r) {
+	if($r->lab->id == $lab_id) {
+		returnError(500, "invalid params");
+		$dbhandler->disconnect();
+		return;
+	}
 }
 
 //check owner
@@ -80,15 +106,6 @@ if(isset($for_owner_id)) {
 		$dbhandler->disconnect();
 		return;
 	}
-}
-
-//check labs
-$lab = new Lab();
-$lab->id = $lab_id;
-if(!$lab->load($dbhandler)) {
-	returnError(500, "invalid params");
-	$dbhandler->disconnect();
-	return;
 }
 
 //check subject

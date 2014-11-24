@@ -100,6 +100,10 @@ if(is_array($reservations)) {
 					  "begin"=>$reservation->beginDate->getTimestamp(),
 					  "end"=>$reservation->endDate->getTimestamp(),
 					  "lab_id"=>$reservation->lab->id);
+		$rstate = ReservationState::getLatestForReservationId($dbhandler, $reservation->id);
+		if($rstate) {
+			$info["state"]= $rstate->state;
+		}
 		array_push($return, $info);
 		unset($reservation);
 	}

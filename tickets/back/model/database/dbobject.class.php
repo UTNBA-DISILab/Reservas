@@ -133,7 +133,7 @@ class DBObject {
 			}
 		}
 		
-		$query .= $strfields." FROM `".$this->table()."`";
+		$query .= $strfields." FROM `".$this->table()."` WHERE `ID`='".$this->id."'";
 		$result = $dbhandler->query($query);
 		if($result) {
 			$row = mysqli_fetch_array($result);
@@ -185,7 +185,23 @@ class DBObject {
 		return false;
 	}
 	
-	public static function listAll(&$dbhandler, $fields = array(), $values = array()) {
+	public static function listAllOrdered(&$dbhandler, $fields = array(), $values = array(), $order_fields = array(), $desc = array()) {
+		$orderstr = "";
+		$len = count($order_fields);
+		if($len > 0) {
+			$orderstr = " ORDER BY ";
+			for($i=0; $i < $len ; $i++) {
+				$descstr = $desc[$i]?"DESC":"ASC";
+				$orderstr.= "`".$fields[$i]."` ".$descstr;
+				if ($i!=$len-1) {
+					$orderstr .= ", ";
+				}
+			}
+		}
+		return static::listAll($dbhandler, $fields, $values, $orderstr );
+	}
+	
+	public static function listAll(&$dbhandler, $fields = array(), $values = array(), $orderstr = "") {
 		$wherestr = "";
 		$len = count($fields);
 		if($len > 0) {
@@ -216,7 +232,7 @@ class DBObject {
 		return static::_listAll($dbhandler, $wherestr );
 	}
 		
-	public static function _listAll(&$dbhandler, $wherestr ) {
+	public static function _listAll(&$dbhandler, $wherestr, $orderstr = "" ) {
 		$query = "SELECT ";
 		$fieldnames = static::fields();
 		$len = count($fieldnames);
@@ -232,7 +248,7 @@ class DBObject {
 			}
 		}
 		
-		$query .= $strfields." FROM `".static::table()."`".$wherestr;
+		$query .= $strfields." FROM `".static::table()."`".$wherestr.$orderstr;
 		$ret = array();
 		$result = $dbhandler->query($query);
 		if($result) {

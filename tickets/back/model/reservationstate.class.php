@@ -45,5 +45,13 @@ class ReservationState extends DBObject {
 		$this->state = $this->replaceNull($row["state"]);
 		$this->description = $this->replaceNull($row["description"], "");
 	}
+	
+	public static function getLatestForReservationId(&$dbhandler, $reservation_id) {
+		$reservations = ReservationState::listAllOrdered($dbhandler, array('reservation_id'), array($reservation_id), array("date"), array(true));
+		if($reservations) {
+			return $reservations[0];
+		}
+		return false;
+	}
 }
 ?>
