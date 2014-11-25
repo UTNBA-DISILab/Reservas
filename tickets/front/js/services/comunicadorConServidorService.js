@@ -15,7 +15,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		
 		obtenerReservas: function(primerDiaSolicitado, cantDiasSolicitados){
 			
-			var from = primerDiaSolicitado.getTime() - ( primerDiaSolicitado.getTime() % (1000 * 60 * 60 * 24) ) // las 00:00 de ese dia
+			var from = primerDiaSolicitado.getTime();
 			var to = from + cantDiasSolicitados * (24 * 60 * 60 * 1000);
 
 			//return $http.get( url + '/reservas/' + primerDiaSolicitado.getFullYear() + '/' + ('0' + (primerDiaSolicitado.getMonth()+1)).slice(-2) + '/' + ('0' + primerDiaSolicitado.getDate()).slice(-2) + '?cant_dias=' + cantDiasSolicitados);
@@ -26,7 +26,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 
 		obtenerPedidos: function (primerDiaSolicitado, cantDiasSolicitados) {
 			
-			var from = primerDiaSolicitado.getTime() - ( primerDiaSolicitado.getTime() % (1000 * 60 * 60 * 24) ) // las 00:00 de ese dia
+			var from = primerDiaSolicitado.getTime();
 			var to = from + cantDiasSolicitados * (24 * 60 * 60 * 1000);
 				
 			return $http.get( url + '/reservas/' + '?from=' + from + '&to=' + to + '&solo_a_confirmar=true');

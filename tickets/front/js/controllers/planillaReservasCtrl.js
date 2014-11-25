@@ -40,6 +40,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     $scope.margen = ayuda.getMargen();
 	
 	var primerDiaSolicitado = new Date();
+	primerDiaSolicitado.setHours(0,0,0,0);
 
 	var servidor = comunicadorConServidorService;
 
@@ -83,7 +84,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     	return nombreDelMes;
     }
 
-    var elHorarioDelPrimeroEsAnterior = function(franja1, franja2){return franja1.horario.de - franja2.horario.de;}
+    var elHorarioDelPrimeroEsAnterior = function(franja1, franja2){return franja1.desde - franja2.desde;}
 
     var esElMismoDia = function(unDia, otroDia){
 		return (unDia.getDate() == otroDia.getDate() 
@@ -91,15 +92,15 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         && unDia.getFullYear() == otroDia.getFullYear());
 	};
 
+	//TODO: Reformar lo del final de cada sentencia
 	var agregarTimestamps = function(reserva) {
-		reserva.from = reserva.fecha.getTime() - ( reserva.fecha.getTime() % (1000 * 60 * 60 * 24) ) + reserva.horario.de * 60 * 1000;
-		reserva.to = reserva.fecha.getTime() - ( reserva.fecha.getTime() % (1000 * 60 * 60 * 24) ) + reserva.horario.a * 60 * 1000;
+		reserva.from = reserva.fecha.getTime() - ( reserva.fecha.getTime() % (1000 * 60 * 60 * 24) ) + reserva.desde * 60 * 1000;
+		reserva.to = reserva.fecha.getTime() - ( reserva.fecha.getTime() % (1000 * 60 * 60 * 24) ) + reserva.hasta * 60 * 1000;
 	}
 	
-	var agregarFechaYHorario = function(reserva) {
-		reserva.fecha = new Date(reserva.from);
-		reserva.horario.de = ( reserva.from % (24*60*60*1000) ) / (1000 * 60);
-		reserva.horario.a = ( reserva.to % (24*60*60*1000) ) / (1000 * 60);
+	var convertirTimestampADate = function(evento) {
+		evento.desde.setTime(evento.desde);//Las fechas vienen en timestamp y es mucho más fácil manejarlas como Date.
+		evento.hasta.setTime(evento.hasta);
 	}
 	
 	var completarEspaciosLibres = function() {
@@ -113,7 +114,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	};
 	
 	var meterEnElCalendario = function(eventoCompleto){
-
         var laboratorio = $scope.laboratorios.filter(
 			function(unLaboratorio) {
 				return unLaboratorio.nombre == eventoCompleto.laboratorio
@@ -122,35 +122,38 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
         var dia = laboratorio.dias.filter(function(unDia){
             //return Math.floor(unDia.fecha.getTime() / (1000 * 3600 * 24)) == Math.floor(eventoCompleto.fecha.getTime() / (1000 * 3600 * 24))
-			return esElMismoDia(unDia.fecha, eventoCompleto.fecha);
+			return esElMismoDia(unDia.fecha, eventoCompleto.desde);
         })[0];
 
-        var franjaNuevo = {horario: {de: eventoCompleto.horario.de, a: eventoCompleto.horario.a}, eventos: [eventoCompleto]};
-
+        var franjaNueva = {desde: eventoCompleto.desde, hasta: eventoCompleto.hasta, eventos: [eventoCompleto]};
+        franjaNueva.desde = eventoCompleto.desde;
+        franjaNueva.hasta = eventoCompleto.hasta;
         var insertadoCompletamenteODesechado = false;
         
         while(!insertadoCompletamenteODesechado){
-            if(franjaNuevo.horario.de >= franjaNuevo.eventos[0].horario.a){
+            if(franjaNueva.desde >= franjaNueva.eventos[0].hasta){
                     insertadoCompletamenteODesechado = true;
                 }
             else {
                 var franjaSuperpuestoAlPrincipio = dia.franjas.filter(function(franja){
-                	return franja.horario.de <= franjaNuevo.horario.de && franja.horario.a > franjaNuevo.horario.de})[0];
-                if(franjaSuperpuestoAlPrincipio){//El comienzo del franjaNuevo será después de que el otro termine.
-                    franjaNuevo.horario.de = franjaSuperpuestoAlPrincipio.horario.a;
+                	return franja.desde <= franjaNueva.desde && franja.hasta > franjaNueva.desde})[0];
+                if(franjaSuperpuestoAlPrincipio){//El comienzo del franjaNueva será después de que el otro termine.
+                    franjaNueva.desde = franjaSuperpuestoAlPrincipio.hasta;
+                    franjaNueva.desde = franjaSuperpuestoAlPrincipio.hasta;
                 } else {
                     var franjaSuperpuestoMasAdelante = dia.franjas.filter(function(franja){
-                            return franja.horario.de > franjaNuevo.horario.de && franja.horario.de < franjaNuevo.horario.a
+                            return franja.desde > franjaNueva.desde && franja.desde < franjaNueva.hasta
                         }).sort(elHorarioDelPrimeroEsAnterior)[0];
-                    if(franjaSuperpuestoMasAdelante){//Se deberá partir el franjaNuevo en dos: Uno antes de la superposición y otro después.
-                        var franjaNuevoCortado = {horario: {de: franjaNuevo.horario.de, a: franjaSuperpuestoMasAdelante.horario.de}, eventos: [franjaNuevo.eventos[0]]};
+                    if(franjaSuperpuestoMasAdelante){//Se deberá partir el franjaNueva en dos: Uno antes de la superposición y otro después.
+                        var franjaNuevaCortado = {desde: franjaNueva.desde, hasta: franjaSuperpuestoMasAdelante.desde, eventos: [franjaNueva.eventos[0]]};
 
-                        dia.franjas.push(franjaNuevoCortado);
+                        dia.franjas.push(franjaNuevaCortado);
                         dia.franjas = dia.franjas.sort(elHorarioDelPrimeroEsAnterior);
         
-                        franjaNuevo.horario.de = franjaSuperpuestoMasAdelante.horario.a;
+                        franjaNueva.desde = franjaSuperpuestoMasAdelante.hasta;
+                        franjaNueva.desde = franjaSuperpuestoMasAdelante.hasta;
                     } else {
-                        dia.franjas.push(franjaNuevo);
+                        dia.franjas.push(franjaNueva);
                         dia.franjas = dia.franjas.sort(elHorarioDelPrimeroEsAnterior);
                         insertadoCompletamenteODesechado = true;
                     }
@@ -167,7 +170,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     			for(numeroDeFranja = 0; numeroDeFranja < dia.franjas.length - 1; numeroDeFranja++){
 	                if(dia.franjas[numeroDeFranja].eventos[0].tipo == "pedido" && dia.franjas[numeroDeFranja + 1].eventos[0].tipo == "pedido"){
 	                	dia.franjas[numeroDeFranja].eventos = dia.franjas[numeroDeFranja].eventos.concat(dia.franjas[numeroDeFranja + 1].eventos);
-	                	dia.franjas[numeroDeFranja].horario.a = dia.franjas[numeroDeFranja + 1].horario.a;
+	                	dia.franjas[numeroDeFranja].hasta = dia.franjas[numeroDeFranja + 1].hasta;
 	                	dia.franjas.splice(numeroDeFranja + 1, 1);
 	                	numeroDeFranja--;
 	                }
@@ -178,13 +181,17 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     
     var generarPosiblesDiasLibres = function(){
         var diasLibres = [];
-        var horario = {de: horaDeApertura, a: horaDeCierre};
         nombresDeLaboratorios.forEach(function(nombreDeLaboratorio){
             for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
                 var fecha = new Date();
-				//var fecha = primerDiaSolicitado;
                 fecha.setDate(fecha.getDate() + numeroDeDia);
-                diasLibres.push({laboratorio: nombreDeLaboratorio, fecha: fecha, horario: horario});
+                var inicio = new Date();
+                inicio.setDate(inicio.getDate() + numeroDeDia);
+                inicio.setHours(9,0,0,0);
+                var fin = new Date();
+                fin.setDate(fin.getDate() + numeroDeDia);
+                fin.setHours(22,0,0,0);
+                diasLibres.push({laboratorio: nombreDeLaboratorio, fecha: fecha, desde: inicio, hasta: fin});
             }
         })
         return diasLibres;
@@ -371,18 +378,14 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
             }
         });
 
-        // por si otras partes del sistema no manejan timestamps
 		pedidos.forEach( function(pedido) {
-			//agregarFechaYHorario(pedido); Descomentar esto cuando recibamos en el formato correcto
-			
+			convertirTimestampADate(pedido);
 			pedido.tipo = 'pedido';
 			meterEnElCalendario(pedido);
 		});
 
-        // por si otras partes del sistema no manejan timestamps
 		reservas.forEach(function(reserva) {
-			//agregarFechaYHorario(reserva); Descomentar esto cuando recibamos en el formato correcto
-			
+			convertirTimestampADate(reserva);
 			reserva.tipo = 'reserva';
 			meterEnElCalendario(reserva);
 		});
@@ -413,9 +416,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         }
 
         //Faltan horarios inutilizados: Lo que ya haya transcurrido del día de hoy, y lo de fines de semana.
-
-        var altura = 100*(franja.horario.a - franja.horario.de)/(horaDeCierre - horaDeApertura);
-
+        var altura = 100*(franja.hasta - franja.desde)/(horaDeCierre - horaDeApertura);
         return {'height': altura.toString() + '%', 'background-color': color}
     }
 

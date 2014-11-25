@@ -2,8 +2,12 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 
     diasMostradosIniciales = 7;
 	cuantosDiasMas = 7;
-    horaDeApertura = 540; // 540 minutos desde las 00:00 = las 9 de la maniana
-    horaDeCierre = 1320; // 1320 minutos desde las 00:00 = las 10 de la noche (22 hs)
+    horaDeApertura = new Date();
+    horaDeApertura.setHours(9,0,0,0);
+    // 540 minutos desde las 00:00 = las 9 de la mañana
+    horaDeCierre = new Date();
+    horaDeCierre.setHours(22,0,0,0);
+     // 1320 minutos desde las 00:00 = las 10 de la noche (22 hs)
     //ToDo: Ponerles la capacidad de personas para poder filtrar según cantidad de alumnos
 
     var hoy = new Date();
@@ -29,35 +33,38 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 		{id: 33, nombre:"Ignacio"}
 	];
 
+	var hoyALas15 = new Date();
+	hoyALas15.setHours(15,0,0,0);//Horas, minutos, segundos, milisegundos
+	var hoyALas18 = new Date();
+	hoyALas18.setHours(18,0,0,0);
+	var hoyALas19 = new Date();
+	hoyALas19.setHours(19,0,0,0);
+	var hoyALas21 = new Date();
+	hoyALas21.setHours(21,0,0,0);
+	var manianaALas12 = new Date(); manianaALas12.setDate(manianaALas12.getDate() + 1);
+	manianaALas12.setHours(12,0,0,0);
+	var manianaALas15 = new Date(); manianaALas15.setDate(manianaALas15.getDate() + 1);
+	manianaALas15.setHours(15,0,0,0);
+	var manianaALas18 = new Date(); manianaALas18.setDate(manianaALas18.getDate() + 1);
+	manianaALas18.setHours(18,0,0,0);
+	var manianaALas19 = new Date(); manianaALas19.setDate(manianaALas19.getDate() + 1);
+	manianaALas19.setHours(19,0,0,0);
+	var manianaALas21 = new Date(); manianaALas21.setDate(manianaALas21.getDate() + 1);
+	manianaALas21.setHours(21,0,0,0);
+	var pasadoManianaALas13 = new Date(); pasadoManianaALas13.setDate(pasadoManianaALas13.getDate() + 2);
+	pasadoManianaALas13.setHours(13,0,0,0);
+	var pasadoManianaALas19 = new Date(); pasadoManianaALas19.setDate(pasadoManianaALas19.getDate() + 2);
+	pasadoManianaALas19.setHours(19,0,0,0);
+	var pasadoManianaALas20 = new Date(); pasadoManianaALas20.setDate(pasadoManianaALas20.getDate() + 2);
+	pasadoManianaALas20.setHours(20,0,0,0);
+	var pasadoManianaALas21 = new Date(); pasadoManianaALas21.setDate(pasadoManianaALas21.getDate() + 2);
+	pasadoManianaALas21.setHours(21,0,0,0);
+	var pasadoManianaALas22 = new Date(); pasadoManianaALas22.setDate(pasadoManianaALas22.getDate() + 2);
+	pasadoManianaALas22.setHours(22,0,0,0);
+
+
     //En cuanto se pruebe contra el servidor, el valor por defecto será una lista vacía.
-    var reservas = [
-        /*
-		{
-            laboratorio: 'Azul',
-            docente: {id: 31, nombre: "Juan"},
-            fecha: hoy,
-            horario: {de: 900, a: 1080}
-        }, // de 15 a 18
-        {
-            laboratorio: 'Azul',
-            docente: {id: 32, nombre:"Pedro"},
-            fecha: hoy,
-            horario: {de: 1140, a: 1260}
-        }, // de 19 a 21
-        {
-            laboratorio: 'Azul',
-            docente: {id: 33, nombre:"Ignacio"},
-            fecha: maniana,
-            horario: {de: 1140, a: 1260}
-        }, // de 19 a 21
-        {
-            laboratorio: 'Azul',
-            docente: {id: 31, nombre: "Juan"},
-            fecha: pasadoManiana,
-            horario: {de: 780, a: 1140}
-        } // de 13 a 19
-		*/
-		
+    var reservas = [		
 		{
             id: 250,
 			teacher_id: 31,
@@ -65,7 +72,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
-			fecha: hoy,
+            fecha: hoy,
+			desde: hoyALas15,
+			hasta: hoyALas18,
             horario: {de: 900, a: 1080}, // de 15 a 18
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'confirmada'
@@ -78,7 +87,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
 			fecha: hoy,
-            horario: {de: 1080, a: 1140}, // de 15 a 18
+			desde: hoyALas18,
+			hasta: hoyALas19,
+            horario: {de: 1080, a: 1140}, // de 18 a 19
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'confirmada'
         },
@@ -90,6 +101,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			laboratorio: 'Azul',
             docente: {id: 32, nombre:"Pedro"}, // TEMP
 			fecha: hoy,
+			desde: hoyALas19,
+			hasta: hoyALas21,
             horario: {de: 1140, a: 1260}, // de 19 a 21
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'confirmada'
@@ -102,6 +115,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			laboratorio: 'Azul',
             docente: {id: 33, nombre:"Ignacio"}, // TEMP
 			fecha: maniana,
+			desde: manianaALas19,
+			hasta: manianaALas21,
             horario: {de: 1140, a: 1260}, // de 19 a 21
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'confirmada'
@@ -114,6 +129,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			laboratorio: 'Azul',
             docente: {id: 33, nombre:"Ignacio"}, // TEMP
 			fecha: pasadoManiana,
+			desde: pasadoManianaALas13,
+			hasta: pasadoManianaALas19,
             horario: {de: 780, a: 1140}, // de 13 a 19
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'confirmada'
@@ -122,21 +139,6 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 
     //En cuanto se pruebe contra el servidor, habrá una única lista de pedidos por defecto, que estará vacía.
     var pedidosDeJuan = [
-        /*
-		{
-			laboratorio: 'Azul',
-			docente: {id: 31, nombre:"Juan"},
-			fecha: maniana,
-			horario: {de: 720, a: 1080}
-		}, // de 12 a 18
-        {
-			laboratorio: 'Azul',
-			docente: {id: 31, nombre:"Juan"},
-			fecha: pasadoManiana,
-			horario: {de: 1200, a: 1320}
-		} // de 20 a 22
-		*/
-		
 		{
             id: 254,
 			teacher_id: 31,
@@ -145,6 +147,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
 			fecha: maniana,
+			desde: manianaALas12,
+			hasta: manianaALas18,
             horario: {de: 720, a: 1080}, // de 12 a 18
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'solicitada'
@@ -157,6 +161,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
 			fecha: pasadoManiana,
+			desde: pasadoManianaALas20,
+			hasta: pasadoManianaALas22,
             horario: {de: 1200, a: 1320}, // de 20 a 22
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'solicitada'
@@ -164,33 +170,6 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 		
     ];
     var pedidosDeTodos = [
-        /*
-		{
-			laboratorio: 'Azul',
-			docente: {id: 31, nombre:"Juan"},
-			fecha: maniana,
-			horario: {de: 720, a: 1080}
-		}, // de 12 a 18
-        {
-			laboratorio: 'Azul',
-			docente: {id: 31, nombre:"Juan"},
-			fecha: pasadoManiana,
-			horario: {de: 1200, a: 1320}
-		}, // de 20 a 22
-        {
-			laboratorio: 'Azul',
-			docente: {id: 32, nombre:"Pedro"},
-			fecha: maniana,
-			horario: {de: 900, a: 1140}
-		}, // de 15 a 19
-        {
-			laboratorio: 'Azul',
-			docente: {id: 33, nombre:"Ignacio"},
-			fecha: pasadoManiana,
-			horario: {de: 1140, a: 1260} // de 19 a 21
-		}
-		*/
-		
 		{
             id: 254,
 			teacher_id: 31,
@@ -199,6 +178,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
 			fecha: maniana,
+			desde: manianaALas12,
+			hasta: manianaALas18,
             horario: {de: 720, a: 1080}, // de 12 a 18
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'solicitada'
@@ -211,6 +192,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
 			fecha: pasadoManiana,
+			desde: pasadoManianaALas20,
+			hasta: pasadoManianaALas22,
             horario: {de: 1200, a: 1320}, // de 20 a 22
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'solicitada'
@@ -223,6 +206,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			laboratorio: 'Azul',
             docente: {id: 32, nombre:"Pedro"}, // TEMP
 			fecha: maniana,
+			desde: manianaALas15,
+			hasta: manianaALas19,
             horario: {de: 900, a: 1140}, // de 15 a 19
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'solicitada'
@@ -235,6 +220,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			laboratorio: 'Azul',
             docente: {id: 33, nombre:"Ignacio"}, // TEMP
 			fecha: pasadoManiana,
+			desde: pasadoManianaALas19,
+			hasta: pasadoManianaALas21,
             horario: {de: 1140, a: 1260}, // de 19 a 21
             // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
 			state: 'solicitada'
