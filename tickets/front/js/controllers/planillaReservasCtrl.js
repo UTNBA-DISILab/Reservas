@@ -91,12 +91,12 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         && unDia.getFullYear() == otroDia.getFullYear());
 	};
 
-	$scope.agregarTimestamps = function(reserva) {
+	var agregarTimestamps = function(reserva) {
 		reserva.from = reserva.fecha.getTime() - ( reserva.fecha.getTime() % (1000 * 60 * 60 * 24) ) + reserva.horario.de * 60 * 1000;
 		reserva.to = reserva.fecha.getTime() - ( reserva.fecha.getTime() % (1000 * 60 * 60 * 24) ) + reserva.horario.a * 60 * 1000;
 	}
 	
-	$scope.agregarFechaYHorario = function(reserva) {
+	var agregarFechaYHorario = function(reserva) {
 		reserva.fecha = new Date(reserva.from);
 		reserva.horario.de = ( reserva.from % (24*60*60*1000) ) / (1000 * 60);
 		reserva.horario.a = ( reserva.to % (24*60*60*1000) ) / (1000 * 60);
@@ -190,7 +190,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         return diasLibres;
     };
 	
-	$scope.obtenerLaboratorios = function() {
+	var obtenerLaboratorios = function() {
 		
 		var comportamientoSiRequestExitoso = function(laboratoriosRecibidos) {
 			
@@ -201,7 +201,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			});
 			sePudieronTraerLaboratorios = true;
 			//if(transaccionFinalizada()){
-				$scope.insertarDatos(); // deberia 'insertar' solo los laboratorios
+				insertarDatos(); // deberia 'insertar' solo los laboratorios
 			//}
 		};
 		
@@ -220,14 +220,14 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			// TEMP
 			comportamientoSiRequestExitoso(porDefecto.getLaboratorios());
 		});
-		
 	};
 	
-	$scope.obtenerDocentes = function() {
+	var obtenerDocentes = function() {
 		
 		var comportamientoSiRequestExitoso = function(docentesRecibidos) {
-			
 			$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
+			$scope.docentes.push({nombre: "Todos"});
+			$scope.usuario.docenteElegido = $scope.docentes[0];
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
 			});
@@ -245,10 +245,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			// TEMP
 			comportamientoSiRequestExitoso(porDefecto.getDocentes());
 		});
-		
 	};
 	
-	$scope.obtenerReservas = function() {
+	var obtenerReservas = function() {
 		
 		var comportamientoSiRequestExitoso = function(reservasRecibidas) {
 			
@@ -258,7 +257,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			});
 			sePudieronTraerReservasEstaVuelta = true;
 			if(sePudieronTraerPedidosEstaVuelta) {
-				$scope.insertarDatos(); // deberia 'insertar' solo las reservas, no se si las recien obtenidas o todas
+				insertarDatos(); // deberia 'insertar' solo las reservas, no se si las recien obtenidas o todas
 			}
 			
 		};
@@ -274,10 +273,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			// TEMP
 			comportamientoSiRequestExitoso(porDefecto.getReservas());
 		});
-		
 	};
 	
-	$scope.obtenerPedidos = function() {
+	var obtenerPedidos = function() {
 		
 		var comportamientoSiRequestExitoso = function(pedidosRecibidos) {
 			
@@ -285,11 +283,12 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			pedidosRecibidos.forEach(function(pedido) {
 				pedidos.push(pedido)
 			});
+			pedidosAuxiliares = pedidos;
 			sePudieronTraerPedidosEstaVuelta = true;
 			if(sePudieronTraerReservasEstaVuelta) {
-				$scope.insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
+				insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
 			}
-			
+			filtrarPorDocente();
 		};
 		
 		// el parametro usuario no se usa; el usuario logueado se obtiene de la cookie.
@@ -310,34 +309,47 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		else {
 			sePudieronTraerPedidosEstaVuelta = true;
 			if(sePudieronTraerReservasEstaVuelta) {
-				$scope.insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
+				insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
 			}
 		}
-		
 	};
 
-    $scope.actualizarPlanilla = function (){
+	var filtrarPorDocente = function() {
+		//Esto es en el caso de que el Encargado elija un Docente específico
+		if($scope.usuario.docenteElegido){
+			if($scope.usuario.docenteElegido.nombre != "Todos"){
+				pedidos = pedidosAuxiliares.filter(function(pedido){
+					return pedido.docente.nombre == $scope.usuario.docenteElegido.nombre;
+				});
+			} else {
+				pedidos = pedidosAuxiliares;
+			};
+		};
+		insertarDatos();
+	}
+
+    var actualizarPlanilla = function (){
 		
 		if(!sePudieronTraerLaboratorios) {
-			$scope.obtenerLaboratorios();
+			obtenerLaboratorios();
 		};
 		
 		if(!sePudieronTraerDocentes && $scope.usuario.esEncargado) {
-			$scope.obtenerDocentes();
+			obtenerDocentes();
 		};
 		
 		sePudieronTraerReservasEstaVuelta = false;
-		$scope.obtenerReservas();
+		obtenerReservas();
 		
 		sePudieronTraerPedidosEstaVuelta = false;
-		$scope.obtenerPedidos();
+		obtenerPedidos();
 		
 		if(!sePudieronTraerMaterias) {
-			$scope.obtenerMaterias();
+			obtenerMaterias();
 		};
     };
 
-    $scope.insertarDatos = function(){
+    var insertarDatos = function(){
     	//alert('insertando datos');
 		//Crea los días para la columna de fechas
         $scope.dias = [];
@@ -361,7 +373,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
         // por si otras partes del sistema no manejan timestamps
 		pedidos.forEach( function(pedido) {
-			//$scope.agregarFechaYHorario(pedido); Descomentar esto cuando recibamos en el formato correcto
+			//agregarFechaYHorario(pedido); Descomentar esto cuando recibamos en el formato correcto
 			
 			pedido.tipo = 'pedido';
 			meterEnElCalendario(pedido);
@@ -369,7 +381,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
         // por si otras partes del sistema no manejan timestamps
 		reservas.forEach(function(reserva) {
-			//$scope.agregarFechaYHorario(reserva); Descomentar esto cuando recibamos en el formato correcto
+			//agregarFechaYHorario(reserva); Descomentar esto cuando recibamos en el formato correcto
 			
 			reserva.tipo = 'reserva';
 			meterEnElCalendario(reserva);
@@ -390,12 +402,15 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         };
 
         if(franja.eventos[0].tipo == 'reserva'){
-            if($scope.usuario.inicioSesion && (franja.eventos[0].docente.nombre == $scope.usuario.nombre || franja.eventos[0].docente.nombre == $scope.$parent.usuario.docenteElegido)){
-            	color = '#8B4513';
-            } else {
-            	color = '#888888';
-            }
-        };
+        	var esDeEseDocente = $scope.usuario.inicioSesion && franja.eventos[0].docente.nombre == $scope.usuario.nombre;
+        	var esDelDocenteElegido = $scope.usuario.inicioSesion && $scope.usuario.docenteElegido && franja.eventos[0].docente.nombre == $scope.usuario.docenteElegido.nombre;
+        	if(esDeEseDocente || esDelDocenteElegido){
+        		color = '#8B4513';
+        	} else {
+        		color = '#888888';
+        	}
+
+        }
 
         //Faltan horarios inutilizados: Lo que ya haya transcurrido del día de hoy, y lo de fines de semana.
 
@@ -456,10 +471,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
                 }
             }
         }
-        
     };
 	
-	$scope.obtenerMaterias = function() {
+	var obtenerMaterias = function() {
 		servidor.obtenerMaterias()
 		.success(function(materiasObtenidas, status, headers, config) {
 			
@@ -478,25 +492,22 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	};
 	
 	$scope.seConocenLasMateriasDe = function(especialidad) {
-		if (especialidad.nombre == 'Sistemas') {
-			return true;
-		}
-		return false;
+		return especialidad.nombre == 'Sistemas';
 	}
 	
 	$scope.cargarMasDias = function() {
 		primerDiaSolicitado.setDate(primerDiaSolicitado.getDate() + cuantosDiasMasCargar);
 		diasSolicitados =  diasSolicitados + cuantosDiasMasCargar;
-		$scope.actualizarPlanilla();
+		actualizarPlanilla();
 	}
 	
 	$scope.$watch('usuario.inicioSesion',function(){
 		//Cada vez que el usuario se loguea o se desloguea, se actualiza la planilla.
 		pedidos = [];
-		$scope.actualizarPlanilla();
+		actualizarPlanilla();
 	});
-	$scope.$watch('$parent.usuario.docenteElegido',function(){
-		console.log("Actualizo Docente");
 
+	$scope.$watch('usuario.docenteElegido',function(){
+		filtrarPorDocente();
 	});
 });
