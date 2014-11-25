@@ -5,10 +5,8 @@ request:
 GET
 
 params:
-- year
-- month
-- day
-- offset (period length in days)
+- begin (timestamp)
+- end (timestamp)
 + for_owner_id (id of user to retrieve info)
 
 return:
@@ -22,18 +20,13 @@ if(!$myUser) {
 	return;
 }
 
-if(!isset($_GET["year"]) ||
-   !isset($_GET["month"]) ||
-   !isset($_GET["day"]) ||
-   !isset($_GET["offset"])) {
+if(!isset($_GET["begin"]) ||
+   !isset($_GET["end"])) {
    returnError(500, "missing values");
    return;
 }
-$year = $_GET["year"];
-$month = $_GET["month"];
-$day = $_GET["day"];
-
-$days = $_GET["offset"];
+$begin = $_GET["begin"];
+$end = $_GET["end"];
 
 $dbhandler = getDatabase();
 $dbhandler->connect();
@@ -41,12 +34,6 @@ $dbhandler->connect();
 $owner = false;
 $validator = false;
 if(isset($_GET["for_owner_id"]) || isset($_GET["for_validator_id"])){
-	$myUser = getUserFromSession();
-	if(!$myUser) {
-		returnError(401, "unauthorized");
-		$dbhandler->disconnect();
-		return;
-	}
 	if(isset($_GET["for_owner_id"])) {
 		$owner = new User();
 		$owner->id = $_GET["for_owner_id"];
@@ -70,10 +57,9 @@ if(isset($_GET["for_owner_id"]) || isset($_GET["for_validator_id"])){
 }
 
 $fromDate = new DateTime();
+$fromDate->setTimestamp($begin);
 $toDate = new DateTime();
-$fromDate->setDate($year, $month, $day);
-$toDate->setDate($year, $month, $day);
-$toDate->add(new DateInterval('P'.$days.'D'));
+$toDate->setTimestamp($end);
 
 $fields = array("begin_date");
 $minvalues = array(Reservation::sqlDateTime($fromDate));

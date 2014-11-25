@@ -63,7 +63,6 @@ if(!isset($begin )|| !isset($end) || !isset($lab_id) ||
 	returnError(500, "invalid params");
 	return;
 }
-
 $beginDate = new DateTime();
 $beginDate->setTimestamp($begin);
 $endDate = new DateTime();
@@ -126,6 +125,8 @@ $reservation = new Reservation();
 $reservation->lab = $lab;
 $reservation->subject = $subject;
 $reservation->studentsAmount = $amount;
+$reservation->beginDate = $beginDate;
+$reservation->endDate = $endDate;
 if(isset($owner)) {
 	$reservation->owner = $owner;
 	$reservation->validator = $myUser;
