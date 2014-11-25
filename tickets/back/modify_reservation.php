@@ -131,7 +131,7 @@ $is_owner = $myUser->id == $reservation->owner->id;
 $is_validator = $myUser->id == $reservation->validator->id;
 if(!$is_owner && !$is_validator) {
 	//check if can be a new validator
-	if($myUser->accessLvl <= 1) {
+	if($myUser->accessLvl < 1) {
 		returnError(403, "invalid operation");
 		$dbhandler->disconnect();
 		return;
@@ -172,7 +172,10 @@ function validateTime(&$dbhandler, &$reservation, $beginDate, $endDate) {
 		foreach($reservations as &$r) {
 			if($r->id != $reservation->id && 
 			   $r->lab->id == $reservation->lab->id) {
-				return false;
+				$rstate = ReservationState::getLatestForReservationId($dbhandler, $r->id);
+				if($rstate->state != RES_STATE_CLOSED) {
+					return false;
+				}
 			}
 		}
 	}

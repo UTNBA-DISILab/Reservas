@@ -90,10 +90,14 @@ $maxvalues = array(Reservation::sqlDateTime($endDate), Reservation::sqlDateTime(
 $existing_reservations = Reservation::listAllBetween($dbhandler, $fields, $minvalues, $maxvalues);
 if(!empty($existing_reservations)) {
 	foreach($existing_reservations as &$r) {
-	if($r->lab->id == $lab_id) {
-		returnError(500, "invalid params");
-		$dbhandler->disconnect();
-		return;
+		if($r->lab->id == $lab_id) {
+			$rstate = ReservationState::getLatestForReservationId($dbhandler, $r->id);
+			if($rstate->state != RES_STATE_CLOSED) {
+				returnError(500, "invalid params");
+				$dbhandler->disconnect();
+				return;
+			}
+		}
 	}
 }
 
