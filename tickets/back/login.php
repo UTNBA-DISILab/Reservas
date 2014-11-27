@@ -34,19 +34,21 @@ if(isset($_GET["from_glpi"])) {
 	$from_glpi = $_GET["from_glpi"];
 }
 
-if(empty($username) || empty($password)) {
-	returnError(500, "missing username or password");
-	return;
-}
-
 if($from_sigma == $from_glpi) {
 	returnError(500, "undefined login network");
 	return;
 }
 
+if($from_glpi) {
+	if(empty($username) || empty($password)) {
+		returnError(500, "missing username or password");
+		return;
+	}
+}
+
 $user_data = false;
 if($from_sigma) {
-	$user_data = loginSigmaUser($username, $password);
+	$user_data = loginSigmaUser();
 }
 if($from_glpi) {
 	$user_data = loginGLPIUser($username, $password);
@@ -68,7 +70,7 @@ if($from_glpi) {
 }
 if($from_sigma) {
 	array_push($fields, 'sigma_user_id');
-	//array_push($params, $user_data["name"]);	//TODO get sigma id
+	array_push($params, $user_data["id"]);	//TODO get sigma id
 }
 
 $user = new User();
@@ -80,11 +82,14 @@ if(!$success) {
 		$user->surname = $user_data["surname"];
 		$user->glpiId = $user_data["id"];
 		$user->accessLvl = $user_data["level"];
+		$user->email = $user_data["email"];
 	}
 	if($from_sigma) {
-		$user->name = $username; //$user_data[?]; TODO verify against real user_data
-		//$user->surname = $user_data[?]; TODO verify against real user_data
-		//$user->sigmaId = $user_data[?]; TODO verify against real user_data
+	//TODO update with real data
+		$user->name = $user_data["name"];
+		$user->surname = $user_data["surname"];
+		$user->sigmaId = $user_data["id"];
+		$user->email = $user_data["email"];
 		$user->accessLvl = 0;
 	}
 	$user->commit($dbhandler);
@@ -118,10 +123,13 @@ return;
 
 //-----------------------------------------------------------
 
-function loginSigmaUser($username, $password) {
+function loginSigmaUser() {
 	//TODO validation against SIGMA
 	//return SIGMA data
-	return false;
+	//return false;
+	
+	//for Testing purpose
+	return array("id"=>"aweichandt","name"=>"Alejandro","surname"=>"Weichandt","email"=>"aweichandt@frba.utn.edu.ar");
 }
 
 function loginGLPIUser($username, $password) {

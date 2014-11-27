@@ -85,6 +85,10 @@ if(isset($description)) {
 $resState->user = $myUser;
 $resState->commit($dbhandler);
 
+if($state == RES_STATE_CONFIRMED) {
+	//TODO generar alta de reserva en GLPI
+}
+
 $dbhandler->disconnect();
 return;
 
