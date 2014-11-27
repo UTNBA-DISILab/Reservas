@@ -56,16 +56,14 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			return $http.post( url + '/materias', materiaNueva);
 		},
 		
-		enviarNuevaReserva: function(laboratorio, dia, minutosInicio, minutosFin, estado) {
-			
-			var timestampMedianoche = dia.getTime() - ( dia.getTime() % (1000 * 60 * 60 * 24) ) // las 00:00 de ese dia
+		enviarNuevaReserva: function(laboratorio, desde, hasta, estado) {
 			
 			var reservaNueva = {};
 			
-			reservaNueva.creation_date = new Date();
+			reservaNueva.creation_date = new Date().getTime();
 			reservaNueva.laboratorio = laboratorio;
-			reservaNueva.from = timestampMedianoche + (minutosInicio * 60 * 1000);
-			reservaNueva.to = timestampMedianoche + (minutosFin * 60 * 1000);
+			reservaNueva.from = desde.getTime();
+			reservaNueva.to = hasta.getTime();
 			reservaNueva.state = estado;
 			// el teacher_id lo ponemos acá o lo saca el server viendo la cookie?
 			

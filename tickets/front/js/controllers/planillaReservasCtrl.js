@@ -183,15 +183,13 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         var diasLibres = [];
         nombresDeLaboratorios.forEach(function(nombreDeLaboratorio){
             for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
-                var fecha = new Date();
-                fecha.setDate(fecha.getDate() + numeroDeDia);
                 var inicio = new Date();
                 inicio.setDate(inicio.getDate() + numeroDeDia);
                 inicio.setHours(9,0,0,0);
                 var fin = new Date();
                 fin.setDate(fin.getDate() + numeroDeDia);
                 fin.setHours(22,0,0,0);
-                diasLibres.push({laboratorio: nombreDeLaboratorio, fecha: fecha, desde: inicio, hasta: fin});
+                diasLibres.push({laboratorio: nombreDeLaboratorio, desde: inicio, hasta: fin});
             }
         })
         return diasLibres;

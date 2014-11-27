@@ -7,12 +7,21 @@
 			<span>Fecha solicitada: {{pedidoOReserva.fecha.toLocaleDateString()}}</span>
 		</div>
 		<br>
-		<div range-slider min="510" max="1320" model-min="pedidoOReserva.horario.de" model-max="pedidoOReserva.horario.a" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>
+		<div range-slider min="510" max="1320" 
+			model-min="pedidoOReserva.desde.getHours()*60+pedidoOReserva.desde.getMinutes()" 
+			model-max="pedidoOReserva.hasta.getHours()*60+pedidoOReserva.hasta.getMinutes()" 
+			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>
 		
 		<div class="horarioAclarado">
-			<span>Horario solicitado: desde las <strong>{{pedidoOReserva.horario.de | hourMinFilter}}</strong> hasta las <strong>{{pedidoOReserva.horario.a | hourMinFilter}}</strong>.</span>
+			<span>Horario solicitado: desde las 
+				<strong>
+					{{pedidoOReserva.desde.getHours()*60+pedidoOReserva.desde.getMinutes() | hourMinFilter}}
+				</strong> hasta las <strong>
+					{{pedidoOReserva.hasta.getHours()*60+pedidoOReserva.hasta.getMinutes() | hourMinFilter}}
+				</strong>.
+			</span>
 			<div id="divBotonCancelar">
-				<button class="botonDeFormulario" ng-click="cancelar()">Cancelar {{pedidoOReserva.tipo}}</button>
+				<button class="botonDeFormulario" ng-click="cancelar(pedidoOReserva)">Cancelar {{pedidoOReserva.tipo}}</button>
 			</div>
 		</div>
 		

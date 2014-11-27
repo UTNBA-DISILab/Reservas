@@ -77,68 +77,11 @@
 	
 	</head>
 
-	<!--Trae los datos de las reservas realizadas desde hoy a X días-->
 	<body ng-app='reservasApp'>
-
-		
 		<div ng-controller='encabezadoCtrl as encabezado'>
-
-			<!--
-			Título, Logueo/Deslogueo 
-				
-			-->
 			<encabezado></encabezado>
 			  <div ui-view></div>
-
-			<!--
-			Opciones: 
-				Eleger a un Profesor: Es un switch habilitado sólo para encargados del laboratorio.
-				Elegir una Materia: switch habilitado tanto para profesores como para el encargado si es que seleccionó a algún profesor.
-				Cantidad de días: Días que se muestran de cada laboratorio con sus estados de reserva.
-				Botón a Reservas anteriores (sólo si hay seleccionado un profe).
-
-			Planilla de horarios:
-				Gris: Ocupados (por otros profes) o No disponibles (por remodelación o por ser anteriores al horario actual).
-				Azul claro: Disponibles.
-				Azul oscuro: Disponibles y que coinciden con el horario de la materia del profesor.
-				Verde: Reservados por el profesor (sin importar en cuál de sus materias).
-				Amarillo: Una o más personas pidieron una reserva en ese horario. Esto sólo es visible para un encargado.
-
-				Sólo se habilitan los botones si hay alguien logueado.
-					Si es Docente, sólo puede pulsar algún sector azul (claro u oscuro). Se le aparece la pantalla para confirmar.
-					Si es un encargado, y seleccionó un docente y una materia, también puede pulsar un sector azul y confirmar el pedido. Queda registrado sin la necesidad de que el encargado lo apruebe.
-					Además, si es encargado, podrá pulsar las secciones rojas u amarillas. En tal caso, se le abrirá una ventana para aceptar pedidos no confirmados, y borrar pedidos anteriores.
-				-->
-
-			<!--Info de la página y creadores-->
-			
 		</div>
-
 		<footer ng-include="'templates/pie.html'"></footer>
 	</body>
-
-
-
-
-
-
-<!-- Versión anterior:
-
-	<body ng-app='reservasApp'>
-		<div id="contenedor">
-		<div id="contenido" ng-controller='SeccionParaMostrarCtrl as muestro'>
-			<encabezado></encabezado>
-			<menu-izquierdo></menu-izquierdo>
-			<bienvenida ng-show='muestro.bienvenida'></bienvenida>
-			<solicitar-reservas ng-show='muestro.solicitarReservas'></solicitar-reservas>
-			<reservas-anteriores ng-show='muestro.reservasAnteriores'></reservas-anteriores>
-			<footer ng-include="'templates/pie.html'"></footer>
-		</div>
-		</div>
-	</body>
-
--->
-
-
-
 </html>

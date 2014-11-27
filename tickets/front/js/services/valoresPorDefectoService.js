@@ -33,6 +33,7 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 		{id: 33, nombre:"Ignacio"}
 	];
 
+	//Todo esto es para tener un set de pruebas. El servidor nos enviará un timestamp, lo convertimos a Date y listo.
 	var hoyALas15 = new Date();
 	hoyALas15.setHours(15,0,0,0);//Horas, minutos, segundos, milisegundos
 	var hoyALas18 = new Date();
@@ -72,12 +73,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
-            fecha: hoy,
-			desde: hoyALas15,
+            desde: hoyALas15,
 			hasta: hoyALas18,
-            horario: {de: 900, a: 1080}, // de 15 a 18
-            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
-			state: 'confirmada'
+            state: 'confirmada'
         },
         {
             id: 257,
@@ -86,12 +84,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
-			fecha: hoy,
 			desde: hoyALas18,
 			hasta: hoyALas19,
-            horario: {de: 1080, a: 1140}, // de 18 a 19
-            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
-			state: 'confirmada'
+            state: 'confirmada'
         },
 		{
             id: 251,
@@ -100,12 +95,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Operativos',
 			laboratorio: 'Azul',
             docente: {id: 32, nombre:"Pedro"}, // TEMP
-			fecha: hoy,
 			desde: hoyALas19,
 			hasta: hoyALas21,
-            horario: {de: 1140, a: 1260}, // de 19 a 21
-            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
-			state: 'confirmada'
+            state: 'confirmada'
         },
 		{
             id: 252,
@@ -114,12 +106,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Operativos',
 			laboratorio: 'Azul',
             docente: {id: 33, nombre:"Ignacio"}, // TEMP
-			fecha: maniana,
 			desde: manianaALas19,
 			hasta: manianaALas21,
-            horario: {de: 1140, a: 1260}, // de 19 a 21
-            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
-			state: 'confirmada'
+            state: 'confirmada'
         },
 		{
             id: 253,
@@ -128,12 +117,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Operativos',
 			laboratorio: 'Azul',
             docente: {id: 33, nombre:"Ignacio"}, // TEMP
-			fecha: pasadoManiana,
 			desde: pasadoManianaALas13,
 			hasta: pasadoManianaALas19,
-            horario: {de: 780, a: 1140}, // de 13 a 19
-            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
-			state: 'confirmada'
+            state: 'confirmada'
         }
     ];
 
@@ -146,12 +132,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
-			fecha: maniana,
 			desde: manianaALas12,
 			hasta: manianaALas18,
-            horario: {de: 720, a: 1080}, // de 12 a 18
-            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
-			state: 'solicitada'
+            state: 'solicitada'
         },
 		{
             id: 255,
@@ -160,12 +143,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
-			fecha: pasadoManiana,
 			desde: pasadoManianaALas20,
 			hasta: pasadoManianaALas22,
-            horario: {de: 1200, a: 1320}, // de 20 a 22
-            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
-			state: 'solicitada'
+            state: 'solicitada'
         }
 		
     ];
@@ -177,12 +157,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
-			fecha: maniana,
 			desde: manianaALas12,
 			hasta: manianaALas18,
-            horario: {de: 720, a: 1080}, // de 12 a 18
-            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
-			state: 'solicitada'
+            state: 'solicitada'
         },
 		{
             id: 255,
@@ -191,12 +168,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			laboratorio: 'Azul',
             docente: {id: 31, nombre:"Juan"}, // TEMP
-			fecha: pasadoManiana,
 			desde: pasadoManianaALas20,
 			hasta: pasadoManianaALas22,
-            horario: {de: 1200, a: 1320}, // de 20 a 22
-            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
-			state: 'solicitada'
+            state: 'solicitada'
         },
 		{
             id: 256,
@@ -205,12 +179,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			laboratorio: 'Azul',
             docente: {id: 32, nombre:"Pedro"}, // TEMP
-			fecha: maniana,
 			desde: manianaALas15,
 			hasta: manianaALas19,
-            horario: {de: 900, a: 1140}, // de 15 a 19
-            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
-			state: 'solicitada'
+            state: 'solicitada'
         },
 		{
             id: 257,
@@ -219,12 +190,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			laboratorio: 'Azul',
             docente: {id: 33, nombre:"Ignacio"}, // TEMP
-			fecha: pasadoManiana,
 			desde: pasadoManianaALas19,
 			hasta: pasadoManianaALas21,
-            horario: {de: 1140, a: 1260}, // de 19 a 21
-            // por ahora from y to se generan a partir de esos (despues fecha y horario son los que se van a calcular en base a from y to)
-			state: 'solicitada'
+            state: 'solicitada'
         }
 		
     ];

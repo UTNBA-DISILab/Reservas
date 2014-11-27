@@ -11,22 +11,22 @@ angular.module('reservasApp').controller('cancelarPedidoOReservaCtrl',function($
 
 	$scope.pedidosOReservas = vistaAnterior.getEventos();
 	
-	$scope.cancelar = function() {
+	$scope.cancelar = function(pedidoOReserva) {
 		var seguro = confirm('Esta reserva se eliminar\xE1 del sistema. Desea continuar?');
 		
 		if(seguro) {
-			servidor.cancelarReserva($scope.reserva.id)
+			servidor.cancelarReserva(pedidoOReserva.id)
 			.success(function(data, status, headers, config) {
-				console.log('Eliminada la reserva ' + $scope.reserva.id + ' exitosamente' + ' (' + $scope.reserva.subject + ' en el lab ' + $scope.reserva.laboratorio + ' el d\xEDa ' + $scope.reserva.fecha + ')');
+				console.log('Eliminada la reserva ' + pedidoOReserva.id + ' exitosamente' + ' (' + pedidoOReserva.subject + ' en el lab ' + pedidoOReserva.laboratorio + ' el d\xEDa ' + pedidoOReserva.desde + ')');
 				alert('La reserva se elimin\xF3 exitosamente.');
 				$state.go('planillaReservas');
 				
 			})
 			.error(function(data, status, headers, config) {
-				console.log('Se produjo un error al eliminar la reserva ' + $scope.reserva.id + ' (' + $scope.reserva.subject + ' en el lab ' + $scope.reserva.laboratorio + ' el d\xEDa ' + $scope.reserva.fecha + ')');
+				console.log('Se produjo un error al eliminar la reserva ' + pedidoOReserva.id + ' (' + pedidoOReserva.subject + ' en el lab ' + pedidoOReserva.laboratorio + ' el d\xEDa ' + pedidoOReserva.desde + ')');
 				
 				// TEMP
-				alert('La reserva se elimin\xF3 exitosamente.');
+				alert('Se produjo un error al eliminar la reserva. Inténtelo más tarde.');
 				$state.go('planillaReservas');
 			});
 		};

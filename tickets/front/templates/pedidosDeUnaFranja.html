@@ -8,10 +8,19 @@
 			<span>Fecha solicitada: {{solicitud.fecha.toLocaleDateString()}}</span>
 		</div>
 		<br>
-		<div range-slider min="510" max="1320" model-min="solicitud.horario.de" model-max="solicitud.horario.a" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>
+		<div range-slider min="510" max="1320" 
+			model-min="solicitud.desde.getHours()*60+solicitud.desde.getMinutes()" 
+			model-max="solicitud.hasta.getHours()*60+solicitud.hasta.getMinutes()" 
+			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>
 		
 		<div class="horarioAclarado">
-			<span>Horario solicitado: desde las <strong>{{solicitud.horario.de | hourMinFilter}}</strong> hasta las <strong>{{solicitud.horario.a | hourMinFilter}}</strong>.</span>
+			<span>Horario solicitado: desde las 
+				<strong>
+					{{solicitud.desde.getHours()*60+solicitud.desde.getMinutes() | hourMinFilter}}
+				</strong> hasta las 
+				<strong>{{solicitud.hasta.getHours()*60+solicitud.hasta.getMinutes() | hourMinFilter}}
+				</strong>.
+			</span>
 		</div>
 		
 		<span>Laboratorio: {{solicitud.laboratorio}}</span>
