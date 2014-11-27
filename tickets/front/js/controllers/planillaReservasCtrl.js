@@ -443,6 +443,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 					if(franja.eventos[0].tipo == 'libre'){
 						if($scope.materia) {
 							franja.eventos[0].subject = $scope.materia;
+							franja.eventos[0].desde = franja.desde;
+							franja.eventos[0].hasta = franja.hasta;
 							comunicador.setEventos(franja.eventos);
 							$state.go('pedidoDeReserva');
 						}
