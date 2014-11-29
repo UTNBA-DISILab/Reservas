@@ -41,7 +41,7 @@ class DBObject {
 	}
 	
 	function remove() {
-		$deleteTag = true;
+		$this->deleteTag = true;
 	}
 	
 	function commit(&$dbhandler) {
@@ -114,6 +114,10 @@ class DBObject {
 		$query .= " WHERE `id`= '".$this->id."'";
 		
 		$result = $dbhandler->query($query);
+		if($result) {
+			$this->id = -1;
+			$this->deleteTag = false;
+		}
 		return ($result);
 	}
 	

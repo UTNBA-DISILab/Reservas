@@ -8,7 +8,7 @@ class Lab extends DBObject {
 	var $name = "";
 	var $location = "";
 	var $size = 0;
-	var $specifications = "";
+	var $specifications = array();
 	
 	function Lab($objid = -1) {
 		$this->id = $objid;
@@ -30,8 +30,8 @@ class Lab extends DBObject {
 		$name = $this->replaceNullValue($this->name, "");
 		$location = $this->replaceNullValue($this->location, "");
 		$size = $this->replaceNullValue($this->size, 0);
-		$specifications = $this->replaceNullValue(json_encode($this->specifications),"");
-		return array($name, location, $size, $specifications);
+		$specifications = $this->replaceNullValue(json_encode(objToUTF8($this->specifications)),"[]");
+		return array($name, $location, $size, $specifications);
 	}
 	
 	function setValues($row) {
