@@ -6,16 +6,16 @@
 				ng-options="docente.nombre for docente in docentes">
 		</select>
 		
-		<label class="nombre_campo">Especialidad: </label>
+		<label class="nombre_campo con_margen_izquierdo">Especialidad: </label>
 		<select ng-model="especialidad" name="especialidad" ng-change="actualizarEspecialidad()"
 				ng-options="especialidad.nombre for especialidad in especialidades">
 		</select>
 		
-		<label class="nombre_campo" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" >Materia: </label>
+		<label class="nombre_campo con_margen_izquierdo" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" >Materia: </label>
 		<select ng-model="materia" name="materia" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" ng-options="materia for materia in especialidad.materias">
 		</select>
 		
-		<label class="nombre_campo" for="materia" ng-show="especialidad && !seConocenLasMateriasDe(especialidad)">Ingrese la materia: </label><input type="text" id="materiaIngresada" name="materia" ng-model="materia" maxlength="50" ng-show="especialidad && !seConocenLasMateriasDe(especialidad)" ng-change="actualizarMateria()"/>
+		<label class="nombre_campo con_margen_izquierdo" for="materia" ng-show="especialidad && !seConocenLasMateriasDe(especialidad)">Materia: </label><input type="text" id="materiaIngresada" name="materia" ng-model="materia" maxlength="50" ng-show="especialidad && !seConocenLasMateriasDe(especialidad)" ng-change="actualizarMateria()"/>
 		
 	</div>
 	<div>
@@ -28,7 +28,7 @@
 			<h3>Fecha</h3>
 		</div>
 		<div class='dia' ng-repeat='dia in dias'>
-			<h4 class='fecha'>{{diaDeLaSemana(dia.fecha.getDay())}} {{dia.fecha.getDate()}} de {{nombreDelMes(dia.fecha.getMonth())}}</h4>
+			<h4 class='fecha'>{{dia.fecha.getFechaLarga()}}</h4>
 		</div>
 	</div>
 	<div id='columnaDeTodosLosLaboratorios'><!--100% del tamaño restante-->

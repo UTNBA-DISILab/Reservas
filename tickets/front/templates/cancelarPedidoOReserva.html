@@ -1,23 +1,23 @@
 <div id="cancelarPedidoOReserva" ng-style='margen'>
 	<div class="pedidoOReserva" ng-repeat="pedidoOReserva in pedidosOReservas">
 		
-		<span class="fechaAltaSlider">Fecha y hora de alta de la solicitud: {{nuevoDate(pedidoOReserva.creation_date).toLocaleString()}}</span>
+		<span class="fechaAltaSlider">Fecha y hora de alta de la solicitud: {{nuevoDate(pedidoOReserva.creation_date).getFechaLargaConAnio()}}, {{nuevoDate(pedidoOReserva.creation_date).getMinutosDesdeMedianoche() | hourMinFilter}}</span>
 		<br>
 		<div class="fechaSolicitadaSlider">
-			<span>Fecha solicitada: {{pedidoOReserva.fecha.toLocaleDateString()}}</span>
+			<span>Fecha solicitada: {{pedidoOReserva.desde.getFechaLargaConAnio()}}</span>
 		</div>
 		<br>
 		<div range-slider min="510" max="1320" 
-			model-min="pedidoOReserva.desde.getHours()*60+pedidoOReserva.desde.getMinutes()" 
-			model-max="pedidoOReserva.hasta.getHours()*60+pedidoOReserva.hasta.getMinutes()" 
+			model-min="pedidoOReserva.desde.getMinutosDesdeMedianoche()" 
+			model-max="pedidoOReserva.hasta.getMinutosDesdeMedianoche()" 
 			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>
 		
 		<div class="horarioAclarado">
 			<span>Horario solicitado: desde las 
 				<strong>
-					{{pedidoOReserva.desde.getHours()*60+pedidoOReserva.desde.getMinutes() | hourMinFilter}}
+					{{pedidoOReserva.desde.getMinutosDesdeMedianoche() | hourMinFilter}}
 				</strong> hasta las <strong>
-					{{pedidoOReserva.hasta.getHours()*60+pedidoOReserva.hasta.getMinutes() | hourMinFilter}}
+					{{pedidoOReserva.hasta.getMinutosDesdeMedianoche() | hourMinFilter}}
 				</strong>.
 			</span>
 			<div id="divBotonCancelar">

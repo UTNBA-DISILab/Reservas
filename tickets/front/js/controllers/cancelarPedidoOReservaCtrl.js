@@ -32,8 +32,8 @@ angular.module('reservasApp').controller('cancelarPedidoOReservaCtrl',function($
 		};
 	};
 	
-	$scope.nuevoDate = function(fecha) {
-		return new Date(fecha);
+	$scope.nuevoDate = function(timestamp) {
+		return new Date(timestamp);
 	};
 	
 	$scope.volver = function(){

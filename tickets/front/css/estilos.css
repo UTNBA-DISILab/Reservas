@@ -512,6 +512,11 @@ h4.fecha {
 
 .nombre_campo {
 	margin-left: 0px;
+	position: inherit;
+}
+
+.con_margen_izquierdo {
+	margin-left: 50px;
 }
 
 .materias_cargadas ul {

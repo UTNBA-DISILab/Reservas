@@ -13,8 +13,8 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	$scope.evento = vistaAnterior.getEventos()[0];
 	
 	// El rango libre es todo el tiempo libre contiguo al punto del click
-	$scope.rangoLibre = {desde: $scope.evento.desde.getHours()*60+$scope.evento.desde.getMinutes(),
-						 hasta: $scope.evento.hasta.getHours()*60+$scope.evento.hasta.getMinutes()}; // PENDIENTE No esta llegando bien el pedazo libre clickeado
+	$scope.rangoLibre = {desde: $scope.evento.desde.getMinutosDesdeMedianoche(),
+						 hasta: $scope.evento.hasta.getMinutosDesdeMedianoche()};
 
 	$scope.materia = $scope.evento.subject;
 	
