@@ -58,4 +58,13 @@ function validateReservation(&$dbhandler, $res_id) {
 	}
 	return $x;
 }
+
+function validateTerminal(&$dbhandler, $trm_id) {
+	$x = new Terminal();
+	$x->id = $trm_id;
+	if(!$x->load($dbhandler)) {
+		return false;
+	}
+	return $x;
+}
 ?>
