@@ -1,14 +1,12 @@
 <?php
 /**
-* Tickets System add lab form
+* Tickets System add subject form
 request:
 POST
 
 params:
 - name
-- location
-- size
-+ other params saved in specifications
+- code
 
 return:
 nothing or error
@@ -34,21 +32,12 @@ if(!$jsonparams) {
 }
 if(isset($jsonparams["name"])) {
 	$name = $jsonparams["name"];
-	unset($jsonparams["name"]);
 }
-if(isset($jsonparams["location"])) {
-	$location = $jsonparams["location"];
-	unset($jsonparams["location"]);
-}
-if(isset($jsonparams["size"])) {
-	$size = $jsonparams["size"];
-	unset($jsonparams["size"]);
-}
-if(!empty(array_keys($jsonparams))) {
-	$extra = $jsonparams;
+if(isset($jsonparams["code"])) {
+	$code = $jsonparams["code"];
 }
 
-if(!isset($name )|| !isset($location) || !isset($size)) {
+if(!isset($name )|| !isset($code)) {
 	returnError(500, "invalid params");
 	return;
 }
@@ -56,23 +45,19 @@ if(!isset($name )|| !isset($location) || !isset($size)) {
 $dbhandler = getDatabase();
 $dbhandler->connect();
 
-//check existing name
-$existing = new Lab();
-if($existing->loadUsingValues($dbhandler, array('name'), array($name))) {
+//check existing code
+$existing = new Subject();
+if($existing->loadUsingValues($dbhandler, array('code'), array($code))) {
 	returnError(500, "invalid name");
 	$dbhandler->disconnect();
 	return;
 }
 
-//add labs
-$lab = new Lab();
-$lab->name = $name;
-$lab->location = $location;
-$lab->size = $size;
-if(isset($extra)) {
-	$lab->specifications = $extra;
-}
-if(!$lab->commit($dbhandler)) {
+//add subject
+$subject = new Subject();
+$subject->name = $name;
+$subject->code = $code;
+if(!$subject->commit($dbhandler)) {
 	returnError(500, "server error");
 	$dbhandler->disconnect();
 	return;

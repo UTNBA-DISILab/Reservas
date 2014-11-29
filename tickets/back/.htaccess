@@ -4,8 +4,12 @@ RewriteRule    ^sigma_login/?$    login.php?from_sigma=true&$    [NC,L]
 RewriteRule    ^glpi_login/?$    login.php?from_glpi=true&$    [NC,L]
 RewriteRule    ^logout/?$    logout.php    [NC,L]
     # Handle labs requests
+RewriteRule    ^labs/add?$    add_lab.php    [NC,L]
+RewriteRule    ^labs/([0-9]+)/delete?$    delete_lab.php?lab_id=$1    [NC,L]
 RewriteRule    ^labs/?$    get_labs.php    [NC,L]
     # Handle subjects requests
+RewriteRule    ^subjects/add?$    add_subject.php    [NC,L]
+RewriteRule    ^subjects/([0-9]+)/delete?$    delete_subject.php?subject_id=$1    [NC,L]
 RewriteRule    ^subjects/?$    get_subjects.php    [NC,L]
     # Handle user requests
 RewriteRule    ^users/?$    get_users.php    [NC,L]

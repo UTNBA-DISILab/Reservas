@@ -42,12 +42,4 @@ if($myUser->accessLvl > 0) {
 }
 cleanSession();
 return;
-
-
-//-----------------------------------------------------------
-
-function returnError($error_code, $error_msg) {
-	http_response_code($error_code);
-	echo "Error:".$error_msg;
-}
 ?>

@@ -135,9 +135,4 @@ function loginSigmaUser() {
 function loginGLPIUser($username, $password) {
 	return authorizeGLPIUser($username, $password);
 }
-
-function returnError($error_code, $error_msg) {
-	http_response_code($error_code);
-	echo "Error:".$error_msg;
-}
 ?>

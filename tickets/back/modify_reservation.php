@@ -181,27 +181,4 @@ function validateTime(&$dbhandler, &$reservation, $beginDate, $endDate) {
 	}
 	return true;
 }
-
-function validateLab(&$dbhandler, $lab_id) {
-	$lab = new Lab();
-	$lab->id = $lab_id;
-	if(!$lab->load($dbhandler)) {
-		return false;
-	}
-	return $lab;
-}
-
-function validateSubject(&$dbhandler, $subject_id) {
-	$subject = new Subject();
-	$subject->id = $subject_id;
-	if(!$subject->load($dbhandler)) {
-		return false;
-	}
-	return $subject;
-}
-
-function returnError($error_code, $error_msg) {
-	http_response_code($error_code);
-	echo "Error:".$error_msg;
-}
 ?>

@@ -37,12 +37,4 @@ echo json_encode(objToUTF8($return));
 
 $dbhandler->disconnect();
 return;
-
-
-//-----------------------------------------------------------
-
-function returnError($error_code, $error_msg) {
-	http_response_code($error_code);
-	echo "Error:".$error_msg;
-}
 ?>

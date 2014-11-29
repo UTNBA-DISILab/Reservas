@@ -1,11 +1,11 @@
 <?php
 /**
-* Tickets System delete lab form
+* Tickets System delete subject form
 request:
 POST
 
 params:
-- lab_id
+- subject_id
 
 return:
 nothing
@@ -18,25 +18,26 @@ if(!$myUser || $myUser->accessLvl < 1) {
 	return;
 }
 
-if(!isset($_GET["lab_id"])) {
+if(!isset($_GET["subject_id"])) {
 	returnError(500, "missing id");
 	return;
 }
-$lab_id = $_GET["lab_id"];
+$subject_id = $_GET["subject_id"];
 
 $dbhandler = getDatabase();
 $dbhandler->connect();
 
-//check existing reservations in that time
-$lab = validateLab($dbhandler, $lab_id);
-if(!$lab) {
-	returnError(404, "lab not found");
+//check existing subject
+
+$subject = validateSubject($dbhandler, $subject_id);
+if(!$subject) {
+	returnError(404, "subject not found");
 	$dbhandler->disconnect();
 }
 
 //delete lab
-$lab->remove();
-if(!$lab->commit($dbhandler)) {
+$subject->remove();
+if(!$subject->commit($dbhandler)) {
 	returnError(500, "server error");
 	$dbhandler->disconnect();
 	return;

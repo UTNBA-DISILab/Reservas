@@ -38,9 +38,8 @@ $dbhandler = getDatabase();
 $dbhandler->connect();
 
 //check existing reservations in that time
-$reservation = new Reservation();
-$reservation->id = $res_id;
-if(!$reservation->load($dbhandler)) {
+$reservation = validateReservation($dbhandler, $res_id);
+if(!$reservation) {
 	returnError(404, "reservation not found");
 	$dbhandler->disconnect();
 }
@@ -57,12 +56,4 @@ $resState->commit($dbhandler);
 
 $dbhandler->disconnect();
 return;
-
-
-//-----------------------------------------------------------
-
-function returnError($error_code, $error_msg) {
-	http_response_code($error_code);
-	echo "Error:".$error_msg;
-}
 ?>

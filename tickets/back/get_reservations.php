@@ -35,9 +35,7 @@ $owner = false;
 $validator = false;
 if(isset($_GET["for_owner_id"]) || isset($_GET["for_validator_id"])){
 	if(isset($_GET["for_owner_id"])) {
-		$owner = new User();
-		$owner->id = $_GET["for_owner_id"];
-		$owner->load($dbhandler);
+		$owner = validateUser($dbhandler, $_GET["for_owner_id"]);
 		if(!$owner) {
 			returnError(500, "invalid owner");
 			$dbhandler->disconnect();
@@ -45,9 +43,7 @@ if(isset($_GET["for_owner_id"]) || isset($_GET["for_validator_id"])){
 		}
 	}
 	if(isset($_GET["for_validator_id"])){
-		$validator = new User();
-		$validator->id = $_GET["for_validator_id"];
-		$validator->load($dbhandler);
+		$validator = validateUser($dbhandler, $_GET["for_validator_id"]) ;
 		if(!$validator) {
 			returnError(500, "invalid validator");
 			$dbhandler->disconnect();
@@ -99,12 +95,4 @@ echo json_encode(objToUTF8($return));
 
 $dbhandler->disconnect();
 return;
-
-
-//-----------------------------------------------------------
-
-function returnError($error_code, $error_msg) {
-	http_response_code($error_code);
-	echo "Error:".$error_msg;
-}
 ?>

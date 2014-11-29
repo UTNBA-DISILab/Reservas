@@ -73,9 +73,8 @@ $dbhandler = getDatabase();
 $dbhandler->connect();
 
 //check labs
-$lab = new Lab();
-$lab->id = $lab_id;
-if(!$lab->load($dbhandler)) {
+$lab = validateLab($dbhandler, $lab_id);
+if(!$lab) {
 	returnError(500, "invalid params");
 	$dbhandler->disconnect();
 	return;
@@ -102,9 +101,8 @@ if(!empty($existing_reservations)) {
 
 //check owner
 if(isset($for_owner_id)) {
-	$owner = new User();
-	$owner->id = $for_owner_id;
-	if(!$owner->load($dbhandler)) {
+	$owner = validateUser($dbhandler, $for_owner_id);
+	if(!$owner) {
 		returnError(500, "invalid params");
 		$dbhandler->disconnect();
 		return;
@@ -112,9 +110,8 @@ if(isset($for_owner_id)) {
 }
 
 //check subject
-$subject = new Subject();
-$subject->id = $subject_id;
-if(!$subject->load($dbhandler)) {
+$subject = validateSubject($dbhandler, $subject_id);
+if(!$subject) {
 	returnError(500, "invalid params");
 	$dbhandler->disconnect();
 	return;
@@ -151,12 +148,4 @@ $resState->commit($dbhandler);
 
 $dbhandler->disconnect();
 return;
-
-
-//-----------------------------------------------------------
-
-function returnError($error_code, $error_msg) {
-	http_response_code($error_code);
-	echo "Error:".$error_msg;
-}
 ?>
