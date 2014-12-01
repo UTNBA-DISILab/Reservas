@@ -26,24 +26,17 @@ $labs = Lab::listAll($dbhandler);
 $return = array();
 if(is_array($labs)) {
 	foreach($labs as &$lab) {
-		$labinfo = array("name"=>$lab->name,
-						 "location"=>$lab->location,
-						 "size"=>$lab->size);
+		$labinfo = array("id"=>$lab->id,
+						 "nombre"=>$lab->name,
+						 "sede"=>$lab->location,
+						 "cant_puestos"=>$lab->size);
 		array_push($return, array_merge($labinfo, (array)$lab->specifications));
 		unset($lab);
 	}
 }
 
-echo json_encode($return);
+echo json_encode(objToUTF8($return));
 
 $dbhandler->disconnect();
 return;
-
-
-//-----------------------------------------------------------
-
-function returnError($error_code, $error_msg) {
-	http_response_code($error_code);
-	echo "Error:".$error_msg;
-}
 ?>

@@ -17,8 +17,6 @@ class Reservation extends DBObject {
 	var $lab;
 	//subject id. subject class being used on this reservation
 	var $subject;
-	//students amount of the class
-	var $studentsAmount = 0;
 	
 	function Reservation($objid = -1) {
 		$this->id = $objid;
@@ -28,7 +26,6 @@ class Reservation extends DBObject {
 		$this->endDate = new DateTime("now");
 		$this->lab = new Lab();
 		$this->subject = new Subject();
-		$this->studentsAmount = 0;
 	}
 	
 	function table() {
@@ -37,7 +34,7 @@ class Reservation extends DBObject {
 	
 	function fields() {
 		return array("owner_id", "validator_id", "begin_date",
-					 "end_date", "lab_id", "subject_id", "students_amount");
+					 "end_date", "lab_id", "subject_id");
 	}
 	
 	function values() {
@@ -47,9 +44,8 @@ class Reservation extends DBObject {
 		$end_date = $this->sqlDateTime($this->endDate);
 		$lab_id = $this->replaceNullValue($this->lab->id);
 		$subject_id = $this->replaceNullValue($this->subject->id);
-		$students_amount = $this->studentsAmount;
 		return array($owner_id, $validator_id, $begin_date,
-					 $end_date, $lab_id, $subject_id, $students_amount);
+					 $end_date, $lab_id, $subject_id);
 	}
 	
 	function setValues($row) {
@@ -59,7 +55,6 @@ class Reservation extends DBObject {
 		$this->endDate = $this->phpDateTime($row["end_date"]);
 		$this->lab->id = $this->replaceNull($row["lab_id"]);
 		$this->subject->id = $this->replaceNull($row["subject_id"]);
-		$this->studentsAmount = $row["students_amount"];
 	}
 }
 ?>

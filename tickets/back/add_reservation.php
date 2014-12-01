@@ -8,7 +8,6 @@ params:
 - begin (timestamp)
 - end (timestamp)
 - lab_id
-- amount
 - subject_id
 + description
 + for_user_id
@@ -45,9 +44,6 @@ if(isset($jsonparams["end"])) {
 if(isset($jsonparams["lab_id"])) {
 	$lab_id = $jsonparams["lab_id"];
 }
-if(isset($jsonparams["amount"])) {
-	$amount = $jsonparams["amount"];
-}
 if(isset($jsonparams["subject_id"])) {
 	$subject_id = $jsonparams["subject_id"];
 }
@@ -59,7 +55,7 @@ if(isset($jsonparams["for_user_id"])) {
 }
 
 if(!isset($begin )|| !isset($end) || !isset($lab_id) || 
-   !isset($amount) || !isset($subject_id)) {
+   !isset($subject_id)) {
 	returnError(500, "invalid params");
 	return;
 }
@@ -68,7 +64,6 @@ $beginDate->setTimestamp($begin);
 $endDate = new DateTime();
 $endDate->setTimestamp($end);
 
-//TODO chequear capacidad de laboratorio contra amount
 $dbhandler = getDatabase();
 $dbhandler->connect();
 
@@ -121,7 +116,6 @@ if(!$subject) {
 $reservation = new Reservation();
 $reservation->lab = $lab;
 $reservation->subject = $subject;
-$reservation->studentsAmount = $amount;
 $reservation->beginDate = $beginDate;
 $reservation->endDate = $endDate;
 if(isset($owner)) {

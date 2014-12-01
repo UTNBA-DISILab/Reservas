@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2014 a las 03:59:23
+-- Tiempo de generación: 01-12-2014 a las 12:08:28
 -- Versión del servidor: 5.6.16
 -- Versión de PHP: 5.5.11
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `labs` (
   `size` int(3) NOT NULL,
   `specifications` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -51,9 +51,8 @@ CREATE TABLE IF NOT EXISTS `reservations` (
   `end_date` datetime NOT NULL,
   `lab_id` int(11) NOT NULL,
   `subject_id` int(11) NOT NULL,
-  `students_amount` int(2) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -70,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `reservation_states` (
   `state` int(1) NOT NULL,
   `description` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`reservation_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -86,6 +85,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   `date` datetime NOT NULL,
   `operation` int(2) NOT NULL,
   PRIMARY KEY (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `subjects` (
   `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `code` int(6) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -114,6 +114,7 @@ CREATE TABLE IF NOT EXISTS `terminals` (
   `lan_ip_address` int(10) unsigned NOT NULL,
   `lan_network` int(10) unsigned NOT NULL,
   PRIMARY KEY (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -128,8 +129,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   `sigma_user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `surname` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `access_level` int(1) NOT NULL,
   PRIMARY KEY (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

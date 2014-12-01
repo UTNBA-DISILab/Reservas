@@ -9,7 +9,6 @@ params:
 + begin (timestamp)
 + end (timestamp)
 + lab_id
-+ amount
 + subject_id
 + description
 
@@ -50,9 +49,6 @@ if(isset($jsonparams["end"])) {
 }
 if(isset($jsonparams["lab_id"])) {
 	$lab_id = $jsonparams["lab_id"];
-}
-if(isset($jsonparams["amount"])) {
-	$amount = $jsonparams["amount"];
 }
 if(isset($jsonparams["subject_id"])) {
 	$subject_id = $jsonparams["subject_id"];
