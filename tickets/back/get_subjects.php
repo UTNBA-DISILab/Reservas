@@ -5,7 +5,7 @@ request:
 GET
 
 params:
-none
++ subject_id
 
 return:
 [{name:<string>, code:<string>}, ..] or error string
@@ -18,23 +18,50 @@ if(!$myUser) {
 	return;
 }
 
-$dbhandler = getDatabase();
-$dbhandler->connect();
+if(isset($_GET["subject_id"])) {
+	listId($_GET["subject_id"]);
+}
+else {
+	listAll();
+}
+ return;
+//----------------------------------------------------
 
-$subjects = Subject::listAll($dbhandler);
-$return = array();
-if(is_array($subjects)) {
-	foreach($subjects as &$subject) {
-		$info = array("id"=>$subject->id,
-					  "name"=>$subject->name,
-					  "code"=>$subject->code);
-		array_push($return, $info);
-		unset($subject);
+function listId($sbj_id) {
+	$dbhandler = getDatabase();
+	$dbhandler->connect();
+	
+	$subject = validateSubject($dbhandler, $sbj_id);
+	if(!$subject) {
+		returnError(404, "not found");
+		return;
 	}
+	$return = array("id"=>$subject->id,
+				    "name"=>$subject->name,
+				    "code"=>$subject->code);
+	echo json_encode(objToUTF8($return));
+	$dbhandler->disconnect();
 }
 
-echo json_encode(objToUTF8($return));
+//----------------------------------------------------
 
-$dbhandler->disconnect();
-return;
+function listAll() {
+	$dbhandler = getDatabase();
+	$dbhandler->connect();
+
+	$subjects = Subject::listAll($dbhandler);
+	$return = array();
+	if(is_array($subjects)) {
+		foreach($subjects as &$subject) {
+			$info = array("id"=>$subject->id,
+						  "name"=>$subject->name,
+						  "code"=>$subject->code);
+			array_push($return, $info);
+			unset($subject);
+		}
+	}
+
+	echo json_encode(objToUTF8($return));
+	$dbhandler->disconnect();
+}
 ?>

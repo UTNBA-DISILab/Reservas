@@ -6,16 +6,25 @@ RewriteRule    ^logout/?$    logout.php    [NC,L]
     # Handle labs requests
 RewriteRule    ^labs/add?$    add_lab.php    [NC,L]
 RewriteRule    ^labs/([0-9]+)/delete?$    delete_lab.php?lab_id=$1    [NC,L]
+RewriteRule    ^labs/([0-9]+)?$    get_labs.php?lab_id=$1    [NC,L]
 RewriteRule    ^labs/?$    get_labs.php    [NC,L]
     # Handle subjects requests
 RewriteRule    ^subjects/add?$    add_subject.php    [NC,L]
 RewriteRule    ^subjects/([0-9]+)/delete?$    delete_subject.php?subject_id=$1    [NC,L]
+RewriteRule    ^subjects/([0-9]+)?$    get_subjects.php?subject_id=$1    [NC,L]
 RewriteRule    ^subjects/?$    get_subjects.php    [NC,L]
+    # Handle terminal requests
+RewriteRule    ^terminals/add?$    add_terminal.php    [NC,L]
+RewriteRule    ^terminals/([0-9]+)/delete?$    delete_terminal.php?terminal_id=$1    [NC,L]
+RewriteRule    ^terminals/([0-9]+)?$    get_terminals.php?terminal_id=$1    [NC,L]
+RewriteRule    ^terminals/?$    get_terminals.php    [NC,L]
     # Handle user requests
+RewriteRule    ^users/([0-9]+)?$    get_users.php?user_id=$1    [NC,L]
 RewriteRule    ^users/?$    get_users.php    [NC,L]
     # Handle reservation requests
 RewriteRule    ^reservations/([0-9]+)/update?$    modify_reservation.php?res_id=$1    [NC,L]
 RewriteRule    ^reservations/([0-9]+)/delete?$    delete_reservation.php?res_id=$1    [NC,L]
 RewriteRule    ^reservations/([0-9]+)/confirm?$    confirm_reservation.php?res_id=$1    [NC,L]
+RewriteRule    ^reservations/([0-9]+)?$    get_reservations.php?reservation_id=$1    [NC,L]
 RewriteRule    ^reservations/add?$    add_reservation.php    [NC,L]
 RewriteRule    ^reservations/?$    get_reservations.php    [NC,L]

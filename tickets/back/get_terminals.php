@@ -5,7 +5,7 @@ request:
 GET
 
 params:
-none
++ terminal_id
 
 return:
 [{name:<string>, ip:<string>}, ..] or error string
@@ -18,24 +18,52 @@ if(!$myUser || $myUser->accessLvl < 1) {
 	return;
 }
 
-$dbhandler = getDatabase();
-$dbhandler->connect();
+if(isset($_GET["terminal_id"])) {
+	listId($_GET["terminal_id"]);
+}
+else {
+	listAll();
+}
+ return;
 
-$terminals = Terminal::listAll($dbhandler);
 
-$return = array();
-if(is_array($terminals)) {
-	foreach($terminals as &$trm) {
-		$trminfo = array("id"=>$trm->id,
-						 "nombre"=>$trm->name,
-						 "ip"=>$trm->ip);
-		array_push($return, $trminfo);
-		unset($trm);
+//----------------------------------------------------
+
+function listId($trm_id) {
+	$dbhandler = getDatabase();
+	$dbhandler->connect();
+	
+	$trm = validateTerminal($dbhandler, $trm_id);
+	if(!$trm) {
+		returnError(404, "not found");
+		return;
 	}
+	$return = array("id"=>$trm->id,
+				 "nombre"=>$trm->name,
+				 "ip"=>$trm->ip);
+	echo json_encode(objToUTF8($return));
+	$dbhandler->disconnect();
 }
 
-echo json_encode(objToUTF8($return));
+//----------------------------------------------------
 
-$dbhandler->disconnect();
-return;
+function listAll() {
+	$dbhandler = getDatabase();
+	$dbhandler->connect();
+
+	$terminals = Terminal::listAll($dbhandler);
+
+	$return = array();
+	if(is_array($terminals)) {
+		foreach($terminals as &$trm) {
+			$trminfo = array("id"=>$trm->id,
+							 "nombre"=>$trm->name,
+							 "ip"=>$trm->ip);
+			array_push($return, $trminfo);
+			unset($trm);
+		}
+	}
+	echo json_encode(objToUTF8($return));
+	$dbhandler->disconnect();
+}
 ?>
