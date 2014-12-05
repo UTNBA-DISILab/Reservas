@@ -18,8 +18,10 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			var from = primerDiaSolicitado.getTime();
 			var to = from + cantDiasSolicitados * (24 * 60 * 60 * 1000);
 
-			//return $http.get( url + '/reservas/' + primerDiaSolicitado.getFullYear() + '/' + ('0' + (primerDiaSolicitado.getMonth()+1)).slice(-2) + '/' + ('0' + primerDiaSolicitado.getDate()).slice(-2) + '?cant_dias=' + cantDiasSolicitados);
-			return $http.get( url + '/reservas' + '?from=' + from + '&to=' + to);
+			//return $http.get( url + '/reservations/' + primerDiaSolicitado.getFullYear() + '/' + ('0' + (primerDiaSolicitado.getMonth()+1)).slice(-2) + '/' + ('0' + primerDiaSolicitado.getDate()).slice(-2) + '?cant_dias=' + cantDiasSolicitados);
+			//return $http.get( url + '/reservas' + '?from=' + from + '&to=' + to);
+			return $http.get( url + '/reservations' + '?begin=' + from + '&end=' + to);
+			
 			// El server NO debe leer la cookie. Siempre debe traer TODAS las reservas de la base
 			// siempre en el rango de timestamps mandados.
 		},
@@ -29,7 +31,9 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			var from = primerDiaSolicitado.getTime();
 			var to = from + cantDiasSolicitados * (24 * 60 * 60 * 1000);
 				
-			return $http.get( url + '/reservas' + '?from=' + from + '&to=' + to + '&solo_a_confirmar=true');
+			//return $http.get( url + '/reservas' + '?from=' + from + '&to=' + to + '&solo_a_confirmar=true');
+			return $http.get( url + '/reservations' + '?begin=' + from + '&end=' + to + '&solo_a_confirmar=true');
+			
 			// El server debe leer la cookie. Si no hay usuario logueado, devuelve array vacio.
 			// Si hay usuario y es docente, trae sus reservas solicitadas.
 			// Si hay usuario y es encargado, trae TODAS las reservas solicitadas
@@ -43,7 +47,8 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		},
 		
 		obtenerMaterias: function() {
-			return $http.get( url + '/materias');
+			//return $http.get( url + '/materias');
+			return $http.get( url + '/subjects');
 		},
 		
 		cargarMateria: function(nombre, especialidad) {
@@ -53,7 +58,9 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			materiaNueva.nombre = nombre;
 			materiaNueva.especialidad = especialidad;
 			
-			return $http.post( url + '/materias', materiaNueva);
+			//return $http.post( url + '/materias', materiaNueva);
+			//return $http.post( url + '/subjects', materiaNueva); // asi deberia ser para que la API sea RESTful
+			return $http.post( url + '/subjects/add', materiaNueva);
 		},
 		
 		enviarNuevaReserva: function(laboratorio, desde, hasta, estado) {
@@ -67,23 +74,32 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			reservaNueva.state = estado;
 			// el teacher_id lo ponemos acá o lo saca el server viendo la cookie?
 			
-			return $http.post( url + '/reservas', reservaNueva);
+			//return $http.post( url + '/reservas', reservaNueva);
+			//return $http.post( url + '/reservations', reservaNueva); // asi deberia ser para que la API sea RESTful
+			return $http.post( url + '/reservations/add', reservaNueva);
 		},
 		
 		confirmarReserva: function(id) {
-			return $http.get( url + '/reservas/' + id + '?action=confirm');
+			//return $http.get( url + '/reservas/' + id + '?action=confirm');
+			//return $http.get( url + '/reservations/' + id + '?action=confirm');
+			return $http.get( url + '/reservations/' + id + '/confirm');
 		},
 		
+		// Este no va a hacer falta, usamos el modify
 		rechazarReserva: function(id) {
-			return $http.get( url + '/reservas/' + id + '?action=reject');
+			//return $http.get( url + '/reservas/' + id + '?action=reject');
+			return $http.get( url + '/reservations/' + id + '?action=reject');
 		},
 		
 		cancelarReserva: function(id) {
-			return $http.delete( url + '/reservas/' + id);
+			//return $http.delete( url + '/reservas/' + id);
+			//return $http.delete( url + '/reservations/' + id); // asi deberia ser para que la API sea RESTful
+			return $http.post( url + '/reservations/' + id + '/delete'); // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
 		obtenerDocentes: function() {
-			return $http.get( url + '/docentes');
+			//return $http.get( url + '/docentes');
+			return $http.get( url + '/users');
 		}
 		
 	}
