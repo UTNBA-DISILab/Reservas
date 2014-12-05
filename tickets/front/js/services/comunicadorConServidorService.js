@@ -19,7 +19,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			var to = from + cantDiasSolicitados * (24 * 60 * 60 * 1000);
 
 			//return $http.get( url + '/reservas/' + primerDiaSolicitado.getFullYear() + '/' + ('0' + (primerDiaSolicitado.getMonth()+1)).slice(-2) + '/' + ('0' + primerDiaSolicitado.getDate()).slice(-2) + '?cant_dias=' + cantDiasSolicitados);
-			return $http.get( url + '/reservas/' + '?from=' + from + '&to=' + to);
+			return $http.get( url + '/reservas' + '?from=' + from + '&to=' + to);
 			// El server NO debe leer la cookie. Siempre debe traer TODAS las reservas de la base
 			// siempre en el rango de timestamps mandados.
 		},
@@ -29,7 +29,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			var from = primerDiaSolicitado.getTime();
 			var to = from + cantDiasSolicitados * (24 * 60 * 60 * 1000);
 				
-			return $http.get( url + '/reservas/' + '?from=' + from + '&to=' + to + '&solo_a_confirmar=true');
+			return $http.get( url + '/reservas' + '?from=' + from + '&to=' + to + '&solo_a_confirmar=true');
 			// El server debe leer la cookie. Si no hay usuario logueado, devuelve array vacio.
 			// Si hay usuario y es docente, trae sus reservas solicitadas.
 			// Si hay usuario y es encargado, trae TODAS las reservas solicitadas

@@ -40,7 +40,7 @@ function listId($lab_id) {
 					 "nombre"=>$lab->name,
 					 "sede"=>$lab->location,
 					 "cant_puestos"=>$lab->size);
-	$return = array_merge($labinfo, (array)$lab->specifications));
+	$return = array_merge($labinfo, (array)$lab->specifications);
 	echo json_encode(objToUTF8($return));
 	$dbhandler->disconnect();
 }

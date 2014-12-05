@@ -12,15 +12,15 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var sePudieronTraerReservasEstaVuelta = false;
 	
 	$scope.laboratorios = [];
-	sePudieronTraerLaboratorios = false;
+	//sePudieronTraerLaboratorios = false;
 	
 	$scope.docentes = [];
-	sePudieronTraerDocentes = false;
+	//sePudieronTraerDocentes = false;
 	
 	var nombresDeLaboratorios = [];
 	
 	$scope.especialidades = [];
-	sePudieronTraerMaterias = false;
+	//sePudieronTraerMaterias = false;
 
     var comunicador = comunicadorEntreVistasService;
     $scope.usuario = comunicador.getUsuario();
@@ -171,7 +171,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				$scope.laboratorios.push(laboratorio);
 				nombresDeLaboratorios.push(laboratorio.nombre);
 			});
-			sePudieronTraerLaboratorios = true;
+			//sePudieronTraerLaboratorios = true;
 			//if(transaccionFinalizada()){
 				insertarDatos(); // deberia 'insertar' solo los laboratorios
 			//}
@@ -203,7 +203,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
 			});
-			sePudieronTraerDocentes = true;
+			//sePudieronTraerDocentes = true;
 		};
 		
 		servidor.obtenerDocentes()
@@ -308,12 +308,12 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     var actualizarPlanilla = function (){
 		
-		if(!sePudieronTraerLaboratorios) {
+		//if(!sePudieronTraerLaboratorios) {
 			obtenerLaboratorios();
 			comunicador.setLaboratorios($scope.laboratorios);
-		};
+		//};
 		
-		if(!sePudieronTraerDocentes && $scope.usuario.esEncargado) {
+		if(/*!sePudieronTraerDocentes && */$scope.usuario.esEncargado) {
 			obtenerDocentes();
 		};
 		
@@ -323,9 +323,10 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		sePudieronTraerPedidosEstaVuelta = false;
 		obtenerPedidos();
 		
-		if(!sePudieronTraerMaterias) {
+		
+		//if(!sePudieronTraerMaterias) {
 			obtenerMaterias();
-		};
+		//};
     };
 
     var insertarDatos = function(){
@@ -454,7 +455,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			
 			$scope.especialidades = materiasObtenidas;
 			console.log('Obtenidas las materias y especialidades exitosamente!');
-			sePudieronTraerMaterias = true;
+			//sePudieronTraerMaterias = true;
 		})
 		.error(function(data, status, headers, config) {
 			
@@ -462,7 +463,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			
 			// TEMP
 			$scope.especialidades = porDefecto.getEspecialidades();
-			sePudieronTraerMaterias = true;
+			//sePudieronTraerMaterias = true;
 		});
 	};
 	
