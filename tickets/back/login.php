@@ -55,7 +55,7 @@ if($from_glpi) {
 }
 
 if(!$user_data) {
-	returnError(401, "invalid user");
+	returnError(401, "invalid username or password");
 	return;
 }
 

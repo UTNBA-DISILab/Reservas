@@ -12,11 +12,13 @@ return:
 */
 include_once 'utils/includes.php';
 
+/* Users can view the labs without authenticating
 $myUser = getUserFromSession();
 if(!$myUser) {
 	returnError(401, "unauthorized");
 	return;
 }
+*/
 
 if(isset($_GET["lab_id"])) {
 	listId($_GET["lab_id"]);
@@ -39,8 +41,10 @@ function listId($lab_id) {
 	$labinfo = array("id"=>$lab->id,
 					 "nombre"=>$lab->name,
 					 "sede"=>$lab->location,
-					 "cant_puestos"=>$lab->size);
-	$return = array_merge($labinfo, (array)$lab->specifications);
+					 "cant_puestos"=>$lab->size,
+					 "equipamiento"=>$lab->specifications);
+	//$return = array_merge($labinfo, (array)$lab->specifications);
+	$return = $labinfo;
 	echo json_encode(objToUTF8($return));
 	$dbhandler->disconnect();
 }
@@ -59,8 +63,10 @@ function listAll() {
 			$labinfo = array("id"=>$lab->id,
 							 "nombre"=>$lab->name,
 							 "sede"=>$lab->location,
-							 "cant_puestos"=>$lab->size);
-			array_push($return, array_merge($labinfo, (array)$lab->specifications));
+							 "cant_puestos"=>$lab->size,
+							 "equipamiento"=>$lab->specifications);
+			//array_push($return, array_merge($labinfo, (array)$lab->specifications));
+			array_push($return, $labinfo);
 			unset($lab);
 		}
 	}

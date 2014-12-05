@@ -38,7 +38,7 @@ function listId($usr_id) {
 	}
 	$return = array("id"=>$usr->id,
 					"name"=>$usr->name,
-					"surname"=>$usr->surname
+					"surname"=>$usr->surname,
 					"email"=>$usr->email);
 	echo json_encode(objToUTF8($return));
 	$dbhandler->disconnect();

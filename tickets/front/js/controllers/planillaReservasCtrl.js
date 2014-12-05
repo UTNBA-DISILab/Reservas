@@ -12,15 +12,16 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var sePudieronTraerReservasEstaVuelta = false;
 	
 	$scope.laboratorios = [];
-	//sePudieronTraerLaboratorios = false;
+	var sePudieronTraerLaboratoriosEstaVuelta = false;
+	var sePudieronTraerLaboratorios = false;
 	
 	$scope.docentes = [];
-	//sePudieronTraerDocentes = false;
+	var sePudieronTraerDocentes = false;
 	
 	var nombresDeLaboratorios = [];
 	
 	$scope.especialidades = [];
-	//sePudieronTraerMaterias = false;
+	var sePudieronTraerMaterias = false;
 
     var comunicador = comunicadorEntreVistasService;
     $scope.usuario = comunicador.getUsuario();
@@ -83,7 +84,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var meterEnElCalendario = function(eventoCompleto){
         var laboratorio = $scope.laboratorios.filter(
 			function(unLaboratorio) {
-				return unLaboratorio.nombre == eventoCompleto.laboratorio
+				return unLaboratorio.nombre.toLowerCase() == eventoCompleto.laboratorio.toLowerCase();
 			}
 		)[0];
 
@@ -171,27 +172,40 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				$scope.laboratorios.push(laboratorio);
 				nombresDeLaboratorios.push(laboratorio.nombre);
 			});
-			//sePudieronTraerLaboratorios = true;
+			
+			comunicador.setLaboratorios($scope.laboratorios);
+			
+			sePudieronTraerLaboratorios = true;
+			sePudieronTraerLaboratoriosEstaVuelta = true;
+			if(sePudieronTraerPedidosEstaVuelta && sePudieronTraerReservasEstaVuelta) {
 			//if(transaccionFinalizada()){
 				insertarDatos(); // deberia 'insertar' solo los laboratorios
+				//insertarLaboratorios();
 			//}
+			}
 		};
 		
-		servidor.obtenerLaboratorios()
-		.success(function(laboratoriosRecibidos, status, headers, config) {
-			// Esta devolución se llamará asincrónicamente cuando la respuesta esté disponible.
-			console.log('Obtenidos los laboratorios exitosamente');
-			comportamientoSiRequestExitoso(laboratoriosRecibidos);
-		})
-		.error(function(laboratoriosRecibidos, status, headers, config) {
-			// called asynchronously if an error occurs
-			// or server returns response with an error status.
-			console.log('Se produjo un error al obtener los laboratorios del servidor');
-			//algoTuvoUnError = true; -> Esto va descomentado cuando probemos con el server.
-
-			// TEMP
-			comportamientoSiRequestExitoso(porDefecto.getLaboratorios());
-		});
+		// primero se los pedimos al comunicador entre vistas, que viene a actuar como cache
+		if( comunicador.getLaboratorios().length < 1 ) {
+			servidor.obtenerLaboratorios()
+			.success(function(laboratoriosRecibidos, status, headers, config) {
+				// Esta devolución se llamará asincrónicamente cuando la respuesta esté disponible.
+				console.log('Obtenidos los laboratorios exitosamente');
+				comportamientoSiRequestExitoso(laboratoriosRecibidos);
+			})
+			.error(function(laboratoriosRecibidos, status, headers, config) {
+				// called asynchronously if an error occurs
+				// or server returns response with an error status.
+				console.log('Se produjo un error al obtener los laboratorios del servidor');
+				//algoTuvoUnError = true; -> Esto va descomentado cuando probemos con el server.
+	
+				// TEMP
+				comportamientoSiRequestExitoso(porDefecto.getLaboratorios());
+			});
+		}
+		else {
+			comportamientoSiRequestExitoso(comunicador.getLaboratorios());
+		}
 	};
 	
 	var obtenerDocentes = function() {
@@ -203,20 +217,29 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
 			});
-			//sePudieronTraerDocentes = true;
+			
+			comunicador.setDocentes($scope.docentes);
+			
+			sePudieronTraerDocentes = true;
 		};
 		
-		servidor.obtenerDocentes()
-		.success(function(docentesRecibidos, status, headers, config) {
-			console.log('Obtenidos los docentes exitosamente');
-			comportamientoSiRequestExitoso(docentesRecibidos);
-		})
-		.error(function(docentesRecibidos, status, headers, config) {
-			console.log('Se produjo un error al obtener los docentes del servidor');
-
-			// TEMP
-			comportamientoSiRequestExitoso(porDefecto.getDocentes());
-		});
+		// primero se los pedimos al comunicador entre vistas, que viene a actuar como cache
+		if( comunicador.getDocentes().length < 1 ) {
+			servidor.obtenerDocentes()
+			.success(function(docentesRecibidos, status, headers, config) {
+				console.log('Obtenidos los docentes exitosamente');
+				comportamientoSiRequestExitoso(docentesRecibidos);
+			})
+			.error(function(docentesRecibidos, status, headers, config) {
+				console.log('Se produjo un error al obtener los docentes del servidor');
+	
+				// TEMP
+				comportamientoSiRequestExitoso(porDefecto.getDocentes());
+			});
+		}
+		else {
+			comportamientoSiRequestExitoso(comunicador.getDocentes());
+		}
 	};
 	
 	var obtenerReservas = function() {
@@ -225,11 +248,13 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			
 			//reservas.splice(0,reservas.length); Por qué? cuando pida las de febrero, no quiero que se vayan del calendario las de maniana que ya tenia.
 			reservasRecibidas.forEach(function(reserva) {
+				//reserva.tipo = 'reserva';
 				reservas.push(reserva)
 			});
 			sePudieronTraerReservasEstaVuelta = true;
-			if(sePudieronTraerPedidosEstaVuelta) {
+			if(sePudieronTraerPedidosEstaVuelta && sePudieronTraerLaboratoriosEstaVuelta) {
 				insertarDatos(); // deberia 'insertar' solo las reservas, no se si las recien obtenidas o todas
+				//insertarPedidosYReservas();
 			}
 			
 		};
@@ -254,6 +279,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			//pedidos.splice(0,pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
 				
+				//pedido.tipo = 'pedido';
+				
 				pedido.labContraofertable = pedido.laboratorio;
 				pedido.desdeContraofertable = pedido.desde.getMinutosDesdeMedianoche();
 				pedido.hastaContraofertable = pedido.hasta.getMinutosDesdeMedianoche();
@@ -263,10 +290,12 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			
 			pedidosAuxiliares = pedidos;
 			sePudieronTraerPedidosEstaVuelta = true;
-			if(sePudieronTraerReservasEstaVuelta) {
+			if(sePudieronTraerReservasEstaVuelta && sePudieronTraerLaboratoriosEstaVuelta) {
 				insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
+				//insertarPedidosYReservas();
+				filtrarPorDocente();
 			}
-			filtrarPorDocente();
+			//filtrarPorDocente();
 		};
 		
 		// el parametro usuario no se usa; el usuario logueado se obtiene de la cookie.
@@ -286,8 +315,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		}
 		else {
 			sePudieronTraerPedidosEstaVuelta = true;
-			if(sePudieronTraerReservasEstaVuelta) {
+			if(sePudieronTraerReservasEstaVuelta && sePudieronTraerLaboratoriosEstaVuelta) {
 				insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
+				//insertarPedidosYReservas();
 			}
 		}
 	};
@@ -304,16 +334,17 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			};
 		};
 		insertarDatos();
+		//insertarPedidosYReservas();
 	}
 
     var actualizarPlanilla = function (){
 		
-		//if(!sePudieronTraerLaboratorios) {
+		if(!sePudieronTraerLaboratorios) {
+			sePudieronTraerLaboratoriosEstaVuelta = false;
 			obtenerLaboratorios();
-			comunicador.setLaboratorios($scope.laboratorios);
-		//};
+		};
 		
-		if(/*!sePudieronTraerDocentes && */$scope.usuario.esEncargado) {
+		if(!sePudieronTraerDocentes && $scope.usuario.esEncargado) {
 			obtenerDocentes();
 		};
 		
@@ -324,13 +355,13 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		obtenerPedidos();
 		
 		
-		//if(!sePudieronTraerMaterias) {
+		if(!sePudieronTraerMaterias && $scope.usuario.inicioSesion) {
 			obtenerMaterias();
-		//};
+		};
     };
-
-    var insertarDatos = function(){
-    	//alert('insertando datos');
+	
+	var insertarDatos = function(){
+		//alert('insertando datos');
 		//Crea los días para la columna de fechas
         $scope.dias = [];
         for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
@@ -364,7 +395,68 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		});
 
 		completarEspaciosLibres();
+		
     };
+	
+	/*
+	var insertarLaboratorios = function() {
+		//Crea los días para la columna de fechas
+        $scope.dias = [];
+        for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++) {
+            var fecha = new Date();
+            fecha.setDate(fecha.getDate() + numeroDeDia);
+            $scope.dias.push({fecha: fecha});
+        };
+
+        //Agrega los días sin nada dentro de la columna de cada laboratorio.
+        $scope.laboratorios.forEach(function(laboratorio){
+			laboratorio.dias = [];
+			for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
+                var fecha = new Date();
+				//var fecha = primerDiaSolicitado;
+                fecha.setDate(fecha.getDate() + numeroDeDia);
+				laboratorio.dias.push({fecha: fecha, franjas: []});
+            }
+        });
+	};
+	
+	var insertarPedidosYReservas = function () {
+		
+		var insertarPedidos = function() {
+			pedidos.forEach( function(pedido) {
+				convertirTimestampADate(pedido);
+				pedido.tipo = 'pedido';
+				meterEnElCalendario(pedido);
+				//alert(pedido);
+			});
+			
+		};
+	
+		var insertarReservas = function() {
+			reservas.forEach(function(reserva) {
+				convertirTimestampADate(reserva);
+				reserva.tipo = 'reserva';
+				meterEnElCalendario(reserva);
+			});
+		
+		};
+		
+		var insertarTodoPrueba = function() {
+			var pedidosYReservas = pedidos.concat(reservas);
+			pedidosYReservas.forEach(function(pedidoOReserva) {
+				convertirTimestampADate(pedidoOReserva);
+				meterEnElCalendario(pedidoOReserva);
+			});
+		};
+		
+		//insertarPedidos();
+		//insertarReservas();
+		insertarTodoPrueba();
+		completarEspaciosLibres();
+		
+	};
+	*/
+	
 
 
     $scope.estiloSegun = function(franjaAnterior, franja, franjaPosterior){
@@ -450,21 +542,39 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     };
 	
 	var obtenerMaterias = function() {
-		servidor.obtenerMaterias()
-		.success(function(materiasObtenidas, status, headers, config) {
+		
+		var comportamientoSiRequestExitoso = function(materiasObtenidas) {
+			//$scope.especialidades = materiasObtenidas;
+			$scope.especialidades.splice(0,$scope.especialidades.length);
 			
-			$scope.especialidades = materiasObtenidas;
-			console.log('Obtenidas las materias y especialidades exitosamente!');
-			//sePudieronTraerMaterias = true;
-		})
-		.error(function(data, status, headers, config) {
+			materiasObtenidas.forEach(function(especialidad){
+				$scope.especialidades.push(especialidad);
+			});
 			
-			console.log('Se produjo un error al obtener las materias del servidor.');
-			
-			// TEMP
-			$scope.especialidades = porDefecto.getEspecialidades();
-			//sePudieronTraerMaterias = true;
-		});
+			comunicador.setMaterias($scope.especialidades);
+			sePudieronTraerMaterias = true;
+		};
+		
+		// primero se las pedimos al comunicador entre vistas, que viene a actuar como cache
+		if( comunicador.getMaterias().length < 1 ) {
+		
+			servidor.obtenerMaterias()
+			.success(function(materiasObtenidas, status, headers, config) {
+				
+				console.log('Obtenidas las materias y especialidades exitosamente');
+				comportamientoSiRequestExitoso(materiasObtenidas);
+			})
+			.error(function(data, status, headers, config) {
+				
+				console.log('Se produjo un error al obtener las materias del servidor.');
+				
+				// TEMP
+				comportamientoSiRequestExitoso(porDefecto.getEspecialidades());
+			});
+		}
+		else {
+			comportamientoSiRequestExitoso(comunicador.getMaterias());
+		}
 	};
 	
 	$scope.seConocenLasMateriasDe = function(especialidad) {

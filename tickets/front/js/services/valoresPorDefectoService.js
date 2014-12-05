@@ -17,7 +17,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
     var pasadoManiana = new Date(); pasadoManiana.setDate(pasadoManiana.getDate() + 2);
     //pasadoManiana = {anio: pasadoManiana.getFullYear(), mes: ('0' + (pasadoManiana.getMonth()+1)).slice(-2), dia: ('0' + pasadoManiana.getDate()).slice(-2)};
 
-    var laboratorios = [
+    /*
+	var laboratorios = [
         {nombre:"Azul", sede:"Medrano", cant_puestos:"24", sis_op:"Windows 7 Enterprise", memoria:"4 GB", otros:"Intel Core i5"},
         {nombre:"Rojo", sede:"Medrano", cant_puestos:"20", sis_op:"Windows 7 Enterprise", memoria:"4 GB", otros:"Intel Core i7"},
         {nombre:"Verde", sede:"Medrano", cant_puestos:"12", sis_op:"Windows 7 Enterprise", memoria:"10x4GB y 2x2GB", otros:"10xIntel Core i7 y 2xIntel Core i3"},
@@ -25,6 +26,17 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
         {nombre:"Multimedia", sede:"Medrano", cant_puestos:"5", sis_op:"Windows XP", memoria:"2 GB", otros:"Intel Core i3"},
         {nombre:"Campus", sede:"Campus", cant_puestos:"14", sis_op:"Windows 7 Enterprise", memoria:"4 GB", otros:"Intel Core i3"},
         {nombre:"Campus Lab II", sede:"Campus", cant_puestos:"4", sis_op:"Windows 7 Enterprise", memoria:"4 GB", otros:"Intel Core i3"}
+    ];
+	*/
+	
+	var laboratorios = [
+        {nombre:"Azul", sede:"Medrano", cant_puestos:"24", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i5"},
+        {nombre:"Rojo", sede:"Medrano", cant_puestos:"20", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i7"},
+        {nombre:"Verde", sede:"Medrano", cant_puestos:"12", equipamiento:"Windows 7 Enterprise, 10x4GB y 2x2GB, 10xIntel Core i7 y 2xIntel Core i3"},
+        {nombre:"Amarillo", sede:"Medrano", cant_puestos:"5", equipamiento:"Windows 7 Enterprise, 2GB, Intel Core i3"},
+        {nombre:"Multimedia", sede:"Medrano", cant_puestos:"5", equipamiento:"Windows XP, 2GB, Intel Core i3"},
+        {nombre:"Campus", sede:"Campus", cant_puestos:"14", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i3"},
+        {nombre:"Campus Lab II", sede:"Campus", cant_puestos:"4", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i3"}
     ];
 	
 	var docentes = [

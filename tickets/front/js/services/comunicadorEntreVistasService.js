@@ -6,7 +6,9 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
 	var materia = '';
 	var especialidad = {};
 	
-	var laboratorios ={};
+	var laboratorios = [];
+	var docentes = [];
+	var materias = [];
 
     var cosasDeUnaVista = {
 
@@ -39,6 +41,19 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
         },
         getLaboratorios: function(){
             return laboratorios;
+        },
+		setDocentes: function(unosDocentes){
+            docentes = unosDocentes.filter(function(unDocente) {return unDocente.nombre != 'Todos'} );
+        },
+        getDocentes: function(){
+            return docentes;
+        },
+		setMaterias: function(unasMaterias){
+            materias = unasMaterias;
+			alert(materias.length);
+        },
+        getMaterias: function(){
+            return materias;
         }
     };
 
