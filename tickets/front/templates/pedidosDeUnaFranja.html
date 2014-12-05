@@ -9,29 +9,32 @@
 		</div>
 		<br>
 		<div range-slider min="510" max="1320" 
-			model-min="solicitud.desde.getMinutosDesdeMedianoche()" 
-			model-max="solicitud.hasta.getMinutosDesdeMedianoche()" 
-			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>
+			model-min="solicitud.desdeContraofertable" 
+			model-max="solicitud.hastaContraofertable" 
+			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
 		
 		<div class="horarioAclarado">
 			<span>Horario solicitado: desde las 
 				<strong>
-					{{solicitud.desde.getMinutosDesdeMedianoche() | hourMinFilter}}
+					{{solicitud.desdeContraofertable | hourMinFilter}}
 				</strong> hasta las 
-				<strong>{{solicitud.hasta.getMinutosDesdeMedianoche() | hourMinFilter}}
+				<strong>{{solicitud.hastaContraofertable | hourMinFilter}}
 				</strong>.
 			</span>
 		</div>
 		
-		<span>Laboratorio: {{solicitud.laboratorio}}</span>
+		<label class="nombre_campo">Laboratorio: </label>
+		<select ng-model="solicitud.labContraofertable" name="laboratorio"
+				ng-options="laboratorio for laboratorio in nombresLabs">
+		</select>
 		<br>
 		<span>Docente: {{solicitud.docente.nombre}}</span>
 		<br>
 		<span>Materia: {{solicitud.subject}}</span>
 		<div id="opciones_solicitud">
 			<span id="listo" ng-show="solicitud.listo">Listo!</span>
-			<button class= 'botonDeFormulario' ng-click="confirmar(solicitud)" ng-disabled="solicitud.listo">Confirmar</button>
-			<button class= 'botonDeFormulario' ng-click="" ng-disabled="{{true}}">Contraofertar</button>
+			<button class= 'botonDeFormulario' ng-click="confirmar(solicitud)" ng-disabled="solicitud.listo" ng-hide="seContraoferto(solicitud)">Confirmar</button>
+			<button class= 'botonDeFormulario' ng-click="contraofertar(solicitud)" ng-show="seContraoferto(solicitud)">Contraofertar</button>
 			<button class= 'botonDeFormulario' ng-click="rechazar(solicitud)" ng-disabled="solicitud.listo">Rechazar</button>
 		</div>
 	

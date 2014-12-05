@@ -12,15 +12,15 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var sePudieronTraerReservasEstaVuelta = false;
 	
 	$scope.laboratorios = [];
-	var sePudieronTraerLaboratorios = false;
+	sePudieronTraerLaboratorios = false;
 	
 	$scope.docentes = [];
-	var sePudieronTraerDocentes = false;
+	sePudieronTraerDocentes = false;
 	
 	var nombresDeLaboratorios = [];
 	
 	$scope.especialidades = [];
-	var sePudieronTraerMaterias = false;
+	sePudieronTraerMaterias = false;
 
     var comunicador = comunicadorEntreVistasService;
     $scope.usuario = comunicador.getUsuario();
@@ -253,8 +253,14 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			
 			//pedidos.splice(0,pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
+				
+				pedido.labContraofertable = pedido.laboratorio;
+				pedido.desdeContraofertable = pedido.desde.getMinutosDesdeMedianoche();
+				pedido.hastaContraofertable = pedido.hasta.getMinutosDesdeMedianoche();
+				
 				pedidos.push(pedido)
 			});
+			
 			pedidosAuxiliares = pedidos;
 			sePudieronTraerPedidosEstaVuelta = true;
 			if(sePudieronTraerReservasEstaVuelta) {
@@ -304,6 +310,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		
 		if(!sePudieronTraerLaboratorios) {
 			obtenerLaboratorios();
+			comunicador.setLaboratorios($scope.laboratorios);
 		};
 		
 		if(!sePudieronTraerDocentes && $scope.usuario.esEncargado) {

@@ -5,6 +5,8 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
     var usuario = {};
 	var materia = '';
 	var especialidad = {};
+	
+	var laboratorios ={};
 
     var cosasDeUnaVista = {
 
@@ -31,6 +33,12 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
         },
         getEspecialidad: function(){
             return especialidad;
+        },
+		setLaboratorios: function(unosLaboratorios){
+            laboratorios = unosLaboratorios;
+        },
+        getLaboratorios: function(){
+            return laboratorios;
         }
     };
 

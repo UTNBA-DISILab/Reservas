@@ -1,7 +1,7 @@
 <header id='encabezado'>
 	<h1 id='titulo'>DISI Labs</h1>
 	<form id='inicioDeSesion'>
-		<input type="text" class='ingresarTexto' ng-model="usuario.nombre" placeholder='Usuario SinAp' ng-hide='usuario.inicioSesion'></input>
+		<input type="text" class='ingresarTexto' ng-model="usuario.nombre" placeholder='Usuario GLPI' ng-hide='usuario.inicioSesion'></input>
 		<input type="text" class='ingresarTexto' ng-model="usuario.password" placeholder='Contraseña' ng-hide='usuario.inicioSesion'></input>
 		<button class= 'botonDeFormulario' ng-click="iniciarSesion()" ng-hide='usuario.inicioSesion'>Iniciar Sesi&oacute;n</button>
 		<button class= 'botonDeFormulario' ng-click="cerrarSesion()" ng-show='usuario.inicioSesion'>Cerrar Sesi&oacute;n</button>

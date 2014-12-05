@@ -3,7 +3,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 	// Pendiente: pensar un nombre para el sistema ej:"reservas" pero que no se llame igual que uno de nuestros recursos HTTP.
 	// (porque sino puede quedar blah.edu.ar/reservas/reservas/bleh y no queda bien)
 	// Para hacer pruebas, acá y sólo acá es donde hay que poner la IP del servidor
-	var url = 'sistemas.frba.utn.edu.ar/disilab';
+	var url = '../back';
 	// Nosotros NO vamos a tener un index.html porque el index es el de la página de sistemas que ya existe.
 	// Nuestra página principal será otra, ej disilab.html
 	// Y el favicon también es el que ya existe en la pag de sistemas, el nuestro hay que sacarlo.

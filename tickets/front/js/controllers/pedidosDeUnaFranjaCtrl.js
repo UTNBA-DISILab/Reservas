@@ -8,7 +8,13 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
     ayuda.actualizarExplicaciones();
     $scope.margen = ayuda.getMargen();
 	
+	$scope.laboratorios = vistaAnterior.getLaboratorios();
 	
+	$scope.nombresLabs = [];
+	
+	$scope.laboratorios.forEach(function(laboratorio){
+		$scope.nombresLabs.push(laboratorio.nombre);
+	});
 
 	if(!vistaAnterior.getUsuario().inicioSesion){
 		$state.go('planillaReservas');
@@ -26,6 +32,8 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	$scope.solicitudes.forEach(function(solicitud) {
 		solicitud.listo = false;
 	});
+	
+	var solicitudesOriginales = $scope.solicitudes;
 	
 	$scope.nuevoDate = function(fecha) {
 		return new Date(fecha);
@@ -45,6 +53,10 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 		});
 	};
 	
+	$scope.contraofertar = function(reserva) {
+		//TODO
+	};
+	
 	$scope.rechazar = function(reserva) {
 		servidor.rechazarReserva(reserva.id)
 		.success(function(data, status, headers, config) {
@@ -59,9 +71,14 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 		});
 	};
 	
-	
+	$scope.seContraoferto = function(solicitud) {
+		return solicitud.laboratorio != solicitud.labContraofertable
+				|| solicitud.desde.getMinutosDesdeMedianoche() != solicitud.desdeContraofertable
+				|| solicitud.hasta.getMinutosDesdeMedianoche() != solicitud.hastaContraofertable;
+	};
 	
 	$scope.volver = function(){
+		$scope.solicitudes = solicitudesOriginales;
 		$state.go('planillaReservas');
 	};
 
