@@ -11,6 +11,18 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 
     $scope.mostrarAyuda = true;
 	
+	$scope.soyEncargado = false;
+	
+	$scope.clickSoyDocente = function() {
+		$scope.soyEncargado = false;
+		iniciarSesionConSinap();
+	};
+	
+	$scope.clickSoyEncargado = function() {
+		$scope.soyEncargado = true;
+		document.getElementById('nombreDeUsuarioGLPI').focus();
+	};
+	
     $scope.actualizarMargen = function(){
         if($scope.mostrarAyuda){
             ayuda.actualizarMargen();
@@ -45,17 +57,44 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		
 		servidor.iniciarSesionConGLPI($scope.usuario.nombre, $scope.usuario.password)
 		.success(function(data, status, headers, config) {
-			console.log( $scope.usuario.nombre + ' ha iniciado sesion exitosamente');
+			console.log( $scope.usuario.nombre + ' ha iniciado sesion con GLPI exitosamente');
 			comportamientoSiRequestExitoso(data);
 		})
 		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al iniciar sesion para ' + $scope.usuario.nombre);
+			console.log('Se produjo un error al iniciar sesion con GLPI para ' + $scope.usuario.nombre);
 
 			// TEMP
 			loginViejoHardcodeado();
 		});
 		
     };
+	
+	iniciarSesionConSinap = function() {
+		
+		// Pendiente: ver como y que datos vienen
+		var comportamientoSiRequestExitoso = function(datosDeUsuario) {
+			
+			$scope.usuario.id = datosDeUsuario.id;
+			//$scope.usuario.nombre = datosDeUsuario.name;
+			//$scope.usuario.password = '';
+			$scope.usuario.inicioSesion = true;
+			$scope.usuario.esEncargado = false; //porque todos los que se loguean con Sinap son docentes
+			//$scope.esAdmin = false; // por si nos sirve
+			$state.go('planillaReservas');
+			ayuda.actualizarExplicaciones();
+		};
+		
+		
+		servidor.iniciarSesionConSinap()
+		.success(function(data, status, headers, config) {
+			console.log( $scope.usuario.nombre + ' ha iniciado sesion con Sinap exitosamente');
+			comportamientoSiRequestExitoso(data);
+		})
+		.error(function(data, status, headers, config) {
+			console.log('Se produjo un error al iniciar sesion con Sinap para ' + $scope.usuario.nombre);
+			alert('Por ahora no redirige, siempre da error (ver consola)');
+		});
+	};
 	
 	var loginViejoHardcodeado = function() {
 		
@@ -87,6 +126,8 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		var comportamientoSiRequestExitoso = function() {
 			
 			servidor.limpiarCredenciales();
+			
+			$scope.soyEncargado = false;
 			
 			$scope.usuario.id = '';
 			$scope.usuario.nombre = '';

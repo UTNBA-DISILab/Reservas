@@ -153,7 +153,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		},
 		
 		iniciarSesionConSinap: function() {
-			// TODO
+			return $http.post( url + '/sigma_login') // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
 		cerrarSesion: function() {

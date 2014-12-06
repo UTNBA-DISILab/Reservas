@@ -1,9 +1,12 @@
 <header id='encabezado'>
 	<h1 id='titulo'>DISI Labs</h1>
 	<form id='inicioDeSesion'>
-		<input type="text" class='ingresarTexto' ng-model="usuario.nombre" placeholder='Usuario GLPI' ng-hide='usuario.inicioSesion'></input>
-		<input type="password" class='ingresarTexto' ng-model="usuario.password" placeholder='Contraseña' ng-hide='usuario.inicioSesion'></input>
-		<button class= 'botonDeFormulario' ng-click="iniciarSesionConGLPI()" ng-hide='usuario.inicioSesion'>Iniciar Sesi&oacute;n</button>
+		<span ng-show='usuario.inicioSesion'>Hola {{usuario.nombre}}</span>
+		<button class= 'botonDeFormulario' ng-click="clickSoyDocente()" ng-hide='usuario.inicioSesion'>Soy Docente</button>
+		<button class= 'botonDeFormulario' ng-click="clickSoyEncargado()" ng-hide='usuario.inicioSesion || soyEncargado'>Soy Encargado</button>
+		<input type="text" class='ingresarTexto' ng-model="usuario.nombre" placeholder='Usuario GLPI' ng-hide='usuario.inicioSesion || !soyEncargado'></input>
+		<input type="password" id='nombreDeUsuarioGLPI' class='ingresarTexto' ng-model="usuario.password" placeholder='Contraseña' ng-hide='usuario.inicioSesion || !soyEncargado'></input>
+		<button class= 'botonDeFormulario' ng-click="iniciarSesionConGLPI()" ng-hide='usuario.inicioSesion || !soyEncargado'>Iniciar Sesi&oacute;n</button>
 		<button class= 'botonDeFormulario' ng-click="cerrarSesion()" ng-show='usuario.inicioSesion'>Cerrar Sesi&oacute;n</button>
 	</form>
 </header>

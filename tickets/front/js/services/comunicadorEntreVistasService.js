@@ -50,7 +50,6 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
         },
 		setMaterias: function(unasMaterias){
             materias = unasMaterias;
-			alert(materias.length);
         },
         getMaterias: function(){
             return materias;
