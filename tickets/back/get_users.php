@@ -47,7 +47,7 @@ function listId($usr_id) {
 //----------------------------------------------------
 
 function listAll() {
-	$acclvl = 0;
+	$acclvl = USR_LVL_EX_USR;
 	if(isset($_GET["level"])) {
 		$acclvl = $_GET["level"];
 	}

@@ -11,4 +11,8 @@ define("RES_STATE_CONFIRMED", 3);
 define("SES_LOGIN", 0);
 define("SES_LOGOUT", 1);
 
+define("USR_LVL_EX_USR", 0);
+define("USR_LVL_IN_USR", 1);
+define("USR_LVL_IN_ADM", 2);
+
 ?>

@@ -19,7 +19,7 @@ if(!$myUser) {
 }
 
 //check if we have to log this logout on the system
-if($myUser->accessLvl > 0) {
+if($myUser->accessLvl >= USR_LVL_IN_USR) {
 	$dbhandler = getDatabase();
 	$dbhandler->connect();
 	// get ip

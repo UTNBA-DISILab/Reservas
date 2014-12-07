@@ -12,14 +12,6 @@ return:
 */
 include_once 'utils/includes.php';
 
-/* Users can view the labs without authenticating
-$myUser = getUserFromSession();
-if(!$myUser) {
-	returnError(401, "unauthorized");
-	return;
-}
-*/
-
 if(isset($_GET["lab_id"])) {
 	listId($_GET["lab_id"]);
 }

@@ -13,7 +13,7 @@ nothing
 include_once 'utils/includes.php';
 
 $myUser = getUserFromSession();
-if(!$myUser || $myUser->accessLvl < 1) {
+if(!$myUser || $myUser->accessLvl < USR_LVL_IN_USR) {
 	returnError(401, "unauthorized");
 	return;
 }
@@ -35,7 +35,7 @@ if(!$subject) {
 	$dbhandler->disconnect();
 }
 
-//delete lab
+//delete subject
 $subject->remove();
 if(!$subject->commit($dbhandler)) {
 	returnError(500, "server error");
