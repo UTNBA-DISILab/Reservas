@@ -26,3 +26,9 @@ Date.prototype.getFechaLarga = function() {
 Date.prototype.getFechaLargaConAnio = function() {
 	return this.getDiaDeLaSemana() + ' ' + this.getDate() + ' de ' + this.getNombreDelMes().toLowerCase() + ' de ' + this.getFullYear();
 };
+
+Date.prototype.esElMismoDiaQue = function(otroDate) {
+	return this.getDate() == otroDate.getDate()
+	&& this.getMonth() == otroDate.getMonth()
+	&& this.getFullYear() == otroDate.getFullYear()
+};

@@ -54,17 +54,13 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     var elHorarioDelPrimeroEsAnterior = function(franja1, franja2){return franja1.desde - franja2.desde;}
 
-    var esElMismoDia = function(unDia, otroDia){
-		return (unDia.getDate() == otroDia.getDate() 
-        && unDia.getMonth() == otroDia.getMonth()
-        && unDia.getFullYear() == otroDia.getFullYear());
-	};
-
+	 /* Esto no se usa mas
 	//TODO: Reformar lo del final de cada sentencia
 	var agregarTimestamps = function(reserva) {
 		reserva.from = reserva.fecha.getTime() - ( reserva.fecha.getTime() % (1000 * 60 * 60 * 24) ) + reserva.desde * 60 * 1000;
 		reserva.to = reserva.fecha.getTime() - ( reserva.fecha.getTime() % (1000 * 60 * 60 * 24) ) + reserva.hasta * 60 * 1000;
 	}
+	*/
 	
 	var convertirTimestampADate = function(evento) {
 		evento.desde.setTime(evento.desde);//Las fechas vienen en timestamp y es mucho más fácil manejarlas como Date.
@@ -90,7 +86,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
         var dia = laboratorio.dias.filter(function(unDia){
             //return Math.floor(unDia.fecha.getTime() / (1000 * 3600 * 24)) == Math.floor(eventoCompleto.fecha.getTime() / (1000 * 3600 * 24))
-			return esElMismoDia(unDia.fecha, eventoCompleto.desde);
+			return unDia.fecha.esElMismoDiaQue(eventoCompleto.desde);
         })[0];
 
         var franjaNueva = {desde: eventoCompleto.desde, hasta: eventoCompleto.hasta, eventos: [eventoCompleto]};
