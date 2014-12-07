@@ -17,8 +17,8 @@ function objToUTF8($mixed) {
 //-----------------------------------------------------------
 
 function returnError($error_code, $error_msg) {
-	http_response_code($error_code);
 	echo "Error:".$error_msg;
+	header("HTTP/1.1 ".$error_code.$error_msg);
 }
 
 //-----------------------------------------------------------
