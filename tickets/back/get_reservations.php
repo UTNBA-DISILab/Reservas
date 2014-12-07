@@ -5,12 +5,13 @@ request:
 GET
 
 params:
-+ reservation_id
++ reservation_id  (for unique reservation info)
 
 - begin (timestamp)
 - end (timestamp)
 + for_owner_id (id of user to retrieve info)
-
++ for_validator_id (id of user to retrieve info)
++ pending_approval (boolean)
 
 return:
 [{"id":<int>, "begin":<datestr>, "end":<datestr>, "lab_id":<int>}, ..] or error string
@@ -18,10 +19,10 @@ return:
 include_once 'utils/includes.php';
 
 $myUser = getUserFromSession();
-if(!$myUser) {
+/*if(!$myUser) {
 	returnError(401, "unauthorized");
 	return;
-}
+}*/
 
 if(isset($_GET["reservation_id"])) {
 	listId($_GET["reservation_id"]);
