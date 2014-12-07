@@ -18,12 +18,6 @@ return:
 */
 include_once 'utils/includes.php';
 
-$myUser = getUserFromSession();
-/*if(!$myUser) {
-	returnError(401, "unauthorized");
-	return;
-}*/
-
 if(isset($_GET["reservation_id"])) {
 	listId($_GET["reservation_id"]);
 }
@@ -71,23 +65,20 @@ function listAll() {
 	$dbhandler->connect();
 
 	$owner = false;
-	$validator = false;
-	if(isset($_GET["for_owner_id"]) || isset($_GET["for_validator_id"])){
-		if(isset($_GET["for_owner_id"])) {
-			$owner = validateUser($dbhandler, $_GET["for_owner_id"]);
-			if(!$owner) {
-				returnError(500, "invalid owner");
-				$dbhandler->disconnect();
-				return;
-			}
+	$state = RES_STATE_CONFIRMED;
+	if(isset($_GET["open_only"])) {
+		$myUser = getUserFromSession();
+		if(!$myUser) {
+			returnError(401, "unauthorized");
+			return;
 		}
-		if(isset($_GET["for_validator_id"])){
-			$validator = validateUser($dbhandler, $_GET["for_validator_id"]) ;
-			if(!$validator) {
-				returnError(500, "invalid validator");
-				$dbhandler->disconnect();
-				return;
-			}
+		$level = $myUser->accessLvl;
+		if($level == USR_LVL_EX_USR) {
+			$state = false;
+			$owner = $myUser;
+		}
+		else {
+			$state = RES_STATE_APPROVED_BY_OWNER;
 		}
 	}
 
@@ -105,11 +96,6 @@ function listAll() {
 		array_push($minvalues, $owner->id);
 		array_push($maxvalues, $owner->id);
 	}
-	if($validator) {
-		array_push($fields, "validator_id");
-		array_push($minvalues, $validator->id);
-		array_push($maxvalues, $validator->id);
-	}
 
 
 	$reservations = Reservation::listAllBetween($dbhandler, $fields, $minvalues, $maxvalues);
@@ -122,10 +108,12 @@ function listAll() {
 						  "end"=>$reservation->endDate->getTimestamp(),
 						  "lab_id"=>$reservation->lab->id);
 			$rstate = ReservationState::getLatestForReservationId($dbhandler, $reservation->id);
-			if($rstate) {
-				$info["state"]= $rstate->state;
+			if(!$state || ($state && $state == $rstate->state) {
+				if($rstate) {
+					$info["state"]= $rstate->state;
+				}
+				array_push($return, $info);
 			}
-			array_push($return, $info);
 			unset($reservation);
 		}
 	}
