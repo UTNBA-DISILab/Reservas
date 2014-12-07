@@ -108,7 +108,10 @@ function listAll() {
 						  "end"=>$reservation->endDate->getTimestamp(),
 						  "lab_id"=>$reservation->lab->id);
 			$rstate = ReservationState::getLatestForReservationId($dbhandler, $reservation->id);
-			if(!$state || ($state && $state == $rstate->state) {
+			if((!$state && !$owner) || 
+			   ($state && $state == $rstate->state) ||
+			   ($owner && ($rstate->state == RES_STATE_APPROVED_BY_OWNER || 
+						   $rstate->state == RES_STATE_APPROVED_BY_VALIDATOR))) {
 				if($rstate) {
 					$info["state"]= $rstate->state;
 				}
