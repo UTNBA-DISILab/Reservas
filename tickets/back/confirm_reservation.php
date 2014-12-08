@@ -57,7 +57,7 @@ $is_owner = $myUser->id == $reservation->owner->id;
 $is_validator = $myUser->id == $reservation->validator->id;
 if(!$is_owner && !$is_validator) {
 	//check if can be a new validator
-	if($myUser->accessLvl < 1) {
+	if($myUser->accessLvl < USR_LVL_IN_USR) {
 		returnError(403, "invalid operation");
 		$dbhandler->disconnect();
 		return;

@@ -95,7 +95,7 @@ if(!$success) {
 	$user->commit($dbhandler);
 }
 //check if we have to log this login on the system
-if($user->accessLvl > 0) {
+if($user->accessLvl >= USR_LVL_IN_USR) {
 	// get ip
 	$ip = (getenv("HTTP_X_FORWARDED_FOR") ? getenv("HTTP_X_FORWARDED_FOR") : getenv("REMOTE_ADDR"));
 	$terminal = new Terminal();

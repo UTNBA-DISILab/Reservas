@@ -38,7 +38,7 @@ function getGLPIUserInfo(&$dbhandler, $username) {
 	$row = mysqli_fetch_array($result);
 	$level = getGLPIUserAccessLevel($dbhandler, $row["ID"]);
 	if(!$level) {
-		$level = 0;
+		$level = USR_LVL_EX_USR;
 	}
 	$user_info = array("id"=>$row["name"],"name"=>$row["firstname"],"surname"=>$row["realname"], "level"=>$level, "email"=>$row["email"]);
 	return $user_info;
@@ -51,10 +51,10 @@ function getGLPIUserAccessLevel(&$dbhandler, $userid) {
 	if(!$result) {
 		return false;
 	}
-	$level = 1;
+	$level = USR_LVL_IN_USR;
 	while($row = mysqli_fetch_array($result)) {
 		if (strpos($row['level'],'admin') !== false) {
-			$level = 2;
+			$level = USR_LVL_IN_ADM;
 			break;
 		}
 	}
