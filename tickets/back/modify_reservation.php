@@ -98,12 +98,10 @@ if(isset($lab_id)) {
 }
 
 if(isset($begin)) {
-	$beginDate = new DateTime();
-	$beginDate->setTimestamp($begin);
+	$beginDate = DateTime::createFromFormat('U', $begin / 1000);
 }
-if(isset($end)) {	
-	$endDate = new DateTime();
-	$endDate->setTimestamp($end);
+if(isset($end)) {
+	$endDate = DateTime::createFromFormat('U', $end / 1000);
 }
 
 if(isset($beginDate) || isset($endDate)) {

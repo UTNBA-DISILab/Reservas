@@ -56,6 +56,9 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
         },
         getNombreDelLab: function(id){
             return laboratorios.filter(function(unLaboratorio) {return unLaboratorio.id == id})[0].nombre;
+        },
+        getIdDelLab: function(nombre){
+            return laboratorios.filter(function(unLaboratorio) {return unLaboratorio.nombre == nombre})[0].id;
         }
     };
 

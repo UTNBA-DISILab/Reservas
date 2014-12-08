@@ -131,13 +131,19 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		confirmarReserva: function(id) {
 			//return $http.get( url + '/reservas/' + id + '?action=confirm');
 			//return $http.get( url + '/reservations/' + id + '?action=confirm');
-			return $http.get( url + '/reservations/' + id + '/confirm');
+			// return $http.get( url + '/reservations/' + id + '/confirm'); este anda
+			return $http.post( url + '/reservations/' + id + '/confirm'); // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
-		// Este no va a hacer falta, usamos el modify
-		rechazarReserva: function(id) {
-			//return $http.get( url + '/reservas/' + id + '?action=reject');
-			return $http.get( url + '/reservations/' + id + '?action=reject');
+		modificarReserva: function(id, beginNuevo, endNuevo, labNuevo) {
+			
+			var reservaModificada = {};
+			
+			reservaModificada.begin = beginNuevo.getTime();
+			reservaModificada.end = endNuevo.getTime();
+			reservaModificada.lab_id = labNuevo;
+
+			return $http.post( url + '/reservations/' + id + '/update', reservaModificada);
 		},
 		
 		cancelarReserva: function(id) {

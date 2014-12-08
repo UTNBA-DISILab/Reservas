@@ -2,7 +2,7 @@
 	<h3>Solicitudes Pendientes</h3>
 	<div class="reserva" ng-repeat="solicitud in solicitudes">
 	
-		<span class="fechaAltaSlider">Fecha y hora de alta de solicitud: {{nuevoDate(solicitud.creation_date).getFechaLargaConAnio()}}, {{nuevoDate(solicitud.creation_date).getMinutosDesdeMedianoche() | hourMinFilter}}</span>
+		<span class="fechaAltaSlider">Fecha y hora de alta de solicitud: {{solicitud.creation_date.getFechaLargaConAnio()}}, {{solicitud.creation_date.getMinutosDesdeMedianoche() | hourMinFilter}}</span>
 		<br>
 		<div class="fechaSolicitadaSlider">
 			<span>Fecha solicitada: {{solicitud.begin.getFechaLargaConAnio()}}</span>

@@ -26,7 +26,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	}
 	else {
 		$scope.solicitudes = porDefecto.getPedidos(vistaAnterior.getUsuario());
-		//$scope.solicitudes = vistaAnterior.getPedidos()); deberia ser asi
+		// nunca entra en el else, porque solo se entra en esta vista si clickean pedidos
 	}
 	
 	$scope.solicitudes.forEach(function(solicitud) {
@@ -35,18 +35,14 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	
 	var solicitudesOriginales = $scope.solicitudes;
 	
-	$scope.nuevoDate = function(fecha) {
-		return new Date(fecha);
-	};
-	
 	$scope.confirmar = function(reserva) {
 		servidor.confirmarReserva(reserva.id)
 		.success(function(data, status, headers, config) {
-			console.log('Confirmada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + $scope.nuevoDate(reserva.begin) + ')');
+			console.log('Confirmada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
 			reserva.listo = true;
 		})
 		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al confirmar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + $scope.nuevoDate(reserva.begin) + ')');
+			console.log('Se produjo un error al confirmar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
 			
 			// TEMP
 			reserva.listo = true;
@@ -54,18 +50,32 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	};
 	
 	$scope.contraofertar = function(reserva) {
-		//TODO
-		// va a requerir una funcion en el comunicadorEntreVistas que pase de nombre de lab a id
-	};
-	
-	$scope.rechazar = function(reserva) {
-		servidor.rechazarReserva(reserva.id)
+		
+		reserva.begin.ajustarHoraYMinutos(reserva.beginContraofertable);
+		reserva.end.ajustarHoraYMinutos(reserva.endContraofertable);
+		reserva.lab_id = vistaAnterior.getIdDelLab(reserva.labContraofertable);
+
+		servidor.modificarReserva(reserva.id, reserva.begin, reserva.end, reserva.lab_id)
 		.success(function(data, status, headers, config) {
-			console.log('Rechazada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + $scope.nuevoDate(reserva.begin) + ')');
+			console.log('Contraofertada la reserva ' + reserva.id + ' exitosamente' + ' (contraoferta: ' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
 			reserva.listo = true;
 		})
 		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al rechazar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + $scope.nuevoDate(reserva.begin) + ')');
+			console.log('Se produjo un error al contraofertar la reserva ' + reserva.id + ' (contraoferta: ' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
+			
+			// TEMP
+			reserva.listo = true;
+		});
+	};
+	
+	$scope.rechazar = function(reserva) {
+		servidor.cancelarReserva(reserva.id)
+		.success(function(data, status, headers, config) {
+			console.log('Rechazada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
+			reserva.listo = true;
+		})
+		.error(function(data, status, headers, config) {
+			console.log('Se produjo un error al rechazar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
 			
 			// TEMP
 			reserva.listo = true;
