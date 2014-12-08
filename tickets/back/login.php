@@ -14,6 +14,7 @@ params:
 return:
 {"id":<id>,"access_level":<int>} or error string if error
 */
+
 include_once 'utils/includes.php';
 include_once 'utils/glpi_authorize.php';
 
@@ -33,7 +34,6 @@ if(isset($_GET["from_sigma"])) {
 if(isset($_GET["from_glpi"])) {
 	$from_glpi = $_GET["from_glpi"];
 }
-
 if($from_sigma == $from_glpi) {
 	returnError(500, "undefined login network");
 	return;
@@ -114,7 +114,7 @@ if($user->accessLvl > 0) {
 	}
 }
 $sessionid = createSessionForUser($user);
-$response = array('id'=>$user->id,'access_level'=>$user->accessLvl, 'session_id'=>$sessionid);
+$response = array('id'=>$user->id,'name'=>$user->name,'surname'=>$user->surname,'access_level'=>$user->accessLvl, 'session_id'=>$sessionid);
 echo json_encode(objToUTF8($response));
 
 $dbhandler->disconnect();

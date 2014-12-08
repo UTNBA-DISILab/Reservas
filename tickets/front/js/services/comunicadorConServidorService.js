@@ -56,24 +56,25 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		
 		obtenerReservas: function(primerDiaSolicitado, cantDiasSolicitados){
 			
-			var from = primerDiaSolicitado.getTime();
-			var to = from + cantDiasSolicitados * (24 * 60 * 60 * 1000);
+			var begin = primerDiaSolicitado.getTime();
+			var end = begin + cantDiasSolicitados * (24 * 60 * 60 * 1000);
 
 			//return $http.get( url + '/reservations/' + primerDiaSolicitado.getFullYear() + '/' + ('0' + (primerDiaSolicitado.getMonth()+1)).slice(-2) + '/' + ('0' + primerDiaSolicitado.getDate()).slice(-2) + '?cant_dias=' + cantDiasSolicitados);
 			//return $http.get( url + '/reservas' + '?from=' + from + '&to=' + to);
-			return $http.get( url + '/reservations' + '?begin=' + from + '&end=' + to);
 			
+			return $http.get( url + '/reservations' + '?begin=' + begin + '&end=' + end);
+
 			// El server NO debe leer la cookie. Siempre debe traer TODAS las reservas de la base
 			// siempre en el rango de timestamps mandados.
 		},
 
 		obtenerPedidos: function (primerDiaSolicitado, cantDiasSolicitados) {
 			
-			var from = primerDiaSolicitado.getTime();
-			var to = from + cantDiasSolicitados * (24 * 60 * 60 * 1000);
+			var begin = primerDiaSolicitado.getTime();
+			var end = begin + cantDiasSolicitados * (24 * 60 * 60 * 1000);
 				
 			//return $http.get( url + '/reservas' + '?from=' + from + '&to=' + to + '&solo_a_confirmar=true');
-			return $http.get( url + '/reservations' + '?begin=' + from + '&end=' + to + '&solo_a_confirmar=true');
+			return $http.get( url + '/reservations' + '?begin=' + begin + '&end=' + end + '&open_only=true');
 			
 			// El server debe leer la cookie. Si no hay usuario logueado, devuelve array vacio.
 			// Si hay usuario y es docente, trae sus reservas solicitadas.
@@ -104,16 +105,23 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			return $http.post( url + '/subjects/add', materiaNueva);
 		},
 		
-		enviarNuevaReserva: function(laboratorio, desde, hasta, estado) {
+		enviarNuevaReserva: function(desde, hasta, idDeLaboratorio, materia) {
 			
 			var reservaNueva = {};
 			
-			reservaNueva.creation_date = new Date().getTime();
-			reservaNueva.laboratorio = laboratorio;
-			reservaNueva.from = desde.getTime();
-			reservaNueva.to = hasta.getTime();
-			reservaNueva.state = estado;
-			// el teacher_id lo ponemos acá o lo saca el server viendo la cookie?
+			// el creation date lo completa el servidor con la fecha actual
+			//reservaNueva.creation_date = new Date().getTime();
+			
+			// el owner_id lo completa el servidor con el id del usuario logueado
+			// (add_reservation.php linea 131)
+			
+			reservaNueva.begin = desde.getTime();
+			reservaNueva.end = hasta.getTime();
+			reservaNueva.lab_id = idDeLaboratorio;
+			reservaNueva.subject = materia;
+			
+			// el state lo completa el servidor
+			// (add_reservation.php linea 141)
 			
 			//return $http.post( url + '/reservas', reservaNueva);
 			//return $http.post( url + '/reservations', reservaNueva); // asi deberia ser para que la API sea RESTful
@@ -138,9 +146,14 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			return $http.post( url + '/reservations/' + id + '/delete'); // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
+		// Pendiente: el servidor tiene que devolver docentes, no todos los usuarios
 		obtenerDocentes: function() {
 			//return $http.get( url + '/docentes');
 			return $http.get( url + '/users');
+		},
+
+		obtenerUnUsuario: function(id) {
+			return $http.get( url + '/users/' + id);
 		},
 		
 		iniciarSesionConGLPI: function(username, password) {

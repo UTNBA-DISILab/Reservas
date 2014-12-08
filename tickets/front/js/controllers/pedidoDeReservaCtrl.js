@@ -1,28 +1,26 @@
 angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService){
-	var vistaAnterior = comunicadorEntreVistasService;
+	$scope.vistaAnterior = comunicadorEntreVistasService;
 	var ayuda = ayudaService;
 	var servidor = comunicadorConServidorService;
 	
     ayuda.actualizarExplicaciones();
     $scope.margen = ayuda.getMargen();
 
-	if(!vistaAnterior.getUsuario().inicioSesion){
+	if(!$scope.vistaAnterior.getUsuario().inicioSesion){
 		$state.go('planillaReservas');
 	};
 
-	$scope.evento = vistaAnterior.getEventos()[0];
+	$scope.evento = $scope.vistaAnterior.getEventos()[0];
 	
 	// El rango libre es todo el tiempo libre contiguo al punto del click
-	$scope.rangoLibre = {desde: $scope.evento.desde.getMinutosDesdeMedianoche(),
-						 hasta: $scope.evento.hasta.getMinutosDesdeMedianoche()};
-
-	$scope.materia = $scope.evento.subject;
+	$scope.rangoLibre = {desde: $scope.evento.begin.getMinutosDesdeMedianoche(),
+						 hasta: $scope.evento.end.getMinutosDesdeMedianoche()};
 	
-	if(vistaAnterior.getUsuario().esEncargado && $scope.materia) {
-		$scope.docente = vistaAnterior.getUsuario().docenteElegido;
+	if($scope.vistaAnterior.getUsuario().esEncargado && $scope.evento.subject) {
+		$scope.docente = $scope.vistaAnterior.getUsuario().docenteElegido;
 	}
 	else {
-		$scope.docente = vistaAnterior.getUsuario();
+		$scope.docente = $scope.vistaAnterior.getUsuario();
 	};
 	
 	
@@ -101,20 +99,20 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	$scope.enviarSolicitud = function() {
 		var horasDesde = Math.floor($scope.franjaSeleccionada.desde/60);
 		var minutosDesde = $scope.franjaSeleccionada.desde - horasDesde*60;
-		$scope.evento.desde.setHours(horasDesde,minutosDesde,0,0);
+		$scope.evento.begin.setHours(horasDesde,minutosDesde,0,0);
 
 		var horasHasta = Math.floor($scope.franjaSeleccionada.hasta/60);
 		var minutosHasta = $scope.franjaSeleccionada.hasta - horasDesde*60;
-		$scope.evento.hasta.setHours(horasDesde,minutosDesde,0,0);
+		$scope.evento.end.setHours(horasDesde,minutosDesde,0,0);
 
-		servidor.enviarNuevaReserva($scope.evento.laboratorio, $scope.evento.desde, $scope.evento.hasta, 'solicitada')
+		servidor.enviarNuevaReserva($scope.evento.begin, $scope.evento.end, $scope.evento.lab_id, $scope.evento.subject)
 		.success(function(data, status, headers, config) {
-			console.log('Enviada la solicitud de reserva exitosamente' + ' (' + $scope.materia + ' en el lab ' + $scope.evento.laboratorio + ' el d\xEDa ' + $scope.evento.desde + ')');
+			console.log('Enviada la solicitud de reserva exitosamente' + ' (' + $scope.evento.subject + ' en el lab ' + vistaAnterior.getNombreDelLab($scope.evento.lab_id) + ' el d\xEDa ' + $scope.evento.begin + ')');
 			alert('Su solicitud fue recibida exitosamente!');
 			$state.go('planillaReservas');
 		})
 		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al enviar la solicitud de reserva' + ' (' + $scope.materia + ' en el lab ' + $scope.evento.laboratorio + ' el d\xEDa ' + $scope.evento.desde + ')');
+			console.log('Se produjo un error al enviar la solicitud de reserva' + ' (' + $scope.evento.subject + ' en el lab ' + $scope.evento.laboratorio + ' el d\xEDa ' + $scope.evento.begin + ')');
 			alert('Se produjo un error. Pruebe tocando Listo nuevamente.');
 			
 			// TEMP

@@ -63,8 +63,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	*/
 	
 	var convertirTimestampADate = function(evento) {
-		evento.desde.setTime(evento.desde);//Las fechas vienen en timestamp y es mucho más fácil manejarlas como Date.
-		evento.hasta.setTime(evento.hasta);
+		evento.begin.setTime(evento.begin);//Las fechas vienen en timestamp y es mucho más fácil manejarlas como Date.
+		evento.end.setTime(evento.end);
 	}
 	
 	var completarEspaciosLibres = function() {
@@ -80,18 +80,19 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var meterEnElCalendario = function(eventoCompleto){
         var laboratorio = $scope.laboratorios.filter(
 			function(unLaboratorio) {
-				return unLaboratorio.nombre.toLowerCase() == eventoCompleto.laboratorio.toLowerCase();
+				// return unLaboratorio.nombre.toLowerCase() == eventoCompleto.laboratorio.toLowerCase();
+				return unLaboratorio.id == eventoCompleto.lab_id;
 			}
 		)[0];
-
+		
         var dia = laboratorio.dias.filter(function(unDia){
             //return Math.floor(unDia.fecha.getTime() / (1000 * 3600 * 24)) == Math.floor(eventoCompleto.fecha.getTime() / (1000 * 3600 * 24))
-			return unDia.fecha.esElMismoDiaQue(eventoCompleto.desde);
+			return unDia.fecha.esElMismoDiaQue(eventoCompleto.begin);
         })[0];
 
-        var franjaNueva = {desde: eventoCompleto.desde, hasta: eventoCompleto.hasta, eventos: [eventoCompleto]};
-        franjaNueva.desde = eventoCompleto.desde;
-        franjaNueva.hasta = eventoCompleto.hasta;
+        var franjaNueva = {desde: eventoCompleto.begin, hasta: eventoCompleto.end, eventos: [eventoCompleto]};
+        franjaNueva.desde = eventoCompleto.begin;
+        franjaNueva.hasta = eventoCompleto.end;
         var insertadoCompletamenteODesechado = false;
         
         while(!insertadoCompletamenteODesechado){
@@ -145,7 +146,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     
     var generarPosiblesDiasLibres = function(){
         var diasLibres = [];
-        nombresDeLaboratorios.forEach(function(nombreDeLaboratorio){
+        // nombresDeLaboratorios.forEach(function(nombreDeLaboratorio){
+        	$scope.laboratorios.forEach(function(laboratorio){
             for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
                 var inicio = new Date();
                 inicio.setDate(inicio.getDate() + numeroDeDia);
@@ -153,7 +155,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
                 var fin = new Date();
                 fin.setDate(fin.getDate() + numeroDeDia);
                 fin.setHours(22,0,0,0);
-                diasLibres.push({laboratorio: nombreDeLaboratorio, desde: inicio, hasta: fin});
+                diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: fin});
             }
         })
         return diasLibres;
@@ -277,9 +279,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				
 				//pedido.tipo = 'pedido';
 				
-				pedido.labContraofertable = pedido.laboratorio;
-				pedido.desdeContraofertable = pedido.desde.getMinutosDesdeMedianoche();
-				pedido.hastaContraofertable = pedido.hasta.getMinutosDesdeMedianoche();
+				pedido.labContraofertable = comunicador.getNombreDelLab(pedido.lab_id);
+				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
+				pedido.endContraofertable = pedido.end.getMinutosDesdeMedianoche();
 				
 				pedidos.push(pedido)
 			});
@@ -323,7 +325,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		if($scope.usuario.docenteElegido){
 			if($scope.usuario.docenteElegido.nombre != "Todos"){
 				pedidos = pedidosAuxiliares.filter(function(pedido){
-					return pedido.docente.nombre == $scope.usuario.docenteElegido.nombre;
+					// return pedido.docente.nombre == $scope.usuario.docenteElegido.nombre;
+					return pedido.owner_id == $scope.usuario.docenteElegido.id;
 				});
 			} else {
 				pedidos = pedidosAuxiliares;
@@ -453,7 +456,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	};
 	*/
 	
-
+	var esDelUsuarioLogueado = function(unPedidoOReserva) {
+		return unPedidoOReserva.owner_id == $scope.usuario.id
+	}
 
     $scope.estiloSegun = function(franjaAnterior, franja, franjaPosterior){
         
@@ -466,8 +471,10 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         };
 
         if(franja.eventos[0].tipo == 'reserva'){
-        	var esDeEseDocente = $scope.usuario.inicioSesion && franja.eventos[0].docente.nombre == $scope.usuario.nombre;
-        	var esDelDocenteElegido = $scope.usuario.inicioSesion && $scope.usuario.docenteElegido && franja.eventos[0].docente.nombre == $scope.usuario.docenteElegido.nombre;
+        	// var esDeEseDocente = $scope.usuario.inicioSesion && franja.eventos[0].docente.nombre == $scope.usuario.nombre;
+        	var esDeEseDocente = $scope.usuario.inicioSesion && esDelUsuarioLogueado(franja.eventos[0]);
+        	// var esDelDocenteElegido = $scope.usuario.inicioSesion && $scope.usuario.docenteElegido && franja.eventos[0].docente.nombre == $scope.usuario.docenteElegido.nombre;
+        	var esDelDocenteElegido = $scope.usuario.inicioSesion && $scope.usuario.docenteElegido && franja.eventos[0].owner_id == $scope.usuario.docenteElegido.id;
         	if(esDeEseDocente || esDelDocenteElegido){
         		color = '#8B4513';
         	} else {
@@ -484,7 +491,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     $scope.mostrarLaFranja = function(franja){
     	//Cada franja tiene varios eventos, todos del mismo tipo.
         if($scope.usuario.inicioSesion){
-            if(franja.eventos[0].tipo == 'reserva' && ($scope.usuario.esEncargado || franja.eventos[0].docente.nombre == $scope.usuario.nombre)){
+            if(franja.eventos[0].tipo == 'reserva' && ($scope.usuario.esEncargado || esDelUsuarioLogueado(franja.eventos[0]))){
                 comunicador.setEventos(franja.eventos);
                 $state.go('cancelarPedidoOReserva');
             }
@@ -496,7 +503,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 						$state.go('pedidosDeUnaFranja');
 					}
 					else {
-						if(franja.eventos[0].docente.nombre == $scope.usuario.nombre) {
+						if(esDelUsuarioLogueado(franja.eventos[0])) {
 							comunicador.setEventos(franja.eventos);
 							$state.go('cancelarPedidoOReserva');
 						}
@@ -506,8 +513,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 					if(franja.eventos[0].tipo == 'libre'){
 						if($scope.materia) {
 							franja.eventos[0].subject = $scope.materia;
-							franja.eventos[0].desde = franja.desde;
-							franja.eventos[0].hasta = franja.hasta;
+							franja.eventos[0].begin = franja.desde;
+							franja.eventos[0].end = franja.hasta;
 							comunicador.setEventos(franja.eventos);
 							$state.go('pedidoDeReserva');
 						}

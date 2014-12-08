@@ -8,7 +8,7 @@ params:
 - begin (timestamp)
 - end (timestamp)
 - lab_id
-- subject_id
+- subject
 + description
 + for_user_id
 
@@ -44,8 +44,8 @@ if(isset($jsonparams["end"])) {
 if(isset($jsonparams["lab_id"])) {
 	$lab_id = $jsonparams["lab_id"];
 }
-if(isset($jsonparams["subject_id"])) {
-	$subject_id = $jsonparams["subject_id"];
+if(isset($jsonparams["subject"])) {
+	$subject = $jsonparams["subject"];
 }
 if(isset($jsonparams["description"])) {
 	$description = $jsonparams["description"];
@@ -55,10 +55,13 @@ if(isset($jsonparams["for_user_id"])) {
 }
 
 if(!isset($begin )|| !isset($end) || !isset($lab_id) || 
-   !isset($subject_id)) {
+   !isset($subject)) {
 	returnError(500, "invalid params");
 	return;
 }
+
+$creationDate = new DateTime("now");
+
 $beginDate = new DateTime();
 $beginDate->setTimestamp($begin);
 $endDate = new DateTime();
@@ -103,7 +106,7 @@ if(isset($for_owner_id)) {
 		return;
 	}
 }
-
+/* subjects are not validated because only the 'sistemas' ones are present in the database
 //check subject
 $subject = validateSubject($dbhandler, $subject_id);
 if(!$subject) {
@@ -111,9 +114,12 @@ if(!$subject) {
 	$dbhandler->disconnect();
 	return;
 }
-
+*/
 //push reservation
 $reservation = new Reservation();
+// TODO agregar el campo en la base para la fecha de creacion
+// y descomentar la linea siguiente
+// $reservation->creationDate = $creationDate;
 $reservation->lab = $lab;
 $reservation->subject = $subject;
 $reservation->beginDate = $beginDate;

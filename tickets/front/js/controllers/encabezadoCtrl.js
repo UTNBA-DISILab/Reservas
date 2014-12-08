@@ -5,7 +5,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     var ayuda = ayudaService;
     $scope.$state = $state;
 
-    $scope.usuario = {id: '', nombre: '', password: '', inicioSesion: false, esEncargado: false};
+    $scope.usuario = {id: '', username:'', password: '', nombre: '', apellido: '', inicioSesion: false, esEncargado: false};
 
     comunicador.setUsuario($scope.usuario);
 
@@ -46,22 +46,34 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			// Pendiente: No estamos usando el session_id para nada. Para que hay que usarlo?
 			
 			$scope.usuario.id = datosDeUsuario.id;
-			//$scope.usuario.nombre = datosDeUsuario.name;
+			// el username ya lo tenemos
 			//$scope.usuario.password = '';
+			$scope.usuario.nombre = datosDeUsuario.name;
+			$scope.usuario.apellido =datosDeUsuario.surname;
 			$scope.usuario.inicioSesion = true;
 			$scope.usuario.esEncargado = true; //porque todos los que se loguean en GLPI son encargados
 			//$scope.esAdmin = (datosDeUsuario.access_level == 2); // por si nos sirve
 			$state.go('planillaReservas');
 			ayuda.actualizarExplicaciones();
 		};
+
+		var credencialesValidas = function (username, password) {
+			return !(typeof username === 'undefined') && username != ''
+			// && !(typeof password === 'undefined') && password != ''
+		};
+
+		if(!credencialesValidas($scope.usuario.username, $scope.usuario.password)) {
+			alert('Debe ingresar sus credenciales');
+			return;
+		};
 		
-		servidor.iniciarSesionConGLPI($scope.usuario.nombre, $scope.usuario.password)
+		servidor.iniciarSesionConGLPI($scope.usuario.username, $scope.usuario.password)
 		.success(function(data, status, headers, config) {
-			console.log( $scope.usuario.nombre + ' ha iniciado sesion con GLPI exitosamente');
 			comportamientoSiRequestExitoso(data);
+			console.log( $scope.usuario.nombre + ' ' + $scope.usuario.apellido + ' ha iniciado sesion con GLPI exitosamente');
 		})
 		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al iniciar sesion con GLPI para ' + $scope.usuario.nombre);
+			console.log('Se produjo un error al iniciar sesion con GLPI para el usuario ' + $scope.usuario.username);
 
 			// TEMP
 			loginViejoHardcodeado();
@@ -75,8 +87,10 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		var comportamientoSiRequestExitoso = function(datosDeUsuario) {
 			
 			$scope.usuario.id = datosDeUsuario.id;
-			//$scope.usuario.nombre = datosDeUsuario.name;
-			//$scope.usuario.password = '';
+			// el username no importa
+			// la password tampoco
+			$scope.usuario.nombre = datosDeUsuario.name;
+			$scope.usuario.apellido = datosDeUsuario.apellido;
 			$scope.usuario.inicioSesion = true;
 			$scope.usuario.esEncargado = false; //porque todos los que se loguean con Sinap son docentes
 			//$scope.esAdmin = false; // por si nos sirve
@@ -91,11 +105,12 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			comportamientoSiRequestExitoso(data);
 		})
 		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al iniciar sesion con Sinap para ' + $scope.usuario.nombre);
+			console.log('Se produjo un error al iniciar sesion con Sinap');
 			alert('Por ahora no redirige, siempre da error (ver consola)');
 		});
 	};
 	
+	// Esta funcion NO va a estar en produccion
 	var loginViejoHardcodeado = function() {
 		
 		// Falta validar que hayan ingresado caracteres correctos.
@@ -103,20 +118,29 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
         //El servidor sólo deberá informar si es un usuario y contraseña válidos, y qué tipo de usuario es.
 
         //Lo de acá abajo es sólo para probar mientras no nos comuniquemos con el servidor:
-        var docentes = ['Juan', 'Pedro', 'Ignacio'];
-        var encargados = ['Gustavo'];
+        var docentes = [{id: 31, nombre:"Juan"}, {id: 32, nombre:"Pedro"}, {id: 33, nombre:"Ignacio"} ];
 
-        if (encargados.filter(function(nombre){return nombre == $scope.usuario.nombre}).length) {
+        var encargados = [{id: 50, nombre: 'Gustavo'}];
+
+        if (encargados.filter(function(unEncargado){return unEncargado.nombre == $scope.usuario.username}).length) {
+            $scope.usuario.id = 50; // es Gustavo, no hay otros
             $scope.usuario.esEncargado = true;
             $scope.usuario.inicioSesion = true;
             $scope.usuario.docenteElegido = {};//Esto es para después hacer reservas y demás por ellos.
         }
         else {
-            if (docentes.filter(function(nombre){return nombre == $scope.usuario.nombre}).length) {
+            if (docentes.filter(function(unDocente){return unDocente.nombre == $scope.usuario.username}).length) {
+                
+            	if ($scope.usuario.username == 'Juan') {$scope.usuario.id = 31};
+            	if ($scope.usuario.username == 'Pedro') {$scope.usuario.id = 32};
+            	if ($scope.usuario.username == 'Ignacio') {$scope.usuario.id = 33};
+
                 $scope.usuario.esEncargado = false;
                 $scope.usuario.inicioSesion = true;
             }
         }
+
+        $scope.usuario.nombre = $scope.usuario.username;
         
 		ayuda.actualizarExplicaciones();
 	};
@@ -130,8 +154,10 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			$scope.soyEncargado = false;
 			
 			$scope.usuario.id = '';
-			$scope.usuario.nombre = '';
+			$scope.usuario.username = '';
 			$scope.usuario.password = '';
+			$scope.usuario.nombre = '';
+			$scope.usuario.apellido = '';
 			$scope.usuario.inicioSesion = false;
 			$scope.usuario.esEncargado = false;
 			$state.go('planillaReservas');
@@ -140,11 +166,11 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		
 		servidor.cerrarSesion()
 		.success(function(data, status, headers, config) {
-			console.log('Cerrada la sesion de ' + $scope.usuario.nombre + ' exitosamente');
+			console.log('Cerrada la sesion de ' + $scope.usuario.nombre + ' ' + $scope.usuario.apellido + ' exitosamente');
 			comportamientoSiRequestExitoso();
 		})
 		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al cerrar la sesion de ' + $scope.usuario.nombre);
+			console.log('Se produjo un error al cerrar la sesion de ' + $scope.usuario.nombre + ' ' + $scope.usuario.apellido);
 
 			// TEMP
 			comportamientoSiRequestExitoso();

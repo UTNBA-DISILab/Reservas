@@ -30,13 +30,13 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 	*/
 	
 	var laboratorios = [
-        {nombre:"Azul", sede:"Medrano", cant_puestos:"24", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i5"},
-        {nombre:"Rojo", sede:"Medrano", cant_puestos:"20", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i7"},
-        {nombre:"Verde", sede:"Medrano", cant_puestos:"12", equipamiento:"Windows 7 Enterprise, 10x4GB y 2x2GB, 10xIntel Core i7 y 2xIntel Core i3"},
-        {nombre:"Amarillo", sede:"Medrano", cant_puestos:"5", equipamiento:"Windows 7 Enterprise, 2GB, Intel Core i3"},
-        {nombre:"Multimedia", sede:"Medrano", cant_puestos:"5", equipamiento:"Windows XP, 2GB, Intel Core i3"},
-        {nombre:"Campus", sede:"Campus", cant_puestos:"14", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i3"},
-        {nombre:"Campus Lab II", sede:"Campus", cant_puestos:"4", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i3"}
+        {id: 2, nombre:"Azul", sede:"Medrano", cant_puestos:"24", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i5"},
+        {id: 3, nombre:"Rojo", sede:"Medrano", cant_puestos:"20", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i7"},
+        {id: 4, nombre:"Verde", sede:"Medrano", cant_puestos:"12", equipamiento:"Windows 7 Enterprise, 10x4GB y 2x2GB, 10xIntel Core i7 y 2xIntel Core i3"},
+        {id: 5, nombre:"Amarillo", sede:"Medrano", cant_puestos:"5", equipamiento:"Windows 7 Enterprise, 2GB, Intel Core i3"},
+        {id: 6, nombre:"Multimedia", sede:"Medrano", cant_puestos:"5", equipamiento:"Windows XP, 2GB, Intel Core i3"},
+        {id: 7, nombre:"Campus", sede:"Campus", cant_puestos:"14", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i3"},
+        {id: 8, nombre:"Campus Lab II", sede:"Campus", cant_puestos:"4", equipamiento:"Windows 7 Enterprise, 4GB, Intel Core i3"}
     ];
 	
 	var docentes = [
@@ -80,58 +80,58 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
     var reservas = [		
 		{
             id: 250,
-			teacher_id: 31,
+			owner_id: 31,
 			creation_date: 1415806603991,
 			subject: 'Simulacion',
-			laboratorio: 'Azul',
-            docente: {id: 31, nombre:"Juan"}, // TEMP
-            desde: hoyALas15,
-			hasta: hoyALas18,
-            state: 'confirmada'
+			lab_id: 2,
+            // docente: {id: 31, nombre:"Juan"}, // TEMP
+            begin: hoyALas15,
+			end: hoyALas18,
+            state: 3
         },
         {
             id: 257,
-			teacher_id: 31,
+			owner_id: 31,
 			creation_date: 1415806603991,
 			subject: 'Simulacion',
-			laboratorio: 'Azul',
-            docente: {id: 31, nombre:"Juan"}, // TEMP
-			desde: hoyALas18,
-			hasta: hoyALas19,
-            state: 'confirmada'
+			lab_id: 2,
+            // docente: {id: 31, nombre:"Juan"}, // TEMP
+			begin: hoyALas18,
+			end: hoyALas19,
+            state: 3
         },
 		{
             id: 251,
-			teacher_id: 32,
+			owner_id: 32,
 			creation_date: 1415806604200,
 			subject: 'Operativos',
-			laboratorio: 'Azul',
-            docente: {id: 32, nombre:"Pedro"}, // TEMP
-			desde: hoyALas19,
-			hasta: hoyALas21,
-            state: 'confirmada'
+			lab_id: 2,
+            // docente: {id: 32, nombre:"Pedro"}, // TEMP
+			begin: hoyALas19,
+			end: hoyALas21,
+            state: 3
         },
 		{
             id: 252,
-			teacher_id: 33,
+			owner_id: 33,
 			creation_date: 1415806605321,
 			subject: 'Operativos',
-			laboratorio: 'Azul',
-            docente: {id: 33, nombre:"Ignacio"}, // TEMP
-			desde: manianaALas19,
-			hasta: manianaALas21,
-            state: 'confirmada'
+			lab_id: 2,
+            // docente: {id: 33, nombre:"Ignacio"}, // TEMP
+			begin: manianaALas19,
+			end: manianaALas21,
+            state: 3
         },
 		{
             id: 253,
-			teacher_id: 31,
+			owner_id: 33,
 			creation_date: 1415806607640,
 			subject: 'Operativos',
-			laboratorio: 'Azul',
-            docente: {id: 33, nombre:"Ignacio"}, // TEMP
-			desde: pasadoManianaALas13,
-			hasta: pasadoManianaALas19,
-            state: 'confirmada'
+			lab_id: 2,
+            // docente: {id: 33, nombre:"Ignacio"}, // TEMP
+			begin: pasadoManianaALas13,
+			end: pasadoManianaALas19,
+            state: 3
         }
     ];
 
@@ -139,72 +139,72 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
     var pedidosDeJuan = [
 		{
             id: 254,
-			teacher_id: 31,
+			owner_id: 31,
 			creation_date: 1415806615432,
 			subject: 'Simulacion',
-			laboratorio: 'Azul',
-            docente: {id: 31, nombre:"Juan"}, // TEMP
-			desde: manianaALas12,
-			hasta: manianaALas18,
-            state: 'solicitada'
+			lab_id: 2,
+            // docente: {id: 31, nombre:"Juan"}, // TEMP
+			begin: manianaALas12,
+			end: manianaALas18,
+            state: 1
         },
 		{
             id: 255,
-			teacher_id: 31,
+			owner_id: 31,
 			creation_date: 1415806615908,
 			subject: 'Simulacion',
-			laboratorio: 'Azul',
-            docente: {id: 31, nombre:"Juan"}, // TEMP
-			desde: pasadoManianaALas20,
-			hasta: pasadoManianaALas22,
-            state: 'solicitada'
+			lab_id: 2,
+            // docente: {id: 31, nombre:"Juan"}, // TEMP
+			begin: pasadoManianaALas20,
+			end: pasadoManianaALas22,
+            state: 1
         }
 		
     ];
     var pedidosDeTodos = [
 		{
             id: 254,
-			teacher_id: 31,
+			owner_id: 31,
 			creation_date: 1415806615432,
 			subject: 'Simulacion',
-			laboratorio: 'Azul',
-            docente: {id: 31, nombre:"Juan"}, // TEMP
-			desde: manianaALas12,
-			hasta: manianaALas18,
-            state: 'solicitada'
+			lab_id: 2,
+            // docente: {id: 31, nombre:"Juan"}, // TEMP
+			begin: manianaALas12,
+			end: manianaALas18,
+            state: 1
         },
 		{
             id: 255,
-			teacher_id: 31,
+			owner_id: 31,
 			creation_date: 1415806615908,
 			subject: 'Simulacion',
-			laboratorio: 'Azul',
-            docente: {id: 31, nombre:"Juan"}, // TEMP
-			desde: pasadoManianaALas20,
-			hasta: pasadoManianaALas22,
-            state: 'solicitada'
+			lab_id: 2,
+            // docente: {id: 31, nombre:"Juan"}, // TEMP
+			begin: pasadoManianaALas20,
+			end: pasadoManianaALas22,
+            state: 1
         },
 		{
             id: 256,
-			teacher_id: 32,
+			owner_id: 32,
 			creation_date: 1415806615908,
 			subject: 'Simulacion',
-			laboratorio: 'Azul',
-            docente: {id: 32, nombre:"Pedro"}, // TEMP
-			desde: manianaALas15,
-			hasta: manianaALas19,
-            state: 'solicitada'
+			lab_id: 2,
+            // docente: {id: 32, nombre:"Pedro"}, // TEMP
+			begin: manianaALas15,
+			end: manianaALas19,
+            state: 1
         },
 		{
             id: 257,
-			teacher_id: 33,
+			owner_id: 33,
 			creation_date: 1415806615908,
 			subject: 'Simulacion',
-			laboratorio: 'Azul',
-            docente: {id: 33, nombre:"Ignacio"}, // TEMP
-			desde: pasadoManianaALas19,
-			hasta: pasadoManianaALas21,
-            state: 'solicitada'
+			lab_id: 2,
+            // docente: {id: 33, nombre:"Ignacio"}, // TEMP
+			begin: pasadoManianaALas19,
+			end: pasadoManianaALas21,
+            state: 1
         }
 		
     ];

@@ -4,20 +4,20 @@
 		<span class="fechaAltaSlider">Fecha y hora de alta de la solicitud: {{nuevoDate(pedidoOReserva.creation_date).getFechaLargaConAnio()}}, {{nuevoDate(pedidoOReserva.creation_date).getMinutosDesdeMedianoche() | hourMinFilter}}</span>
 		<br>
 		<div class="fechaSolicitadaSlider">
-			<span>Fecha solicitada: {{pedidoOReserva.desde.getFechaLargaConAnio()}}</span>
+			<span>Fecha solicitada: {{pedidoOReserva.begin.getFechaLargaConAnio()}}</span>
 		</div>
 		<br>
 		<div range-slider min="510" max="1320" 
-			model-min="pedidoOReserva.desde.getMinutosDesdeMedianoche()" 
-			model-max="pedidoOReserva.hasta.getMinutosDesdeMedianoche()" 
+			model-min="pedidoOReserva.begin.getMinutosDesdeMedianoche()" 
+			model-max="pedidoOReserva.end.getMinutosDesdeMedianoche()" 
 			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>
 		
 		<div class="horarioAclarado">
 			<span>Horario solicitado: desde las 
 				<strong>
-					{{pedidoOReserva.desde.getMinutosDesdeMedianoche() | hourMinFilter}}
+					{{pedidoOReserva.begin.getMinutosDesdeMedianoche() | hourMinFilter}}
 				</strong> hasta las <strong>
-					{{pedidoOReserva.hasta.getMinutosDesdeMedianoche() | hourMinFilter}}
+					{{pedidoOReserva.end.getMinutosDesdeMedianoche() | hourMinFilter}}
 				</strong>.
 			</span>
 			<div id="divBotonCancelar">
@@ -25,9 +25,9 @@
 			</div>
 		</div>
 		
-		<span>Laboratorio: {{pedidoOReserva.laboratorio}}</span>
+		<span>Laboratorio: {{vistaAnterior.getNombreDelLab(pedidoOReserva.lab_id)}}</span>
 		<br>
-		<span>Docente: {{pedidoOReserva.docente.nombre}}</span>
+		<span>Docente: {{pedidoOReserva.nombreYApellidoDelDocente}}</span>
 		<br>
 		<span>Materia: {{pedidoOReserva.subject}}</span>
 	</div>

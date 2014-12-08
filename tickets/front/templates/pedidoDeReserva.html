@@ -2,7 +2,7 @@
 		
 	<div class="reserva">
 		<div class="fechaSolicitadaSlider">
-			<span>Fecha: {{evento.desde.getFechaLargaConAnio()}}</span>
+			<span>Fecha: {{evento.begin.getFechaLargaConAnio()}}</span>
 		</div>
 		<br>
 		
@@ -17,11 +17,11 @@
 		</div>
 		
 		<div>
-			<span>Laboratorio: {{evento.laboratorio}}</span>
+			<span>Laboratorio: {{vistaAnterior.getNombreDelLab(evento.lab_id)}}</span>
 			<br>
 			<span>Docente: {{docente.nombre}}</span>
 			<br>
-			<span>Materia: {{materia}}</span>
+			<span>Materia: {{evento.subject}}</span>
 		</div>
 	</div>
 	

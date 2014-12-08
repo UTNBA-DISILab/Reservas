@@ -5,20 +5,20 @@
 		<span class="fechaAltaSlider">Fecha y hora de alta de solicitud: {{nuevoDate(solicitud.creation_date).getFechaLargaConAnio()}}, {{nuevoDate(solicitud.creation_date).getMinutosDesdeMedianoche() | hourMinFilter}}</span>
 		<br>
 		<div class="fechaSolicitadaSlider">
-			<span>Fecha solicitada: {{solicitud.desde.getFechaLargaConAnio()}}</span>
+			<span>Fecha solicitada: {{solicitud.begin.getFechaLargaConAnio()}}</span>
 		</div>
 		<br>
 		<div range-slider min="510" max="1320" 
-			model-min="solicitud.desdeContraofertable" 
-			model-max="solicitud.hastaContraofertable" 
+			model-min="solicitud.beginContraofertable" 
+			model-max="solicitud.endContraofertable" 
 			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
 		
 		<div class="horarioAclarado">
 			<span>Horario solicitado: desde las 
 				<strong>
-					{{solicitud.desdeContraofertable | hourMinFilter}}
+					{{solicitud.beginContraofertable | hourMinFilter}}
 				</strong> hasta las 
-				<strong>{{solicitud.hastaContraofertable | hourMinFilter}}
+				<strong>{{solicitud.endContraofertable | hourMinFilter}}
 				</strong>.
 			</span>
 		</div>

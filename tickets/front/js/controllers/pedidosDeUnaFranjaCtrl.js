@@ -42,11 +42,11 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	$scope.confirmar = function(reserva) {
 		servidor.confirmarReserva(reserva.id)
 		.success(function(data, status, headers, config) {
-			console.log('Confirmada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + reserva.laboratorio + ' el d\xEDa ' + reserva.fecha + ')');
+			console.log('Confirmada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + nuevoDate(reserva.begin) + ')');
 			reserva.listo = true;
 		})
 		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al confirmar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + reserva.laboratorio + ' el d\xEDa ' + reserva.fecha + ')');
+			console.log('Se produjo un error al confirmar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + nuevoDate(reserva.begin) + ')');
 			
 			// TEMP
 			reserva.listo = true;
@@ -55,16 +55,17 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	
 	$scope.contraofertar = function(reserva) {
 		//TODO
+		// va a requerir una funcion en el comunicadorEntreVistas que pase de nombre de lab a id
 	};
 	
 	$scope.rechazar = function(reserva) {
 		servidor.rechazarReserva(reserva.id)
 		.success(function(data, status, headers, config) {
-			console.log('Rechazada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + reserva.laboratorio + ' el d\xEDa ' + reserva.fecha + ')');
+			console.log('Rechazada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + nuevoDate(reserva.begin) + ')');
 			reserva.listo = true;
 		})
 		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al rechazar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + reserva.laboratorio + ' el d\xEDa ' + reserva.fecha + ')');
+			console.log('Se produjo un error al rechazar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + vistaAnterior.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + nuevoDate(reserva.begin) + ')');
 			
 			// TEMP
 			reserva.listo = true;
@@ -72,9 +73,9 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	};
 	
 	$scope.seContraoferto = function(solicitud) {
-		return solicitud.laboratorio != solicitud.labContraofertable
-				|| solicitud.desde.getMinutosDesdeMedianoche() != solicitud.desdeContraofertable
-				|| solicitud.hasta.getMinutosDesdeMedianoche() != solicitud.hastaContraofertable;
+		return vistaAnterior.getNombreDelLab(solicitud.lab_id) != solicitud.labContraofertable
+				|| solicitud.begin.getMinutosDesdeMedianoche() != solicitud.beginContraofertable
+				|| solicitud.end.getMinutosDesdeMedianoche() != solicitud.endContraofertable;
 	};
 	
 	$scope.volver = function(){
