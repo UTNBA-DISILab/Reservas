@@ -37,8 +37,8 @@ function listId($res_id) {
 		return;
 	}
 	$return = array("id"=>$reservation->id,
-				    "begin"=>$reservation->beginDate->getTimestamp(),
-				    "end"=>$reservation->endDate->getTimestamp(),
+				    "begin"=>$reservation->beginDate->getTimestamp() * 1000,
+				    "end"=>$reservation->endDate->getTimestamp() * 1000,
 				    "lab_id"=>$reservation->lab->id,
 					"owner_id"=>$reservation->owner->id,
 					"validator_id"=>$reservation->validator->id);
@@ -82,14 +82,12 @@ function listAll() {
 		}
 	}
 
-	$fromDate = new DateTime();
-	$fromDate->setTimestamp($begin);
-	$toDate = new DateTime();
-	$toDate->setTimestamp($end);
+	$beginDate = DateTime::createFromFormat('U', $begin / 1000);
+	$endDate = DateTime::createFromFormat('U', $end / 1000);
 
 	$fields = array("begin_date");
-	$minvalues = array(Reservation::sqlDateTime($fromDate));
-	$maxvalues = array(Reservation::sqlDateTime($toDate));
+	$minvalues = array(Reservation::sqlDateTime($beginDate));
+	$maxvalues = array(Reservation::sqlDateTime($endDate));
 
 	if($owner) {
 		array_push($fields, "owner_id");
@@ -104,9 +102,10 @@ function listAll() {
 	if(is_array($reservations)) {
 		foreach($reservations as &$reservation) {
 			$info = array("id"=>$reservation->id,
-						  "begin"=>$reservation->beginDate->getTimestamp(),
-						  "end"=>$reservation->endDate->getTimestamp(),
-						  "lab_id"=>$reservation->lab->id);
+						  "begin"=>$reservation->beginDate->getTimestamp() * 1000,
+						  "end"=>$reservation->endDate->getTimestamp() * 1000,
+						  "lab_id"=>$reservation->lab->id,
+						  "owner_id"=>$reservation->owner->id);
 			$rstate = ReservationState::getLatestForReservationId($dbhandler, $reservation->id);
 			if((!$state && !$owner) || 
 			   ($state && $state == $rstate->state) ||

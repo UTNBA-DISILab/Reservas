@@ -101,8 +101,8 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		
 		servidor.iniciarSesionConSinap()
 		.success(function(data, status, headers, config) {
-			console.log( $scope.usuario.nombre + ' ha iniciado sesion con Sinap exitosamente');
 			comportamientoSiRequestExitoso(data);
+			console.log( $scope.usuario.nombre + ' ha iniciado sesion con Sinap exitosamente');
 		})
 		.error(function(data, status, headers, config) {
 			console.log('Se produjo un error al iniciar sesion con Sinap');

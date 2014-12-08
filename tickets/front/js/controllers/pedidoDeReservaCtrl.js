@@ -97,22 +97,18 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	*/
 	
 	$scope.enviarSolicitud = function() {
-		var horasDesde = Math.floor($scope.franjaSeleccionada.desde/60);
-		var minutosDesde = $scope.franjaSeleccionada.desde - horasDesde*60;
-		$scope.evento.begin.setHours(horasDesde,minutosDesde,0,0);
 
-		var horasHasta = Math.floor($scope.franjaSeleccionada.hasta/60);
-		var minutosHasta = $scope.franjaSeleccionada.hasta - horasDesde*60;
-		$scope.evento.end.setHours(horasDesde,minutosDesde,0,0);
+		$scope.evento.begin.ajustarHoraYMinutos($scope.franjaSeleccionada.desde);
+		$scope.evento.end.ajustarHoraYMinutos($scope.franjaSeleccionada.hasta);
 
 		servidor.enviarNuevaReserva($scope.evento.begin, $scope.evento.end, $scope.evento.lab_id, $scope.evento.subject)
 		.success(function(data, status, headers, config) {
-			console.log('Enviada la solicitud de reserva exitosamente' + ' (' + $scope.evento.subject + ' en el lab ' + vistaAnterior.getNombreDelLab($scope.evento.lab_id) + ' el d\xEDa ' + $scope.evento.begin + ')');
+			console.log('Enviada la solicitud de reserva exitosamente' + ' (' + $scope.evento.subject + ' en el lab ' + $scope.vistaAnterior.getNombreDelLab($scope.evento.lab_id) + ' el d\xEDa ' + $scope.evento.begin + ')');
 			alert('Su solicitud fue recibida exitosamente!');
 			$state.go('planillaReservas');
 		})
 		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al enviar la solicitud de reserva' + ' (' + $scope.evento.subject + ' en el lab ' + $scope.evento.laboratorio + ' el d\xEDa ' + $scope.evento.begin + ')');
+			console.log('Se produjo un error al enviar la solicitud de reserva' + ' (' + $scope.evento.subject + ' en el lab ' + $scope.vistaAnterior.getNombreDelLab($scope.evento.lab_id) + ' el d\xEDa ' + $scope.evento.begin + ')');
 			alert('Se produjo un error. Pruebe tocando Listo nuevamente.');
 			
 			// TEMP

@@ -43,7 +43,8 @@ class Reservation extends DBObject {
 		$begin_date = $this->sqlDateTime($this->beginDate);
 		$end_date = $this->sqlDateTime($this->endDate);
 		$lab_id = $this->replaceNullValue($this->lab->id);
-		$subject_id = $this->replaceNullValue($this->subject->id);
+		// $subject_id = $this->replaceNullValue($this->subject->id);
+		$subject_id = 123; //TEMP $this->replaceNullValue($this->subject->id);
 		return array($owner_id, $validator_id, $begin_date,
 					 $end_date, $lab_id, $subject_id);
 	}
@@ -54,7 +55,8 @@ class Reservation extends DBObject {
 		$this->beginDate = $this->phpDateTime($row["begin_date"]);
 		$this->endDate = $this->phpDateTime($row["end_date"]);
 		$this->lab->id = $this->replaceNull($row["lab_id"]);
-		$this->subject->id = $this->replaceNull($row["subject_id"]);
+		// TEMP Lo comento hasta que decidamos como hacer con las materias, si no no anda
+		// $this->subject->id = $this->replaceNull($row["subject_id"]);
 	}
 }
 ?>

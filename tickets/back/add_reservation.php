@@ -60,12 +60,11 @@ if(!isset($begin )|| !isset($end) || !isset($lab_id) ||
 	return;
 }
 
-$creationDate = new DateTime("now");
+// no hace falta, se puede sacar de reservation_states
+// $creationDate = new DateTime("now");
 
-$beginDate = new DateTime();
-$beginDate->setTimestamp($begin);
-$endDate = new DateTime();
-$endDate->setTimestamp($end);
+$beginDate = DateTime::createFromFormat('U', $begin / 1000);
+$endDate = DateTime::createFromFormat('U', $end / 1000);
 
 $dbhandler = getDatabase();
 $dbhandler->connect();

@@ -53,18 +53,10 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     //ToDo: Ponerles la capacidad de personas para poder filtrar según cantidad de alumnos
 
     var elHorarioDelPrimeroEsAnterior = function(franja1, franja2){return franja1.desde - franja2.desde;}
-
-	 /* Esto no se usa mas
-	//TODO: Reformar lo del final de cada sentencia
-	var agregarTimestamps = function(reserva) {
-		reserva.from = reserva.fecha.getTime() - ( reserva.fecha.getTime() % (1000 * 60 * 60 * 24) ) + reserva.desde * 60 * 1000;
-		reserva.to = reserva.fecha.getTime() - ( reserva.fecha.getTime() % (1000 * 60 * 60 * 24) ) + reserva.hasta * 60 * 1000;
-	}
-	*/
 	
 	var convertirTimestampADate = function(evento) {
-		evento.begin.setTime(evento.begin);//Las fechas vienen en timestamp y es mucho más fácil manejarlas como Date.
-		evento.end.setTime(evento.end);
+		evento.begin = new Date(evento.begin);//Las fechas vienen en timestamp y es mucho más fácil manejarlas como Date.
+		evento.end = new Date(evento.end);
 	}
 	
 	var completarEspaciosLibres = function() {
@@ -80,13 +72,11 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var meterEnElCalendario = function(eventoCompleto){
         var laboratorio = $scope.laboratorios.filter(
 			function(unLaboratorio) {
-				// return unLaboratorio.nombre.toLowerCase() == eventoCompleto.laboratorio.toLowerCase();
 				return unLaboratorio.id == eventoCompleto.lab_id;
 			}
 		)[0];
 		
         var dia = laboratorio.dias.filter(function(unDia){
-            //return Math.floor(unDia.fecha.getTime() / (1000 * 3600 * 24)) == Math.floor(eventoCompleto.fecha.getTime() / (1000 * 3600 * 24))
 			return unDia.fecha.esElMismoDiaQue(eventoCompleto.begin);
         })[0];
 
@@ -146,8 +136,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     
     var generarPosiblesDiasLibres = function(){
         var diasLibres = [];
-        // nombresDeLaboratorios.forEach(function(nombreDeLaboratorio){
-        	$scope.laboratorios.forEach(function(laboratorio){
+        $scope.laboratorios.forEach(function(laboratorio){
             for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
                 var inicio = new Date();
                 inicio.setDate(inicio.getDate() + numeroDeDia);
@@ -247,6 +236,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			//reservas.splice(0,reservas.length); Por qué? cuando pida las de febrero, no quiero que se vayan del calendario las de maniana que ya tenia.
 			reservasRecibidas.forEach(function(reserva) {
 				//reserva.tipo = 'reserva';
+				convertirTimestampADate(reserva);
 				reservas.push(reserva)
 			});
 			sePudieronTraerReservasEstaVuelta = true;
@@ -279,6 +269,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				
 				//pedido.tipo = 'pedido';
 				
+				convertirTimestampADate(pedido);
+
 				pedido.labContraofertable = comunicador.getNombreDelLab(pedido.lab_id);
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
 				pedido.endContraofertable = pedido.end.getMinutosDesdeMedianoche();
@@ -382,13 +374,13 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         });
 
 		pedidos.forEach( function(pedido) {
-			convertirTimestampADate(pedido);
+			//convertirTimestampADate(pedido);
 			pedido.tipo = 'pedido';
 			meterEnElCalendario(pedido);
 		});
 
 		reservas.forEach(function(reserva) {
-			convertirTimestampADate(reserva);
+			//convertirTimestampADate(reserva);
 			reserva.tipo = 'reserva';
 			meterEnElCalendario(reserva);
 		});

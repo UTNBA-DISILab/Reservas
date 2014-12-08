@@ -32,3 +32,10 @@ Date.prototype.esElMismoDiaQue = function(otroDate) {
 	&& this.getMonth() == otroDate.getMonth()
 	&& this.getFullYear() == otroDate.getFullYear()
 };
+
+
+Date.prototype.ajustarHoraYMinutos = function(minutosDesdeMedianoche) {
+	var horas = Math.floor(minutosDesdeMedianoche/60);
+	var minutos = minutosDesdeMedianoche - horas*60;
+	this.setHours(horas,minutos,0,0);
+};
