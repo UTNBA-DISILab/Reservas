@@ -9,7 +9,7 @@ params:
 + level
 
 return:
-[{id:<int>,name:<string>, surname:<string>}, ..] or error string
+[{id:<int>,name:<string>}, ..] or error string
 */
 include_once 'utils/includes.php';
 
@@ -38,7 +38,6 @@ function listId($usr_id) {
 	}
 	$return = array("id"=>$usr->id,
 					"name"=>$usr->name,
-					"surname"=>$usr->surname,
 					"email"=>$usr->email);
 	echo json_encode(objToUTF8($return));
 	$dbhandler->disconnect();
@@ -64,8 +63,7 @@ function listAll() {
 	if(is_array($usrs)) {
 		foreach($usrs as &$usr) {
 			$info = array("id"=>$usr->id,
-						  "name"=>$usr->name,
-						  "surname"=>$usr->surname);
+						  "name"=>$usr->name);
 			array_push($return, $info);
 			unset($usr);
 		}

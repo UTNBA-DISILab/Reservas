@@ -79,15 +79,12 @@ if(!$success) {
 //must add
 	if($from_glpi) {
 		$user->name = $user_data["name"];
-		$user->surname = $user_data["surname"];
 		$user->glpiId = $user_data["id"];
 		$user->accessLvl = $user_data["level"];
 		$user->email = $user_data["email"];
 	}
 	if($from_sigma) {
-	//TODO update with real data
 		$user->name = $user_data["name"];
-		$user->surname = $user_data["surname"];
 		$user->sigmaId = $user_data["id"];
 		$user->email = $user_data["email"];
 		$user->accessLvl = 0;
@@ -114,7 +111,7 @@ if($user->accessLvl >= USR_LVL_IN_USR) {
 	}
 }
 $sessionid = createSessionForUser($user);
-$response = array('id'=>$user->id,'name'=>$user->name,'surname'=>$user->surname,'access_level'=>$user->accessLvl, 'session_id'=>$sessionid);
+$response = array('id'=>$user->id,'name'=>$user->name,'access_level'=>$user->accessLvl, 'session_id'=>$sessionid);
 echo json_encode(objToUTF8($response));
 
 $dbhandler->disconnect();
@@ -124,12 +121,12 @@ return;
 //-----------------------------------------------------------
 
 function loginSigmaUser() {
-	//TODO validation against SIGMA
-	//return SIGMA data
-	//return false;
-	
-	//for Testing purpose
-	return array("id"=>"aweichandt","name"=>"Alejandro","surname"=>"Weichandt","email"=>"aweichandt@frba.utn.edu.ar");
+	/*$auth= new SimpleSAML_Auth_Simple('default-sp');
+    $auth->requireAuth();
+
+    $attributes = $auth->getAttributes();
+	return array("id"=>$attributes['givenName'][0],"name"=>$attributes['sn'][0],"email"=>$attributes['mail'][0]);*/
+	return array("id"=>"aweichandt","name"=>"Alejandro","email"=>"aweichandt@frba.utn.edu.ar");
 }
 
 function loginGLPIUser($username, $password) {

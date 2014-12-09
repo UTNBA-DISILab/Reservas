@@ -6,6 +6,7 @@ POST
 
 params:
 - name
+- career
 - code
 
 return:
@@ -33,6 +34,9 @@ if(!$jsonparams) {
 if(isset($jsonparams["name"])) {
 	$name = $jsonparams["name"];
 }
+if(isset($jsonparams["career"])) {
+	$career = $jsonparams["career"];
+}
 if(isset($jsonparams["code"])) {
 	$code = $jsonparams["code"];
 }
@@ -56,6 +60,7 @@ if($existing->loadUsingValues($dbhandler, array('code'), array($code))) {
 //add subject
 $subject = new Subject();
 $subject->name = $name;
+$subject->career = $career;
 $subject->code = $code;
 if(!$subject->commit($dbhandler)) {
 	returnError(500, "server error");

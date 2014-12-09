@@ -53,10 +53,14 @@ function listAll() {
 	$return = array();
 	if(is_array($subjects)) {
 		foreach($subjects as &$subject) {
+			if(!array_key_exists($subject->career, $return)) {
+				$return[$subject->career] = array();
+			}
+			$cr = &$return[$subject->career];
 			$info = array("id"=>$subject->id,
 						  "name"=>$subject->name,
 						  "code"=>$subject->code);
-			array_push($return, $info);
+			array_push($cr, $info);
 			unset($subject);
 		}
 	}

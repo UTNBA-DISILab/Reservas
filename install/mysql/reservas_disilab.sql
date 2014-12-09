@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-12-2014 a las 12:08:28
+-- Tiempo de generación: 09-12-2014 a las 13:50:27
 -- Versión del servidor: 5.6.16
 -- Versión de PHP: 5.5.11
 
@@ -97,6 +97,7 @@ DROP TABLE IF EXISTS `subjects`;
 CREATE TABLE IF NOT EXISTS `subjects` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `career` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `code` int(6) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
@@ -128,7 +129,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `glpi_user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `sigma_user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `surname` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `access_level` int(1) NOT NULL,
   PRIMARY KEY (`ID`)

@@ -40,7 +40,7 @@ function getGLPIUserInfo(&$dbhandler, $username) {
 	if(!$level) {
 		$level = USR_LVL_EX_USR;
 	}
-	$user_info = array("id"=>$row["name"],"name"=>$row["firstname"],"surname"=>$row["realname"], "level"=>$level, "email"=>$row["email"]);
+	$user_info = array("id"=>$row["name"],"name"=>$row["firstname"]." ".$row["realname"], "level"=>$level, "email"=>$row["email"]);
 	return $user_info;
 }
 

@@ -8,7 +8,6 @@ class User extends DBObject {
 	var $sigmaId = -1;
 	var $glpiId = -1;
 	var $name = "";
-	var $surname = "";
 	var $email = "";
 	var $accessLvl = 0;
 	
@@ -17,7 +16,6 @@ class User extends DBObject {
 		$this->sigmaId = -1;
 		$this->glpiId = -1;
 		$this->name = "";
-		$this->surname = "";
 		$this->accessLvl = 0;
 	}
 	
@@ -27,25 +25,23 @@ class User extends DBObject {
 	
 	function fields() {
 		return array("glpi_user_id", "sigma_user_id",
-					 "name", "surname", "email", "access_level");
+					 "name", "email", "access_level");
 	}
 	
 	function values() {
 		$glpi_user_id = $this->replaceNullValue($this->glpiId);
 		$sigma_user_id = $this->replaceNullValue($this->sigmaId);
 		$name = $this->replaceNullValue($this->name,"");
-		$surname = $this->replaceNullValue($this->surname,"");
 		$email = $this->replaceNullValue($this->email,"");
 		$access_level = $this->accessLvl;
 		return array($glpi_user_id, $sigma_user_id,
-					 $name, $surname, $email, $access_level);
+					 $name, $email, $access_level);
 	}
 	
 	function setValues($row) {
 		$this->glpiId = $this->replaceNull($row["glpi_user_id"]);
 		$this->sigmaId = $this->replaceNull($row["sigma_user_id"]);
 		$this->name = $this->replaceNull($row["name"],"");
-		$this->surname = $this->replaceNull($row["surname"],"");
 		$this->email = $this->replaceNull($row["email"],"");
 		$this->accessLvl = $row["access_level"];
 	}
