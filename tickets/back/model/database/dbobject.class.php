@@ -196,7 +196,7 @@ class DBObject {
 			$orderstr = " ORDER BY ";
 			for($i=0; $i < $len ; $i++) {
 				$descstr = $desc[$i]?"DESC":"ASC";
-				$orderstr.= "`".$fields[$i]."` ".$descstr;
+				$orderstr.= "`".$order_fields[$i]."` ".$descstr;
 				if ($i!=$len-1) {
 					$orderstr .= ", ";
 				}
@@ -217,7 +217,7 @@ class DBObject {
 				}
 			}
 		}
-		return static::_listAll($dbhandler, $wherestr );
+		return static::_listAll($dbhandler, $wherestr, $orderstr );
 	}
 	
 	public static function listAllBetween(&$dbhandler, $fields = array(), $minvalues = array(), $maxvalues = array()) {
