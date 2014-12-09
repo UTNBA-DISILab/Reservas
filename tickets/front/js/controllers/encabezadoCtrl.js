@@ -49,7 +49,8 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			// el username ya lo tenemos
 			//$scope.usuario.password = '';
 			$scope.usuario.nombre = datosDeUsuario.name;
-			$scope.usuario.apellido =datosDeUsuario.surname;
+			// el apellido por ahora asumimos que viene en el nombre
+			// $scope.usuario.apellido = datosDeUsuario.surname;
 			$scope.usuario.inicioSesion = true;
 			$scope.usuario.esEncargado = true; //porque todos los que se loguean en GLPI son encargados
 			//$scope.esAdmin = (datosDeUsuario.access_level == 2); // por si nos sirve
@@ -90,7 +91,8 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			// el username no importa
 			// la password tampoco
 			$scope.usuario.nombre = datosDeUsuario.name;
-			$scope.usuario.apellido = datosDeUsuario.apellido;
+			// el apellido por ahora asumimos que viene en el nombre
+			// $scope.usuario.apellido = datosDeUsuario.surname;
 			$scope.usuario.inicioSesion = true;
 			$scope.usuario.esEncargado = false; //porque todos los que se loguean con Sinap son docentes
 			//$scope.esAdmin = false; // por si nos sirve

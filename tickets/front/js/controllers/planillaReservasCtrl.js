@@ -57,6 +57,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var convertirTimestampADate = function(evento) {
 		evento.begin = new Date(evento.begin);//Las fechas vienen en timestamp y es mucho más fácil manejarlas como Date.
 		evento.end = new Date(evento.end);
+		evento.creation_date = new Date(evento.creation_date);
 	}
 	
 	var completarEspaciosLibres = function() {

@@ -61,11 +61,19 @@ function listAll() {
 						  "name"=>$subject->name,
 						  "code"=>$subject->code);
 			array_push($cr, $info);
+
+			//var_dump($cr);
+
 			unset($subject);
 		}
+		//var_dump($return);
+		//$utfdebug = objToUTF8($return);
+		//var_dump(utfdebug);
+
 	}
 
 	echo json_encode(objToUTF8($return));
+	// echo json_encode($return);
 	$dbhandler->disconnect();
 }
 ?>

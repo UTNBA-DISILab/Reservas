@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 DROP TABLE IF EXISTS `subjects`;
 CREATE TABLE IF NOT EXISTS `subjects` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `career` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `code` int(6) DEFAULT NULL,
   PRIMARY KEY (`ID`)
