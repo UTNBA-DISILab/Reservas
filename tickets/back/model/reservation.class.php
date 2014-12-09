@@ -25,7 +25,8 @@ class Reservation extends DBObject {
 		$this->beginDate = new DateTime("now");
 		$this->endDate = new DateTime("now");
 		$this->lab = new Lab();
-		$this->subject = new Subject();
+		// $this->subject = new Subject();
+		$this->subject = "";
 	}
 	
 	function table() {
@@ -34,7 +35,7 @@ class Reservation extends DBObject {
 	
 	function fields() {
 		return array("owner_id", "validator_id", "begin_date",
-					 "end_date", "lab_id", "subject_id");
+					 "end_date", "lab_id", "subject"); // no subject_id
 	}
 	
 	function values() {
@@ -44,9 +45,9 @@ class Reservation extends DBObject {
 		$end_date = $this->sqlDateTime($this->endDate);
 		$lab_id = $this->replaceNullValue($this->lab->id);
 		// $subject_id = $this->replaceNullValue($this->subject->id);
-		$subject_id = 123; //TEMP $this->replaceNullValue($this->subject->id);
+		$subject = $this->replaceNullValue($this->subject,"");
 		return array($owner_id, $validator_id, $begin_date,
-					 $end_date, $lab_id, $subject_id);
+					 $end_date, $lab_id, $subject); // no subject_id
 	}
 	
 	function setValues($row) {
@@ -55,8 +56,9 @@ class Reservation extends DBObject {
 		$this->beginDate = $this->phpDateTime($row["begin_date"]);
 		$this->endDate = $this->phpDateTime($row["end_date"]);
 		$this->lab->id = $this->replaceNull($row["lab_id"]);
-		// TEMP Lo comento hasta que decidamos como hacer con las materias, si no no anda
 		// $this->subject->id = $this->replaceNull($row["subject_id"]);
+		$this->subject = $this->replaceNull($row["subject"],"");
+
 	}
 }
 ?>

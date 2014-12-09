@@ -540,19 +540,26 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var obtenerMaterias = function() {
 		
 		var comportamientoSiRequestExitoso = function(materiasObtenidas) {
-			//$scope.especialidades = materiasObtenidas;
 			$scope.especialidades.splice(0,$scope.especialidades.length);
-			
-			materiasObtenidas.forEach(function(especialidad){
-				$scope.especialidades.push(especialidad);
-			});
+
+			var especialidades = materiasObtenidas;
+
+			for(especialidad in especialidades) {
+				var unaEspecialidad = {};
+				unaEspecialidad.nombre = especialidad;
+				unaEspecialidad.materias = [];
+				especialidades[especialidad].forEach(function(materia) {
+					unaEspecialidad.materias.push(materia.name);
+				});
+				$scope.especialidades.push(unaEspecialidad);
+			}
 			
 			comunicador.setMaterias($scope.especialidades);
 			sePudieronTraerMaterias = true;
 		};
 		
 		// primero se las pedimos al comunicador entre vistas, que viene a actuar como cache
-		if( comunicador.getMaterias().length < 1 ) {
+		if( Object.getOwnPropertyNames(comunicador.getMaterias()).length == 0 ) {
 		
 			servidor.obtenerMaterias()
 			.success(function(materiasObtenidas, status, headers, config) {
@@ -569,12 +576,20 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			});
 		}
 		else {
-			comportamientoSiRequestExitoso(comunicador.getMaterias());
+			console.log('Usando las materias ya obtenidas');
+			$scope.especialidades = comunicador.getMaterias();
 		}
 	};
 	
 	$scope.seConocenLasMateriasDe = function(especialidad) {
-		return especialidad.nombre == 'Sistemas';
+		// return especialidad.nombre == 'Sistemas de Información';
+		// return especialidad.nombre == 'Sistemas de Informaci\xF3n';
+		// return especialidad.nombre == 'Sistemas de Informacion';
+
+		if( !(typeof especialidad === 'undefined') && especialidad != '' && !(typeof especialidad.nombre === 'undefined') && especialidad.nombre != '')
+			return especialidad.nombre.indexOf('Sistemas de Informaci') > -1
+		else
+			return false;
 	}
 	
 	$scope.cargarMasDias = function() {

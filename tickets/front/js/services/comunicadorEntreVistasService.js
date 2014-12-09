@@ -8,7 +8,7 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
 	
 	var laboratorios = [];
 	var docentes = [];
-	var materias = [];
+	var materias = {};
 
     var cosasDeUnaVista = {
 

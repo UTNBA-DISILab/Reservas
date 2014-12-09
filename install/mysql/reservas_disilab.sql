@@ -50,7 +50,8 @@ CREATE TABLE IF NOT EXISTS `reservations` (
   `begin_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
   `lab_id` int(11) NOT NULL,
-  `subject_id` int(11) NOT NULL,
+  -- `subject_id` int(11) NOT NULL,
+  `subject` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
@@ -98,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `subjects` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `career` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `code` int(6) DEFAULT NULL,
+  `code` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 

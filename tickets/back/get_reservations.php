@@ -41,7 +41,8 @@ function listId($res_id) {
 				    "end"=>$reservation->endDate->getTimestamp() * 1000,
 				    "lab_id"=>$reservation->lab->id,
 					"owner_id"=>$reservation->owner->id,
-					"validator_id"=>$reservation->validator->id);
+					"validator_id"=>$reservation->validator->id,
+					"subject"=>$reservation->subject);
 	$rstate = ReservationState::getFirstForReservationId($dbhandler, $reservation->id);
 	if($rstate) {
 		$return["creation_date"]=$rstate->datetime->getTimestamp() * 1000;
@@ -110,7 +111,8 @@ function listAll() {
 						  "begin"=>$reservation->beginDate->getTimestamp() * 1000,
 						  "end"=>$reservation->endDate->getTimestamp() * 1000,
 						  "lab_id"=>$reservation->lab->id,
-						  "owner_id"=>$reservation->owner->id);
+						  "owner_id"=>$reservation->owner->id,
+						  "subject"=>$reservation->subject);
 			$rstate = ReservationState::getFirstForReservationId($dbhandler, $reservation->id);
 			$info["creation_date"]=$rstate->datetime->getTimestamp() * 1000;
 			unset($rstate);

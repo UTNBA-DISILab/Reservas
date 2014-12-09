@@ -14,7 +14,7 @@ angular.module('reservasApp').controller('cancelarPedidoOReservaCtrl',function($
 	$scope.pedidosOReservas.forEach(function(unPedidoOReserva) {
 		servidor.obtenerUnUsuario(unPedidoOReserva.owner_id)
 		.success(function(elUsuario, status, headers, config) {
-			unPedidoOReserva.nombreYApellidoDelDocente = elUsuario.name + ' ' + elUsuario.surname;
+			unPedidoOReserva.nombreYApellidoDelDocente = elUsuario.name; // el apellido viene en el nombre, o + ' ' + elUsuario.surname;
 			console.log('Obtenidos los datos del usuario con id ' + unPedidoOReserva.owner_id + ' exitosamente');
 		})
 		.error(function(data, status, headers, config) {
