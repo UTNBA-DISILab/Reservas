@@ -53,5 +53,13 @@ class ReservationState extends DBObject {
 		}
 		return false;
 	}
+	
+	public static function getFirstForReservationId(&$dbhandler, $reservation_id) {
+		$reservations = ReservationState::listAllOrdered($dbhandler, array('reservation_id'), array($reservation_id), array("date"), array(false));
+		if($reservations) {
+			return $reservations[0];
+		}
+		return false;
+	}
 }
 ?>

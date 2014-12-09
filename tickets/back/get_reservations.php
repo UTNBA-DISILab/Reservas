@@ -42,6 +42,11 @@ function listId($res_id) {
 				    "lab_id"=>$reservation->lab->id,
 					"owner_id"=>$reservation->owner->id,
 					"validator_id"=>$reservation->validator->id);
+	$rstate = ReservationState::getFirstForReservationId($dbhandler, $reservation->id);
+	if($rstate) {
+		$return["creation_date"]=$rstate->datetime->getTimestamp() * 1000;
+	}
+	unset($rstate);
 	$rstate = ReservationState::getLatestForReservationId($dbhandler, $res_id);
 	if($rstate) {
 		$return["state"]= $rstate->state;
@@ -106,6 +111,9 @@ function listAll() {
 						  "end"=>$reservation->endDate->getTimestamp() * 1000,
 						  "lab_id"=>$reservation->lab->id,
 						  "owner_id"=>$reservation->owner->id);
+			$rstate = ReservationState::getFirstForReservationId($dbhandler, $reservation->id);
+			$info["creation_date"]=$rstate->datetime->getTimestamp() * 1000;
+			unset($rstate);
 			$rstate = ReservationState::getLatestForReservationId($dbhandler, $reservation->id);
 			if((!$state && !$owner) || 
 			   ($state && $state == $rstate->state) ||
