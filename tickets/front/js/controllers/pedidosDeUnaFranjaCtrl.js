@@ -28,12 +28,24 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 		$scope.solicitudes = porDefecto.getPedidos(vistaAnterior.getUsuario());
 		// nunca entra en el else, porque solo se entra en esta vista si clickean pedidos
 	}
+
+	var solicitudesOriginales = $scope.solicitudes;
+
+	$scope.solicitudes.forEach(function(solicitud) {
+		servidor.obtenerUnUsuario(solicitud.owner_id)
+		.success(function(elUsuario, status, headers, config) {
+			solicitud.nombreYApellidoDelDocente = elUsuario.name; // el apellido viene en el nombre, o + ' ' + elUsuario.surname;
+			console.log('Obtenidos los datos del usuario con id ' + solicitud.owner_id + ' exitosamente');
+		})
+		.error(function(data, status, headers, config) {
+			solicitud.nombreYApellidoDelDocente = '(no disponible)';
+			console.log('Se produjo un error al obtener los datos del usuario con id ' + solicitud.owner_id);
+		});
+	});
 	
 	$scope.solicitudes.forEach(function(solicitud) {
 		solicitud.listo = false;
-	});
-	
-	var solicitudesOriginales = $scope.solicitudes;
+	});	
 	
 	$scope.confirmar = function(reserva) {
 		servidor.confirmarReserva(reserva.id)

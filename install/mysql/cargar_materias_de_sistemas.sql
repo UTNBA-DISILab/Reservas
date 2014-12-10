@@ -60,7 +60,7 @@ INSERT INTO `reservas_disilab`.`subjects` (`name`, `career`, `code`) VALUES
 ('Infraestructura y Virtualización', 'Sistemas de Información', NULL),
 ('Inteligencia Artificial Avanzada', 'Sistemas de Información', NULL),
 ('Tecnologías Avanzadas en Redes', 'Sistemas de Información', '082044'),
-('Comunicación y Comercializacion de Productos y Servicios de IT', 'Sistemas de Información', NULL),
+('Comunicación y Comercialización de Productos y Servicios de IT', 'Sistemas de Información', NULL),
 ('Bioinformática', 'Sistemas de Información', '082045'),
 ('Desarrollo Emprendedor', 'Sistemas de Información', NULL),
 ('Implementación de Bases de Datos NoSQL', 'Sistemas de Información', '082042'),

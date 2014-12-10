@@ -25,13 +25,13 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     var comunicador = comunicadorEntreVistasService;
     $scope.usuario = comunicador.getUsuario();
-	$scope.especialidad = comunicador.getEspecialidad();
-	
+
+	$scope.especialidad = comunicador.getEspecialidad();	
 	$scope.actualizarEspecialidad = function() {
 		comunicador.setEspecialidad($scope.especialidad);
 	};
 	
-	$scope.materia = "";
+	$scope.materia = comunicador.getMateria();
 	$scope.actualizarMateria = function() {
 		comunicador.setMateria($scope.materia);
 	};
@@ -563,6 +563,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				especialidad.subjects.forEach(function(subject) {
 					especialidadTraducida.materias.push(subject.name);
 				});
+				especialidadTraducida.materias.sort();
 
 				$scope.especialidades.push(especialidadTraducida);
 			});
