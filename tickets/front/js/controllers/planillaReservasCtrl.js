@@ -542,8 +542,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		var comportamientoSiRequestExitoso = function(materiasObtenidas) {
 			$scope.especialidades.splice(0,$scope.especialidades.length);
 
-			var especialidades = materiasObtenidas;
-
+			var especialidadesEnIngles = materiasObtenidas;
+			
+			/*
 			for(especialidad in especialidades) {
 				var unaEspecialidad = {};
 				unaEspecialidad.nombre = especialidad;
@@ -553,13 +554,26 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				});
 				$scope.especialidades.push(unaEspecialidad);
 			}
-			
+			*/
+
+			especialidadesEnIngles.forEach(function(especialidad){
+				var especialidadTraducida = {};
+				especialidadTraducida.nombre = especialidad.name;
+				especialidadTraducida.materias = [];
+				especialidad.subjects.forEach(function(subject) {
+					especialidadTraducida.materias.push(subject.name);
+				});
+
+				$scope.especialidades.push(especialidadTraducida);
+			});
+
 			comunicador.setMaterias($scope.especialidades);
 			sePudieronTraerMaterias = true;
 		};
 		
 		// primero se las pedimos al comunicador entre vistas, que viene a actuar como cache
-		if( Object.getOwnPropertyNames(comunicador.getMaterias()).length == 0 ) {
+		// if( Object.getOwnPropertyNames(comunicador.getMaterias()).length == 0 ) {
+		if( comunicador.getMaterias().length < 1 ) {
 		
 			servidor.obtenerMaterias()
 			.success(function(materiasObtenidas, status, headers, config) {
