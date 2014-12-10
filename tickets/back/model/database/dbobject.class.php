@@ -274,7 +274,7 @@ class DBObject {
 		}
 	}
 	function replaceNull($value, $nullvalue = -1) {
-		if($value == "NULL") {
+		if(!$value || $value == "NULL") {
 			return $nullvalue;
 		} else {
 			return $value;

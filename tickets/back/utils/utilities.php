@@ -38,7 +38,7 @@ function validateSubject(&$dbhandler, $subject_id) {
 	if(!$x->load($dbhandler)) {
 		return false;
 	}
-	return $subject;
+	return $x;
 }
 
 function validateUser(&$dbhandler, $user_id) {

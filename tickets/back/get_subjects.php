@@ -38,6 +38,7 @@ function listId($sbj_id) {
 	}
 	$return = array("id"=>$subject->id,
 				    "name"=>$subject->name,
+					"career"=>$subject->career,
 				    "code"=>$subject->code);
 	echo json_encode(objToUTF8($return));
 	$dbhandler->disconnect();
@@ -53,27 +54,29 @@ function listAll() {
 	$return = array();
 	if(is_array($subjects)) {
 		foreach($subjects as &$subject) {
-			if(!array_key_exists($subject->career, $return)) {
-				$return[$subject->career] = array();
+			$found = false;
+			foreach($return as &$cr) {
+				if(strcmp($cr["name"],$subject->career)==0) { 
+					$found = true;
+					break;
+				}
+				unset($cr);
 			}
-			$cr = &$return[$subject->career];
+			if(!$found) {
+				$cr = array("name"=>$subject->career, "subjects"=>array());
+			}
 			$info = array("id"=>$subject->id,
 						  "name"=>$subject->name,
 						  "code"=>$subject->code);
-			array_push($cr, $info);
-
-			//var_dump($cr);
-
+			array_push($cr["subjects"], $info);
+			if(!$found) {
+				array_push($return, $cr);
+				unset($cr);
+			}
 			unset($subject);
 		}
-		//var_dump($return);
-		//$utfdebug = objToUTF8($return);
-		//var_dump(utfdebug);
-
 	}
-
 	echo json_encode(objToUTF8($return));
-	// echo json_encode($return);
 	$dbhandler->disconnect();
 }
 ?>
