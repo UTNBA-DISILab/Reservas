@@ -33,6 +33,12 @@ Date.prototype.esElMismoDiaQue = function(otroDate) {
 	&& this.getFullYear() == otroDate.getFullYear()
 };
 
+Date.prototype.getHoraEnString = function() {
+	if(this.getMinutes() !=0)
+		return this.getHours() + ":" + this.getMinutes()
+	else
+		return this.getHours();
+};
 
 Date.prototype.ajustarHoraYMinutos = function(minutosDesdeMedianoche) {
 	var horas = Math.floor(minutosDesdeMedianoche/60);

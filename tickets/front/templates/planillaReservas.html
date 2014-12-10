@@ -59,6 +59,7 @@
 			</div>
 			<div class='diaDeLaboratorio' ng-repeat='dia in laboratorio.dias'>
 				<button class='franja' ng-style='estiloSegun(dia.franjas[$index-1], franja, dia.franjas[$index+1])' ng-repeat='franja in dia.franjas' ng-click='mostrarLaFranja(franja)'>
+					{{franja.desde.getHoraEnString()}} a {{franja.hasta.getHoraEnString()}}
 				</button>
 			</div>
 		</div>
