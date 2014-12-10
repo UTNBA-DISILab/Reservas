@@ -120,7 +120,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     var unificarPedidos = function(){
     	//Se unifican los pedidos en una misma franja horaria con un array de todos ellos, debido a que éstos pueden superponerse.
-    	//En principio también se unificaban las reservas, pero es más claro que estén diferenciadas.
+    	//En principio también se unificaban las reservas, pero es más claro que estén diferenciadas. Si los que continúan el proyecto quieren que se unifique, les será muy fácil cambiarlo.
     	$scope.laboratorios.forEach(function(laboratorio){
     		laboratorio.dias.forEach(function(dia){
     			for(numeroDeFranja = 0; numeroDeFranja < dia.franjas.length - 1; numeroDeFranja++){
@@ -617,6 +617,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		//Cada vez que el usuario se loguea o se desloguea, se actualiza la planilla.
 		delete $scope.usuario.docenteElegido;
 		pedidos = [];
+		reservas = [];
 		actualizarPlanilla();
 	});
 
