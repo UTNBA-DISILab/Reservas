@@ -169,7 +169,7 @@ class DBObject {
 		if($len > 0) {
 			$wherestr = " WHERE ";
 			for($i=0; $i < $len ; $i++) {
-				$wherestr.= "`".$fields[$i]."`='".$values[$i]."'";
+				$wherestr.= "`".$fields[$i]."`='".utf8_decode($values[$i])."'";
 				if ($i!=$len-1) {
 					$wherestr .= " AND ";
 				}
@@ -211,7 +211,7 @@ class DBObject {
 		if($len > 0) {
 			$wherestr = " WHERE ";
 			for($i=0; $i < $len ; $i++) {
-				$wherestr.= "`".$fields[$i]."`='".$values[$i]."'";
+				$wherestr.= "`".$fields[$i]."`='".utf8_decode($values[$i])."'";
 				if ($i!=$len-1) {
 					$wherestr .= " AND ";
 				}
@@ -226,8 +226,8 @@ class DBObject {
 		if($len > 0) {
 			$wherestr = " WHERE ";
 			for($i=0; $i < $len ; $i++) {
-				$wherestr.= "`".$fields[$i]."`>='".$minvalues[$i]."'";
-				$wherestr.= " AND `".$fields[$i]."`<='".$maxvalues[$i]."'";
+				$wherestr.= "`".$fields[$i]."`>='".utf8_decode($minvalues[$i])."'";
+				$wherestr.= " AND `".$fields[$i]."`<='".utf8_decode($maxvalues[$i])."'";
 				if ($i!=$len-1) {
 					$wherestr .= " AND ";
 				}
