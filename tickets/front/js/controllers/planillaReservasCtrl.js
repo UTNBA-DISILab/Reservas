@@ -156,8 +156,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				        var inicioSabado = new Date();
                 		var finSabado = new Date();
 
-		                inicioSabado.setDate(inicio.getDate());
-		                finSabado.setDate(fin.getDate());
+		                inicioSabado.setTime(inicio.getTime());
+		                finSabado.setTime(fin.getTime());
 
 		                inicioSabado.setHours(porDefecto.getHoraDeAperturaSabados().getHours(),porDefecto.getHoraDeAperturaSabados().getMinutes(),0,0);
 	            		finSabado.setHours(porDefecto.getHoraDeCierreSabados().getHours(),porDefecto.getHoraDeCierreSabados().getMinutes(),0,0);
@@ -170,6 +170,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				        if(numeroDeDia == 0){
 				        	var horaActual = new Date();
 				        	horaActual = horaActual < inicio ? inicio : horaActual;
+
 				        	diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: horaActual, tipo: 'inhabilitado'});
 		            		diasLibres.push({lab_id: laboratorio.id, begin: horaActual, end: fin, tipo: 'libre'});
 				        } else {
@@ -273,7 +274,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			reservasRecibidas.forEach(function(reserva) {
 				//reserva.tipo = 'reserva';
 				convertirTimestampADate(reserva);
-				reservas.push(reserva)
+				reservas.push(reserva);
 			});
 			sePudieronTraerReservasEstaVuelta = true;
 			if(sePudieronTraerPedidosEstaVuelta && sePudieronTraerLaboratoriosEstaVuelta) {
