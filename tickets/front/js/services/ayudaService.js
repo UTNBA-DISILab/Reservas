@@ -11,21 +11,22 @@ angular.module('reservasApp').service('ayudaService',function($state){
     var usuario = {};
     var explicaciones = {
         'planillaReservas': [
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Inhabilitado.', color: '#444444'},
+            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Inhabilitado o Contraofertado aún sin confirmar.', color: '#888888'},
             {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Libre, a\xFAn no se ha asignado a ning\xFAn docente.', color: '#F5F5F5'},
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Reservado por alg\xFAn docente.', color: '#888888'},
+            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Reservado por alg\xFAn docente.', color: '#444444'},
             {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Solicitado por uno o m\xE1s docentes.', color: '#CD853F'},
             {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Reservado a nombre del docente seleccionado.', color: '#8B4513'},
 
-            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Inhabilitado.', color: '#444444'},
+            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Inhabilitado.', color: '#888888'},
             {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Libre, a\xFAn no se ha asignado a ning\xFAn docente.', color: '#F5F5F5'},
-            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Reservado por otros docentes.', color: '#888888'},
+            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Reservado por otros docentes.', color: '#444444'},
             {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Pedidos a mi nombre que a\xFAn no me aceptaron.', color: '#CD853F'},
             {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Reservas confirmadas a mi nombre.', color: '#8B4513'},
+            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Contraoferta que aún debo confirmar o rechazar.', color: '#00FFFF'},
 
-            {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Inhabilitado.', color: '#444444'},
+            {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Inhabilitado.', color: '#888888'},
             {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Libre, a\xFAn no se ha asignado a ning\xFAn docente.', color: '#F5F5F5'},
-            {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Reservado por alg\xFAn docente.', color: '#888888'}
+            {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Reservado por alg\xFAn docente.', color: '#444444'}
         ],
         'pedidoDeReserva': [
 

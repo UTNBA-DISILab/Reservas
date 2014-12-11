@@ -64,7 +64,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		//Generamos días libres para rellenar los espacios vacíos:
 		var diasLibresParaRrellenarEspaciosVacios = generarPosiblesDiasLibres();
 		diasLibresParaRrellenarEspaciosVacios.forEach(function(libre) {
-			libre.tipo = 'libre';
 			meterEnElCalendario(libre);
 		});
 		unificarPedidos();
@@ -139,17 +138,53 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         var diasLibres = [];
         $scope.laboratorios.forEach(function(laboratorio){
             for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
-                var inicio = new Date();
-                inicio.setDate(inicio.getDate() + numeroDeDia);
-                inicio.setHours(9,0,0,0);
+
+            	var inicio = new Date();
                 var fin = new Date();
+
+                inicio.setDate(inicio.getDate() + numeroDeDia);
                 fin.setDate(fin.getDate() + numeroDeDia);
-                fin.setHours(22,0,0,0);
-                diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: fin});
+
+                inicio.setHours(porDefecto.getHoraDeApertura().getHours(),porDefecto.getHoraDeApertura().getMinutes(),0,0);
+	            fin.setHours(porDefecto.getHoraDeCierre().getHours(),porDefecto.getHoraDeCierre().getMinutes(),0,0);
+
+	            switch(inicio.getDiaDeLaSemana()) {
+				    case 'Domingo':
+				        diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: fin, tipo: 'inhabilitado'});
+				        break;
+				    case 'Sábado':
+				        var inicioSabado = new Date();
+                		var finSabado = new Date();
+
+		                inicioSabado.setDate(inicio.getDate());
+		                finSabado.setDate(fin.getDate());
+
+		                inicioSabado.setHours(porDefecto.getHoraDeAperturaSabados().getHours(),porDefecto.getHoraDeAperturaSabados().getMinutes(),0,0);
+	            		finSabado.setHours(porDefecto.getHoraDeCierreSabados().getHours(),porDefecto.getHoraDeCierreSabados().getMinutes(),0,0);
+
+		                diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: inicioSabado, tipo: 'inhabilitado'});
+		            	diasLibres.push({lab_id: laboratorio.id, begin: inicioSabado, end: finSabado, tipo: 'libre'});
+		            	diasLibres.push({lab_id: laboratorio.id, begin: finSabado, end: fin, tipo: 'inhabilitado'});
+				        break;
+				    default:
+				        if(numeroDeDia == 0){
+				        	var horaActual = new Date();
+				        	horaActual = horaActual < inicio ? inicio : horaActual;
+				        	diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: horaActual, tipo: 'inhabilitado'});
+		            		diasLibres.push({lab_id: laboratorio.id, begin: horaActual, end: fin, tipo: 'libre'});
+				        } else {
+				        	diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: fin, tipo: 'libre'});
+				        }
+
+				}
             }
         })
         return diasLibres;
     };
+
+    var generarEvento = function(idDeLaboratorio, desde, hasta, tipo){
+    	return {lab_id: idDeLaboratorio, begin: desde, end: hasta, tipo: tipo}
+    }
 	
 	var obtenerLaboratorios = function() {
 		
@@ -471,10 +506,13 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         	if(esDeEseDocente || esDelDocenteElegido){
         		color = '#8B4513';
         	} else {
-        		color = '#888888';
+        		color = '#444444';
         	}
-
         }
+
+        if(franja.eventos[0].tipo == 'inhabilitado'){
+            color = '#888888';
+        };
 
         //Faltan horarios inutilizados: Lo que ya haya transcurrido del día de hoy, y lo de fines de semana.
         var altura = 100*(franja.hasta - franja.desde)/(horaDeCierre - horaDeApertura);

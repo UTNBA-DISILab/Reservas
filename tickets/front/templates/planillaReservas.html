@@ -58,7 +58,11 @@
 				</modal-dialog>
 			</div>
 			<div class='diaDeLaboratorio' ng-repeat='dia in laboratorio.dias'>
-				<button class='franja' ng-style='estiloSegun(dia.franjas[$index-1], franja, dia.franjas[$index+1])' ng-repeat='franja in dia.franjas' ng-click='mostrarLaFranja(franja)'>
+				<button class='franja' 
+				ng-style='estiloSegun(dia.franjas[$index-1], franja, dia.franjas[$index+1])' 
+				ng-repeat='franja in dia.franjas' 
+				ng-click='mostrarLaFranja(franja)'
+				ng-show="franja.hasta.getMinutosDesdeMedianoche() - franja.desde.getMinutosDesdeMedianoche() > 0">
 					<div ng-show="franja.hasta.getMinutosDesdeMedianoche() - franja.desde.getMinutosDesdeMedianoche() >= 120">
 					{{franja.desde.getHoraEnString()}} a {{franja.hasta.getHoraEnString()}}
 					</div>

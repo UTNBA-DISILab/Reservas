@@ -3,19 +3,24 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
     diasMostradosIniciales = 7;
 	cuantosDiasMas = 7;
     horaDeApertura = new Date();
-    horaDeApertura.setHours(9,0,0,0);
-    // 540 minutos desde las 00:00 = las 9 de la mañana
+    horaDeApertura.setHours(8,30,0,0);
     horaDeCierre = new Date();
     horaDeCierre.setHours(22,0,0,0);
-     // 1320 minutos desde las 00:00 = las 10 de la noche (22 hs)
+    horaDeAperturaSabados = new Date();
+    horaDeAperturaSabados.setHours(8,30,0,0);
+    horaDeCierreSabados = new Date();
+    horaDeCierreSabados.setHours(18,0,0,0);
     //ToDo: Ponerles la capacidad de personas para poder filtrar según cantidad de alumnos
 
-    var hoy = new Date();
-    //hoy = {anio: hoy.getFullYear(), mes: ('0' + (hoy.getMonth()+1)).slice(-2), dia: ('0' + hoy.getDate()).slice(-2)};
-    var maniana = new Date(); maniana.setDate(maniana.getDate() + 1);
-    //maniana = {anio: maniana.getFullYear(), mes: ('0' + (maniana.getMonth()+1)).slice(-2), dia: ('0' + maniana.getDate()).slice(-2)};
-    var pasadoManiana = new Date(); pasadoManiana.setDate(pasadoManiana.getDate() + 2);
-    //pasadoManiana = {anio: pasadoManiana.getFullYear(), mes: ('0' + (pasadoManiana.getMonth()+1)).slice(-2), dia: ('0' + pasadoManiana.getDate()).slice(-2)};
+    var primerDia = new Date();
+    var diasHastaPrimerLunes = primerDia.getDay() > 1 ? 8 - primerDia.getDay() : 1 - primerDia.getDay();
+
+    var primerDia = new Date(); primerDia.setDate(primerDia.getDate() + diasHastaPrimerLunes);
+    //primerDia = {anio: primerDia.getFullYear(), mes: ('0' + (primerDia.getMonth()+1)).slice(-2), dia: ('0' + primerDia.getDate()).slice(-2)};
+    var segundoDia = new Date(); segundoDia.setDate(segundoDia.getDate() + diasHastaPrimerLunes + 1);
+    //segundoDia = {anio: segundoDia.getFullYear(), mes: ('0' + (segundoDia.getMonth()+1)).slice(-2), dia: ('0' + segundoDia.getDate()).slice(-2)};
+    var tercerDia = new Date(); tercerDia.setDate(tercerDia.getDate() + diasHastaPrimerLunes + 2);
+    //tercerDia = {anio: tercerDia.getFullYear(), mes: ('0' + (tercerDia.getMonth()+1)).slice(-2), dia: ('0' + tercerDia.getDate()).slice(-2)};
 
     /*
 	var laboratorios = [
@@ -46,34 +51,34 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 	];
 
 	//Todo esto es para tener un set de pruebas. El servidor nos enviará un timestamp, lo convertimos a Date y listo.
-	var hoyALas15 = new Date();
-	hoyALas15.setHours(15,0,0,0);//Horas, minutos, segundos, milisegundos
-	var hoyALas18 = new Date();
-	hoyALas18.setHours(18,0,0,0);
-	var hoyALas19 = new Date();
-	hoyALas19.setHours(19,0,0,0);
-	var hoyALas21 = new Date();
-	hoyALas21.setHours(21,0,0,0);
-	var manianaALas12 = new Date(); manianaALas12.setDate(manianaALas12.getDate() + 1);
-	manianaALas12.setHours(12,0,0,0);
-	var manianaALas15 = new Date(); manianaALas15.setDate(manianaALas15.getDate() + 1);
-	manianaALas15.setHours(15,0,0,0);
-	var manianaALas18 = new Date(); manianaALas18.setDate(manianaALas18.getDate() + 1);
-	manianaALas18.setHours(18,0,0,0);
-	var manianaALas19 = new Date(); manianaALas19.setDate(manianaALas19.getDate() + 1);
-	manianaALas19.setHours(19,0,0,0);
-	var manianaALas21 = new Date(); manianaALas21.setDate(manianaALas21.getDate() + 1);
-	manianaALas21.setHours(21,0,0,0);
-	var pasadoManianaALas13 = new Date(); pasadoManianaALas13.setDate(pasadoManianaALas13.getDate() + 2);
-	pasadoManianaALas13.setHours(13,0,0,0);
-	var pasadoManianaALas19 = new Date(); pasadoManianaALas19.setDate(pasadoManianaALas19.getDate() + 2);
-	pasadoManianaALas19.setHours(19,0,0,0);
-	var pasadoManianaALas20 = new Date(); pasadoManianaALas20.setDate(pasadoManianaALas20.getDate() + 2);
-	pasadoManianaALas20.setHours(20,0,0,0);
-	var pasadoManianaALas21 = new Date(); pasadoManianaALas21.setDate(pasadoManianaALas21.getDate() + 2);
-	pasadoManianaALas21.setHours(21,0,0,0);
-	var pasadoManianaALas22 = new Date(); pasadoManianaALas22.setDate(pasadoManianaALas22.getDate() + 2);
-	pasadoManianaALas22.setHours(22,0,0,0);
+	var primerDiaALas15 = new Date(); primerDiaALas15.setDate(primerDiaALas15.getDate() + diasHastaPrimerLunes + 1);
+	primerDiaALas15.setHours(15,0,0,0);//Horas, minutos, segundos, milisegundos
+	var primerDiaALas18 = new Date(); primerDiaALas18.setDate(primerDiaALas18.getDate() + diasHastaPrimerLunes + 1);
+	primerDiaALas18.setHours(18,0,0,0);
+	var primerDiaALas19 = new Date(); primerDiaALas19.setDate(primerDiaALas19.getDate() + diasHastaPrimerLunes + 1);
+	primerDiaALas19.setHours(19,0,0,0);
+	var primerDiaALas21 = new Date(); primerDiaALas21.setDate(primerDiaALas21.getDate() + diasHastaPrimerLunes + 1);
+	primerDiaALas21.setHours(21,0,0,0);
+	var segundoDiaALas12 = new Date(); segundoDiaALas12.setDate(segundoDiaALas12.getDate() + diasHastaPrimerLunes + 1);
+	segundoDiaALas12.setHours(12,0,0,0);
+	var segundoDiaALas15 = new Date(); segundoDiaALas15.setDate(segundoDiaALas15.getDate() + diasHastaPrimerLunes + 1);
+	segundoDiaALas15.setHours(15,0,0,0);
+	var segundoDiaALas18 = new Date(); segundoDiaALas18.setDate(segundoDiaALas18.getDate() + diasHastaPrimerLunes + 1);
+	segundoDiaALas18.setHours(18,0,0,0);
+	var segundoDiaALas19 = new Date(); segundoDiaALas19.setDate(segundoDiaALas19.getDate() + diasHastaPrimerLunes + 1);
+	segundoDiaALas19.setHours(19,0,0,0);
+	var segundoDiaALas21 = new Date(); segundoDiaALas21.setDate(segundoDiaALas21.getDate() + diasHastaPrimerLunes + 1);
+	segundoDiaALas21.setHours(21,0,0,0);
+	var tercerDiaALas13 = new Date(); tercerDiaALas13.setDate(tercerDiaALas13.getDate() + diasHastaPrimerLunes + 2);
+	tercerDiaALas13.setHours(13,0,0,0);
+	var tercerDiaALas19 = new Date(); tercerDiaALas19.setDate(tercerDiaALas19.getDate() + diasHastaPrimerLunes + 2);
+	tercerDiaALas19.setHours(19,0,0,0);
+	var tercerDiaALas20 = new Date(); tercerDiaALas20.setDate(tercerDiaALas20.getDate() + diasHastaPrimerLunes + 2);
+	tercerDiaALas20.setHours(20,0,0,0);
+	var tercerDiaALas21 = new Date(); tercerDiaALas21.setDate(tercerDiaALas21.getDate() + diasHastaPrimerLunes + 2);
+	tercerDiaALas21.setHours(21,0,0,0);
+	var tercerDiaALas22 = new Date(); tercerDiaALas22.setDate(tercerDiaALas22.getDate() + diasHastaPrimerLunes + 2);
+	tercerDiaALas22.setHours(22,0,0,0);
 
 
     //En cuanto se pruebe contra el servidor, el valor por defecto será una lista vacía.
@@ -85,8 +90,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			lab_id: 2,
             // docente: {id: 31, nombre:"Juan"}, // TEMP
-            begin: hoyALas15,
-			end: hoyALas18,
+            begin: primerDiaALas15,
+			end: primerDiaALas18,
             state: 3
         },
         {
@@ -96,8 +101,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			lab_id: 2,
             // docente: {id: 31, nombre:"Juan"}, // TEMP
-			begin: hoyALas18,
-			end: hoyALas19,
+			begin: primerDiaALas18,
+			end: primerDiaALas19,
             state: 3
         },
 		{
@@ -107,8 +112,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Operativos',
 			lab_id: 2,
             // docente: {id: 32, nombre:"Pedro"}, // TEMP
-			begin: hoyALas19,
-			end: hoyALas21,
+			begin: primerDiaALas19,
+			end: primerDiaALas21,
             state: 3
         },
 		{
@@ -118,8 +123,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Operativos',
 			lab_id: 2,
             // docente: {id: 33, nombre:"Ignacio"}, // TEMP
-			begin: manianaALas19,
-			end: manianaALas21,
+			begin: segundoDiaALas19,
+			end: segundoDiaALas21,
             state: 3
         },
 		{
@@ -129,8 +134,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Operativos',
 			lab_id: 2,
             // docente: {id: 33, nombre:"Ignacio"}, // TEMP
-			begin: pasadoManianaALas13,
-			end: pasadoManianaALas19,
+			begin: tercerDiaALas13,
+			end: tercerDiaALas19,
             state: 3
         }
     ];
@@ -144,8 +149,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			lab_id: 2,
             // docente: {id: 31, nombre:"Juan"}, // TEMP
-			begin: manianaALas12,
-			end: manianaALas18,
+			begin: segundoDiaALas12,
+			end: segundoDiaALas18,
             state: 1
         },
 		{
@@ -155,8 +160,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			lab_id: 2,
             // docente: {id: 31, nombre:"Juan"}, // TEMP
-			begin: pasadoManianaALas20,
-			end: pasadoManianaALas22,
+			begin: tercerDiaALas20,
+			end: tercerDiaALas22,
             state: 1
         }
 		
@@ -169,8 +174,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			lab_id: 2,
             // docente: {id: 31, nombre:"Juan"}, // TEMP
-			begin: manianaALas12,
-			end: manianaALas18,
+			begin: segundoDiaALas12,
+			end: segundoDiaALas18,
             state: 1
         },
 		{
@@ -180,8 +185,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			lab_id: 2,
             // docente: {id: 31, nombre:"Juan"}, // TEMP
-			begin: pasadoManianaALas20,
-			end: pasadoManianaALas22,
+			begin: tercerDiaALas20,
+			end: tercerDiaALas22,
             state: 1
         },
 		{
@@ -191,8 +196,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			lab_id: 2,
             // docente: {id: 32, nombre:"Pedro"}, // TEMP
-			begin: manianaALas15,
-			end: manianaALas19,
+			begin: segundoDiaALas15,
+			end: segundoDiaALas19,
             state: 1
         },
 		{
@@ -202,8 +207,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			subject: 'Simulacion',
 			lab_id: 2,
             // docente: {id: 33, nombre:"Ignacio"}, // TEMP
-			begin: pasadoManianaALas19,
-			end: pasadoManianaALas21,
+			begin: tercerDiaALas19,
+			end: tercerDiaALas21,
             state: 1
         }
 		
@@ -287,6 +292,12 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
         },
         getHoraDeCierre: function(){
             return horaDeCierre;
+        },
+        getHoraDeAperturaSabados: function(){
+            return horaDeAperturaSabados;
+        },
+        getHoraDeCierreSabados: function(){
+            return horaDeCierreSabados;
         },
 		getEspecialidades: function(){
 			return especialidades;
