@@ -69,7 +69,7 @@ class DBObject {
 			if ($values[$i]=='NULL'){
 				$strvalues .= $values[$i];
 			} else {
-				$strvalues .= "'".$values[$i]."'";
+				$strvalues .= "'".utf8_decode($values[$i])."'";
 			}
 			if ($i!=$len-1) {
 				$strfields .= ",";
@@ -96,7 +96,7 @@ class DBObject {
 			if ($values[$i]=='NULL'){
 				$strvalue = $values[$i];
 			} else {
-				$strvalue = "'".$values[$i]."'";
+				$strvalue = "'".utf8_decode($values[$i])."'";
 			}
 			$query.= $strfield."=".$strvalue;
 			if ($i!=$len-1) {
