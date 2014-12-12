@@ -39,7 +39,13 @@ if($myUser->accessLvl >= USR_LVL_IN_USR) {
 		}
 	}
 	$dbhandler->disconnect();
+} 
+else{
+if(RD_USE_SAML) {
+    $auth->logout();
 }
+}
+
 cleanSession();
 return;
 ?>

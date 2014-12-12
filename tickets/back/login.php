@@ -16,7 +16,12 @@ return:
 */
 
 include_once 'utils/includes.php';
-include_once 'utils/glpi_authorize.php';
+if(RD_USE_GLPI) {
+	include_once 'utils/glpi_authorize.php';
+}
+if(RD_USE_SAML) {
+	include_once '/var/www/saml/lib/_autoload.php';
+}
 
 $username = "";
 $password = "";
@@ -121,15 +126,22 @@ return;
 //-----------------------------------------------------------
 
 function loginSigmaUser() {
-	/*$auth= new SimpleSAML_Auth_Simple('default-sp');
+if(RD_USE_SAML) {
+	$auth= new SimpleSAML_Auth_Simple('default-sp');
     $auth->requireAuth();
 
     $attributes = $auth->getAttributes();
-	return array("id"=>$attributes['givenName'][0],"name"=>$attributes['sn'][0],"email"=>$attributes['mail'][0]);*/
-	return array("id"=>"aweichandt","name"=>"Alejandro","email"=>"aweichandt@frba.utn.edu.ar");
+	return array("id"=>$attributes['givenName'][0],"name"=>$attributes['sn'][0],"email"=>$attributes['mail'][0]);
+} else { //harcode it
+	return array("id"=>"aweichandt","name"=>"Alejandro Weichandt","email"=>"aweichandt@frba.utn.edu.ar");
+}
 }
 
 function loginGLPIUser($username, $password) {
+if(RD_USE_GLPI) {
 	return authorizeGLPIUser($username, $password);
+} else {
+	return array("id"=>"rgarbarini","name"=>"Ramiro Garbarini","email"=>"rgarbarini@frba.utn.edu.ar","level"=>2);
+}
 }
 ?>
