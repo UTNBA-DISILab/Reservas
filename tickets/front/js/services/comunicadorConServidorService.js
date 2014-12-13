@@ -52,6 +52,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 	return {
 		obtenerLaboratorios: function(/*laboratorios, nombresDeLaboratorios*/){
 			return $http.get( url + '/labs');
+			// return $http.get( url + '/get_labs.php');
 		},
 		
 		obtenerReservas: function(primerDiaSolicitado, cantDiasSolicitados){
@@ -63,6 +64,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			//return $http.get( url + '/reservas' + '?from=' + from + '&to=' + to);
 			
 			return $http.get( url + '/reservations' + '?begin=' + begin + '&end=' + end);
+			// return $http.get( url + '/get_reservations.php' + '?begin=' + begin + '&end=' + end);
 
 			// El server NO debe leer la cookie. Siempre debe traer TODAS las reservas de la base
 			// siempre en el rango de timestamps mandados.
@@ -73,8 +75,8 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			var begin = primerDiaSolicitado.getTime();
 			var end = begin + cantDiasSolicitados * (24 * 60 * 60 * 1000);
 				
-			//return $http.get( url + '/reservas' + '?from=' + from + '&to=' + to + '&solo_a_confirmar=true');
 			return $http.get( url + '/reservations' + '?begin=' + begin + '&end=' + end + '&open_only=true');
+			// return $http.get( url + '/get_reservations.php' + '?begin=' + begin + '&end=' + end + '&open_only=true');
 			
 			// El server debe leer la cookie. Si no hay usuario logueado, devuelve array vacio.
 			// Si hay usuario y es docente, trae sus reservas solicitadas.
@@ -89,8 +91,8 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		},
 		
 		obtenerMaterias: function() {
-			//return $http.get( url + '/materias');
 			return $http.get( url + '/subjects');
+			// return $http.get( url + '/get_subjects.php');
 		},
 		
 		cargarMateria: function(nombre, especialidad) {
@@ -100,12 +102,12 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			materiaNueva.nombre = nombre;
 			materiaNueva.especialidad = especialidad;
 			
-			//return $http.post( url + '/materias', materiaNueva);
 			//return $http.post( url + '/subjects', materiaNueva); // asi deberia ser para que la API sea RESTful
 			return $http.post( url + '/subjects/add', materiaNueva);
+			// return $http.post( url + '/add_subject.php', materiaNueva);
 		},
 		
-		enviarNuevaReserva: function(desde, hasta, idDeLaboratorio, materia) {
+		enviarNuevaReserva: function(desde, hasta, idDeLaboratorio, materia, comentario) {
 			
 			var reservaNueva = {};
 			
@@ -119,20 +121,22 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			reservaNueva.end = hasta.getTime();
 			reservaNueva.lab_id = idDeLaboratorio;
 			reservaNueva.subject = materia;
+			reservaNueva.description = comentario;
 			
 			// el state lo completa el servidor
 			// (add_reservation.php linea 141)
 			
-			//return $http.post( url + '/reservas', reservaNueva);
-			//return $http.post( url + '/reservations', reservaNueva); // asi deberia ser para que la API sea RESTful
-			return $http.post( url + '/reservations/add', reservaNueva);
+			return $http.post( url + '/reservations', reservaNueva); // asi deberia ser para que la API sea RESTful
+			// return $http.post( url + '/add_reservation.php', reservaNueva);
 		},
 		
 		confirmarReserva: function(id) {
 			//return $http.get( url + '/reservas/' + id + '?action=confirm');
 			//return $http.get( url + '/reservations/' + id + '?action=confirm');
 			// return $http.get( url + '/reservations/' + id + '/confirm'); este anda
+			
 			return $http.post( url + '/reservations/' + id + '/confirm'); // OJO Post sin body es una mala practica, puede traer problemas
+			// return $http.post( url + '/confirm_reservation.php?res_id=' + id); // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
 		modificarReserva: function(id, beginNuevo, endNuevo, labNuevo) {
@@ -144,22 +148,25 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			reservaModificada.lab_id = labNuevo;
 
 			return $http.post( url + '/reservations/' + id + '/update', reservaModificada);
+			// return $http.post( url + '/modify_reservation.php?res_id=' + id, reservaModificada);
 		},
 		
 		cancelarReserva: function(id) {
-			//return $http.delete( url + '/reservas/' + id);
 			//return $http.delete( url + '/reservations/' + id); // asi deberia ser para que la API sea RESTful
+			
 			return $http.post( url + '/reservations/' + id + '/delete'); // OJO Post sin body es una mala practica, puede traer problemas
+			// return $http.post( url + 'delete_reservation.php?res_id=' + id); // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
 		// Pendiente: el servidor tiene que devolver docentes, no todos los usuarios
 		obtenerDocentes: function() {
-			//return $http.get( url + '/docentes');
 			return $http.get( url + '/users');
+			// return $http.get( url + '/get_users.php');
 		},
 
 		obtenerUnUsuario: function(id) {
 			return $http.get( url + '/users/' + id);
+			// return $http.get( url + '/get_users.php?user_id=' + id);
 		},
 		
 		iniciarSesionConGLPI: function(username, password) {
@@ -169,15 +176,18 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			$http.defaults.headers.common.Authorization = 'Basic ' + authdata;
 			
 			return $http.post( url + '/glpi_login') // OJO Post sin body es una mala practica, puede traer problemas
+			// return $http.post( url + '/login.php?from_glpi=true') // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
 		iniciarSesionConSinap: function() {
 			return $http.post( url + '/sigma_login') // OJO Post sin body es una mala practica, puede traer problemas
+			// return $http.post( url + '/login.php?from_sigma=true') // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
 		cerrarSesion: function() {
 			
 			return $http.post( url + '/logout'); // OJO Post sin body es una mala practica, puede traer problemas
+			// return $http.post( url + '/logout.php'); // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
 		limpiarCredenciales: function() {

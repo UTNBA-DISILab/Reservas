@@ -51,6 +51,7 @@ function listId($res_id) {
 	$rstate = ReservationState::getLatestForReservationId($dbhandler, $res_id);
 	if($rstate) {
 		$return["state"]= $rstate->state;
+		$return["description"]= $rstate->description;
 	}
 	echo json_encode(objToUTF8($return));
 	$dbhandler->disconnect();
@@ -123,6 +124,7 @@ function listAll() {
 						   $rstate->state == RES_STATE_APPROVED_BY_VALIDATOR))) {
 				if($rstate) {
 					$info["state"]= $rstate->state;
+					$info["description"]= $rstate->description;
 				}
 				array_push($return, $info);
 			}

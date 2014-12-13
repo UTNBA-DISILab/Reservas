@@ -101,7 +101,7 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 		$scope.evento.begin.ajustarHoraYMinutos($scope.franjaSeleccionada.desde);
 		$scope.evento.end.ajustarHoraYMinutos($scope.franjaSeleccionada.hasta);
 
-		servidor.enviarNuevaReserva($scope.evento.begin, $scope.evento.end, $scope.evento.lab_id, $scope.evento.subject)
+		servidor.enviarNuevaReserva($scope.evento.begin, $scope.evento.end, $scope.evento.lab_id, $scope.evento.subject, $scope.evento.description)
 		.success(function(data, status, headers, config) {
 			console.log('Enviada la solicitud de reserva exitosamente' + ' (' + $scope.evento.subject + ' en el lab ' + $scope.vistaAnterior.getNombreDelLab($scope.evento.lab_id) + ' el d\xEDa ' + $scope.evento.begin + ')');
 			alert('Su solicitud fue recibida exitosamente!');
@@ -127,6 +127,7 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 // En otro archivo
 angular.module('reservasApp').filter('hourMinFilter', function () {
     return function (fecha) {
-		return fecha.getHours().toString() + ':' + fecha.getMinutes().toString();
+		//return fecha.getHours().toString() + ':' + fecha.getMinutes().toString();
+		return fecha.getHoraEnString();
     };
 });

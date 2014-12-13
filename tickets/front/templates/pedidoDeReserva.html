@@ -15,6 +15,10 @@
 				<button class="botonDeFormulario" ng-click="enviarSolicitud()">Listo!</button>
 			</div>
 		</div>
+
+		<div class="comentario">
+			<textarea ng-model="evento.description" rows="4" cols="60" maxlength="200" placeholder="Comentario&nbsp;opcional..."></textarea>
+		</div>
 		
 		<div>
 			<span>Laboratorio: {{vistaAnterior.getNombreDelLab(evento.lab_id)}}</span>

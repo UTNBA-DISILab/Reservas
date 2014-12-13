@@ -34,10 +34,22 @@ Date.prototype.esElMismoDiaQue = function(otroDate) {
 };
 
 Date.prototype.getHoraEnString = function() {
+
+	/* esto si son las 09:03 muestra 9:3
 	if(this.getMinutes() !=0)
 		return this.getHours() + ":" + this.getMinutes()
 	else
 		return this.getHours();
+	*/
+
+	var horaH = this.getHours();
+    var minutoM = this.getMinutes();
+
+	// Queremos ceros a la izquierda
+	var horaHH = (horaH < 10) ? '0' + horaH : horaH;
+	var minutoMM = (minutoM < 10) ? '0' + minutoM : minutoM
+	
+	return horaHH + ':' + minutoMM;
 };
 
 Date.prototype.ajustarHoraYMinutos = function(minutosDesdeMedianoche) {
