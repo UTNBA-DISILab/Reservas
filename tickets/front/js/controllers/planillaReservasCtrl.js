@@ -164,16 +164,16 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	            		finSabado.setHours(porDefecto.getHoraDeCierreSabados().getHours(),porDefecto.getHoraDeCierreSabados().getMinutes(),0,0);
 
 	            		if(numeroDeDia == 0){//Es el día de hoy
-				        	var horaInicialLibre = new Date();
-				        	horaInicialLibre = horaInicialLibre < inicioSabado ? inicioSabado : horaInicialLibre;
-				        	var horaFinalLibre = new Date();
-				        	horaFinalLibre = horaFinalLibre < finSabado ? horaFinalLibre : finSabado;
+	            			var horaActual = new Date();
+				        	var horaInicialLibre = horaActual < inicioSabado ? inicioSabado : horaActual;
+				        	horaInicialLibre = horaInicialLibre < finSabado ? horaInicialLibre : finSabado;
+				        	var horaFinalLibre = horaActual < finSabado ? horaActual : finSabado;
 
-			        		diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: horaInicialLibre, tipo: 'inhabilitado'});
+			        		diasLibres.push({lab_id: laboratorio.id, begin: inicioSabado, end: horaInicialLibre, tipo: 'inhabilitado'});
 	            			diasLibres.push({lab_id: laboratorio.id, begin: horaInicialLibre, end: finSabado, tipo: 'libre'});
 	            			diasLibres.push({lab_id: laboratorio.id, begin: horaFinalLibre, end: fin, tipo: 'inhabilitado'});
 				        } else {
-				        	diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: inicioSabado, tipo: 'inhabilitado'});
+				        	diasLibres.push({lab_id: laboratorio.id, begin: inicioSabado, end: inicioSabado, tipo: 'inhabilitado'});
 				        	diasLibres.push({lab_id: laboratorio.id, begin: inicioSabado, end: finSabado, tipo: 'libre'});
 				        	diasLibres.push({lab_id: laboratorio.id, begin: finSabado, end: fin, tipo: 'inhabilitado'});
 				        }
