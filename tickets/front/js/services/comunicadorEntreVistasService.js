@@ -9,6 +9,7 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
 	var laboratorios = [];
 	var docentes = [];
 	var materias = [];
+    var planillaCalendario = [];
 
     var cosasDeUnaVista = {
 
@@ -65,6 +66,12 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
         },
         getIdDelLab: function(nombre){
             return laboratorios.filter(function(unLaboratorio) {return unLaboratorio.nombre == nombre})[0].id;
+        },
+        setPlanilla: function(planillaConCalendario){
+            planillaCalendario = planillaConCalendario;
+        },
+        getPlanilla: function(){
+            return planillaCalendario;
         }
     };
 

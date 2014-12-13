@@ -25,6 +25,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     var comunicador = comunicadorEntreVistasService;
     $scope.usuario = comunicador.getUsuario();
+    comunicador.setPlanilla($scope);
 
 	$scope.especialidad = comunicador.getEspecialidad();	
 	$scope.actualizarEspecialidad = function() {
@@ -666,10 +667,14 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	$scope.$watch('usuario.inicioSesion',function(){
 		//Cada vez que el usuario se loguea o se desloguea, se actualiza la planilla.
 		delete $scope.usuario.docenteElegido;
+		$scope.recargarPlanilla();
+	});
+
+	$scope.recargarPlanilla = function(){
 		pedidos = [];
 		reservas = [];
 		actualizarPlanilla();
-	});
+	};
 
 	$scope.$watch('usuario.docenteElegido',function(){
 		filtrarPorDocente();

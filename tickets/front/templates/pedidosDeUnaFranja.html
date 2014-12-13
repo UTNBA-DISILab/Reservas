@@ -37,15 +37,12 @@
 		<span>Materia: {{solicitud.subject}}</span>
 		<div id="opciones_solicitud">
 			<span id="listo" ng-show="solicitud.listo">Listo!</span>
-			<button class= 'botonDeFormulario' ng-click="confirmar(solicitud)" ng-disabled="solicitud.listo" ng-hide="seContraoferto(solicitud)">Confirmar</button>
-			<button class= 'botonDeFormulario' ng-click="contraofertar(solicitud)" ng-show="seContraoferto(solicitud)">Contraofertar</button>
+			<button class= 'botonDeFormulario' ng-click="confirmar(solicitud)" ng-disabled="solicitud.listo" ng-hide="seContraoferto(solicitud) || seSuperponeConOtraSolicitud(solicitud)">Confirmar</button>
+			<button class= 'botonDeFormulario' ng-click="contraofertar(solicitud)" ng-show="seContraoferto(solicitud) && !seSuperponeConOtraSolicitud(solicitud)">Contraofertar</button>
 			<button class= 'botonDeFormulario' ng-click="rechazar(solicitud)" ng-disabled="solicitud.listo">Rechazar</button>
 		</div>
-	
 	</div>
-	
-	
-	
+
 	<button class= 'botonDeFormulario' ng-click='volver()'>Volver</button>
 
 </div>
