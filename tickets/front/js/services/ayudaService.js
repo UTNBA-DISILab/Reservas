@@ -32,10 +32,10 @@ angular.module('reservasApp').service('ayudaService',function($state){
 
         ],
         'pedidosDeUnaFranja': [
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Explicaci\xF3n a modo de ejemplo, ac\xE1 se podr\xEDa prescindir de los colores de la izquierda', color: '#e0ffff'}
+        
         ],
 		'cargarMaterias': [
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Explicaci\xF3n a modo de ejemplo, ac\xE1 se podr\xEDa prescindir de los colores de la izquierda', color: '#e0ffff'}
+
         ],
         'reservasAnteriores': [
 
