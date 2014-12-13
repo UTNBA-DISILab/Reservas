@@ -162,17 +162,28 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		                inicioSabado.setHours(porDefecto.getHoraDeAperturaSabados().getHours(),porDefecto.getHoraDeAperturaSabados().getMinutes(),0,0);
 	            		finSabado.setHours(porDefecto.getHoraDeCierreSabados().getHours(),porDefecto.getHoraDeCierreSabados().getMinutes(),0,0);
 
-		                diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: inicioSabado, tipo: 'inhabilitado'});
-		            	diasLibres.push({lab_id: laboratorio.id, begin: inicioSabado, end: finSabado, tipo: 'libre'});
-		            	diasLibres.push({lab_id: laboratorio.id, begin: finSabado, end: fin, tipo: 'inhabilitado'});
-				        break;
-				    default:
-				        if(numeroDeDia == 0){
-				        	var horaActual = new Date();
-				        	horaActual = horaActual < inicio ? inicio : horaActual;
+	            		if(numeroDeDia == 0){//Es el día de hoy
+				        	var horaInicialLibre = new Date();
+				        	horaInicialLibre = horaInicialLibre < inicioSabado ? inicioSabado : horaInicialLibre;
+				        	var horaFinalLibre = new Date();
+				        	horaFinalLibre = horaFinalLibre < finSabado ? horaFinalLibre : finSabado;
 
-				        	diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: horaActual, tipo: 'inhabilitado'});
-		            		diasLibres.push({lab_id: laboratorio.id, begin: horaActual, end: fin, tipo: 'libre'});
+			        		diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: horaInicialLibre, tipo: 'inhabilitado'});
+	            			diasLibres.push({lab_id: laboratorio.id, begin: horaInicialLibre, end: finSabado, tipo: 'libre'});
+	            			diasLibres.push({lab_id: laboratorio.id, begin: horaFinalLibre, end: fin, tipo: 'inhabilitado'});
+				        } else {
+				        	diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: inicioSabado, tipo: 'inhabilitado'});
+				        	diasLibres.push({lab_id: laboratorio.id, begin: inicioSabado, end: finSabado, tipo: 'libre'});
+				        	diasLibres.push({lab_id: laboratorio.id, begin: finSabado, end: fin, tipo: 'inhabilitado'});
+				        }
+				        break;
+				    default://Es de Lunes a Viernes
+				        if(numeroDeDia == 0){//Es el día de hoy
+				        	var horaInicialLibre = new Date();
+				        	horaInicialLibre = horaInicialLibre < inicio ? inicio : horaInicialLibre;
+
+				        	diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: horaInicialLibre, tipo: 'inhabilitado'});
+		            		diasLibres.push({lab_id: laboratorio.id, begin: horaInicialLibre, end: fin, tipo: 'libre'});
 				        } else {
 				        	diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: fin, tipo: 'libre'});
 				        }
