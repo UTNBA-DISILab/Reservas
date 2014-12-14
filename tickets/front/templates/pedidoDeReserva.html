@@ -23,7 +23,8 @@
 		<div>
 			<span>Laboratorio: {{vistaAnterior.getNombreDelLab(evento.lab_id)}}</span>
 			<br>
-			<span>Docente: {{docente.nombre}}</span>
+			<span ng-show="hechoPorDocente">Docente: {{docente.nombre}}</span>
+			<span ng-hide="hechoPorDocente">Encargado: {{docente.nombre}}</span>
 			<br>
 			<span>Materia: {{evento.subject}}</span>
 		</div>

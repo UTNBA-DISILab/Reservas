@@ -169,9 +169,14 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				        	horaInicialLibre = horaInicialLibre < finSabado ? horaInicialLibre : finSabado;
 				        	var horaFinalLibre = horaActual < finSabado ? horaActual : finSabado;
 
-			        		diasLibres.push({lab_id: laboratorio.id, begin: inicioSabado, end: horaInicialLibre, tipo: 'inhabilitado'});
-	            			diasLibres.push({lab_id: laboratorio.id, begin: horaInicialLibre, end: finSabado, tipo: 'libre'});
-	            			diasLibres.push({lab_id: laboratorio.id, begin: horaFinalLibre, end: fin, tipo: 'inhabilitado'});
+				        	if(horaInicialLibre < horaFinalLibre){
+				        		diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: horaInicialLibre, tipo: 'inhabilitado'});
+		            			diasLibres.push({lab_id: laboratorio.id, begin: horaInicialLibre, end: finSabado, tipo: 'libre'});
+		            			diasLibres.push({lab_id: laboratorio.id, begin: horaFinalLibre, end: fin, tipo: 'inhabilitado'});
+				        	} else {
+				        		diasLibres.push({lab_id: laboratorio.id, begin: inicio, end: fin, tipo: 'inhabilitado'});
+				        	}
+			        		
 				        } else {
 				        	diasLibres.push({lab_id: laboratorio.id, begin: inicioSabado, end: inicioSabado, tipo: 'inhabilitado'});
 				        	diasLibres.push({lab_id: laboratorio.id, begin: inicioSabado, end: finSabado, tipo: 'libre'});
@@ -248,7 +253,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		
 		var comportamientoSiRequestExitoso = function(docentesRecibidos) {
 			$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
-			$scope.docentes.push({nombre: "Todos"});
+			$scope.docentes.push({nombre: "Ninguno"});
 			$scope.usuario.docenteElegido = $scope.docentes[0];
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
@@ -364,7 +369,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var filtrarPorDocente = function() {
 		//Esto es en el caso de que el Encargado elija un Docente específico
 		if($scope.usuario.docenteElegido){
-			if($scope.usuario.docenteElegido.nombre != "Todos"){
+			if($scope.usuario.docenteElegido.nombre != "Ninguno"){
 				pedidos = pedidosAuxiliares.filter(function(pedido){
 					// return pedido.docente.nombre == $scope.usuario.docenteElegido.nombre;
 					return pedido.owner_id == $scope.usuario.docenteElegido.id;
