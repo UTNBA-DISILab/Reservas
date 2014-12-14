@@ -426,6 +426,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			//convertirTimestampADate(pedido);
 			pedido.tipo = 'pedido';
 			meterEnElCalendario(pedido);
+			console.log(pedido);
 		});
 
 		reservas.forEach(function(reserva) {

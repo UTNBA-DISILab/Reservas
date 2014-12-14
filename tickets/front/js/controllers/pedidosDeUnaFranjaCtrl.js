@@ -64,11 +64,16 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	
 	$scope.contraofertar = function(reserva) {
 		
+		var beginAnterior = new Date();
+		beginAnterior.setTime(reserva.begin.getTime());
 		reserva.begin.ajustarHoraYMinutos(reserva.beginContraofertable);
+		var endAnterior = new Date();
+		endAnterior.setTime(reserva.end.getTime());
 		reserva.end.ajustarHoraYMinutos(reserva.endContraofertable);
+		var laboratorioAnterior = reserva.lab_id;
 		reserva.lab_id = comunicador.getIdDelLab(reserva.labContraofertable);
 
-		servidor.modificarReserva(reserva.id, reserva.begin, reserva.end, reserva.lab_id)
+		servidor.modificarReserva(reserva.id, reserva.begin, reserva.end, reserva.lab_id, beginAnterior, endAnterior, laboratorioAnterior)
 		.success(function(data, status, headers, config) {
 			console.log('Contraofertada la reserva ' + reserva.id + ' exitosamente' + ' (contraoferta: ' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
 			comunicador.getPlanilla().recargarPlanilla();

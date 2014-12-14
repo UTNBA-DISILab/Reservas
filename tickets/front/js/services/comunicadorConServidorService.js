@@ -139,16 +139,21 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			// return $http.post( url + '/confirm_reservation.php?res_id=' + id); // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
-		modificarReserva: function(id, beginNuevo, endNuevo, labNuevo) {
+		modificarReserva: function(id, beginNuevo, endNuevo, labNuevo, beginAnterior, endAnterior, labAnterior) {
 			
 			var reservaModificada = {};
 			
 			reservaModificada.begin = beginNuevo.getTime();
 			reservaModificada.end = endNuevo.getTime();
 			reservaModificada.lab_id = labNuevo;
+			reservaModificada.description = "Pedido original: Laboratorio " +
+				comunicadorEntreVistasService.getNombreDelLab(labAnterior) +
+				", desde " + beginAnterior.getHours() + ":" + beginAnterior.getMinutes() +
+				"hs hasta " + endAnterior.getHours() + ":" + endAnterior.getMinutes();
 
-			return $http.post( url + '/reservations/' + id + '/update', reservaModificada);
-			// return $http.post( url + '/modify_reservation.php?res_id=' + id, reservaModificada);
+
+			//return $http.post( url + '/reservations/' + id + '/update', reservaModificada);
+			return $http.post( url + '/modify_reservation.php?res_id=' + id, reservaModificada);
 		},
 		
 		cancelarReserva: function(id) {
