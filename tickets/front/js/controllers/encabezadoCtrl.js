@@ -5,9 +5,12 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     var ayuda = ayudaService;
     $scope.$state = $state;
 
-    $scope.usuario = {id: '', username:'', password: '', nombre: '', apellido: '', inicioSesion: false, esEncargado: false};
-
-    comunicador.setUsuario($scope.usuario);
+    if(comunicador.getUsuario().inicioSesion){
+    	$scope.usuario = comunicador.getUsuario();
+    } else {
+    	$scope.usuario = {id: '', username:'', password: '', nombre: '', apellido: '', inicioSesion: false, esEncargado: false};
+    	comunicador.setUsuario($scope.usuario);
+    }
 
     $scope.mostrarAyuda = true;
 	
@@ -54,6 +57,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			$scope.usuario.inicioSesion = true;
 			$scope.usuario.esEncargado = true; //porque todos los que se loguean en GLPI son encargados
 			//$scope.esAdmin = (datosDeUsuario.access_level == 2); // por si nos sirve
+			comunicador.setUsuario($scope.usuario);
 			$state.go('planillaReservas');
 			ayuda.actualizarExplicaciones();
 		};
@@ -75,7 +79,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		})
 		.error(function(data, status, headers, config) {
 			console.log('Se produjo un error al iniciar sesion con GLPI para el usuario ' + $scope.usuario.username);
-
+			comunicador.deleteUsuario();
 			// TEMP
 			loginViejoHardcodeado();
 		});
@@ -96,6 +100,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			$scope.usuario.inicioSesion = true;
 			$scope.usuario.esEncargado = false; //porque todos los que se loguean con Sinap son docentes
 			//$scope.esAdmin = false; // por si nos sirve
+			comunicador.setUsuario($scope.usuario);
 			$state.go('planillaReservas');
 			ayuda.actualizarExplicaciones();
 		};
@@ -108,6 +113,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		})
 		.error(function(data, status, headers, config) {
 			console.log('Se produjo un error al iniciar sesion con Sinap');
+			comunicador.deleteUsuario();
 			alert('Por ahora no redirige, siempre da error (ver consola)');
 		});
 	};
@@ -120,11 +126,11 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
         //El servidor sólo deberá informar si es un usuario y contraseña válidos, y qué tipo de usuario es.
 
         //Lo de acá abajo es sólo para probar mientras no nos comuniquemos con el servidor:
-        var docentes = [{id: 31, nombre:"Juan"}, {id: 32, nombre:"Pedro"}, {id: 33, nombre:"Ignacio"} ];
+        var docentes = [{id: 31, name:"Juan"}, {id: 32, name:"Pedro"}, {id: 33, name:"Ignacio"} ];
 
-        var encargados = [{id: 50, nombre: 'Gustavo'}];
+        var encargados = [{id: 50, name: 'Gustavo'}];
 
-        if (encargados.filter(function(unEncargado){return unEncargado.nombre == $scope.usuario.username}).length) {
+        if (encargados.filter(function(unEncargado){return unEncargado.name == $scope.usuario.username}).length) {
             $scope.usuario.id = 50; // es Gustavo, no hay otros
             $scope.usuario.esEncargado = true;
             $scope.usuario.inicioSesion = true;
@@ -144,6 +150,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 
         $scope.usuario.nombre = $scope.usuario.username;
         
+        comunicador.setUsuario($scope.usuario);
 		ayuda.actualizarExplicaciones();
 	};
     
@@ -162,6 +169,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			$scope.usuario.apellido = '';
 			$scope.usuario.inicioSesion = false;
 			$scope.usuario.esEncargado = false;
+			comunicador.deleteUsuario();
 			$state.go('planillaReservas');
 			ayuda.actualizarExplicaciones();
 		};
@@ -173,7 +181,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		})
 		.error(function(data, status, headers, config) {
 			console.log('Se produjo un error al cerrar la sesion de ' + $scope.usuario.nombre + ' ' + $scope.usuario.apellido);
-
+			comunicador.deleteUsuario();
 			// TEMP
 			comportamientoSiRequestExitoso();
 		});

@@ -1,4 +1,4 @@
-var reservasApp = angular.module('reservasApp', ['ui.router','ngAnimate', 'ui-rangeSlider', 'ngModal', 'infinite-scroll']);
+var reservasApp = angular.module('reservasApp', ['ui.router','ngAnimate', 'ui-rangeSlider', 'ngModal', 'infinite-scroll','ngCookies']);
 
 reservasApp.controller('confirmarCtrl',function(){});
 

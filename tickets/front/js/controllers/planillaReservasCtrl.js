@@ -1,4 +1,4 @@
-angular.module('reservasApp').controller('planillaReservasCtrl',function($scope, $state, $location, $interval, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
+angular.module('reservasApp').controller('planillaReservasCtrl',function($scope, $state, $location, $interval, $cookies, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
 
     $scope.$on('$viewContentLoaded', function(){
         $location.replace(); //Limpia el historial de ruta
@@ -672,6 +672,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	$scope.$watch('usuario.inicioSesion',function(){
 		//Cada vez que el usuario se loguea o se desloguea, se actualiza la planilla.
 		delete $scope.usuario.docenteElegido;
+		$cookies.usuario = angular.toJson($scope.usuario);
 		$scope.recargarPlanilla();
 	});
 

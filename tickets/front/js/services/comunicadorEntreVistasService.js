@@ -1,11 +1,12 @@
-angular.module('reservasApp').service('comunicadorEntreVistasService',function(){
+angular.module('reservasApp').service('comunicadorEntreVistasService',function($cookies){
 
     var eventos = [];
     var dia = {};
-    var usuario = {};
 	var materia = '';
 	var especialidad = {};
-	
+    var usuario = angular.fromJson($cookies.usuario);
+    usuario = (usuario.id && usuario.username && usuario.inicioSesion) ? usuario : {};
+    
 	var laboratorios = [];
 	var docentes = [];
 	var materias = [];
@@ -27,9 +28,13 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function()
         },
         setUsuario: function(unUsuario){
             usuario = unUsuario;
+            $cookies.usuario = angular.toJson(usuario);
         },
         getUsuario: function(){
             return usuario;
+        },
+        deleteUsuario: function(){
+            delete $cookies.usuario;
         },
         setMateria: function(unaMateria){
             materia = unaMateria;
