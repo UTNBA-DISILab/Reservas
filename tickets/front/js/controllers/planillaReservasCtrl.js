@@ -1,4 +1,4 @@
-angular.module('reservasApp').controller('planillaReservasCtrl',function($scope, $state, $location, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
+angular.module('reservasApp').controller('planillaReservasCtrl',function($scope, $state, $location, $interval, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
 
     $scope.$on('$viewContentLoaded', function(){
         $location.replace(); //Limpia el historial de ruta
@@ -431,7 +431,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			//convertirTimestampADate(pedido);
 			pedido.tipo = 'pedido';
 			meterEnElCalendario(pedido);
-			console.log(pedido);
 		});
 
 		reservas.forEach(function(reserva) {
@@ -677,10 +676,18 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	});
 
 	$scope.recargarPlanilla = function(){
+		primerDiaSolicitado = new Date();
+		primerDiaSolicitado.setHours(0,0,0,0);
+		if($scope.laboratorios.length && $scope.laboratorios[0].dias.length)
+			cuantosDiasMasCargar = $scope.laboratorios[0].dias.length;
 		pedidos = [];
 		reservas = [];
 		actualizarPlanilla();
+		primerDiaSolicitado.setDate(primerDiaSolicitado.getDate() + cuantosDiasMasCargar);
+		cuantosDiasMasCargar = porDefecto.getCuantosDiasMas();
 	};
+
+	$interval($scope.recargarPlanilla, 10000);
 
 	$scope.$watch('usuario.docenteElegido',function(){
 		filtrarPorDocente();

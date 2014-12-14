@@ -1,6 +1,6 @@
 angular.module('reservasApp').service('valoresPorDefectoService',function(){
 
-    diasMostradosIniciales = 7;
+    diasMostradosIniciales = 20; // Hace que la persona tarde más hasta llegar al final y evita errores al refrescar la página.
 	cuantosDiasMas = 7;
     horaDeApertura = new Date();
     horaDeApertura.setHours(8,30,0,0);

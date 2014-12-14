@@ -3,7 +3,7 @@
 		
 		<label class="nombre_campo" ng-show='usuario.esEncargado'>Docente: </label>
 		<select ng-model="usuario.docenteElegido" name="docente" ng-show='usuario.esEncargado'
-				ng-options="docente.nombre for docente in docentes">
+				ng-options="docente.name for docente in docentes">
 		</select>
 		
 		<label class="nombre_campo con_margen_izquierdo">Especialidad: </label>
