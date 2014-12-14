@@ -253,7 +253,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		
 		var comportamientoSiRequestExitoso = function(docentesRecibidos) {
 			$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
-			$scope.docentes.push({nombre: "Ninguno"});
+			$scope.docentes.push({name: "Ninguno"});
 			$scope.usuario.docenteElegido = $scope.docentes[0];
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
@@ -320,9 +320,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			
 			//pedidos.splice(0,pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
-				
 				//pedido.tipo = 'pedido';
-				
 				convertirTimestampADate(pedido);
 
 				pedido.labContraofertable = comunicador.getNombreDelLab(pedido.lab_id);
@@ -335,9 +333,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			pedidosAuxiliares = pedidos;
 			sePudieronTraerPedidosEstaVuelta = true;
 			if(sePudieronTraerReservasEstaVuelta && sePudieronTraerLaboratoriosEstaVuelta) {
-				insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
+				// insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
 				//insertarPedidosYReservas();
-				filtrarPorDocente();
+				filtrarPorDocente(); // adentro de esta funcion se llama a insertarDatos()
 			}
 			//filtrarPorDocente();
 		};
@@ -369,9 +367,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var filtrarPorDocente = function() {
 		//Esto es en el caso de que el Encargado elija un Docente específico
 		if($scope.usuario.docenteElegido){
-			if($scope.usuario.docenteElegido.nombre != "Ninguno"){
+			if($scope.usuario.docenteElegido.name != "Ninguno"){
 				pedidos = pedidosAuxiliares.filter(function(pedido){
-					// return pedido.docente.nombre == $scope.usuario.docenteElegido.nombre;
 					return pedido.owner_id == $scope.usuario.docenteElegido.id;
 				});
 			} else {
@@ -623,6 +620,10 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
 				$scope.especialidades.push(especialidadTraducida);
 			});
+
+			// var indiceSistemas = $scope.especialidades.indexOf();
+			var indiceSistemas = 8;
+			$scope.especialidad = $scope.especialidades[indiceSistemas];
 
 			comunicador.setMaterias($scope.especialidades);
 			sePudieronTraerMaterias = true;

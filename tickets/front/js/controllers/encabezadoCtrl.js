@@ -23,7 +23,11 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 	
 	$scope.clickSoyEncargado = function() {
 		$scope.soyEncargado = true;
-		document.getElementById('nombreDeUsuarioGLPI').focus();
+		
+		// Sin esperar nada no anda. Esperamos medio segundo.
+		setTimeout(function() {
+			document.getElementById('nombreDeUsuarioGLPI').focus()
+		}, 500);
 	};
 	
     $scope.actualizarMargen = function(){

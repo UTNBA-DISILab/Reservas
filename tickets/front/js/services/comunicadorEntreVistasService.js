@@ -5,7 +5,12 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function($
 	var materia = '';
 	var especialidad = {};
     var usuario = angular.fromJson($cookies.usuario);
-    usuario = (usuario.id && usuario.username && usuario.inicioSesion) ? usuario : {};
+    if (!(typeof usuario === 'undefined') && usuario.id && usuario.username && usuario.inicioSesion) {
+        // usuario ya tiene los datos bien
+    }
+    else {
+        usuario = {};
+    };
     
 	var laboratorios = [];
 	var docentes = [];
