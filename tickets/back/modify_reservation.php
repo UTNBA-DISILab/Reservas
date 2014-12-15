@@ -167,7 +167,7 @@ function validateTime(&$dbhandler, &$reservation, $beginDate, $endDate) {
 			if($r->id != $reservation->id && 
 			   $r->lab->id == $reservation->lab->id) {
 				$rstate = ReservationState::getLatestForReservationId($dbhandler, $r->id);
-				if($rstate->state != RES_STATE_CLOSED) {
+				if($rstate->state == RES_STATE_CONFIRMED) {
 					return false;
 				}
 			}

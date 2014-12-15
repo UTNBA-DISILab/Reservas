@@ -87,7 +87,7 @@ if(!empty($existing_reservations)) {
 	foreach($existing_reservations as &$r) {
 		if($r->lab->id == $lab_id) {
 			$rstate = ReservationState::getLatestForReservationId($dbhandler, $r->id);
-			if($rstate->state != RES_STATE_CLOSED) {
+			if($rstate->state == RES_STATE_CONFIRMED) {
 				returnError(500, "invalid params");
 				$dbhandler->disconnect();
 				return;
