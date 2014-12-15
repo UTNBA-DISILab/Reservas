@@ -5,7 +5,7 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function($
 	var materia = '';
 	var especialidad = {};
     var usuario = angular.fromJson($cookies.usuario);
-    if (!(typeof usuario === 'undefined') && usuario.id && usuario.username && usuario.inicioSesion) {
+    if (!(typeof usuario === 'undefined') && usuario.id && usuario.inicioSesion) {
         // usuario ya tiene los datos bien
     }
     else {
@@ -34,6 +34,7 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function($
         setUsuario: function(unUsuario){
             usuario = unUsuario;
             $cookies.usuario = angular.toJson(usuario);
+            console.log(usuario);
         },
         getUsuario: function(){
             return usuario;
@@ -60,7 +61,7 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function($
             return laboratorios;
         },
 		setDocentes: function(unosDocentes){
-            docentes = unosDocentes.filter(function(unDocente) {return unDocente.nombre != 'Todos'} );
+            docentes = unosDocentes.filter(function(unDocente) {return unDocente.name != 'Todos'} );
         },
         getDocentes: function(){
             return docentes;

@@ -126,7 +126,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     			for(numeroDeFranja = 0; numeroDeFranja < dia.franjas.length - 1; numeroDeFranja++){
 	                if(dia.franjas[numeroDeFranja].eventos[0].tipo == "pedido" && dia.franjas[numeroDeFranja + 1].eventos[0].tipo == "pedido"){
 	                	dia.franjas[numeroDeFranja].eventos = dia.franjas[numeroDeFranja].eventos.concat(dia.franjas[numeroDeFranja + 1].eventos);
-	                	dia.franjas[numeroDeFranja].hasta = dia.franjas[numeroDeFranja + 1].hasta;
+	                	dia.franjas[numeroDeFranja].hasta = dia.franjas[numeroDeFranja].hasta < dia.franjas[numeroDeFranja + 1].hasta ? dia.franjas[numeroDeFranja + 1].hasta : dia.franjas[numeroDeFranja].hasta;
 	                	dia.franjas.splice(numeroDeFranja + 1, 1);
 	                	numeroDeFranja--;
 	                }
@@ -426,7 +426,11 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
 		pedidos.forEach( function(pedido) {
 			//convertirTimestampADate(pedido);
-			pedido.tipo = 'pedido';
+			if(pedido.description !== "undefined" && pedido.description.substr(0,16)=="Pedido original:"){
+				pedido.tipo = 'contraoferta';
+			} else {
+				pedido.tipo = 'pedido';
+			}
 			meterEnElCalendario(pedido);
 		});
 
@@ -513,11 +517,18 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
             color = '#F5F5F5';
         };
 
+        var esDeEseDocente = $scope.usuario.inicioSesion && esDelUsuarioLogueado(franja.eventos[0]);
+    	var esDelDocenteElegido = $scope.usuario.inicioSesion && $scope.usuario.docenteElegido && franja.eventos[0].owner_id == $scope.usuario.docenteElegido.id;
+
+    	if(franja.eventos[0].tipo == 'contraoferta'){
+            if(esDeEseDocente || esDelDocenteElegido){
+        		color = '#00FFFF';
+        	} else {
+        		color = '#444444';
+        	}
+        };
+
         if(franja.eventos[0].tipo == 'reserva'){
-        	// var esDeEseDocente = $scope.usuario.inicioSesion && franja.eventos[0].docente.nombre == $scope.usuario.nombre;
-        	var esDeEseDocente = $scope.usuario.inicioSesion && esDelUsuarioLogueado(franja.eventos[0]);
-        	// var esDelDocenteElegido = $scope.usuario.inicioSesion && $scope.usuario.docenteElegido && franja.eventos[0].docente.nombre == $scope.usuario.docenteElegido.nombre;
-        	var esDelDocenteElegido = $scope.usuario.inicioSesion && $scope.usuario.docenteElegido && franja.eventos[0].owner_id == $scope.usuario.docenteElegido.id;
         	if(esDeEseDocente || esDelDocenteElegido){
         		color = '#8B4513';
         	} else {
@@ -536,58 +547,61 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
     $scope.mostrarLaFranja = function(franja){
     	//Cada franja tiene varios eventos, todos del mismo tipo.
-        if($scope.usuario.inicioSesion){
-            if(franja.eventos[0].tipo == 'reserva' && ($scope.usuario.esEncargado || esDelUsuarioLogueado(franja.eventos[0]))){
-                comunicador.setEventos(franja.eventos);
-                $state.go('cancelarPedidoOReserva');
-            }
-			else {
-			
-				if(franja.eventos[0].tipo == 'pedido'){
-					if($scope.usuario.esEncargado) {
-						comunicador.setEventos(franja.eventos);
+    	if($scope.usuario.inicioSesion){
+    		switch (franja.eventos[0].tipo) {
+	    		case 'reserva': 
+	    			if($scope.usuario.esEncargado || esDelUsuarioLogueado(franja.eventos[0])){
+	    			//TODO: esDelUsuarioLogueado en realidad debería servir también para el docente seleccionado por el encargado.
+		                comunicador.setEventos(franja.eventos);
+		                $state.go('cancelarPedidoOReserva');
+		            } else {
+		            	alert('Reservado para la materia: ' + franja.eventos[0].subject);
+		            }
+	    		break
+	    		case 'pedido':
+	    			comunicador.setEventos(franja.eventos);
+	    			if($scope.usuario.esEncargado) {
 						$state.go('pedidosDeUnaFranja');
 					}
 					else {
 						if(esDelUsuarioLogueado(franja.eventos[0])) {
-							comunicador.setEventos(franja.eventos);
 							$state.go('cancelarPedidoOReserva');
 						}
 					}
-				}
-				else {
-					if(franja.eventos[0].tipo == 'libre'){
-						if($scope.materia) {
+	    		break
+	    		case 'contraoferta':
+	    			if($scope.usuario.esEncargado || esDelUsuarioLogueado(franja.eventos[0])){
+		                comunicador.setEventos(franja.eventos);
+		                $state.go('confirmarORechazarContraoferta');//TODO!!
+		            } else {
+		            	alert('Reservado para la materia: ' + franja.eventos[0].subject);
+		            }
+	    			alert("Es una contraoferta sin confirmar.");//TODO: Sacar esto y llevarlo a la view correcta.
+	    		break
+	    		case 'libre':
+	    			if($scope.materia && $scope.especialidad) {
 							franja.eventos[0].subject = $scope.materia;
 							franja.eventos[0].begin = franja.desde;
 							franja.eventos[0].end = franja.hasta;
 							comunicador.setEventos(franja.eventos);
 							$state.go('pedidoDeReserva');
+						} else {
+							alert('Antes de reservar debe especificar la materia.');
 						}
-						else {
-							alert('Antes de reservar debe especificar su materia.');
-						}
-					}
-					else {
-						alert('Inhabilitado');
-					}
-				}
-			}
-                
-        }
-        else {
-            if(franja.eventos[0].tipo == 'reserva'){
-				alert('Reservado para la materia: ' + franja.eventos[0].subject);
-            }
-            else {
-                if(franja.eventos[0].tipo == 'libre'){
-                    alert('Libre, a\xFAn no se asign\xF3 a ning\xFAn docente' + '\nSi desea hacer una reserva, inicie sesi\xF3n.');
-                }
-                else {
-                    alert('Inhabilitado');
-                }
-            }
-        }
+	    		break
+	    		default: alert('Inhabilitado');
+	    	}
+    	} else {
+    		switch (franja.eventos[0].tipo) {
+	    		case 'reserva': 
+	    			alert('Reservado para la materia: ' + franja.eventos[0].subject);
+	    		break
+	    		case 'libre':
+	    			alert('Libre, a\xFAn no se asign\xF3 a ning\xFAn docente' + '\nSi desea hacer una reserva, inicie sesi\xF3n.');
+	    		break
+	    		default: alert('Inhabilitado');
+	    	}
+    	}
     };
 	
 	var obtenerMaterias = function() {

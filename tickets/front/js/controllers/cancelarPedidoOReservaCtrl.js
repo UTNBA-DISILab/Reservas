@@ -1,7 +1,8 @@
-angular.module('reservasApp').controller('cancelarPedidoOReservaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService){
+angular.module('reservasApp').controller('cancelarPedidoOReservaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService,valoresPorDefectoService){
 	$scope.vistaAnterior = comunicadorEntreVistasService;
 	var servidor = comunicadorConServidorService;
 	var ayuda = ayudaService;
+	var porDefecto = valoresPorDefectoService;
     ayuda.actualizarExplicaciones();
     $scope.margen = ayuda.getMargen();
 
