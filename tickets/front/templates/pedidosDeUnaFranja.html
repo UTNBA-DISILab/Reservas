@@ -8,7 +8,7 @@
 			<span>Fecha solicitada: {{solicitud.begin.getFechaLargaConAnio()}}</span>
 		</div>
 		<br>
-		<div range-slider min="540" max="1320" 
+		<div range-slider min="minimo" max="maximo" 
 			model-min="solicitud.beginContraofertable" 
 			model-max="solicitud.endContraofertable" 
 			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
@@ -35,6 +35,8 @@
 		<span>Docente: {{solicitud.nombreYApellidoDelDocente}}</span>
 		<br>
 		<span>Materia: {{solicitud.subject}}</span>
+		<br>
+		<span ng-show="seSuperponeConOtraSolicitud(solicitud)">Se superpone con otra reserva o contraoferta. Modifique el laboratorio y/o el horario para hacer una contraoferta.</span>
 		<div id="opciones_solicitud">
 			<span id="listo" ng-show="solicitud.listo">Listo!</span>
 			<button class= 'botonDeFormulario' ng-click="confirmar(solicitud)" ng-disabled="solicitud.listo" ng-hide="seContraoferto(solicitud) || seSuperponeConOtraSolicitud(solicitud)">Confirmar</button>

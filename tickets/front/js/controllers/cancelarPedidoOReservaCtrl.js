@@ -11,6 +11,14 @@ angular.module('reservasApp').controller('cancelarPedidoOReservaCtrl',function($
 
 	$scope.pedidosOReservas = $scope.vistaAnterior.getEventos();
 
+	if($scope.pedidosOReservas[0].begin.getDiaDeLaSemana() != "Sábado"){
+		$scope.minimo = porDefecto.getHoraDeApertura().getMinutosDesdeMedianoche();
+		$scope.maximo = porDefecto.getHoraDeCierre().getMinutosDesdeMedianoche();
+	} else {
+		$scope.minimo = porDefecto.getHoraDeAperturaSabados().getMinutosDesdeMedianoche();
+		$scope.maximo = porDefecto.getHoraDeCierreSabados().getMinutosDesdeMedianoche();
+	}
+
 	$scope.pedidosOReservas.forEach(function(unPedidoOReserva) {
 		servidor.obtenerUnUsuario(unPedidoOReserva.owner_id)
 		.success(function(elUsuario, status, headers, config) {

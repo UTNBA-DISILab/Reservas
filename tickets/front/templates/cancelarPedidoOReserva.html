@@ -7,7 +7,7 @@
 			<span>Fecha solicitada: {{pedidoOReserva.begin.getFechaLargaConAnio()}}</span>
 		</div>
 		<br>
-		<div range-slider min="540" max="1320" 
+		<div range-slider min="minimo" max="maximo" 
 			model-min="pedidoOReserva.begin.getMinutosDesdeMedianoche()" 
 			model-max="pedidoOReserva.end.getMinutosDesdeMedianoche()" 
 			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>

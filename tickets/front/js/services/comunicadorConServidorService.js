@@ -1,4 +1,4 @@
-angular.module('reservasApp').service('comunicadorConServidorService',function($http){	
+angular.module('reservasApp').service('comunicadorConServidorService',function($http, comunicadorEntreVistasService){	
 	
 	// Pendiente: pensar un nombre para el sistema ej:"reservas" pero que no se llame igual que uno de nuestros recursos HTTP.
 	// (porque sino puede quedar blah.edu.ar/reservas/reservas/bleh y no queda bien)

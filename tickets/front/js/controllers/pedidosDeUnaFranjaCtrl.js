@@ -4,7 +4,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	var ayuda = ayudaService;
 	var servidor = comunicadorConServidorService;
 	var porDefecto = valoresPorDefectoService;
-	
+
     ayuda.actualizarExplicaciones();
     $scope.margen = ayuda.getMargen();
 	
@@ -30,6 +30,14 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	}
 
 	var solicitudesOriginales = $scope.solicitudes;
+
+	if($scope.solicitudes[0].begin.getDiaDeLaSemana() != "Sábado"){
+		$scope.minimo = porDefecto.getHoraDeApertura().getMinutosDesdeMedianoche();
+		$scope.maximo = porDefecto.getHoraDeCierre().getMinutosDesdeMedianoche();
+	} else {
+		$scope.minimo = porDefecto.getHoraDeAperturaSabados().getMinutosDesdeMedianoche();
+		$scope.maximo = porDefecto.getHoraDeCierreSabados().getMinutosDesdeMedianoche();
+	}
 
 	$scope.solicitudes.forEach(function(solicitud) {
 		servidor.obtenerUnUsuario(solicitud.owner_id)
@@ -127,8 +135,8 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	        			&& unaFranja.hasta.getMinutosDesdeMedianoche() < solicitud.endContraofertable) ||
 	        		(unaFranja.desde.getMinutosDesdeMedianoche() < solicitud.endContraofertable 
 	        			&& unaFranja.hasta.getMinutosDesdeMedianoche() >= solicitud.endContraofertable)) &&
-	        		unaFranja.eventos[0].tipo != 'libre' &&
-	        		unaFranja.eventos.filter(function(evento){evento.id != solicitud.id;}).length
+	        		(unaFranja.eventos[0].tipo == 'reserva' || unaFranja.eventos[0].tipo == 'contraoferta') &&
+	        		unaFranja.eventos.filter(function(evento){return evento.id != solicitud.id;}).length
         	}).length;
 	}
 });
