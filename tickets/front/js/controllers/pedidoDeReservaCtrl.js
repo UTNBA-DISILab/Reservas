@@ -16,13 +16,7 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	$scope.rangoLibre = {desde: $scope.evento.begin.getMinutosDesdeMedianoche(),
 						 hasta: $scope.evento.end.getMinutosDesdeMedianoche()};
 	
-	$scope.hechoPorDocente = false;
-
-	if($scope.vistaAnterior.getUsuario().esEncargado){
-		if($scope.vistaAnterior.getUsuario().docenteElegido.name != "Ninguno"){
-			$scope.hechoPorDocente = true;
-		}
-	}
+	$scope.hechoPorDocente = $scope.vistaAnterior.getUsuario().esEncargado && $scope.vistaAnterior.getUsuario().docenteElegido.name != "Ninguno";
 
 	if($scope.hechoPorDocente && $scope.evento.subject) {
 		$scope.docente = $scope.vistaAnterior.getUsuario().docenteElegido;
