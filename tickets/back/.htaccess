@@ -1,5 +1,5 @@
 RewriteEngine On    # Turn on the rewriting engine
-RewriteBase /
+RewriteBase /tickets/back
 #RewriteBase http://www-tst.sistemas.frba.utn.edu.ar/back/
 	#login/logout
 RewriteRule    ^sigma_login/?$    login.php?from_sigma=true&$    [NC,L]	
