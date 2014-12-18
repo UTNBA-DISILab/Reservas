@@ -37,6 +37,7 @@ if(isset($body)) {
 $dbhandler = getDatabase();
 $dbhandler->connect();
 
+$update_validator = false;
 //check existing reservations in that time
 $reservation = validateReservation($dbhandler, $res_id);
 if(!$reservation) {
@@ -62,7 +63,7 @@ if(!$is_owner && !$is_validator) {
 		$dbhandler->disconnect();
 		return;
 	}
-	$reservation->validator = $myUser;
+	$update_validator = true;
 	$is_validator = true;
 }
 
@@ -71,7 +72,20 @@ if($is_validator && $oldstate == RES_STATE_APPROVED_BY_VALIDATOR) {
 	$state = RES_STATE_APPROVED_BY_VALIDATOR;
 }
 if($is_owner && $oldstate == RES_STATE_APPROVED_BY_OWNER) {
-	$state = RES_STATE_APPROVED_BY_OWNER;
+	if($myUser->accessLvl < USR_LVL_IN_USR)
+	{
+		$state = RES_STATE_APPROVED_BY_OWNER;
+	}
+	else
+	{
+		$update_validator = true;
+	}
+}
+
+if($owner_validator)
+{
+	$reservation->validator = $myUser;
+	$reservation->commit($dbhandler);
 }
 
 //push reservation state
