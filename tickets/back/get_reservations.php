@@ -72,20 +72,17 @@ function listAll() {
 	$dbhandler->connect();
 
 	$owner = false;
-	$state = RES_STATE_CONFIRMED;
+	$open_only = false;
 	if(isset($_GET["open_only"])) {
 		$myUser = getUserFromSession();
 		if(!$myUser) {
 			returnError(401, "unauthorized");
 			return;
 		}
+		$open_only;
 		$level = $myUser->accessLvl;
 		if($level == USR_LVL_EX_USR) {
-			$state = false;
 			$owner = $myUser;
-		}
-		else {
-			$state = RES_STATE_APPROVED_BY_OWNER;
 		}
 	}
 
@@ -118,10 +115,9 @@ function listAll() {
 			$info["creation_date"]=$rstate->datetime->getTimestamp() * 1000;
 			unset($rstate);
 			$rstate = ReservationState::getLatestForReservationId($dbhandler, $reservation->id);
-			if((!$state && !$owner) || 
-			   ($state && $state == $rstate->state) ||
-			   ($owner && ($rstate->state == RES_STATE_APPROVED_BY_OWNER || 
-						   $rstate->state == RES_STATE_APPROVED_BY_VALIDATOR))) {
+			if((!$open_only && ($rstate->state == RES_STATE_CONFIRMED)) ||
+			   ($open_only && ($rstate->state == RES_STATE_APPROVED_BY_OWNER || 
+							   $rstate->state == RES_STATE_APPROVED_BY_VALIDATOR))) {
 				if($rstate) {
 					$info["state"]= $rstate->state;
 					$info["description"]= $rstate->description;
