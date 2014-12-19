@@ -517,11 +517,11 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
             color = '#F5F5F5';
         };
 
-        var esDeEseDocente = $scope.usuario.inicioSesion && esDelUsuarioLogueado(franja.eventos[0]);
+        var esDelQueInicioSesion = $scope.usuario.inicioSesion && esDelUsuarioLogueado(franja.eventos[0]);
     	var esDelDocenteElegido = $scope.usuario.inicioSesion && $scope.usuario.docenteElegido && franja.eventos[0].owner_id == $scope.usuario.docenteElegido.id;
 
     	if(franja.eventos[0].tipo == 'contraoferta'){
-            if(esDeEseDocente || esDelDocenteElegido){
+            if(esDelQueInicioSesion || esDelDocenteElegido){
         		color = '#00FFFF';
         	} else {
         		color = '#444444';
@@ -529,7 +529,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         };
 
         if(franja.eventos[0].tipo == 'reserva'){
-        	if(esDeEseDocente || esDelDocenteElegido){
+        	if(esDelQueInicioSesion || esDelDocenteElegido){
         		color = '#8B4513';
         	} else {
         		color = '#444444';

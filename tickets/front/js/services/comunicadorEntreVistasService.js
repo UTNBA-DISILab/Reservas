@@ -40,7 +40,6 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function($
         setUsuario: function(unUsuario){
             usuario = unUsuario;
             $cookies.usuario = angular.toJson(usuario);
-            console.log(usuario);
         },
         getUsuario: function(){
             return usuario;
