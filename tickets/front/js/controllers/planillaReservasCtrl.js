@@ -703,7 +703,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		cuantosDiasMasCargar = porDefecto.getCuantosDiasMas();
 	};
 
-	$interval($scope.recargarPlanilla, 10000);
+	$interval($scope.recargarPlanilla, porDefecto.getTiempoDeRecarga());
 
 	$scope.$watch('usuario.docenteElegido',function(){
 		filtrarPorDocente();

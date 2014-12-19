@@ -20,7 +20,13 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function($
     var cosasDeUnaVista = {
 
         setEventos: function(unosEventos){
-            eventos = unosEventos;
+            // Insertar sin duplicados:
+            eventos = [];
+            unosEventos.forEach(function(evento){
+                if(eventos.indexOf(evento)  == -1) {
+                    eventos.push(evento);
+                }
+            });
         },
         getEventos: function () {
             return eventos;
