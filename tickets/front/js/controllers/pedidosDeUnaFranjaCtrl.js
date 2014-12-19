@@ -121,22 +121,24 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 		$state.go('planillaReservas');
 	};
 
-	$scope.seSuperponeConOtraSolicitud = function(solicitud){
+	$scope.seSuperponeConOtraReserva = function(solicitud){
+		// Acá nos fijamos si se superpone con otra reserva o contraoferta aún no confirmada.
 		return comunicador.getPlanilla().laboratorios.filter(
 			function(unLaboratorio) {
 				return comunicador.getNombreDelLab(unLaboratorio.id) == solicitud.labContraofertable;
 			})[0].dias.filter(function(unDia){
 				return unDia.fecha.esElMismoDiaQue(solicitud.begin);
 	        })[0].franjas.filter(function(unaFranja){
-	        	//Se superpone con alguna franja que NO es libre
-	        	return ((unaFranja.desde.getMinutosDesdeMedianoche() <= solicitud.beginContraofertable 
-	        			&& unaFranja.hasta.getMinutosDesdeMedianoche() > solicitud.beginContraofertable) ||
-	        		(unaFranja.desde.getMinutosDesdeMedianoche() > solicitud.beginContraofertable 
-	        			&& unaFranja.hasta.getMinutosDesdeMedianoche() < solicitud.endContraofertable) ||
-	        		(unaFranja.desde.getMinutosDesdeMedianoche() < solicitud.endContraofertable 
-	        			&& unaFranja.hasta.getMinutosDesdeMedianoche() >= solicitud.endContraofertable)) &&
-	        		(unaFranja.eventos[0].tipo == 'reserva' || unaFranja.eventos[0].tipo == 'contraoferta') &&
-	        		unaFranja.eventos.filter(function(evento){return evento.id != solicitud.id;}).length
+	        	return unaFranja.eventos.filter(function(evento){
+	        		return ((evento.begin.getMinutosDesdeMedianoche() <= solicitud.beginContraofertable 
+	        			&& evento.end.getMinutosDesdeMedianoche() > solicitud.beginContraofertable) ||
+	        		(evento.begin.getMinutosDesdeMedianoche() > solicitud.beginContraofertable 
+	        			&& evento.end.getMinutosDesdeMedianoche() < solicitud.endContraofertable) ||
+	        		(evento.begin.getMinutosDesdeMedianoche() < solicitud.endContraofertable 
+	        			&& evento.end.getMinutosDesdeMedianoche() >= solicitud.endContraofertable)) &&
+	        		(evento.tipo == 'reserva' || evento.tipo == 'contraoferta') &&
+	        		evento.id != solicitud.id
+	        	}).length;
         	}).length;
 	}
 });

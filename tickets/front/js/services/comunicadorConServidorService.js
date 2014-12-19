@@ -126,7 +126,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			// el state lo completa el servidor
 			// (add_reservation.php linea 141)
 			
-			return $http.post( url + '/reservations', reservaNueva); // asi deberia ser para que la API sea RESTful
+			return $http.post( url + '/reservations/add', reservaNueva); // asi deberia ser para que la API sea RESTful
 			// return $http.post( url + '/add_reservation.php', reservaNueva);
 		},
 		

@@ -12,6 +12,8 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
     horaDeCierreSabados.setHours(18,0,0,0);
     //ToDo: Ponerles la capacidad de personas para poder filtrar según cantidad de alumnos
 
+    tiempoDeRecarga = 10000;//Milisegundos
+
     var primerDia = new Date();
     var diasHastaPrimerLunes = primerDia.getDay() > 1 ? 8 - primerDia.getDay() : 1 - primerDia.getDay();
 
@@ -301,6 +303,9 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
         },
 		getEspecialidades: function(){
 			return especialidades;
+		},
+		getTiempoDeRecarga: function(){
+			return tiempoDeRecarga;
 		}
     };
     return valoresPorDefecto;
