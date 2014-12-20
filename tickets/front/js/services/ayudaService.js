@@ -28,7 +28,7 @@ angular.module('reservasApp').service('ayudaService',function($state){
             {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Libre, a\xFAn no se ha asignado a ning\xFAn docente.', color: '#F5F5F5'},
             {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Reservado por alg\xFAn docente.', color: '#444444'}
         ],
-        'pedidoDeReserva': [
+        'pedidoDeReserva': [ // Esto está abierto a que en un futuro agreguen más ayudas al usuario en las distintas vistas.
 
         ],
         'pedidosDeUnaFranja': [
@@ -40,7 +40,13 @@ angular.module('reservasApp').service('ayudaService',function($state){
         'reservasAnteriores': [
 
         ],
-		'cancelarPedidoOReserva': [
+		'cancelarPedido': [
+
+        ],
+        'cancelarReserva': [
+
+        ],
+        'confirmarContraoferta': [
 
         ]
     };

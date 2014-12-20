@@ -553,7 +553,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	    			if($scope.usuario.esEncargado || esDelUsuarioLogueado(franja.eventos[0])){
 	    			//TODO: esDelUsuarioLogueado en realidad debería servir también para el docente seleccionado por el encargado.
 		                comunicador.setEventos(franja.eventos);
-		                $state.go('cancelarPedidoOReserva');
+		                $state.go('cancelarReserva');
 		            } else {
 		            	alert('Reservado para la materia: ' + franja.eventos[0].subject);
 		            }
@@ -565,18 +565,17 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 					}
 					else {
 						if(esDelUsuarioLogueado(franja.eventos[0])) {
-							$state.go('cancelarPedidoOReserva');
+							$state.go('cancelarPedido');
 						}
 					}
 	    		break
 	    		case 'contraoferta':
 	    			if($scope.usuario.esEncargado || esDelUsuarioLogueado(franja.eventos[0])){
 		                comunicador.setEventos(franja.eventos);
-		                $state.go('confirmarORechazarContraoferta');//TODO!!
+		                $state.go('confirmarContraoferta');//TODO!!
 		            } else {
 		            	alert('Reservado para la materia: ' + franja.eventos[0].subject);
 		            }
-	    			alert("Es una contraoferta sin confirmar.");//TODO: Sacar esto y llevarlo a la view correcta.
 	    		break
 	    		case 'libre':
 	    			if($scope.materia && $scope.especialidad) {

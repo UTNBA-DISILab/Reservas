@@ -15,13 +15,23 @@ reservasApp.config(['$stateProvider','$urlRouterProvider',function($stateProvide
     })
     .state('pedidoDeReserva', {
         url: '/pedidoDeReserva',
-        templateUrl: 'templates/pedidoDeReserva.html',
-        controller: 'pedidoDeReservaCtrl'
+        templateUrl: 'templates/aceptarContraofertaOCancelarAlgunEvento.html',
+        controller: 'aceptarContraofertaOCancelarAlgunEventoCtrl'
     })
-    .state('cancelarPedidoOReserva', {
-        url: '/cancelarPedidoOReserva',
-        templateUrl: 'templates/cancelarPedidoOReserva.html',
-        controller: 'cancelarPedidoOReservaCtrl'
+    .state('cancelarPedido', {
+        url: '/cancelarPedido',
+        templateUrl: 'templates/aceptarContraofertaOCancelarAlgunEvento.html',
+        controller: 'aceptarContraofertaOCancelarAlgunEventoCtrl'
+    })
+    .state('cancelarReserva', {
+        url: '/cancelarReserva',
+        templateUrl: 'templates/aceptarContraofertaOCancelarAlgunEvento.html',
+        controller: 'aceptarContraofertaOCancelarAlgunEventoCtrl'
+    })
+    .state('confirmarContraoferta', {
+        url: '/confirmarContraoferta',
+        templateUrl: 'templates/aceptarContraofertaOCancelarAlgunEvento.html',
+        controller: 'aceptarContraofertaOCancelarAlgunEventoCtrl'
     })
     .state('reservasAnteriores', {
         url: '/reservasAnteriores',

@@ -1,0 +1,41 @@
+<div id="cancelarPedidoOReserva" ng-style='margen'>
+	<div class="pedidoOReserva" ng-repeat="evento in eventos">
+		
+		<span class="fechaAltaSlider">Fecha y hora de alta de la solicitud: {{nuevoDate(evento.creation_date).getFechaLargaConAnio()}}, {{nuevoDate(evento.creation_date).getMinutosDesdeMedianoche() | hourMinFilter}}</span>
+		<br>
+		<div class="fechaSolicitadaSlider">
+			<span>Fecha solicitada: {{evento.begin.getFechaLargaConAnio()}}</span>
+		</div>
+		<br>
+		<div range-slider min="minimo" max="maximo" 
+			model-min="evento.begin.getMinutosDesdeMedianoche()" 
+			model-max="evento.end.getMinutosDesdeMedianoche()" 
+			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter" disabled="true"></div>
+		
+		<div class="horarioAclarado">
+			<span>Horario solicitado: desde las 
+				<strong>
+					{{evento.begin.getMinutosDesdeMedianoche() | hourMinFilter}}
+				</strong> hasta las <strong>
+					{{evento.end.getMinutosDesdeMedianoche() | hourMinFilter}}
+				</strong>.
+			</span>
+			<div id="divBotonListo">
+				<button class="botonDeFormulario" ng-show="evento.tipo == 'contraoferta'" ng-click="aceptarContraoferta(evento)">Aceptar {{evento.tipo}}</button>
+			</div>
+			<div id="divBotonCancelar">
+				<button class="botonDeFormulario" ng-click="cancelar(evento)">Cancelar {{evento.tipo}}</button>
+			</div>
+		</div>
+		
+		<span>Laboratorio: {{vistaAnterior.getNombreDelLab(evento.lab_id)}}</span>
+		<br>
+		<span>Docente: {{evento.nombreYApellidoDelDocente}}</span>
+		<br>
+		<span>Materia: {{evento.subject}}</span>
+	</div>
+
+
+	<button class= 'botonDeFormulario' ng-click='volver()'>Volver</button>
+
+</div>
