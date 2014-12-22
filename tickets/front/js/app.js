@@ -15,8 +15,8 @@ reservasApp.config(['$stateProvider','$urlRouterProvider',function($stateProvide
     })
     .state('pedidoDeReserva', {
         url: '/pedidoDeReserva',
-        templateUrl: 'templates/aceptarContraofertaOCancelarAlgunEvento.html',
-        controller: 'aceptarContraofertaOCancelarAlgunEventoCtrl'
+        templateUrl: 'templates/pedidoDeReserva.html',
+        controller: 'pedidoDeReservaCtrl'
     })
     .state('cancelarPedido', {
         url: '/cancelarPedido',
