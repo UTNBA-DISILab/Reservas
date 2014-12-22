@@ -23,14 +23,14 @@
 		</thead>
 		<tbody id="cuerpo_tabla_reservas">
 			<tr ng-hide="sesiones">
-				<td colspan="5">Aún no se detecta ninguna terminal condigurada.</td>
+				<td colspan="5">Aún no se detecta ninguna terminal configurada.</td>
 			</tr>
-			<tr ng-repeat="sesion in sesiones | filter:filtro | orderBy:'date'">
-				<td>{{sesion.date.getFechaLargaConAnio()}}</td>
-				<td>{{sesion.date.getHoraEnString()}}</td>
-				<td>{{nombreDeUsuario(sesion.user_id)}}</td>
-				<td>{{nombreDeTerminal(sesion.terminal_id)}}</td>
-				<td>{{getOperacion(sesion.operation)}}</td>
+			<tr ng-repeat="terminal in terminales | filter:filtro | orderBy:'date'">
+				<td>{{terminal.name}}</td>
+				<td>{{terminal.lan_ip_address}}</td>
+				<td>{{terminal.lan_network}}</td>
+				<td><button ng-click="modificar(terminal)">{{Modificar}}</button></td>
+				<td><button ng-click="eliminar(terminal)">{{Eliminar}}</button></td>
 			</tr>
 		</tbody>
 	</table>
