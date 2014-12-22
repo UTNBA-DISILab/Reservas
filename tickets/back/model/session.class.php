@@ -12,7 +12,7 @@ class Session extends DBObject {
 	
 	function Session($objid = -1) {
 		$this->id = $objid;
-		$this->userId = new User();
+		$this->user = new User();
 		$this->terminal = new Terminal();
 		$this->datetime = date_create();
 		$this->operation = -1;
