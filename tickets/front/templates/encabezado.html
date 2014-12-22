@@ -20,6 +20,7 @@
 	</div>
 	<div>
 		<button class="botonDeFormulario botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irACargarMaterias()">Cargar Materias</button>
+		<button class="botonDeFormulario botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas") && usuario.esAdministrador' ng-click="verAsistencia()">Ver Asistencia</button>
 	</div>
 	<div class="checkbox" ng-show="explicaciones.length"> 
 		<input type="checkbox" ng-model="mostrarAyuda" id="mostrarAyuda" name="mostrarAyudaCheck" ng-click="actualizarMargen()"/>

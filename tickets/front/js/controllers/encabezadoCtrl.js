@@ -8,7 +8,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     if(comunicador.getUsuario().inicioSesion){
     	$scope.usuario = comunicador.getUsuario();
     } else {
-    	$scope.usuario = {id: '', username:'', password: '', name: '', inicioSesion: false, esEncargado: false};
+    	$scope.usuario = {id: '', username:'', password: '', name: '', inicioSesion: false, esEncargado: false, esAdministrador: false};
     	comunicador.setUsuario($scope.usuario);
     }
 
@@ -60,7 +60,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			// $scope.usuario.apellido = datosDeUsuario.surname;
 			$scope.usuario.inicioSesion = true;
 			$scope.usuario.esEncargado = true; //porque todos los que se loguean en GLPI son encargados
-			//$scope.esAdmin = (datosDeUsuario.access_level == 2); // por si nos sirve
+			$scope.usuario.esAdministrador = (datosDeUsuario.access_level == 2); // por si nos sirve
 			comunicador.setUsuario($scope.usuario);
 			$state.go('planillaReservas');
 			ayuda.actualizarExplicaciones();
@@ -172,6 +172,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			$scope.usuario.name = '';
 			$scope.usuario.inicioSesion = false;
 			$scope.usuario.esEncargado = false;
+			$scope.usuario.esAdministrador = false;
 			comunicador.deleteUsuario();
 			$state.go('planillaReservas');
 			ayuda.actualizarExplicaciones();
@@ -202,4 +203,8 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 	$scope.irACargarMaterias = function(){
         $state.go('cargarMaterias');
     };
+
+    $scope.verAsistencia = function(){
+    	$state.go('asistencia');
+    }
 });

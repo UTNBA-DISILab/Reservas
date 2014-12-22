@@ -306,6 +306,15 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 		},
 		getTiempoDeRecarga: function(){
 			return tiempoDeRecarga;
+		},
+		getOperacionDeSesion: function(idDeOperacion){
+			switch (idDeOperacion){
+				case 0: //ToDo
+				break
+				case 1:
+				break
+				default:
+			}
 		}
     };
     return valoresPorDefecto;

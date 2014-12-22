@@ -48,6 +48,9 @@ angular.module('reservasApp').service('ayudaService',function($state){
         ],
         'confirmarContraoferta': [
 
+        ],
+        'asistencia': [
+
         ]
     };
     var explicacionesDeEstaVista = [];

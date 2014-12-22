@@ -1,0 +1,79 @@
+<div id="estado_sesions" ng-style='margen'>
+
+	<h3>Terminales habilitadas</h3>
+	<table id="tablaDeTerminales" class="tabla_normal">
+		<thead>
+			<tr>
+				<th>
+					Nombre
+				</th>
+				<th>
+					Dirección IP
+				</th>
+				<th>
+					Dirección de red
+				</th>
+				<th>
+					Modificar
+				</th>
+				<th>
+					Eliminar
+				</th>
+			</tr>
+		</thead>
+		<tbody id="cuerpo_tabla_reservas">
+			<tr ng-hide="sesiones">
+				<td colspan="5">Aún no se detecta ninguna terminal condigurada.</td>
+			</tr>
+			<tr ng-repeat="sesion in sesiones | filter:filtro | orderBy:'date'">
+				<td>{{sesion.date.getFechaLargaConAnio()}}</td>
+				<td>{{sesion.date.getHoraEnString()}}</td>
+				<td>{{nombreDeUsuario(sesion.user_id)}}</td>
+				<td>{{nombreDeTerminal(sesion.terminal_id)}}</td>
+				<td>{{getOperacion(sesion.operation)}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button class="botonDeFormulario" ng-click="agregarTerminal()">Agregar Terminal</button>
+
+	<br><br><br>
+	<h3>Asistencia - Historial de Sesiones</h3>
+	<input type="text" id="busqueda_reservas" class="ingresarTexto" ng-model="filtro" placeholder="Buscar..."></input>
+
+	<table id="tablaDeSesiones" class="tabla_normal">
+		<thead>
+			<tr>
+				<th>
+					Fecha
+				</th>
+				<th>
+					Hora
+				</th>
+				<th>
+					Usuario
+				</th>
+				<th>
+					Terminal
+				</th>
+				<th>
+					Operación
+				</th>
+			</tr>
+		</thead>
+		<tbody id="cuerpo_tabla_reservas" infinite-scroll="cargarMasDias(7)">
+			<tr ng-hide="sesiones">
+				<td colspan="5">Aún no se han encontrado ninguna actividad de los Encargados sobre las terminales.</td>
+			</tr>
+			<tr ng-repeat="sesion in sesiones | filter:filtro | orderBy:'date'">
+				<td>{{sesion.date.getFechaLargaConAnio()}}</td>
+				<td>{{sesion.date.getHoraEnString()}}</td>
+				<td>{{nombreDeUsuario(sesion.user_id)}}</td>
+				<td>{{nombreDeTerminal(sesion.terminal_id)}}</td>
+				<td>{{getOperacion(sesion.operation)}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	
+</div>

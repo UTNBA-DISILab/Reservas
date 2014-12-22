@@ -47,6 +47,11 @@ reservasApp.config(['$stateProvider','$urlRouterProvider',function($stateProvide
         url: '/cargarMaterias',
         templateUrl: 'templates/cargarMaterias.html',
         controller: 'cargarMateriasCtrl'
+    })
+    .state('asistencia', {
+        url: '/asistencia',
+        templateUrl: 'templates/asistencia.html',
+        controller: 'asistenciaCtrl'
     });
 
     // Si no es ninguno de los anteriores, ir a:

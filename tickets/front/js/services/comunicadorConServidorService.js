@@ -195,6 +195,27 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			// return $http.post( url + '/logout.php'); // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
+		obtenerTerminales: function() {
+			return $http.get( url + '/terminals');
+		},
+		
+		obtenerUnaTerminal: function(id) {
+			return $http.get( url + '/terminals/' + id);
+		},
+		
+		eliminarTerminal: function(id) {
+			return $http.post( url + '/terminals/' + id + '/delete');
+		},
+		
+		agregarTerminal: function(terminal) {
+			return $http.post( url + '/terminals/add', terminal);
+		},
+		obtenerSesiones: function(primerDiaSolicitado, cantDiasSolicitados){
+			var begin = primerDiaSolicitado.getTime();
+			var end = begin + cantDiasSolicitados * (24 * 60 * 60 * 1000);
+			return $http.get( url + '/sessions' + '?begin=' + begin + '&end=' + end);
+		},
+		
 		limpiarCredenciales: function() {
 			$http.defaults.headers.common.Authorization = undefined;
 		}
