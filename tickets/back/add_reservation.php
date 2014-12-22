@@ -60,9 +60,6 @@ if(!isset($begin )|| !isset($end) || !isset($lab_id) ||
 	return;
 }
 
-// no hace falta, se puede sacar de reservation_states
-// $creationDate = new DateTime("now");
-
 $beginDate = DateTime::createFromFormat('U', $begin / 1000);
 $endDate = DateTime::createFromFormat('U', $end / 1000);
 
@@ -116,9 +113,6 @@ if(!$subject) {
 */
 //push reservation
 $reservation = new Reservation();
-// TODO agregar el campo en la base para la fecha de creacion
-// y descomentar la linea siguiente
-// $reservation->creationDate = $creationDate;
 $reservation->lab = $lab;
 $reservation->subject = $subject;
 $reservation->beginDate = $beginDate;

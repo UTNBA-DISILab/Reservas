@@ -132,7 +132,7 @@ if(RD_USE_GLPI) {
     $_POST["hour"]=$duracionReservaHoras;				//Duracion total- horas (0-100)
 
 
-    $datetime = new DateTime("now");
+    $datetime = date_create();
 
     $_POST["date"]=$datetime->format('Y-m-d H:i:s');				//Fecha
     $_POST["category"]="70";		//Categoria (Estructura arbol: Peticiones->Compras/Hw/Mantenimiento/Otros/Salas->Reservas "70")

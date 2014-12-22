@@ -286,7 +286,7 @@ class DBObject {
 	}
 	
 	function phpDateTime($sqlDateTime) {
-		$dt = new DateTime();
+		$dt = date_create();
 		$dt->setTimestamp(strtotime( $sqlDateTime ));
 		return $dt;
 	}

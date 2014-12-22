@@ -14,7 +14,7 @@ class ReservationState extends DBObject {
 		$this->id = $objid;
 		$this->reservation = new Reservation();
 		$this->user = new User();
-		$this->datetime = new DateTime("now");
+		$this->datetime = date_create();
 		$this->state = -1;
 		$this->description = "";
 	}

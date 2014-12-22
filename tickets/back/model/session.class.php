@@ -14,7 +14,7 @@ class Session extends DBObject {
 		$this->id = $objid;
 		$this->userId = new User();
 		$this->terminal = new Terminal();
-		$this->datetime = new DateTime("now");
+		$this->datetime = date_create();
 		$this->operation = -1;
 	}
 	

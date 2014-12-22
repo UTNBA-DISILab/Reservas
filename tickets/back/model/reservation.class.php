@@ -22,8 +22,8 @@ class Reservation extends DBObject {
 		$this->id = $objid;
 		$this->owner = new User();
 		$this->validator = new User();
-		$this->beginDate = new DateTime("now");
-		$this->endDate = new DateTime("now");
+		$this->beginDate = date_create();
+		$this->endDate = date_create();
 		$this->lab = new Lab();
 		// $this->subject = new Subject();
 		$this->subject = "";
