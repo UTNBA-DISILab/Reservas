@@ -79,7 +79,7 @@ function listAll() {
 			returnError(401, "unauthorized");
 			return;
 		}
-		$open_only;
+		$open_only = true;
 		$level = $myUser->accessLvl;
 		if($level == USR_LVL_EX_USR) {
 			$owner = $myUser;
