@@ -30,3 +30,5 @@ RewriteRule    ^reservations/([0-9]+)/confirm?$    confirm_reservation.php?res_i
 RewriteRule    ^reservations/([0-9]+)?$    get_reservations.php?reservation_id=$1    [NC,L]
 RewriteRule    ^reservations/add?$    add_reservation.php    [NC,L]
 RewriteRule    ^reservations/?$    get_reservations.php    [NC,L]
+    # Handle connections requests
+RewriteRule    ^sessions/?$    get_connections.php    [NC,L]
