@@ -51,6 +51,12 @@ angular.module('reservasApp').service('ayudaService',function($state){
         ],
         'asistencia': [
 
+        ],
+        'agregarTerminal': [
+
+        ],
+        'modificarTerminal': [
+
         ]
     };
     var explicacionesDeEstaVista = [];

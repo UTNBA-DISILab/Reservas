@@ -1,4 +1,4 @@
-angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
+angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $state, $window, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
     
     var ayuda = ayudaService;
 	var servidor = comunicadorConServidorService;
@@ -64,7 +64,7 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 	};
 	
 	$scope.volver = function(){
-		$state.go('planillaReservas');
+		$window.history.back();
 	};
 	
 	$scope.obtenerMaterias();

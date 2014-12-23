@@ -1,5 +1,5 @@
 angular.module('reservasApp').controller('asistenciaCtrl',function($scope, $state, comunicadorEntreVistasService, ayudaService, comunicadorConServidorService, valoresPorDefectoService){
-	var vistaAnterior = comunicadorEntreVistasService;
+	var otraVista = comunicadorEntreVistasService;
 	var servidor = comunicadorConServidorService;
 	var ayuda = ayudaService;
 	var porDefecto = valoresPorDefectoService;
@@ -11,7 +11,7 @@ angular.module('reservasApp').controller('asistenciaCtrl',function($scope, $stat
     ayuda.actualizarExplicaciones();
     $scope.margen = ayuda.getMargen();
 
-	if(!vistaAnterior.getUsuario().inicioSesion){
+	if(!otraVista.getUsuario().inicioSesion){
 		$state.go('planillaReservas');
 	};
 
@@ -87,10 +87,30 @@ angular.module('reservasApp').controller('asistenciaCtrl',function($scope, $stat
 				return '(no disponible)';
 			});
 		}
-	}
+	};
 
 	$scope.getOperacion = function(id){
 		return porDefecto.getOperacionDeSesion(id);
-	}
+	};
+
+	$scope.agregarTerminal = function(){
+		otraVista.setTerminal({id: "", name: "", ip: "", mask: ""});
+		$state.go('agregarTerminal');
+	};
+
+	$scope.modificarTerminal = function(terminal){
+		otraVista.setTerminal(terminal);
+		$state.go('modificarTerminal');
+	};
+
+	$scope.eliminarTerminal = function(terminal){
+		servidor.eliminarTerminal(idDeTerminal)
+			.success(function(terminal, status, headers, config) {
+				console.log('Eliminada la terminal con id ' + idDeTerminal + ' exitosamente');
+			})
+			.error(function(data, status, headers, config) {
+				console.log('Se produjo un error al intentar eliminar la terminal con id ' + idDeTerminal);
+			});
+	};
 
 });

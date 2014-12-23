@@ -1,4 +1,4 @@
-angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService){
+angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, $state, $window, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService){
 	$scope.vistaAnterior = comunicadorEntreVistasService;
 	var ayuda = ayudaService;
 	var servidor = comunicadorConServidorService;
@@ -119,7 +119,7 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	}
 
 	$scope.volver = function(){
-		$state.go('planillaReservas');
+		$window.history.back();
 	}
 	
 });

@@ -210,6 +210,11 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		agregarTerminal: function(terminal) {
 			return $http.post( url + '/terminals/add', terminal);
 		},
+		
+		modificarTerminal: function(terminal) {
+			return $http.post( url + '/terminals/update', terminal);
+		},
+		
 		obtenerSesiones: function(primerDiaSolicitado, cantDiasSolicitados){
 			var begin = primerDiaSolicitado.getTime();
 			var end = begin + cantDiasSolicitados * (24 * 60 * 60 * 1000);

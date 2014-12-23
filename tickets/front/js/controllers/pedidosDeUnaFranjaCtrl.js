@@ -1,4 +1,4 @@
-angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
+angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scope, $state, $window, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
 	
 	var comunicador = comunicadorEntreVistasService;
 	var ayuda = ayudaService;
@@ -118,7 +118,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	
 	$scope.volver = function(){
 		$scope.solicitudes = solicitudesOriginales;
-		$state.go('planillaReservas');
+		$window.history.back();
 	};
 
 	$scope.seSuperponeConOtraReserva = function(solicitud){

@@ -17,6 +17,8 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function($
 	var materias = [];
     var planillaCalendario = {};
 
+    var terminal = {};
+
     var cosasDeUnaVista = {
 
         setEventos: function(unosEventos){
@@ -88,6 +90,12 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function($
         },
         getPlanilla: function(){
             return planillaCalendario;
+        },
+        setTerminal: function(unaTerminal){
+            terminal = unaTerminal;
+        },
+        getTerminal: function(){
+            return terminal;
         }
     };
 

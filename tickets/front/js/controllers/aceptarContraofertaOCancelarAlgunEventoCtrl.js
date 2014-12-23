@@ -1,4 +1,4 @@
-angular.module('reservasApp').controller('aceptarContraofertaOCancelarAlgunEventoCtrl',function($scope, $state, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService,valoresPorDefectoService){
+angular.module('reservasApp').controller('aceptarContraofertaOCancelarAlgunEventoCtrl',function($scope, $state, $window, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService,valoresPorDefectoService){
 	$scope.vistaAnterior = comunicadorEntreVistasService;
 	var servidor = comunicadorConServidorService;
 	var ayuda = ayudaService;
@@ -82,7 +82,7 @@ angular.module('reservasApp').controller('aceptarContraofertaOCancelarAlgunEvent
 	};
 	
 	$scope.volver = function(){
-		$state.go('planillaReservas');
+		$window.history.back();
 	};
 
 });

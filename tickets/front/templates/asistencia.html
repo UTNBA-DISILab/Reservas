@@ -11,7 +11,7 @@
 					Dirección IP
 				</th>
 				<th>
-					Dirección de red
+					Máscara
 				</th>
 				<th>
 					Modificar
@@ -27,10 +27,10 @@
 			</tr>
 			<tr ng-repeat="terminal in terminales | filter:filtro | orderBy:'date'">
 				<td>{{terminal.name}}</td>
-				<td>{{terminal.lan_ip_address}}</td>
-				<td>{{terminal.lan_network}}</td>
-				<td><button ng-click="modificar(terminal)">{{Modificar}}</button></td>
-				<td><button ng-click="eliminar(terminal)">{{Eliminar}}</button></td>
+				<td>{{terminal.ip}}</td>
+				<td>{{terminal.mask}}</td>
+				<td><button ng-click="modificar(terminal)">Modificar</button></td>
+				<td><button ng-click="eliminar(terminal)">Eliminar</button></td>
 			</tr>
 		</tbody>
 	</table>
