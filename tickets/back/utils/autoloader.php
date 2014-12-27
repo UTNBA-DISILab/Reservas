@@ -1,5 +1,5 @@
 <?php
-function __autoload($className) { 
+spl_autoload_register(function ($className) { 
 	$directorys = array(
 		'model/',
 		'model/database/',
@@ -16,5 +16,5 @@ function __autoload($className) {
 		}
 	}				
 	return false; 
-} 
+});
 ?>
