@@ -1,0 +1,12 @@
+<div id="agregarTerminal" ng-style='margen'>
+
+	<h3>Terminales habilitadas</h3>
+
+	<input type="text" id="nombreTerminal" class="ingresarTexto" ng-model="terminal.name" placeholder="Nombre de Terminal"></input>
+	<input type="text" id="direccionIP" class="ingresarTexto" ng-model="terminal.ip" placeholder="Dirección IP"></input>
+	<input type="text" id="direccionDeRed" class="ingresarTexto" ng-model="terminal.mask" placeholder="Máscara"></input>
+
+	<button class="botonDeFormulario" ng-click="volver()">Cancelar</button>
+	<button class="botonDeFormulario" ng-click="agregarOModificarTerminal()">Agregar Terminal</button>
+	
+</div>
