@@ -11,6 +11,7 @@ return:
 nothing or error string
 */
 include_once 'utils/includes.php';
+include_once  'samlAltenativo\lib\_autoload.php';
 
 $myUser = getUserFromSession();
 if(!$myUser) {
@@ -42,7 +43,13 @@ if($myUser->accessLvl >= USR_LVL_IN_USR) {
 } 
 else{
 if(RD_USE_SAML) {
-    $auth->logout();
+
+    $auth= new SimpleSAML_Auth_Simple('default-sp');
+    if ($auth->isAuthenticated()){
+        $auth->logout();
+
+    }
+
 }
 }
 
