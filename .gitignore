@@ -1,0 +1,15 @@
+# Ignorar todo
+*
+
+# Incluyendo subdirectorios
+!*/
+
+# Excepto:
+!.gitignore
+!install/
+!samlAlternativo/
+!tickets/
+!config.bat
+!export_tickets.bat
+!README.md
+
