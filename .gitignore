@@ -1,15 +1,16 @@
-# Ignorar todo
-*
-
-# Incluyendo subdirectorios
-!*/
+# Ignorar todo lo que pueda poner xampp
+/*.*
+dashboard/
+forbidden/
+img/
+restricted/
+xampp/
 
 # Excepto:
 !.gitignore
-!install/
-!samlAlternativo/
-!tickets/
+!install/**
+!samlAlternativo/**
+!tickets/**
 !config.bat
 !export_tickets.bat
 !README.md
-
