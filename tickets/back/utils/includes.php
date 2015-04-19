@@ -4,7 +4,7 @@
 //----------------------------------------------------
 define("RD_USE_MAIL", false);
 define("RD_USE_GLPI", false);
-define("RD_USE_SAML", false);
+define("RD_USE_SAML", true);
 
 // Includes
 //----------------------------------------------------
