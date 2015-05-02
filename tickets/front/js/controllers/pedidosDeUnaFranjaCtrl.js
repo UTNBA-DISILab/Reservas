@@ -21,22 +21,23 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	};	
 	
 	var eventos = comunicador.getEventos();	
-	if(eventos[0].tipo == 'pedido') {
+	if(eventos[0] && eventos[0].tipo == 'pedido') {
 		$scope.solicitudes = eventos;
 	}
 	else {
-		$scope.solicitudes = porDefecto.getPedidos(comunicador.getUsuario());
-		// nunca entra en el else, porque solo se entra en esta vista si clickean pedidos
+		$scope.solicitudes = [];
+		// $scope.solicitudes = porDefecto.getPedidos(comunicador.getUsuario());
 	}
 
 	var solicitudesOriginales = $scope.solicitudes;
-
-	if($scope.solicitudes[0].begin.getDiaDeLaSemana() != "Sábado"){
-		$scope.minimo = porDefecto.getHoraDeApertura().getMinutosDesdeMedianoche();
-		$scope.maximo = porDefecto.getHoraDeCierre().getMinutosDesdeMedianoche();
-	} else {
-		$scope.minimo = porDefecto.getHoraDeAperturaSabados().getMinutosDesdeMedianoche();
-		$scope.maximo = porDefecto.getHoraDeCierreSabados().getMinutosDesdeMedianoche();
+	if($scope.solicitudes[0]){
+		if($scope.solicitudes[0].begin.getDiaDeLaSemana() != "Sábado"){
+			$scope.minimo = porDefecto.getHoraDeApertura().getMinutosDesdeMedianoche();
+			$scope.maximo = porDefecto.getHoraDeCierre().getMinutosDesdeMedianoche();
+		} else {
+			$scope.minimo = porDefecto.getHoraDeAperturaSabados().getMinutosDesdeMedianoche();
+			$scope.maximo = porDefecto.getHoraDeCierreSabados().getMinutosDesdeMedianoche();
+		}
 	}
 
 	$scope.solicitudes.forEach(function(solicitud) {

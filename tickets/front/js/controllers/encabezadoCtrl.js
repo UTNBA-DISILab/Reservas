@@ -12,7 +12,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     	comunicador.setUsuario($scope.usuario);
     }
 
-    $scope.mostrarAyuda = true;
+    $scope.mostrarAyuda = {mostrar: true};
 	
 	$scope.soyEncargado = false;
 	
@@ -40,7 +40,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
         $scope.alturaDeAyudas = ayuda.getAlturaDeAyudas();
     };
     $scope.explicaciones = [];
-    ayuda.setUsuarioYExplicaciones($scope.usuario, $scope.explicaciones);//Con esto siempre tendrá el usuario  y las explicaciones actualizadas
+    ayuda.inicializar($scope.usuario, $scope.explicaciones,$scope.mostrarAyuda);//Con esto siempre tendrá el usuario  y las explicaciones actualizadas
     $scope.actualizarMargen();
 
     $scope.iniciarSesionConGLPI = function() {

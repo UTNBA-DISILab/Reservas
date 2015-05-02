@@ -23,14 +23,14 @@
 		<button class="botonDeFormulario botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas") && usuario.esAdministrador' ng-click="verAsistencia()">Ver Asistencia</button>
 	</div>
 	<div class="checkbox opcionDeMostrarAyuda" ng-show="explicaciones.length"> 
-		<input type="checkbox" ng-model="mostrarAyuda" id="mostrarAyuda" name="mostrarAyudaCheck" ng-change="actualizarMargen()"/>
-		<label for="mostrarAyuda" name="mostrarAyudaCheck"> 
+		<input type="checkbox" ng-model="mostrarAyuda.mostrar" id="mostrarAyuda.mostrar" name="mostrarAyudaCheck" ng-change="actualizarMargen()"/>
+		<label for="mostrarAyuda.mostrar" name="mostrarAyudaCheck"> 
 			&iquest;Mostrar ayuda? 
 		</label> 
 	</div>
 </form>
 <div id='ayuda' ng-style='alturaDeAyudas'>
-	<div ng-show='mostrarAyuda' class='explicacionDeColores' ng-repeat='explicacion in explicaciones'>
+	<div ng-show='mostrarAyuda.mostrar' class='explicacionDeColores' ng-repeat='explicacion in explicaciones'>
 		<button class='color' ng-style='{"background-color" : explicacion.color}'>{{explicacion.nombreDeColor}}</button>
 		<p class='explicacion'>{{explicacion.texto}}</p>
 	</div>

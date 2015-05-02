@@ -60,11 +60,13 @@ angular.module('reservasApp').service('ayudaService',function($state){
         ]
     };
     var explicacionesDeEstaVista = [];
+    var mostrar = false;
 
     var cosasDeUnaVista = {
-        setUsuarioYExplicaciones: function(usuarioRecibido, explicacionesRecibidas){
+        inicializar: function(usuarioRecibido, explicacionesRecibidas, mostrarAyuda){
             usuario = usuarioRecibido;
             explicacionesDeEstaVista = explicacionesRecibidas;
+            mostrar = mostrarAyuda;
         },
         actualizarExplicaciones: function(){
             var nombreDeLaVista = $state.current.name;
@@ -77,9 +79,14 @@ angular.module('reservasApp').service('ayudaService',function($state){
             this.actualizarMargen();
         },
         actualizarMargen: function(){
-            var cantidadDeExplicaciones = explicacionesDeEstaVista.length;
-            margen['margin-top'] = (margenMinimo + margenPorCadaExplicacion * cantidadDeExplicaciones).toString() + 'px';
-            altura['height'] = (alturaMinima + margenPorCadaExplicacion * cantidadDeExplicaciones).toString() + 'px';
+            if(mostrar.mostrar){
+                var cantidadDeExplicaciones = explicacionesDeEstaVista.length;
+                margen['margin-top'] = (margenMinimo + margenPorCadaExplicacion * cantidadDeExplicaciones).toString() + 'px';
+                altura['height'] = (alturaMinima + margenPorCadaExplicacion * cantidadDeExplicaciones).toString() + 'px';
+            } else {
+                this.sinAyudas();
+            }
+
         },
         sinAyudas: function(){
             margen['margin-top'] = margenMinimo.toString() + 'px';
