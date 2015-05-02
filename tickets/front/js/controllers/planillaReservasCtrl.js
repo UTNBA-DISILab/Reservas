@@ -303,11 +303,11 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		
 		servidor.obtenerReservas(primerDiaSolicitado, cuantosDiasMasCargar)
 		.success(function(reservasRecibidas, status, headers, config) {
-			console.log('Obtenidas las reservas en ' + primerDiaSolicitado + ' y en los ' + (cuantosDiasMasCargar - 1) + ' d\xEDas siguientes exitosamente');
+			console.log('Obtenidas las reservas desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes exitosamente');
 			comportamientoSiRequestExitoso(reservasRecibidas);
 		})
 		.error(function(reservasRecibidas, status, headers, config) {
-			console.log('Se produjo un error al obtener las reservas en ' + primerDiaSolicitado + ' y en los ' + (cuantosDiasMasCargar - 1) + ' d\xEDas siguientes' );
+			console.log('Se produjo un error al obtener las reservas desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes' );
 
 			// TEMP
 			comportamientoSiRequestExitoso(porDefecto.getReservas());
@@ -345,11 +345,11 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		if($scope.usuario.inicioSesion) {
 			servidor.obtenerPedidos(primerDiaSolicitado, cuantosDiasMasCargar)
 			.success(function(pedidosRecibidos, status, headers, config) {
-				console.log('Obtenidas los pedidos en ' + primerDiaSolicitado + ' y en los ' + (cuantosDiasMasCargar - 1) + ' d\xEDas siguientes exitosamente');
+				console.log('Obtenidas los pedidos desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes exitosamente');
 				comportamientoSiRequestExitoso(pedidosRecibidos);
 			})
 			.error(function(pedidosRecibidos, status, headers, config) {
-				console.log('Se produjo un error al obtener los pedidos en ' + primerDiaSolicitado + ' y en los ' + (cuantosDiasMasCargar - 1) + ' d\xEDas siguientes' );
+				console.log('Se produjo un error al obtener los pedidos desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes' );
 	
 				// TEMP
 				comportamientoSiRequestExitoso(porDefecto.getPedidos($scope.usuario));

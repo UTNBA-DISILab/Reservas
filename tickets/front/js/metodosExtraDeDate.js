@@ -57,3 +57,7 @@ Date.prototype.ajustarHoraYMinutos = function(minutosDesdeMedianoche) {
 	var minutos = minutosDesdeMedianoche - horas*60;
 	this.setHours(horas,minutos,0,0);
 };
+
+agregarMetodoAClase(Date,"stringTimestampToDate", function(stringDeTimestamp){
+	return new Date(parseInt(stringDeTimestamp));
+});
