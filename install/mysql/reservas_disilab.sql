@@ -17,10 +17,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `reservas_disilab`
+-- Base de datos: `reservas_disilab` Y USUARIO
 --
+CREATE DATABASE reservas_disilab
+CREATE user 'sistemasmysql'@'localhost' IDENTIFIED BY '17sistemassql06';
+GRANT ALL PRIVILEGES ON 'reservas_disilab' TO 'sistemasmysql'@'localhost' WITH GRANT OPTION;
 
 -- --------------------------------------------------------
+
+USE reservas_disilab;
 
 --
 -- Estructura de tabla para la tabla `labs`

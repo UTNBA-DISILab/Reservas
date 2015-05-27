@@ -253,7 +253,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		
 		var comportamientoSiRequestExitoso = function(docentesRecibidos) {
 			$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
-			$scope.docentes.push({name: "Ninguno"});
 			$scope.usuario.docenteElegido = $scope.docentes[0];
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
@@ -579,14 +578,18 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	    		break
 	    		case 'libre':
 	    			if($scope.materia && $scope.especialidad) {
-							franja.eventos[0].subject = $scope.materia;
-							franja.eventos[0].begin = franja.desde;
-							franja.eventos[0].end = franja.hasta;
-							comunicador.setEventos(franja.eventos);
-							$state.go('pedidoDeReserva');
+						if($scope.usuario.docenteElegido){
+								franja.eventos[0].subject = $scope.materia;
+								franja.eventos[0].begin = franja.desde;
+								franja.eventos[0].end = franja.hasta;
+								comunicador.setEventos(franja.eventos);
+								$state.go('pedidoDeReserva');
 						} else {
-							alert('Antes de reservar debe especificar la materia.');
+							alert('Antes de reservar debe especificar el docente.')
 						}
+					} else {
+						alert('Antes de reservar debe especificar la materia.');
+					}
 	    		break
 	    		default: alert('Inhabilitado');
 	    	}
