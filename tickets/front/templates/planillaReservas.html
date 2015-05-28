@@ -1,22 +1,19 @@
 <form ng-style='margen'>
-	<div id="especificacionDeMateria" ng-show='usuario.inicioSesion'>
-		
+	<div id="solicitar_reservas_div" ng-show='usuario.inicioSesion'>
 		<label class="nombre_campo" ng-show='usuario.esEncargado'>Docente: </label>
 		<select ng-model="usuario.docenteElegido" name="docente" ng-show='usuario.esEncargado'
 				ng-options="docente.name for docente in docentes">
 		</select>
-		
-		<label class="nombre_campo con_margen_izquierdo">Especialidad: </label>
+		<br>
+		<label class="nombre_campo">Especialidad: </label>
 		<select ng-model="especialidad" name="especialidad" ng-change="actualizarEspecialidad()"
 				ng-options="especialidad.nombre for especialidad in especialidades">
 		</select>
-		
-		<label class="nombre_campo con_margen_izquierdo" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" >Materia: </label>
+		<br>
+		<label class="nombre_campo" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" >Materia: </label>
 		<select ng-model="materia" name="materia" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" ng-change="actualizarMateria()" ng-options="materia for materia in especialidad.materias">
 		</select>
-		
-		<label class="nombre_campo con_margen_izquierdo" for="materia" ng-show="especialidad && !seConocenLasMateriasDe(especialidad)">Materia: </label><input type="text" id="materiaIngresada" name="materia" ng-model="materia" maxlength="50" ng-show="especialidad && !seConocenLasMateriasDe(especialidad)" ng-change="actualizarMateria()"/>
-		
+
 	</div>
 	<div>
 	</div>
