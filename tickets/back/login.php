@@ -126,15 +126,14 @@ return;
 //-----------------------------------------------------------
 
 function loginSigmaUser() {
-if(RD_USE_SAML) {
-	$auth= new SimpleSAML_Auth_Simple('default-sp');
-    $auth->requireAuth();
-
-    $attributes = $auth->getAttributes();
-	return array("id"=>$attributes['givenName'][0],"name"=>$attributes['sn'][0],"email"=>$attributes['mail'][0]);
-} else { //harcode it
-	return array("id"=>"aweichandt","name"=>"Alejandro Weichandt","email"=>"aweichandt@frba.utn.edu.ar");
-}
+	if(RD_USE_SAML) {
+		//$auth= new SimpleSAML_Auth_Simple('default-sp');
+		//$auth->requireAuth();
+    	$attributes = $auth->getAttributes();
+		return array("id"=>$attributes['uid'],"email"=>$attributes['mail']);
+	} else { //harcode it
+		return array("id"=>"aweichandt","name"=>"Alejandro Weichandt","email"=>"aweichandt@frba.utn.edu.ar");
+	}
 }
 
 function loginGLPIUser($username, $password) {

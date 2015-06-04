@@ -112,6 +112,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		
 		servidor.iniciarSesionConSinap()
 		.success(function(data, status, headers, config) {
+			console.log(data);
 			comportamientoSiRequestExitoso(data);
 			console.log( $scope.usuario.name + ' ha iniciado sesion con Sinap exitosamente');
 		})

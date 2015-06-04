@@ -7,6 +7,7 @@ reservasApp.directive('encabezado',function(){
 });
 
 reservasApp.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
+
     $stateProvider
     .state('planillaReservas', {
         url: '/',
