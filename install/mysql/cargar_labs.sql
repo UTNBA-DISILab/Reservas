@@ -1,3 +1,5 @@
+USE reservas_disilab;
+
 INSERT INTO `reservas_disilab`.`labs` (`name`, `location`, `size`, `specifications`) VALUES
 
 

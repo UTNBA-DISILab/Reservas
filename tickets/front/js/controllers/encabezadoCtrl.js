@@ -83,6 +83,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		})
 		.error(function(data, status, headers, config) {
 			console.log('Se produjo un error al iniciar sesion con GLPI para el usuario ' + $scope.usuario.username);
+			alert('Usuario o contraseña incorrecta');
 			comunicador.deleteUsuario();
 			// TEMP
 			loginViejoHardcodeado();

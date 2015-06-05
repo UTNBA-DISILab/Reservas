@@ -4,6 +4,8 @@ Algunos de los codigos de materia no estan publicados todavia,
 y por lo tanto quedan en NULL.
 */
 
+USE reservas_disilab;
+
 INSERT INTO `reservas_disilab`.`subjects` (`name`, `career`, `code`) VALUES
 
 ('', 'Homogeneas', NULL),

@@ -1,6 +1,6 @@
 <div id="solicitar_reservas_div" class="contenido" ng-style='margen'>
 	<h3 class="titulo_pantalla">Nueva solicitud de reserva</h3>
-	<form id="solicitar_reservas_form" method="post"><!--Pendiente: relacionar con php mediante angular-->
+	<form id="solicitar_reservas_form" method="post"> <!--Pendiente: relacionar con php mediante angular-->
 		<div class="linea_form">
 			<label class="nombre_campo" for="nombre">Nombre del docente: </label><input type="text" id="nombre" class="input_deshabilitado" name="nombre" maxlength="50" required="required" oninvalid="this.setCustomValidity('Le falta ingresar su nombre')" onchange="this.setCustomValidity('')" />
 		</div>
@@ -12,8 +12,7 @@
 		<div class="linea_form">
 			<label class="nombre_campo" for="cant_alumnos">Cantidad de alumnos: </label><input type="text" id="cant_alumnos" name="cant_alumnos" maxlength="50" required="required" oninvalid="this.setCustomValidity('Le falta ingresar la cantidad de alumnos')" onchange="this.setCustomValidity('')" />
 		</div>
-		<br>
-		
+		<br>		
 		<div id="hover_labs" class="linea_form">
 			<label class="nombre_campo">Laboratorio: </label><!--
 		 <input type="radio" id="radio_medrano" name="laboratorio" value="medrano" checked="true" /> Cualquiera con capacidad suficiente-->

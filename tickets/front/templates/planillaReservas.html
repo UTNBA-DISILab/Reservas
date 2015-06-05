@@ -1,20 +1,19 @@
 <form ng-style='margen'>
-	<div id="especificacionDeMateria" ng-show='usuario.inicioSesion'>
-		
-		<label class="nombre_campo" ng-show='usuario.esEncargado'>Docente: </label>
+	<div id="solicitar_reservas_div" ng-show='usuario.inicioSesion'>
+		<label class="nombre_campo con_margen_izquierdo" ng-show='usuario.esEncargado'>Docente: </label>
 		<select ng-model="usuario.docenteElegido" name="docente" ng-show='usuario.esEncargado'
 				ng-options="docente.name for docente in docentes">
 		</select>
-		
+		<br>
 		<label class="nombre_campo con_margen_izquierdo">Especialidad: </label>
 		<select ng-model="especialidad" name="especialidad" ng-change="actualizarEspecialidad()"
 				ng-options="especialidad.nombre for especialidad in especialidades">
 		</select>
-		
+		<br>
 		<label class="nombre_campo con_margen_izquierdo" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" >Materia: </label>
 		<select ng-model="materia" name="materia" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" ng-change="actualizarMateria()" ng-options="materia for materia in especialidad.materias">
 		</select>
-		
+
 	</div>
 	<div>
 	</div>
