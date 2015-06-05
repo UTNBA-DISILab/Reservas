@@ -46,6 +46,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
 	var servidor = comunicadorConServidorService;
 
+	//TODO: eliminar el servicioPorDefecto
 	var porDefecto = valoresPorDefectoService;
     var diasSolicitados = porDefecto.getDiasMostradosIniciales();
 	var cuantosDiasMasCargar = porDefecto.getCuantosDiasMas();
@@ -253,6 +254,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		
 		var comportamientoSiRequestExitoso = function(docentesRecibidos) {
 			$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
+			$scope.docentes.push("Ninguno");
 			$scope.usuario.docenteElegido = $scope.docentes[0];
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
@@ -272,7 +274,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			})
 			.error(function(docentesRecibidos, status, headers, config) {
 				console.log('Se produjo un error al obtener los docentes del servidor');
-	
+				//TODO:debería haber un alert acá, en lugar de cargarlo con valores hardcodeados en un js...
 				// TEMP
 				comportamientoSiRequestExitoso(porDefecto.getDocentes());
 			});
@@ -578,7 +580,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	    		break
 	    		case 'libre':
 	    			if($scope.materia && $scope.especialidad) {
-						if($scope.usuario.docenteElegido){
+						if($scope.usuario.docenteElegido.name != "Ninguno"){
 								franja.eventos[0].subject = $scope.materia;
 								franja.eventos[0].begin = franja.desde;
 								franja.eventos[0].end = franja.hasta;
