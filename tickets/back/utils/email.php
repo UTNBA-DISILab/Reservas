@@ -50,6 +50,7 @@ $mail->Port       = 25;
 // Dirección del servidor SMTP
 $mail->Host       = "smtp.frba.utn.edu.ar";
 
+//TODO: Hablar con el subditic que usuario y pass usar...
 // Usuario y contraseña para autenticación en el servidor
 
 //$mail->Username   = "javier.sz.33@gmail.com";

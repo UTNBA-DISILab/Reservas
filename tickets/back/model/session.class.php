@@ -22,6 +22,7 @@ class Session extends DBObject {
 		return "sessions";
 	}
 	
+//TODO: crear date_entrada, date_salida y modificar tabla.
 	function fields() {
 		return array("user_id", "terminal_id", "date", "operation");
 	}

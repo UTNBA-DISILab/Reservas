@@ -122,6 +122,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		});
 	};
 	
+	//TODO: tirarlo
 	// Esta funcion NO va a estar en produccion
 	var loginViejoHardcodeado = function() {
 		

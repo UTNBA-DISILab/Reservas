@@ -8,6 +8,8 @@ function createSessionForUser(&$user) {
 	session_start();
 	$_SESSION["user_id"] = $user->id;
 	$ret = session_id();
+//TODO: Aca salvar en la tabla de session la hora de ingreso.
+//Crear el dbo de session pasarle los valores y hacer un insert..
 	return $ret;
 }
 
@@ -30,6 +32,8 @@ function getUserFromSession() {
 }
 
 function cleanSession() {
+//TODO: Salvar en la tabla de session la hora de salida.
+//Crear el dbo de session pasarle los valores y hacer un insert..
 	session_unset(); 
 	session_destroy();
 }
