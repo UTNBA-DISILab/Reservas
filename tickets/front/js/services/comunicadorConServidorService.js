@@ -184,6 +184,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		},
 		
 		iniciarSesionConSinap: function() {
+			log.console('iniciar session con sinap post a sigma_login');
 			return $http.post( url + '/sigma_login') // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		

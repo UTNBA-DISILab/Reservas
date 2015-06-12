@@ -130,7 +130,7 @@ function loginSigmaUser() {
 		//$auth= new SimpleSAML_Auth_Simple('default-sp');
 		//$auth->requireAuth();
     	$attributes = $auth->getAttributes();
-		return array("id"=>$attributes['uid'],"email"=>$attributes['mail']);
+		return array("id"=>$attributes['uid'][0],"name"=>$attributes['displayName'][0],"email"=>$attributes['mail'][0]);
 	} else { //harcode it
 		return array("id"=>"aweichandt","name"=>"Alejandro Weichandt","email"=>"aweichandt@frba.utn.edu.ar");
 	}
