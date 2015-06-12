@@ -109,7 +109,6 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			ayuda.actualizarExplicaciones();
 		};
 		
-		
 		servidor.iniciarSesionConSinap()
 		.success(function(data, status, headers, config) {
 			comportamientoSiRequestExitoso(data);
