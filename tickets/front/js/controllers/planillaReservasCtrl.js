@@ -580,7 +580,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	    		break
 	    		case 'libre':
 	    			if($scope.materia && $scope.especialidad) {
-						if($scope.usuario.docenteElegido.name != "Ninguno"){
+						if(!$scope.usuario.esEncargado || $scope.usuario.docenteElegido.name != "Ninguno"){
 								franja.eventos[0].subject = $scope.materia;
 								franja.eventos[0].begin = franja.desde;
 								franja.eventos[0].end = franja.hasta;

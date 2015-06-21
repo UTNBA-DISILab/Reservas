@@ -8,22 +8,106 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     if(comunicador.getUsuario().inicioSesion){
     	$scope.usuario = comunicador.getUsuario();
     } else {
+		alert('No inicio sesion para la app');
     	$scope.usuario = {id: '', username:'', password: '', name: '', inicioSesion: false, esEncargado: false, esAdministrador: false};
     	comunicador.setUsuario($scope.usuario);
     }
 
-    $scope.mostrarAyuda = {mostrar: true};
+	function cerrarSesion(){
+		alert('Llamo al servidor para cerrar sesion');
+		var comportamientoSiRequestExitoso = function() {
+			servidor.limpiarCredenciales();
+			$scope.soyEncargado = false;			
+			$scope.usuario.id = -1;
+			$scope.usuario.username = '';
+			$scope.usuario.password = '';
+			$scope.usuario.name = '';
+			$scope.usuario.inicioSesion = false;
+			$scope.usuario.esEncargado = false;
+			$scope.usuario.esAdministrador = false;
+			comunicador.deleteUsuario();
+			$state.go('planillaReservas');
+			ayuda.actualizarExplicaciones();
+			alert('Deslogueado');
+		};
+
+		alert('Llamo al servidor para cerrar sesion');
+		servidor.cerrarSesion()
+		.success(function(data, status, headers, config) {
+			console.log('Cerrada la sesion de ' + $scope.usuario.name + ' exitosamente');
+			comportamientoSiRequestExitoso();
+		})
+		.error(function(data, status, headers, config) {
+			console.log('Se produjo un error al cerrar la sesion de ' + $scope.usuario.name);
+			comunicador.deleteUsuario();
+			// TODO: eliminar
+			comportamientoSiRequestExitoso();
+		});
+
+    };
 	
-	$scope.soyEncargado = false;
+	function loginSinap() {
+		// Pendiente: ver como y que datos vienen
+		var comportamientoSiRequestExitoso = function(datosDeUsuario) {
+			if(datosDeUsuario.id != -1){
+				$scope.soyEncargado = false;
+				$scope.usuario.id = datosDeUsuario.id;
+				console.log('id: '+ $scope.usuario.id);
+				// el username no importa
+				// la password tampoco
+				$scope.usuario.name = datosDeUsuario.name;
+				console.log('name: '+ $scope.usuario.name);
+				// el apellido por ahora asumimos que viene en el nombre
+				// $scope.usuario.apellido = datosDeUsuario.surname;
+				$scope.usuario.inicioSesion = true;
+				$scope.usuario.esEncargado = false; //porque todos los que se loguean con Sinap son docentes
+				//$scope.esAdmin = false; // por si nos sirve
+				comunicador.setUsuario($scope.usuario);
+				$state.go('planillaReservas');
+				ayuda.actualizarExplicaciones();
+				console.log( $scope.usuario.name + ' ha iniciado sesion con Sinap exitosamente');
+			}
+		};
 	
-	$scope.clickSoyDocente = function() {
-		$scope.soyEncargado = false;
-		iniciarSesionConSinap();
+		servidor.iniciarSesionConSinap()
+		.success(function(data, status, headers, config) {
+			comportamientoSiRequestExitoso(data);
+		})
+		.error(function(data, status, headers, config) {
+			console.log('Se produjo un error al iniciar sesion con Sinap');
+			comunicador.deleteUsuario();
+		});
 	};
+
+    $scope.mostrarAyuda = {mostrar: true};
+
+	//Inicio sesion y es un docente.
+	alert("Inicio sesion: "+ $scope.usuario.inicioSesion);
+	alert("Es encagado?: "+ $scope.usuario.esEncargado);
+	if(!$scope.usuario.inicioSesion){
+		alert('Logueo docente');
+		loginSinap();
+	}else{
+		if(!$scope.usuario.esEncargado){
+			alert('Deslogueo a docente');
+			cerrarSesion();
+		}
+	}
+
+	$scope.clickSoyDocente = function() {
+		document.location.href="Auth.php";
+	};
+	
+	$scope.cerrarSesionSinap = function() {
+		window.location.assign("LogoutSinap.php");
+	}
+
+	$scope.cerrarSessionGLPI = function() {
+		cerrarSesion();
+	}
 	
 	$scope.clickSoyEncargado = function() {
 		$scope.soyEncargado = true;
-		
 		// Sin esperar nada no anda. Esperamos medio segundo.
 		setTimeout(function() {
 			document.getElementById('nombreDeUsuarioGLPI').focus()
@@ -90,39 +174,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		});
 		
     };
-	
-	iniciarSesionConSinap = function() {
-		
-		// Pendiente: ver como y que datos vienen
-		var comportamientoSiRequestExitoso = function(datosDeUsuario) {
-			
-			$scope.usuario.id = datosDeUsuario.id;
-			// el username no importa
-			// la password tampoco
-			$scope.usuario.name = datosDeUsuario.name;
-			// el apellido por ahora asumimos que viene en el nombre
-			// $scope.usuario.apellido = datosDeUsuario.surname;
-			$scope.usuario.inicioSesion = true;
-			$scope.usuario.esEncargado = false; //porque todos los que se loguean con Sinap son docentes
-			//$scope.esAdmin = false; // por si nos sirve
-			comunicador.setUsuario($scope.usuario);
-			$state.go('planillaReservas');
-			ayuda.actualizarExplicaciones();
-		};
-		
-		alert('iniciando sesion con sinap');
-		servidor.iniciarSesionConSinap()
-		.success(function(data, status, headers, config) {
-			console.log(data);
-			comportamientoSiRequestExitoso(data);
-			console.log( $scope.usuario.name + ' ha iniciado sesion con Sinap exitosamente');
-		})
-		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al iniciar sesion con Sinap');
-			comunicador.deleteUsuario();
-			alert('Por ahora no redirige, siempre da error (ver consola)');
-		});
-	};
+
 	
 	// Esta funcion NO va a estar en produccion
 	var loginViejoHardcodeado = function() {
@@ -159,40 +211,6 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
         comunicador.setUsuario($scope.usuario);
 		ayuda.actualizarExplicaciones();
 	};
-    
-	$scope.cerrarSesion = function(){
-        
-		var comportamientoSiRequestExitoso = function() {
-			
-			servidor.limpiarCredenciales();
-			
-			$scope.soyEncargado = false;
-			
-			$scope.usuario.id = '';
-			$scope.usuario.username = '';
-			$scope.usuario.password = '';
-			$scope.usuario.name = '';
-			$scope.usuario.inicioSesion = false;
-			$scope.usuario.esEncargado = false;
-			$scope.usuario.esAdministrador = false;
-			comunicador.deleteUsuario();
-			$state.go('planillaReservas');
-			ayuda.actualizarExplicaciones();
-		};
-		
-		servidor.cerrarSesion()
-		.success(function(data, status, headers, config) {
-			console.log('Cerrada la sesion de ' + $scope.usuario.name + ' exitosamente');
-			comportamientoSiRequestExitoso();
-		})
-		.error(function(data, status, headers, config) {
-			console.log('Se produjo un error al cerrar la sesion de ' + $scope.usuario.name);
-			comunicador.deleteUsuario();
-			// TEMP
-			comportamientoSiRequestExitoso();
-		});
-		
-    };
     
 	$scope.irAlHistorial = function(){
         $state.go('reservasAnteriores');

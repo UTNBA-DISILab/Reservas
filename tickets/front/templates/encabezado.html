@@ -2,13 +2,24 @@
 	<h1 id='titulo'>DISI Labs</h1>
 	<form id='inicioDeSesion'>
 		<span ng-show='usuario.inicioSesion'>Hola {{usuario.name}}</span>
-		<A href="../../pruebasaml/Auth.php" style=" font-size:22px; color:#FFFFFF; font-family: arial, helvetica, sans-serif; text-decoration: 			none; border-right-style: solid;
-		border-width: 1px; ">Docente</A>
+
+<!--		<A href="Auth.php" style=" font-size:22px; color:#FFFFFF; font-family: arial, helvetica, sans-serif; text-decoration:none; border-right-style: solid;
+		border-width: 1px; " ng-hide=' usuario.inicioSesion' >Docente</A>!-->
+
+<!--		<A href="Auth.php" style=" font-size:22px; color:#FFFFFF; font-family: arial, helvetica, sans-serif; text-decoration:none; border-right-style: solid;
+		border-width: 1px; " ng-hide=' usuario.inicioSesion' >Docente</A>!-->
+
+		<button type='submit' class='botonDeFormulario' ng-click="clickSoyDocente()" ng-hide=' usuario.inicioSesion'>Soy Docente</button>
+
+<!--		<A href="http://10.11.0.138/tickets/front/LogoutSinap.php" style=" font-size:22px; color:#FFFFFF; font-family: arial, helvetica, sans-serif; text-decoration:none; border-right-style: solid;
+		border-width: 1px; " ng-show=' usuario.inicioSesion';">Cerrar Sesi&oacute;n</A> !-->
+
 		<button type='button' class='botonDeFormulario' ng-click="clickSoyEncargado()" ng-hide='usuario.inicioSesion || soyEncargado'>Soy Encargado</button>
 		<input type="text" id='nombreDeUsuarioGLPI' class='ingresarTexto' ng-model="usuario.username" placeholder='Usuario GLPI' ng-hide='usuario.inicioSesion || !soyEncargado'></input>
 		<input type="password" class='ingresarTexto' ng-model="usuario.password" placeholder='Contraseña' ng-hide='usuario.inicioSesion || !soyEncargado'></input>
-		<button type='submit' class='botonDeFormulario' ng-click="iniciarSesionConGLPI()" ng-hide='usuario.inicioSesion || !soyEncargado'>Iniciar Sesi&oacute;n</button>
-		<button type='button' class='botonDeFormulario' ng-click="cerrarSesion()" ng-show='usuario.inicioSesion'>Cerrar Sesi&oacute;n</button>
+		<button type='submit' class='botonDeFormulario' ng-click="iniciarSesionConGLPI()" ng-hide=' usuario.inicioSesion || !soyEncargado'>Iniciar Sesi&oacute;n</button>
+		<button type='button' class='botonDeFormulario' ng-click="cerrarSesionSinap();" ng-show=' usuario.inicioSesion && !soyEncargado'>Cerrar Sesi&oacute;n SINAP</button>
+		<button type='button' class='botonDeFormulario' ng-click="cerrarSessionGLPI();" ng-show=' usuario.inicioSesion && soyEncargado'>Cerrar Sesi&oacute;n GLPI</button>
 	</form>
 </header>
 

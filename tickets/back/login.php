@@ -127,10 +127,14 @@ return;
 
 function loginSigmaUser() {
 	if(RD_USE_SAML) {
-		//$auth= new SimpleSAML_Auth_Simple('default-sp');
-		//$auth->requireAuth();
-    	$attributes = $auth->getAttributes();
-		return array("id"=>$attributes['uid'][0],"name"=>$attributes['displayName'][0],"email"=>$attributes['mail'][0]);
+		$auth= new SimpleSAML_Auth_Simple('default-sp');
+		if ($auth->isAuthenticated()){
+    		$attributes = $auth->getAttributes();
+			return array("id"=>$attributes['uid'][0],"name"=>$attributes['cn'][0],"email"=>$attributes['mail'][0]);
+		}
+	else{
+			return array("id"=>-1,"name"=>null,"email"=>null);
+		}
 	} else { //harcode it
 		return array("id"=>"aweichandt","name"=>"Alejandro Weichandt","email"=>"aweichandt@frba.utn.edu.ar");
 	}

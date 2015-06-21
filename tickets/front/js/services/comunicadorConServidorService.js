@@ -184,12 +184,10 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		},
 		
 		iniciarSesionConSinap: function() {
-			log.console('iniciar session con sinap post a sigma_login');
 			return $http.post( url + '/sigma_login') // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
 		cerrarSesion: function() {
-			
 			return $http.post( url + '/logout'); // OJO Post sin body es una mala practica, puede traer problemas
 			// return $http.post( url + '/logout.php'); // OJO Post sin body es una mala practica, puede traer problemas
 		},
