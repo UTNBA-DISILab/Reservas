@@ -14,7 +14,6 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     }
 
 	function cerrarSesion(){
-		alert('Llamo al servidor para cerrar sesion');
 		var comportamientoSiRequestExitoso = function() {
 			servidor.limpiarCredenciales();
 			$scope.soyEncargado = false;			
@@ -38,10 +37,11 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			comportamientoSiRequestExitoso();
 		})
 		.error(function(data, status, headers, config) {
+			alert('Logout Error');
 			console.log('Se produjo un error al cerrar la sesion de ' + $scope.usuario.name);
-			comunicador.deleteUsuario();
+			//comunicador.deleteUsuario();
 			// TODO: eliminar
-			comportamientoSiRequestExitoso();
+			//comportamientoSiRequestExitoso();
 		});
 
     };
