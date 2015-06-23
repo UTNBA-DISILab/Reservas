@@ -253,8 +253,8 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var obtenerDocentes = function() {
 		
 		var comportamientoSiRequestExitoso = function(docentesRecibidos) {
-			$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
 			$scope.docentes.push("Ninguno");
+			$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
 			$scope.usuario.docenteElegido = $scope.docentes[0];
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
