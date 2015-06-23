@@ -8,7 +8,6 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     if(comunicador.getUsuario().inicioSesion){
     	$scope.usuario = comunicador.getUsuario();
     } else {
-		alert('No inicio sesion para la app');
     	$scope.usuario = {id: '', username:'', password: '', name: '', inicioSesion: false, esEncargado: false, esAdministrador: false};
     	comunicador.setUsuario($scope.usuario);
     }
@@ -27,20 +26,15 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 			comunicador.deleteUsuario();
 			$state.go('planillaReservas');
 			ayuda.actualizarExplicaciones();
-			alert('Deslogueado');
 		};
 
-		alert('Llamo al servidor para cerrar sesion');
 		servidor.cerrarSesion()
 		.success(function(data, status, headers, config) {
 			console.log('Cerrada la sesion de ' + $scope.usuario.name + ' exitosamente');
 			comportamientoSiRequestExitoso();
 		})
 		.error(function(data, status, headers, config) {
-			alert('Logout Error');
-			console.log('Se produjo un error al cerrar la sesion de ' + $scope.usuario.name);
-			$state.go('planillaReservas');
-			ayuda.actualizarExplicaciones();
+			//console.log('Se produjo un error al cerrar la sesion de ' + $scope.usuario.name);
 		});
 
     };
@@ -81,14 +75,10 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     $scope.mostrarAyuda = {mostrar: true};
 
 	//Inicio sesion y es un docente.
-	alert("Inicio sesion: "+ $scope.usuario.inicioSesion);
-	alert("Es encagado?: "+ $scope.usuario.esEncargado);
 	if(!$scope.usuario.inicioSesion){
-		alert('Logueo docente');
 		loginSinap();
 	}else{
 		if(!$scope.usuario.esEncargado){
-			alert('Deslogueo a docente');
 			cerrarSesion();
 		}
 	}
@@ -173,44 +163,6 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		});
 		
     };
-
-	
-	// Esta funcion NO va a estar en produccion
-/*	var loginViejoHardcodeado = function() {
-		
-		// Falta validar que hayan ingresado caracteres correctos.
-        //Luego validar que el usuario y contraseña sean correctos con el servidor y mostrar aviso de no ser así.
-        //El servidor sólo deberá informar si es un usuario y contraseña válidos, y qué tipo de usuario es.
-
-        //Lo de acá abajo es sólo para probar mientras no nos comuniquemos con el servidor:
-        var docentes = [{id: 31, name:"Juan"}, {id: 32, name:"Pedro"}, {id: 33, name:"Ignacio"} ];
-
-        var encargados = [{id: 50, name: 'Gustavo'}];
-
-        if (encargados.filter(function(unEncargado){return unEncargado.name == $scope.usuario.username}).length) {
-            $scope.usuario.id = 50; // es Gustavo, no hay otros
-            $scope.usuario.esEncargado = true;
-            $scope.usuario.inicioSesion = true;
-            $scope.usuario.docenteElegido = {};//Esto es para después hacer reservas y demás por ellos.
-        }
-        else {
-            if (docentes.filter(function(unDocente){return unDocente.name == $scope.usuario.username}).length) {
-                
-            	if ($scope.usuario.username == 'Juan') {$scope.usuario.id = 31};
-            	if ($scope.usuario.username == 'Pedro') {$scope.usuario.id = 32};
-            	if ($scope.usuario.username == 'Ignacio') {$scope.usuario.id = 33};
-
-                $scope.usuario.esEncargado = false;
-                $scope.usuario.inicioSesion = true;
-            }
-        }
-
-        $scope.usuario.name = $scope.usuario.username;
-        
-        comunicador.setUsuario($scope.usuario);
-		ayuda.actualizarExplicaciones();
-	};
-*/
     
 	$scope.irAlHistorial = function(){
         $state.go('reservasAnteriores');
