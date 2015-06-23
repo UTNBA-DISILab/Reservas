@@ -39,9 +39,8 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 		.error(function(data, status, headers, config) {
 			alert('Logout Error');
 			console.log('Se produjo un error al cerrar la sesion de ' + $scope.usuario.name);
-			//comunicador.deleteUsuario();
-			// TODO: eliminar
-			//comportamientoSiRequestExitoso();
+			$state.go('planillaReservas');
+			ayuda.actualizarExplicaciones();
 		});
 
     };
@@ -177,7 +176,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 
 	
 	// Esta funcion NO va a estar en produccion
-	var loginViejoHardcodeado = function() {
+/*	var loginViejoHardcodeado = function() {
 		
 		// Falta validar que hayan ingresado caracteres correctos.
         //Luego validar que el usuario y contraseña sean correctos con el servidor y mostrar aviso de no ser así.
@@ -211,6 +210,7 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
         comunicador.setUsuario($scope.usuario);
 		ayuda.actualizarExplicaciones();
 	};
+*/
     
 	$scope.irAlHistorial = function(){
         $state.go('reservasAnteriores');
