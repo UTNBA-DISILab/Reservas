@@ -252,14 +252,15 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var obtenerDocentes = function() {
 		
 		var comportamientoSiRequestExitoso = function(docentesRecibidos) {
-			$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
-			$scope.usuario.docenteElegido = $scope.docentes[0];
+			//$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
+			//$scope.docentes.push("Ninguno");
+			$scope.docentes = [];
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
 			});
 			
-			comunicador.setDocentes($scope.docentes);
-			
+			$scope.usuario.docenteElegido = $scope.docentes[0];
+			comunicador.setDocentes($scope.docentes);			
 			sePudieronTraerDocentes = true;
 		};
 		
@@ -272,7 +273,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			})
 			.error(function(docentesRecibidos, status, headers, config) {
 				console.log('Se produjo un error al obtener los docentes del servidor');
-	
+				//TODO:debería haber un alert acá, en lugar de cargarlo con valores hardcodeados en un js...
 				// TEMP
 				comportamientoSiRequestExitoso(porDefecto.getDocentes());
 			});
@@ -332,9 +333,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			pedidosAuxiliares = pedidos;
 			sePudieronTraerPedidosEstaVuelta = true;
 			if(sePudieronTraerReservasEstaVuelta && sePudieronTraerLaboratoriosEstaVuelta) {
-				// insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
+				 insertarDatos(); // deberia 'insertar' solo los pedidos, no se si los recien obtenidos o todos
 				//insertarPedidosYReservas();
-				filtrarPorDocente(); // adentro de esta funcion se llama a insertarDatos()
+				//filtrarPorDocente(); // adentro de esta funcion se llama a insertarDatos()
 			}
 			//filtrarPorDocente();
 		};
@@ -364,8 +365,9 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	};
 
 	var filtrarPorDocente = function() {
+		//TODO: consultar a mi me parece que no tiene sentido ahcer esto
 		//Esto es en el caso de que el Encargado elija un Docente específico
-		if($scope.usuario.docenteElegido){
+		/*if($scope.usuario.docenteElegido){
 			if($scope.usuario.docenteElegido.name != "Ninguno"){
 				pedidos = pedidosAuxiliares.filter(function(pedido){
 					return pedido.owner_id == $scope.usuario.docenteElegido.id;
@@ -373,7 +375,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			} else {
 				pedidos = pedidosAuxiliares;
 			};
-		};
+		};*/
 		insertarDatos();
 		//insertarPedidosYReservas();
 	}
@@ -402,7 +404,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     };
 	
 	var insertarDatos = function(){
-		//alert('insertando datos');
 		//Crea los días para la columna de fechas
         $scope.dias = [];
         for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
@@ -442,65 +443,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 		completarEspaciosLibres();
 		
     };
-	
-	/*
-	var insertarLaboratorios = function() {
-		//Crea los días para la columna de fechas
-        $scope.dias = [];
-        for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++) {
-            var fecha = new Date();
-            fecha.setDate(fecha.getDate() + numeroDeDia);
-            $scope.dias.push({fecha: fecha});
-        };
-
-        //Agrega los días sin nada dentro de la columna de cada laboratorio.
-        $scope.laboratorios.forEach(function(laboratorio){
-			laboratorio.dias = [];
-			for(numeroDeDia = 0; numeroDeDia < diasSolicitados; numeroDeDia++){
-                var fecha = new Date();
-				//var fecha = primerDiaSolicitado;
-                fecha.setDate(fecha.getDate() + numeroDeDia);
-				laboratorio.dias.push({fecha: fecha, franjas: []});
-            }
-        });
-	};
-	
-	var insertarPedidosYReservas = function () {
-		
-		var insertarPedidos = function() {
-			pedidos.forEach( function(pedido) {
-				convertirTimestampADate(pedido);
-				pedido.tipo = 'pedido';
-				meterEnElCalendario(pedido);
-				//alert(pedido);
-			});
-			
-		};
-	
-		var insertarReservas = function() {
-			reservas.forEach(function(reserva) {
-				convertirTimestampADate(reserva);
-				reserva.tipo = 'reserva';
-				meterEnElCalendario(reserva);
-			});
-		
-		};
-		
-		var insertarTodoPrueba = function() {
-			var pedidosYReservas = pedidos.concat(reservas);
-			pedidosYReservas.forEach(function(pedidoOReserva) {
-				convertirTimestampADate(pedidoOReserva);
-				meterEnElCalendario(pedidoOReserva);
-			});
-		};
-		
-		//insertarPedidos();
-		//insertarReservas();
-		insertarTodoPrueba();
-		completarEspaciosLibres();
-		
-	};
-	*/
 	
 	var esDelUsuarioLogueado = function(unPedidoOReserva) {
 		return unPedidoOReserva.owner_id == $scope.usuario.id
@@ -578,7 +520,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	    		break
 	    		case 'libre':
 	    			if($scope.materia && $scope.especialidad) {
-						if($scope.usuario.docenteElegido){
+						if(!$scope.usuario.esEncargado || $scope.usuario.docenteElegido.name != "Ninguno"){
 								franja.eventos[0].subject = $scope.materia;
 								franja.eventos[0].begin = franja.desde;
 								franja.eventos[0].end = franja.hasta;
@@ -607,23 +549,10 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     };
 	
 	var obtenerMaterias = function() {
-		
 		var comportamientoSiRequestExitoso = function(materiasObtenidas) {
 			$scope.especialidades.splice(0,$scope.especialidades.length);
 
 			var especialidadesEnIngles = materiasObtenidas;
-			
-			/*
-			for(especialidad in especialidades) {
-				var unaEspecialidad = {};
-				unaEspecialidad.nombre = especialidad;
-				unaEspecialidad.materias = [];
-				especialidades[especialidad].forEach(function(materia) {
-					unaEspecialidad.materias.push(materia.name);
-				});
-				$scope.especialidades.push(unaEspecialidad);
-			}
-			*/
 
 			especialidadesEnIngles.forEach(function(especialidad){
 				var especialidadTraducida = {};
@@ -670,10 +599,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	};
 	
 	$scope.seConocenLasMateriasDe = function(especialidad) {
-		// return especialidad.nombre == 'Sistemas de Información';
-		// return especialidad.nombre == 'Sistemas de Informaci\xF3n';
-		// return especialidad.nombre == 'Sistemas de Informacion';
-
 		if( !(typeof especialidad === 'undefined') && especialidad != '' && !(typeof especialidad.nombre === 'undefined') && especialidad.nombre != '')
 			return especialidad.nombre.indexOf('Sistemas de Informaci') > -1
 		else
@@ -709,7 +634,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	$scope.$on('$destroy', function() {//Si salimos de la view, que deje de recargar
       $interval.cancel(promesa);
     });
-
 
 	$scope.$watch('usuario.docenteElegido',function(){
 		filtrarPorDocente();

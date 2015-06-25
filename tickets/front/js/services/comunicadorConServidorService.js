@@ -8,8 +8,6 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 	// Nuestra página principal será otra, ej disilab.html
 	// Y el favicon también es el que ya existe en la pag de sistemas, el nuestro hay que sacarlo.
 	
-	
-	
 	var codificarEnBase64 = function (input) {
         var output = "";
         var chr1, chr2, chr3 = "";
@@ -179,6 +177,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			var passwordMD5 = CryptoJS.MD5(password);
 			var authdata = codificarEnBase64(username + ':' + passwordMD5);
 			$http.defaults.headers.common.Authorization = 'Basic ' + authdata;
+
 			
 			return $http.post( url + '/glpi_login') // OJO Post sin body es una mala practica, puede traer problemas
 			// return $http.post( url + '/login.php?from_glpi=true') // OJO Post sin body es una mala practica, puede traer problemas
@@ -186,11 +185,9 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		
 		iniciarSesionConSinap: function() {
 			return $http.post( url + '/sigma_login') // OJO Post sin body es una mala practica, puede traer problemas
-			// return $http.post( url + '/login.php?from_sigma=true') // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
 		cerrarSesion: function() {
-			
 			return $http.post( url + '/logout'); // OJO Post sin body es una mala practica, puede traer problemas
 			// return $http.post( url + '/logout.php'); // OJO Post sin body es una mala practica, puede traer problemas
 		},
