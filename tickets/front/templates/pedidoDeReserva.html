@@ -7,7 +7,7 @@
 		<br>
 		
 		<span id="instrucciones-slider">Arrastre los extremos para definir el horario deseado:</span>
-		<div class="selectorDeFranja" range-slider min="minimoPermitido()" max="maximoPermitido()" model-min="franjaSeleccionada.desde" model-max="franjaSeleccionada.hasta" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
+		<div class="selectorDeFranja" range-slider min="minimoPermitido()" max="maximoPermitido()" model-min="franjaSeleccionada.desde" model-max="franjaSeleccionada.hasta" attach-handle-values="true" prevent-equal-min-max="true" step="15" filter="hourMinFilter"></div>
 		
 		<div class="horarioAclarado">
 			<span>Horario deseado: desde las <strong>{{franjaSeleccionada.desde | hourMinFilter}}</strong> hasta las <strong>{{franjaSeleccionada.hasta | hourMinFilter}}</strong>.</span>
@@ -27,6 +27,9 @@
 			<span ng-hide="hechoPorDocente">Encargado: {{docente.name}}</span>
 			<br>
 			<span>Materia: {{evento.subject}}</span>
+		<div>
+			<img src="img/franja_horaria.png" width="550" height="200	"/>
+		</div>
 		</div>
 	</div>
 	
