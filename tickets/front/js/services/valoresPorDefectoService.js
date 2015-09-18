@@ -150,7 +150,7 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			creation_date: 1415806615432,
 			subject: 'Simulacion',
 			lab_id: 2,
-            // docente: {id: 31, nombre:"Juan"}, // TEMP
+            docente: {id: 31, nombre:"Juan"}, // TEMP
 			begin: segundoDiaALas12,
 			end: segundoDiaALas18,
             state: 1
@@ -161,7 +161,7 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			creation_date: 1415806615908,
 			subject: 'Simulacion',
 			lab_id: 2,
-            // docente: {id: 31, nombre:"Juan"}, // TEMP
+            docente: {id: 31, nombre:"Juan"}, // TEMP
 			begin: tercerDiaALas20,
 			end: tercerDiaALas22,
             state: 1
@@ -175,7 +175,7 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			creation_date: 1415806615432,
 			subject: 'Simulacion',
 			lab_id: 2,
-            // docente: {id: 31, nombre:"Juan"}, // TEMP
+            docente: {id: 31, nombre:"Juan"}, // TEMP
 			begin: segundoDiaALas12,
 			end: segundoDiaALas18,
             state: 1
@@ -186,7 +186,7 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			creation_date: 1415806615908,
 			subject: 'Simulacion',
 			lab_id: 2,
-            // docente: {id: 31, nombre:"Juan"}, // TEMP
+            docente: {id: 31, nombre:"Juan"}, // TEMP
 			begin: tercerDiaALas20,
 			end: tercerDiaALas22,
             state: 1
@@ -197,7 +197,7 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			creation_date: 1415806615908,
 			subject: 'Simulacion',
 			lab_id: 2,
-            // docente: {id: 32, nombre:"Pedro"}, // TEMP
+            docente: {id: 32, nombre:"Pedro"}, // TEMP
 			begin: segundoDiaALas15,
 			end: segundoDiaALas19,
             state: 1
@@ -208,7 +208,7 @@ angular.module('reservasApp').service('valoresPorDefectoService',function(){
 			creation_date: 1415806615908,
 			subject: 'Simulacion',
 			lab_id: 2,
-            // docente: {id: 33, nombre:"Ignacio"}, // TEMP
+            docente: {id: 33, nombre:"Ignacio"}, // TEMP
 			begin: tercerDiaALas19,
 			end: tercerDiaALas21,
             state: 1

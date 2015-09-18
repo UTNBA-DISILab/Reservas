@@ -73,6 +73,9 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function($
         getDocentes: function(){
             return docentes;
         },
+        getDocenteById: function(id){
+            return docentes.filter(function(unDocente) {return unDocente.id == id})[0].name
+        },
 		setMaterias: function(unasMaterias){
             materias = unasMaterias;
         },

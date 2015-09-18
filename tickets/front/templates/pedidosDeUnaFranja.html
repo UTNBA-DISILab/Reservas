@@ -1,47 +1,47 @@
 <div id="solicitudes_pendientes" ng-style='margen'>
 	<h3>Solicitudes Pendientes</h3>
-	<div class="reserva" ng-repeat="solicitud in solicitudes">
+	<div class="reserva" ng-repeat="pedido in pedidos">
 	
-		<span class="fechaAltaSlider">Fecha y hora de alta de solicitud: {{solicitud.creation_date.getFechaLargaConAnio()}}, {{solicitud.creation_date.getMinutosDesdeMedianoche() | hourMinFilter}}</span>
+		<span class="fechaAltaSlider">Fecha y hora de alta de solicitud: {{pedido.creation_date.getFechaLargaConAnio()}}, {{pedido.creation_date.getMinutosDesdeMedianoche() | hourMinFilter}}</span>
 		<br>
 		<div class="fechaSolicitadaSlider">
-			<span>Fecha solicitada: {{solicitud.begin.getFechaLargaConAnio()}}</span>
+			<span>Fecha solicitada: {{pedido.begin.getFechaLargaConAnio()}}</span>
 		</div>
 		<br>
 		<div range-slider min="minimo" max="maximo" 
-			model-min="solicitud.beginContraofertable" 
-			model-max="solicitud.endContraofertable" 
+			model-min="pedido.beginContraofertable" 
+			model-max="pedido.endContraofertable" 
 			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
 		
 		<div class="horarioAclarado">
 			<span>Horario solicitado: desde las 
 				<strong>
-					{{solicitud.beginContraofertable | hourMinFilter}}
+					{{pedido.beginContraofertable | hourMinFilter}}
 				</strong> hasta las 
-				<strong>{{solicitud.endContraofertable | hourMinFilter}}
+				<strong>{{pedido.endContraofertable | hourMinFilter}}
 				</strong>.
 			</span>
 		</div>
 
 		<div class="comentario">
-			<textarea ng-model="solicitud.description" rows="4" cols="60" maxlength="200" placeholder="Comentario&nbsp;opcional..."></textarea>
+			<textarea ng-model="pedido.description" rows="4" cols="60" maxlength="200" placeholder="Comentario&nbsp;opcional..."></textarea>
 		</div>
 		
 		<label class="nombre_campo">Laboratorio: </label>
-		<select ng-model="solicitud.labContraofertable" name="laboratorio"
-				ng-options="laboratorio for laboratorio in nombresLabs">
+		<select ng-model="pedido.labContraofertable" name="laboratorio"
+				ng-options="laboratorio for laboratorio in nombresDeLaboratorios">
 		</select>
 		<br>
-		<span>Docente: {{solicitud.nombreYApellidoDelDocente}}</span>
+		<span>Docente: {{pedido.docenteName}}</span>
 		<br>
-		<span>Materia: {{solicitud.subject}}</span>
+		<span>Materia: {{pedido.subject}}</span>
 		<br>
-		<span ng-show="seSuperponeConOtraReserva(solicitud)">Se superpone con otra reserva o contraoferta. Modifique el laboratorio y/o el horario para hacer una contraoferta.</span>
+		<span ng-show="seSuperponeConOtraReserva(pedido)">Se superpone con otra reserva o contraoferta. Modifique el laboratorio y/o el horario para hacer una contraoferta.</span>
 		<div id="opciones_solicitud">
-			<span id="listo" ng-show="solicitud.listo">Listo!</span>
-			<button class= 'botonDeFormulario' ng-click="confirmar(solicitud)" ng-hide="seContraoferto(solicitud) || seSuperponeConOtraReserva(solicitud) || solicitud.listo">Confirmar</button>
-			<button class= 'botonDeFormulario' ng-click="contraofertar(solicitud)" ng-show="seContraoferto(solicitud) && !seSuperponeConOtraReserva(solicitud) && !solicitud.listo">Contraofertar</button>
-			<button class= 'botonDeFormulario' ng-click="rechazar(solicitud)" ng-hide="solicitud.listo">Rechazar</button>
+			<span id="listo" ng-show="pedido.listo">Listo!</span>
+			<button class= 'botonDeFormulario' ng-click="confirmar(pedido)" ng-hide="seContraoferto(pedido) || seSuperponeConOtraReserva(pedido) || pedido.listo">Confirmar</button>
+			<button class= 'botonDeFormulario' ng-click="contraofertar(pedido)" ng-show="seContraoferto(pedido) && !seSuperponeConOtraReserva(pedido) && !pedido.listo">Contraofertar</button>
+			<button class= 'botonDeFormulario' ng-click="rechazar(pedido)" ng-hide="pedido.listo">Rechazar</button>
 		</div>
 	</div>
 

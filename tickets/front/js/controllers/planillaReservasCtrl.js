@@ -291,6 +291,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			reservasRecibidas.forEach(function(reserva) {
 				//reserva.tipo = 'reserva';
 				convertirTimestampADate(reserva);
+				console.log("RESERVASSSSS")
 				reservas.push(reserva);
 			});
 			sePudieronTraerReservasEstaVuelta = true;
@@ -322,7 +323,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			pedidosRecibidos.forEach(function(pedido) {
 				//pedido.tipo = 'pedido';
 				convertirTimestampADate(pedido);
-
+				
 				pedido.labContraofertable = comunicador.getNombreDelLab(pedido.lab_id);
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
 				pedido.endContraofertable = pedido.end.getMinutosDesdeMedianoche();
@@ -347,6 +348,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			.success(function(pedidosRecibidos, status, headers, config) {
 				console.log('Obtenidas los pedidos desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes exitosamente');
 				comportamientoSiRequestExitoso(pedidosRecibidos);
+				console.log(pedidosRecibidos);
 			})
 			.error(function(pedidosRecibidos, status, headers, config) {
 				console.log('Se produjo un error al obtener los pedidos desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes' );

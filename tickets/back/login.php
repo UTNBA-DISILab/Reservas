@@ -19,6 +19,7 @@ include_once 'utils/includes.php';
 if(RD_USE_GLPI) {
 	include_once 'utils/glpi_authorize.php';
 }
+
 if(RD_USE_SAML) {
 	include_once '/var/www/saml/lib/_autoload.php';
 }
@@ -126,6 +127,7 @@ return;
 //-----------------------------------------------------------
 
 function loginSigmaUser() {
+	
 	if(RD_USE_SAML) {
 		$auth= new SimpleSAML_Auth_Simple('default-sp');
 		if ($auth->isAuthenticated()){
@@ -136,7 +138,7 @@ function loginSigmaUser() {
 			return array("id"=>-1,"name"=>null,"email"=>null);
 		}
 	} else { //harcode it
-		return array("id"=>"aweichandt","name"=>"Alejandro Weichandt","email"=>"aweichandt@frba.utn.edu.ar");
+		return array("id"=>"picapiedra","name"=>"Pedro Lopez","email"=>"aweichandt@frba.utn.edu.ar");
 	}
 }
 

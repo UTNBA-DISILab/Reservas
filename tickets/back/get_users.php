@@ -33,8 +33,13 @@ function listId($usr_id) {
 	
 	$usr = validateUser($dbhandler, $usr_id);
 	if(!$usr) {
-		returnError(404, "not found");
-		return;
+		$return = array("id"=>$usr_id,
+						"name"=>"Usuario",
+						"email"=>"Usuario@Usuario");
+		echo json_encode(objToUTF8($return));
+		$dbhandler->disconnect();
+		//returnError(404, "not found");
+		//return;
 	}
 	$return = array("id"=>$usr->id,
 					"name"=>$usr->name,
