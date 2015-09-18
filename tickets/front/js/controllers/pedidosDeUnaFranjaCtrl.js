@@ -5,6 +5,8 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	var servidor = comunicadorConServidorService;
 	var porDefecto = valoresPorDefectoService;
 
+	var todas_reservas = []; 
+
 	$scope.pedidos = [];
     var sePudieronTraerPedidosEstaVuelta = false;
     var pedidosAuxiliares = [];
@@ -37,9 +39,34 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 
 	};
 
+
+	$scope.confirmar = function(reserva) {
+		servidor.confirmarReserva(reserva.id)
+		.success(function(data, status, headers, config) {
+			console.log('Confirmada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
+			reserva.listo = true;
+		})
+		.error(function(data, status, headers, config) {
+			console.log('Se produjo un error al confirmar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
+
+			// TEMP
+			reserva.listo = true;
+		});
+	};
 	
 
+	$scope.seSuperponeConOtroPedido = function(pedido) {
+		var temporal = todas_reservas.slice();
+		var superpuestos = temporal.filter(function(s_pedido){
+			return(pedido.begin < s_pedido.end) 
+			   && (pedido.end > s_pedido.begin) 
+			   && (pedido.lab_id == s_pedido.lab_id) 
+			   && (pedido.id != s_pedido.id)
+			   && (s_pedido.state != 1);
+		});
 
+		return superpuestos.length;
+	}
 
 	var convertirTimestampADate = function(evento) {
 		evento.begin = new Date(evento.begin);//Las fechas vienen en timestamp y es mucho más fácil manejarlas como Date.
@@ -56,7 +83,6 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 				
 				$scope.laboratorios.push(laboratorio);
 				$scope.nombresDeLaboratorios.push(laboratorio.nombre);
-				console.log("Laboratorio " + $scope.nombresDeLaboratorios)
 			});
 			
 			comunicador.setLaboratorios($scope.laboratorios);
@@ -134,9 +160,15 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
 				pedido.endContraofertable = pedido.end.getMinutosDesdeMedianoche();
 				pedido.docenteName = comunicador.getDocenteById(pedido.owner_id);
-				$scope.pedidos.push(pedido)
+								
+				todas_reservas.push(pedido)
 			});
-			
+
+			$scope.pedidos = todas_reservas.filter(function(reserva){
+					return reserva.state == 1;
+				});
+
+
 			pedidosAuxiliares = $scope.pedidos;
 			sePudieronTraerPedidosEstaVuelta = true;
 
@@ -157,6 +189,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 			.success(function(pedidosRecibidos, status, headers, config) {
 				console.log('Obtenidas los pedidos desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes exitosamente');
 				comportamientoSiRequestExitoso(pedidosRecibidos);
+				
 				
 			})
 			.error(function(pedidosRecibidos, status, headers, config) {
