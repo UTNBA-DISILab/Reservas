@@ -181,8 +181,31 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 				});
 
 
+			$scope.pedidos.sort(function(first, second){
+				var a = new Date(first.begin);
+				var b = new Date(second.begin);
+				a.setHours(0,0,0,0);
+				b.setHours(0,0,0,0);
+				console.log("1° : " + a + "  2° : " + b)
+
+				if (a < b) return -1;
+
+  				else if (a > b) return 1;
+
+  				else if (a.getTime() == b.getTime()){
+  					if(first.lab_id <= second.lab_id) {
+							console.log("1° : " + a + " || " + first.lab_id +"  2° : " + b + " || " + first.lab_id);
+							return -1;
+						}
+						else
+							return 1;
+  				}
+  				
+			});	
+
 			pedidosAuxiliares = $scope.pedidos;
 			sePudieronTraerPedidosEstaVuelta = true;
+
 
 			if($scope.pedidos[0]){
 				if($scope.pedidos[0].begin.getDay() != "6"){
