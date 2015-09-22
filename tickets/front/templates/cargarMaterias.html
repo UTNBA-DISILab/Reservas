@@ -4,14 +4,14 @@
 		<div class="especialidad">
 			<label class="nombre_campo">Especialidad: </label>
 			<select ng-model="especialidadSeleccionada" name="especialidad"
-					ng-options="especialidad.nombre for especialidad in especialidades">
+					ng-options="especialidad.name for especialidad in especialidades">
 			</select>
 		</div>
 		<span ng-show="especialidadSeleccionada">Materias cargadas:</span>
 		<div class="materias_cargadas" ng-show="especialidadSeleccionada">
 			<ul>
-				<li ng-repeat="materia in especialidadSeleccionada.materias">
-					{{materia}}
+				<li ng-repeat="materia in especialidadSeleccionada.subjects">
+					{{materia.name}}
 				</li>
 			</ul>
 		</div>

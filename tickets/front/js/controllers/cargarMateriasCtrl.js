@@ -10,7 +10,7 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 		servidor.obtenerMaterias()
 		.success(function(materiasObtenidas, status, headers, config) {
 			
-			$scope.especialidades = materiasObtenidas;
+			$scope.especialidades = materiasObtenidas;			
 			console.log('Obtenidas las materias y especialidades exitosamente!');
 		})
 		.error(function(data, status, headers, config) {
