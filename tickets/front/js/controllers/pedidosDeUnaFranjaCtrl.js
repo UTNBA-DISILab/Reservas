@@ -1,5 +1,6 @@
-angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scope, $state, $interval, $window, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
-	
+angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($scope, $state, $interval, $window, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService, ngDialog){
+
+
 	var comunicador = comunicadorEntreVistasService;
 	var ayuda = ayudaService;
 	var servidor = comunicadorConServidorService;
@@ -39,6 +40,18 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 
 	};
 
+
+	$scope.aceptarJustificacion = function(pedido){
+		pedido.requiereJustificacion = false;
+	};
+	
+	$scope.cancelarJustificacion = function(pedido){
+		pedido.requiereJustificacion = false;
+	};
+
+	$scope.rechazar = function(pedido) {
+		pedido.requiereJustificacion = true;
+	};
 
 	$scope.confirmar = function(reserva) {
 		servidor.confirmarReserva(reserva.id)
@@ -172,10 +185,12 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
 				pedido.endContraofertable = pedido.end.getMinutosDesdeMedianoche();
 				pedido.docenteName = comunicador.getDocenteById(pedido.owner_id);
-								
+				pedido.justificacion = "";
+				pedido.requiereJustificacion = false;
+
 				todas_reservas.push(pedido)
 			});
-
+			console.log(todas_reservas[0])
 			$scope.pedidos = todas_reservas.filter(function(reserva){
 					return reserva.state == 1;
 				});
@@ -186,7 +201,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 				var b = new Date(second.begin);
 				a.setHours(0,0,0,0);
 				b.setHours(0,0,0,0);
-				console.log("1° : " + a + "  2° : " + b)
+				
 
 				if (a < b) return -1;
 
@@ -194,13 +209,12 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 
   				else if (a.getTime() == b.getTime()){
   					if(first.lab_id <= second.lab_id) {
-							console.log("1° : " + a + " || " + first.lab_id +"  2° : " + b + " || " + first.lab_id);
 							return -1;
 						}
 						else
 							return 1;
   				}
-  				
+
 			});	
 
 			pedidosAuxiliares = $scope.pedidos;
