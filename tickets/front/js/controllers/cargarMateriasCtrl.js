@@ -67,10 +67,6 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 		
 	};
 	
-	$scope.volver = function(){
-		$window.history.back();
-	};
-	
 	$scope.obtenerMaterias();
 	
 });
