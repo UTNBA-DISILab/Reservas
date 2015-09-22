@@ -10,6 +10,8 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 		servidor.obtenerMaterias()
 		.success(function(materiasObtenidas, status, headers, config) {
 			
+			console.log(materiasObtenidas[0]);
+
 			$scope.especialidades = materiasObtenidas;			
 			console.log('Obtenidas las materias y especialidades exitosamente!');
 		})
@@ -25,7 +27,7 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 	$scope.cargarMateria = function() {
 		
 		var yaEstaCargada = function() {
-			return $scope.especialidades[$scope.especialidades.indexOf($scope.especialidadSeleccionada)].materias.filter(function(materia) {
+			return $scope.especialidades[$scope.especialidades.indexOf($scope.especialidadSeleccionada)].subjects.filter(function(materia) {
 				return materia == $scope.materiaIngresada
 			}).length;
 		}
@@ -34,22 +36,24 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 			
 			$scope.cargando = true;
 			
-			servidor.cargarMateria($scope.materiaIngresada, $scope.especialidadSeleccionada)
+			console.log($scope.especialidadSeleccionada);
+
+			servidor.cargarMateria($scope.materiaIngresada, $scope.especialidadSeleccionada.name, $scope.especialidadSeleccionada.code)
 			.success(function(data, status, headers, config) {
 				
 				// Se agrega a la lista visible de materias la nueva
 				$scope.especialidades[$scope.especialidades.indexOf($scope.especialidadSeleccionada)].materias.push($scope.materiaIngresada);
 				
-				console.log('Se ha cargado exitosamente la materia ' + $scope.materiaIngresada + ' (' +  $scope.especialidadSeleccionada.nombre + ').');
+				console.log('Se ha cargado exitosamente la materia ' + $scope.materiaIngresada + ' (' +  $scope.especialidadSeleccionada.name + ').');
 				
 				$scope.cargando = false;
 			})
 			.error(function(data, status, headers, config) {
 				//alert('Se produjo un error al cargar la materia ' + $scope.materiaIngresada + ' (' +  $scope.especialidadSeleccionada + ').');
-				console.log('Se produjo un error al cargar la materia ' + $scope.materiaIngresada + ' (' +  $scope.especialidadSeleccionada.nombre + ').');
+				console.log('Se produjo un error al cargar la materia ' + $scope.materiaIngresada + ' (' +  $scope.especialidadSeleccionada.name + ').');
 				
 				// TEMP
-				$scope.especialidades[$scope.especialidades.indexOf($scope.especialidadSeleccionada)].materias.push($scope.materiaIngresada);
+				$scope.especialidades[$scope.especialidades.indexOf($scope.especialidadSeleccionada)].subjects.push($scope.materiaIngresada);
 				$scope.materiaIngresada = '';
 				document.getElementById("materia").focus();
 				

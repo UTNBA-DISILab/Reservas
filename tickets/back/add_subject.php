@@ -22,13 +22,13 @@ if(!$myUser || $myUser->accessLvl < USR_LVL_IN_USR) {
 
 $body = file_get_contents('php://input');
 if(!isset($body)) {
-	returnError(500, "invalid params");
+	returnError(500, "invalid params1");
 	return;
 }
 
 $jsonparams = json_decode($body, true);
 if(!$jsonparams) {
-	returnError(500, "invalid params");
+	returnError(500, "invalid params2");
 	return;
 }
 if(isset($jsonparams["name"])) {
@@ -42,7 +42,7 @@ if(isset($jsonparams["code"])) {
 }
 
 if(!isset($name )|| !isset($code)) {
-	returnError(500, "invalid params");
+	returnError(500, "invalid params3");
 	return;
 }
 
@@ -52,7 +52,7 @@ $dbhandler->connect();
 //check existing code
 $existing = new Subject();
 if($existing->loadUsingValues($dbhandler, array('code'), array($code))) {
-	returnError(500, "invalid name");
+	returnError(500, "invalid name4");
 	$dbhandler->disconnect();
 	return;
 }
@@ -63,7 +63,7 @@ $subject->name = $name;
 $subject->career = $career;
 $subject->code = $code;
 if(!$subject->commit($dbhandler)) {
-	returnError(500, "server error");
+	returnError(500, "server error5");
 	$dbhandler->disconnect();
 	return;
 }
