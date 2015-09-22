@@ -6,6 +6,19 @@ reservasApp.directive('encabezado',function(){
     return{restrict: 'E',templateUrl: 'templates/encabezado.html'};
 });
 
+reservasApp.directive('volver', ['$window', function($window) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.bind('click', function () {
+                    $window.history.back();
+                });
+            }
+        };
+}]);
+
+//Por ejemplo <button volver>Back</button>
+
 reservasApp.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
 
     $stateProvider

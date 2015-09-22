@@ -138,7 +138,7 @@ function loginSigmaUser() {
 			return array("id"=>-1,"name"=>null,"email"=>null);
 		}
 	} else { //harcode it
-		return array("id"=>"picapiedra","name"=>"Pedro Lopez","email"=>"aweichandt@frba.utn.edu.ar");
+		return array("id"=>"asdasd","name"=>"Pepe Argento","email"=>"aweichandt@frba.utn.edu.ar");
 	}
 }
 

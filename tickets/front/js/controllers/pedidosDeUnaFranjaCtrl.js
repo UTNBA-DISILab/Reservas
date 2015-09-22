@@ -1,5 +1,6 @@
-angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scope, $state, $interval, $window, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
-	
+angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($scope, $state, $interval, $window, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService, ngDialog){
+
+
 	var comunicador = comunicadorEntreVistasService;
 	var ayuda = ayudaService;
 	var servidor = comunicadorConServidorService;
@@ -40,6 +41,18 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 	};
 
 
+	$scope.aceptarJustificacion = function(pedido){
+		pedido.requiereJustificacion = false;
+	};
+	
+	$scope.cancelarJustificacion = function(pedido){
+		pedido.requiereJustificacion = false;
+	};
+
+	$scope.rechazar = function(pedido) {
+		pedido.requiereJustificacion = true;
+	};
+
 	$scope.confirmar = function(reserva) {
 		servidor.confirmarReserva(reserva.id)
 		.success(function(data, status, headers, config) {
@@ -53,7 +66,20 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 			reserva.listo = true;
 		});
 	};
-	
+
+
+
+	$scope.seSuperponeConOtraReserva = function(pedido) {
+		var temporal = todas_reservas.slice();
+		var superpuestos = temporal.filter(function(s_pedido){
+			return(pedido.begin < s_pedido.end) 
+			   && (pedido.end > s_pedido.begin) 
+			   && (pedido.lab_id == s_pedido.lab_id) 
+			   && (pedido.id != s_pedido.id)
+			   && (pedido.state != 1);
+		});
+		return superpuestos.length;
+	}
 
 	$scope.seSuperponeConOtroPedido = function(pedido) {
 		var temporal = todas_reservas.slice();
@@ -62,9 +88,8 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 			   && (pedido.end > s_pedido.begin) 
 			   && (pedido.lab_id == s_pedido.lab_id) 
 			   && (pedido.id != s_pedido.id)
-			   && (s_pedido.state != 1);
+			   && (pedido.state == 1);
 		});
-
 		return superpuestos.length;
 	}
 
@@ -160,17 +185,41 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
 				pedido.endContraofertable = pedido.end.getMinutosDesdeMedianoche();
 				pedido.docenteName = comunicador.getDocenteById(pedido.owner_id);
-								
+				pedido.justificacion = "";
+				pedido.requiereJustificacion = false;
+
 				todas_reservas.push(pedido)
 			});
-
+			console.log(todas_reservas[0])
 			$scope.pedidos = todas_reservas.filter(function(reserva){
 					return reserva.state == 1;
 				});
 
 
+			$scope.pedidos.sort(function(first, second){
+				var a = new Date(first.begin);
+				var b = new Date(second.begin);
+				a.setHours(0,0,0,0);
+				b.setHours(0,0,0,0);
+				
+
+				if (a < b) return -1;
+
+  				else if (a > b) return 1;
+
+  				else if (a.getTime() == b.getTime()){
+  					if(first.lab_id <= second.lab_id) {
+							return -1;
+						}
+						else
+							return 1;
+  				}
+
+			});	
+
 			pedidosAuxiliares = $scope.pedidos;
 			sePudieronTraerPedidosEstaVuelta = true;
+
 
 			if($scope.pedidos[0]){
 				if($scope.pedidos[0].begin.getDay() != "6"){
@@ -179,8 +228,8 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 				} else {
 					$scope.minimo = porDefecto.getHoraDeAperturaSabados().getMinutosDesdeMedianoche();
 					$scope.maximo = porDefecto.getHoraDeCierreSabados().getMinutosDesdeMedianoche();
-		}
-	}
+				}
+			}
 		};
 		
 		// el parametro usuario no se usa; el usuario logueado se obtiene de la cookie.

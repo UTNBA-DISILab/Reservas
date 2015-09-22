@@ -11,11 +11,7 @@ angular.module('reservasApp').controller('agregarOModificarTerminalCtrl',functio
 
 	if(!otraVista.getUsuario().inicioSesion){
 		$state.go('planillaReservas');
-	};
-
-	$scope.volver = function(){
-		$window.history.back();
-	};
+	};	
 
 	$scope.agregarOModificarTerminal = function(){
 		if($scope.terminal.id){

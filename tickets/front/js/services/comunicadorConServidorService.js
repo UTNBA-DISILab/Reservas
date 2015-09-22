@@ -93,12 +93,15 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			// return $http.get( url + '/get_subjects.php');
 		},
 		
-		cargarMateria: function(nombre, especialidad) {
+		cargarMateria: function(nombre, especialidad, code) {
 			
 			var materiaNueva = {};
 			
-			materiaNueva.nombre = nombre;
-			materiaNueva.especialidad = especialidad;
+			materiaNueva.name = nombre;
+			materiaNueva.career = especialidad;
+			materiaNueva.code = code;
+
+			console.log("nombre "+ nombre + " especialidad " + especialidad + " code " + code);
 			
 			//return $http.post( url + '/subjects', materiaNueva); // asi deberia ser para que la API sea RESTful
 			return $http.post( url + '/subjects/add', materiaNueva);
