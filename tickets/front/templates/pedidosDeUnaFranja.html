@@ -36,7 +36,8 @@
 		<br>
 		<span>Materia: {{pedido.subject}}</span>
 		<br>
-		<span ng-show="seSuperponeConOtraReserva(pedido)">Se superpone con otra reserva o contraoferta. Modifique el laboratorio y/o el horario para hacer una contraoferta.</span>
+		<span ng-show="seSuperponeConOtraReserva(pedido)" style="color:red;font-weight:bold">Se superpone con otra reserva o contraoferta. Modifique el laboratorio y/o el horario para hacer una contraoferta.</span>
+		<span ng-show="seSuperponeConOtroPedido(pedido)" style="color:blue;font-weight:bold">Se Superpone con otro pedido sin confirmar.</span>
 		<div id="opciones_solicitud">
 			<span id="listo" ng-show="pedido.listo">Listo!</span>
 			<button class= 'botonDeFormulario' ng-click="confirmar(pedido)" ng-hide="seContraoferto(pedido) || seSuperponeConOtraReserva(pedido) || pedido.listo">Confirmar</button>
