@@ -1,28 +1,33 @@
 body {
 	width: auto;
+    font-family: 'Helvetica Neue', bold, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    background: "http://www.frba.utn.edu.ar/templates/beez_20/images/personal/bg_bg.gif";
 }
 
 
 #encabezado {
     width: 100%;
     overflow: hidden;
-    height: 60px;
-    background: rgba(226,226,226,1);
-    background: -moz-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(209,209,209,1) 33%, rgba(219,219,219,1) 69%, rgba(254,254,254,1) 100%);
-    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(226,226,226,1)), color-stop(33%, rgba(209,209,209,1)), color-stop(69%, rgba(219,219,219,1)), color-stop(100%, rgba(254,254,254,1)));
-    background: -webkit-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(209,209,209,1) 33%, rgba(219,219,219,1) 69%, rgba(254,254,254,1) 100%);
-    background: -o-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(209,209,209,1) 33%, rgba(219,219,219,1) 69%, rgba(254,254,254,1) 100%);
-    background: -ms-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(209,209,209,1) 33%, rgba(219,219,219,1) 69%, rgba(254,254,254,1) 100%);
-    background: linear-gradient(to bottom, rgba(226,226,226,1) 0%, rgba(209,209,209,1) 33%, rgba(219,219,219,1) 69%, rgba(254,254,254,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe', GradientType=0 );
+    height: 55px;
+    background: rgba(255,0,132,1);
+    background: -moz-linear-gradient(left, rgba(255,0,132,1) 0%, rgba(156,158,159,1) 0%, rgba(156,158,159,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,0,132,1)), color-stop(0%, rgba(156,158,159,1)), color-stop(100%, rgba(156,158,159,1)));
+    background: -webkit-linear-gradient(left, rgba(255,0,132,1) 0%, rgba(156,158,159,1) 0%, rgba(156,158,159,1) 100%);
+    background: -o-linear-gradient(left, rgba(255,0,132,1) 0%, rgba(156,158,159,1) 0%, rgba(156,158,159,1) 100%);
+    background: -ms-linear-gradient(left, rgba(255,0,132,1) 0%, rgba(156,158,159,1) 0%, rgba(156,158,159,1) 100%);
+    background: linear-gradient(to right, rgba(255,0,132,1) 0%, rgba(156,158,159,1) 0%, rgba(156,158,159,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0084', endColorstr='#9c9e9f', GradientType=1 );
 	
 	position:fixed;top:0;left:0;right:0;
 }
 
 #controlDePlanilla {
     background: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
 	position: fixed;
-    top:60px;
+    top:55px;
     left: 0;
     right: 0;
     height: 35px;
@@ -35,7 +40,7 @@ body {
 #ayuda {
     background: white;
     position: fixed;
-    top:95px;
+    top:100px;
     left:0;
     right:0;
 }
@@ -55,12 +60,23 @@ button {
 }
 
 .botonDeFormulario {
-    font-size: 14px;
+    font-size: 13px;
     height: 35px;
     /*padding: 0.5em 1.5em 0.5em;*/
 	margin: 0px 5px;
-    color: #030303;
-    background-color: #FA58F4;
+    color: #FFFFFF;
+    border-radius: 5px;
+    background-color: #A31235;
+}
+
+.botonDeReserva {
+    font-size: 13px;
+    height: 35px;
+    /*padding: 0.5em 1.5em 0.5em;*/
+    margin: 0px 5px;
+    color: #FFFFFF;
+    border-radius: 5px;
+    background-color: #000000;
 }
 
 button:hover {
@@ -166,6 +182,7 @@ input[type="checkbox"]:focus + label:before {
     margin-left: 10px;
     margin-top: 10px;
     float: left;
+    color: #FFFFFF;
 }
 
 #inicioDeSesion {
@@ -564,11 +581,12 @@ h4.fecha {
 	clear: both;
 	padding: 5px;
 	/*background: #5E783A;*/
-	background-color:rgba(0,0,0,0.7);
+	background-color:#A31235;
 	color: white;
-	text-align: right;
+	text-align: center;
 	font-size: small;
 	position:fixed;bottom:0;left:0;right:0;height:1em;
+    opacity: 0.8;
 }
 
 #contacto {

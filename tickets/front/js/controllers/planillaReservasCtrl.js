@@ -4,6 +4,15 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
         $location.replace(); //Limpia el historial de ruta
     });
 
+	//Colores
+	var reservadoAlDocente='#088A08';
+	var pedidoPorMasDeUnDocente='#B4045F';
+	var inhabilitado='#A4A4A4';
+	var libre='#FFFFFF';
+	var reservadoPorUnDocente='#FA5858';
+	var contraoferta='#04B4AE';
+	var pedidosAunNoAceptados='#D7DF01';
+
     var pedidos = [];
     var sePudieronTraerPedidosEstaVuelta = false;
     var pedidosAuxiliares = [];
@@ -291,7 +300,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			reservasRecibidas.forEach(function(reserva) {
 				//reserva.tipo = 'reserva';
 				convertirTimestampADate(reserva);
-				console.log("RESERVASSSSS")
 				reservas.push(reserva);
 			});
 			sePudieronTraerReservasEstaVuelta = true;
@@ -323,7 +331,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			pedidosRecibidos.forEach(function(pedido) {
 				//pedido.tipo = 'pedido';
 				convertirTimestampADate(pedido);
-				
+
 				pedido.labContraofertable = comunicador.getNombreDelLab(pedido.lab_id);
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
 				pedido.endContraofertable = pedido.end.getMinutosDesdeMedianoche();
@@ -348,7 +356,6 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			.success(function(pedidosRecibidos, status, headers, config) {
 				console.log('Obtenidas los pedidos desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes exitosamente');
 				comportamientoSiRequestExitoso(pedidosRecibidos);
-				console.log(pedidosRecibidos);
 			})
 			.error(function(pedidosRecibidos, status, headers, config) {
 				console.log('Se produjo un error al obtener los pedidos desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes' );
@@ -451,36 +458,36 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	}
 
     $scope.estiloSegun = function(franjaAnterior, franja, franjaPosterior){
-        
-    	if(franja.eventos[0].tipo == 'pedido'){
-            color = '#CD853F';
-        };
-
-        if(franja.eventos[0].tipo == 'libre'){
-            color = '#F5F5F5';
-        };
 
         var esDelQueInicioSesion = $scope.usuario.inicioSesion && esDelUsuarioLogueado(franja.eventos[0]);
     	var esDelDocenteElegido = $scope.usuario.inicioSesion && $scope.usuario.docenteElegido && franja.eventos[0].owner_id == $scope.usuario.docenteElegido.id;
+        
+    	if(franja.eventos[0].tipo == 'pedido'){
+			if(esDelQueInicioSesion || esDelDocenteElegido){
+            	color = pedidosAunNoAceptados;
+        	}else{
+        		color = pedidoPorMasDeUnDocente;
+			}
+        };
+
+        if(franja.eventos[0].tipo == 'libre'){
+            color = libre;
+        };
 
     	if(franja.eventos[0].tipo == 'contraoferta'){
-            if(esDelQueInicioSesion || esDelDocenteElegido){
-        		color = '#00FFFF';
-        	} else {
-        		color = '#444444';
-        	}
+			color = contraoferta;
         };
 
         if(franja.eventos[0].tipo == 'reserva'){
         	if(esDelQueInicioSesion || esDelDocenteElegido){
-        		color = '#8B4513';
+        		color = reservadoAlDocente;
         	} else {
-        		color = '#444444';
+        		color = reservadoPorUnDocente;
         	}
         }
 
         if(franja.eventos[0].tipo == 'inhabilitado'){
-            color = '#888888';
+            color = inhabilitado;
         };
 
         //Faltan horarios inutilizados: Lo que ya haya transcurrido del día de hoy, y lo de fines de semana.

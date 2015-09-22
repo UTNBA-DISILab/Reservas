@@ -1,8 +1,8 @@
 <header id='encabezado'>
+	
 	<h1 id='titulo'>DISI Labs</h1>
 	<form id='inicioDeSesion'>
-		<span ng-show='usuario.inicioSesion'>Hola {{usuario.name}}</span>
-
+		<span style="color: white" ng-show='usuario.inicioSesion'><strong>Hola {{usuario.name}}</strong></span>
 		<button type='submit' class='botonDeFormulario' ng-click="clickSoyDocente();" ng-hide=' usuario.inicioSesion'>Soy Docente</button>
 		<button type='button' class='botonDeFormulario' ng-click="clickSoyEncargado()" ng-hide='usuario.inicioSesion || soyEncargado'>Soy Encargado</button>
 		<input type="text" id='nombreDeUsuarioGLPI' class='ingresarTexto' ng-model="usuario.username" placeholder='Usuario GLPI' ng-hide='usuario.inicioSesion || !soyEncargado'></input>
@@ -15,14 +15,14 @@
 
 <form id='controlDePlanilla'>
 	<div>
-		<button class="botonDeFormulario botonEncabezado" ng-show='usuario.inicioSesion && !usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irAlHistorial()">Historial de Reservas</button>
+		<button class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && !usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irAlHistorial()">Historial de Reservas</button>
 	</div>
 	<div>
-		<button class="botonDeFormulario botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irALasSolicitudesPendientes()">Solicitudes Pendientes</button>
+		<button class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irALasSolicitudesPendientes()">Solicitudes Pendientes</button>
 	</div>
 	<div>
-		<button class="botonDeFormulario botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irACargarMaterias()">Cargar Materias</button>
-		<button class="botonDeFormulario botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas") && usuario.esAdministrador' ng-click="verAsistencia()">Ver Asistencia</button>
+		<button class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irACargarMaterias()">Cargar Materias</button>
+		<button class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas") && usuario.esAdministrador' ng-click="verAsistencia()">Ver Asistencia</button>
 	</div>
 	<div class="checkbox opcionDeMostrarAyuda" ng-show="explicaciones.length"> 
 		<input type="checkbox" ng-model="mostrarAyuda.mostrar" id="mostrarAyuda.mostrar" name="mostrarAyudaCheck" ng-change="actualizarMargen()"/>
