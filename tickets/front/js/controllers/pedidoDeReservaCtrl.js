@@ -117,10 +117,6 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 			$state.go('planillaReservas');
 		});
 	}
-
-	$scope.volver = function(){
-		$window.history.back();
-	}
 	
 });
 

@@ -228,8 +228,8 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 				} else {
 					$scope.minimo = porDefecto.getHoraDeAperturaSabados().getMinutosDesdeMedianoche();
 					$scope.maximo = porDefecto.getHoraDeCierreSabados().getMinutosDesdeMedianoche();
-		}
-	}
+				}
+			}
 		};
 		
 		// el parametro usuario no se usa; el usuario logueado se obtiene de la cookie.

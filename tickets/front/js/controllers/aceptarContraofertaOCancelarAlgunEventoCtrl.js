@@ -79,10 +79,6 @@ angular.module('reservasApp').controller('aceptarContraofertaOCancelarAlgunEvent
 	
 	$scope.nuevoDate = function(timestamp) {
 		return new Date(timestamp);
-	};
+	};	
 	
-	$scope.volver = function(){
-		$window.history.back();
-	};
-
 });
