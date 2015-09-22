@@ -53,7 +53,20 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 			reserva.listo = true;
 		});
 	};
-	
+
+
+
+	$scope.seSuperponeConOtraReserva = function(pedido) {
+		var temporal = todas_reservas.slice();
+		var superpuestos = temporal.filter(function(s_pedido){
+			return(pedido.begin < s_pedido.end) 
+			   && (pedido.end > s_pedido.begin) 
+			   && (pedido.lab_id == s_pedido.lab_id) 
+			   && (pedido.id != s_pedido.id)
+			   && (pedido.state != 1);
+		});
+		return superpuestos.length;
+	}
 
 	$scope.seSuperponeConOtroPedido = function(pedido) {
 		var temporal = todas_reservas.slice();
@@ -62,9 +75,8 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl',function($scop
 			   && (pedido.end > s_pedido.begin) 
 			   && (pedido.lab_id == s_pedido.lab_id) 
 			   && (pedido.id != s_pedido.id)
-			   && (s_pedido.state != 1);
+			   && (pedido.state == 1);
 		});
-
 		return superpuestos.length;
 	}
 
