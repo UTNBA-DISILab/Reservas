@@ -2,31 +2,33 @@
 		
 	<div class="reserva">
 		<div class="fechaSolicitadaSlider">
-			<span>Fecha: {{evento.begin.getFechaLargaConAnio()}}</span>
+			<p><h2 align="center" style="'Helvetica Neue', bold, Helvetica, Arial, sans-serif;"><strong>SOLICITUD DE RESERVA</h1></strong></p>
+			<span><strong>Fecha:</strong> {{evento.begin.getFechaLargaConAnio()}}</span>
 		</div>
 		<br>
 		
-		<span id="instrucciones-slider">Arrastre los extremos para definir el horario deseado:</span>
+		
 		<div class="selectorDeFranja" range-slider min="minimoPermitido()" max="maximoPermitido()" model-min="franjaSeleccionada.desde" model-max="franjaSeleccionada.hasta" attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
 		
+		<span><p align="right" style="font-size: 12px"><i>Arrastre los extremos para definir el horario deseado</i></p></span>
+		
 		<div class="horarioAclarado">
-			<span>Horario deseado: desde las <strong>{{franjaSeleccionada.desde | hourMinFilter}}</strong> hasta las <strong>{{franjaSeleccionada.hasta | hourMinFilter}}</strong>.</span>
-			<div id="divBotonListo">
-				<button class="botonDeFormulario" ng-click="enviarSolicitud()">Listo!</button>
-			</div>
+			<span><strong>Horario:</strong> de <strong>{{franjaSeleccionada.desde | hourMinFilter}}hs</strong> a <strong>{{franjaSeleccionada.hasta | hourMinFilter}}hs</strong>.</span>
 		</div>
-
+		
+		<div>
+			<p><span><strong>Laboratorio:</strong> {{vistaAnterior.getNombreDelLab(evento.lab_id)}}</span></p>
+			<p><span ng-show="hechoPorDocente"><strong>Docente:</strong> {{docente.name}}</span></p>
+			<p><span ng-hide="hechoPorDocente"><strong>Docente:</strong> {{docente.name}}</span></p>
+			</p><span><strong>Materia:</strong> {{evento.subject}}</span></p>
+		</div>
+		<br>
 		<div class="comentario">
 			<textarea ng-model="evento.description" rows="4" cols="60" maxlength="200" placeholder="Comentario&nbsp;opcional..."></textarea>
 		</div>
 		
-		<div>
-			<span>Laboratorio: {{vistaAnterior.getNombreDelLab(evento.lab_id)}}</span>
-			<br>
-			<span ng-show="hechoPorDocente">Docente: {{docente.name}}</span>
-			<span ng-hide="hechoPorDocente">Encargado: {{docente.name}}</span>
-			<br>
-			<span>Materia: {{evento.subject}}</span>
+		<div id="divBotonListo">
+				<button class="botonDeConfirmar" ng-click="enviarSolicitud()">Confirmar</button>
 		</div>
 	</div>
 	
@@ -46,6 +48,6 @@
 	</div>
 	-->
 
-	<button volver class= 'botonDeFormulario'>Volver</button>
+	<button volver class= 'botonDeVolver'>Volver</button>
 
 </div>

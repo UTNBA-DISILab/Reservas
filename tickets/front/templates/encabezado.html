@@ -2,7 +2,7 @@
 	
 	<img align="left" height="54px" width="135px" src="./img/logo_utn.jpg"><h1 id='titulo'>Sistema de solicitud de reservas DISI Labs</h1>
 	<form id='inicioDeSesion'>
-		<span style="color: white" ng-show='usuario.inicioSesion'><strong>Hola {{usuario.name}}</strong></span>
+		<span style="color: white" ng-show='usuario.inicioSesion'>Hola <strong>{{usuario.name}}</strong></span>
 		<button type='submit' class='botonDeFormulario' ng-click="clickSoyDocente();" ng-hide=' usuario.inicioSesion'>Soy Docente</button>
 		<button type='button' class='botonDeFormulario' ng-click="clickSoyEncargado()" ng-hide='usuario.inicioSesion || soyEncargado'>Soy Encargado</button>
 		<input type="text" id='nombreDeUsuarioGLPI' class='ingresarTexto' ng-model="usuario.username" placeholder='Usuario GLPI' ng-hide='usuario.inicioSesion || !soyEncargado'></input>
@@ -26,9 +26,7 @@
 	</div>
 	<div class="checkbox opcionDeMostrarAyuda" ng-show="explicaciones.length"> 
 		<input type="checkbox" ng-model="mostrarAyuda.mostrar" id="mostrarAyuda.mostrar" name="mostrarAyudaCheck" ng-change="actualizarMargen()"/>
-		<label for="mostrarAyuda.mostrar" name="mostrarAyudaCheck"> 
-			&iquest;Mostrar ayuda 
-		</label> 
+		<label for="mostrarAyuda.mostrar" name="mostrarAyudaCheck"> Mostrar ayuda</label> 
 	</div>
 </form>
 <div id='ayuda' ng-style='alturaDeAyudas'>

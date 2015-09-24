@@ -2,7 +2,7 @@ body {
 	width: auto;
     font-family: 'Helvetica Neue', bold, Helvetica, Arial, sans-serif;
     font-size: 14px;
-    background: "http://www.frba.utn.edu.ar/templates/beez_20/images/personal/bg_bg.gif";
+    /*background: "./img/logo_utn.jpg"; */
 }
 
 
@@ -10,14 +10,14 @@ body {
     width: 100%;
     overflow: hidden;
     height: 55px;
-background: rgba(71,71,71,1);
-background: -moz-linear-gradient(left, rgba(71,71,71,1) 0%, rgba(19,19,19,1) 0%, rgba(44,44,44,1) 55%, rgba(76,76,76,1) 92%, rgba(96,96,96,1) 98%, rgba(102,102,102,1) 100%);
-background: -webkit-gradient(left top, right top, color-stop(0%, rgba(71,71,71,1)), color-stop(0%, rgba(19,19,19,1)), color-stop(55%, rgba(44,44,44,1)), color-stop(92%, rgba(76,76,76,1)), color-stop(98%, rgba(96,96,96,1)), color-stop(100%, rgba(102,102,102,1)));
-background: -webkit-linear-gradient(left, rgba(71,71,71,1) 0%, rgba(19,19,19,1) 0%, rgba(44,44,44,1) 55%, rgba(76,76,76,1) 92%, rgba(96,96,96,1) 98%, rgba(102,102,102,1) 100%);
-background: -o-linear-gradient(left, rgba(71,71,71,1) 0%, rgba(19,19,19,1) 0%, rgba(44,44,44,1) 55%, rgba(76,76,76,1) 92%, rgba(96,96,96,1) 98%, rgba(102,102,102,1) 100%);
-background: -ms-linear-gradient(left, rgba(71,71,71,1) 0%, rgba(19,19,19,1) 0%, rgba(44,44,44,1) 55%, rgba(76,76,76,1) 92%, rgba(96,96,96,1) 98%, rgba(102,102,102,1) 100%);
-background: linear-gradient(to right, rgba(71,71,71,1) 0%, rgba(19,19,19,1) 0%, rgba(44,44,44,1) 55%, rgba(76,76,76,1) 92%, rgba(96,96,96,1) 98%, rgba(102,102,102,1) 100%);
-position:fixed;top:0;left:0;right:0;
+    background: rgba(71,71,71,1);
+    background: -moz-linear-gradient(left, rgba(71,71,71,1) 0%, rgba(19,19,19,1) 0%, rgba(44,44,44,1) 55%, rgba(76,76,76,1) 92%, rgba(96,96,96,1) 98%, rgba(102,102,102,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(71,71,71,1)), color-stop(0%, rgba(19,19,19,1)), color-stop(55%, rgba(44,44,44,1)), color-stop(92%, rgba(76,76,76,1)), color-stop(98%, rgba(96,96,96,1)), color-stop(100%, rgba(102,102,102,1)));
+    background: -webkit-linear-gradient(left, rgba(71,71,71,1) 0%, rgba(19,19,19,1) 0%, rgba(44,44,44,1) 55%, rgba(76,76,76,1) 92%, rgba(96,96,96,1) 98%, rgba(102,102,102,1) 100%);
+    background: -o-linear-gradient(left, rgba(71,71,71,1) 0%, rgba(19,19,19,1) 0%, rgba(44,44,44,1) 55%, rgba(76,76,76,1) 92%, rgba(96,96,96,1) 98%, rgba(102,102,102,1) 100%);
+    background: -ms-linear-gradient(left, rgba(71,71,71,1) 0%, rgba(19,19,19,1) 0%, rgba(44,44,44,1) 55%, rgba(76,76,76,1) 92%, rgba(96,96,96,1) 98%, rgba(102,102,102,1) 100%);
+    background: linear-gradient(to right, rgba(71,71,71,1) 0%, rgba(19,19,19,1) 0%, rgba(44,44,44,1) 55%, rgba(76,76,76,1) 92%, rgba(96,96,96,1) 98%, rgba(102,102,102,1) 100%);
+    position:fixed;top:0;left:0;right:0;
 
 }
 
@@ -68,6 +68,42 @@ button {
     border-radius: 5px;
     background-color: #A31235;
 }
+
+.botonDeConfirmar{
+    font-size: 13px;
+    height: 35px;
+    /*padding: 0.5em 1.5em 0.5em;*/
+    
+    color: #FFFFFF;
+    border-radius: 5px;
+    background-color: #000000;
+    float: right;
+    margin: -10px 0px 20px 0px;
+}
+
+
+.botonDeVolver {
+    font-size: 13px;
+    height: 35px;
+    /*padding: 0.5em 1.5em 0.5em;*/
+    margin: 3px 0px 0px 0px;
+    color: #FFFFFF;
+    border-radius: 5px;
+    background-color: #A31235;
+    float: right;
+}
+
+#botonDeVolverEnAsistencia {
+    font-size: 13px;
+    height: 35px;
+    /*padding: 0.5em 1.5em 0.5em;*/
+    margin: 3px 3px 0px 0px;
+    color: #FFFFFF;
+    border-radius: 5px;
+    background-color: #A31235;
+    float: right;
+}
+
 
 .botonDeReserva {
     font-size: 13px;
@@ -274,6 +310,7 @@ input[type="checkbox"]:focus + label:before {
 	margin-top: 5px;
 	height: 20px;
 	margin-bottom: 10px;
+    
 }
 
 #iconoInformation {
@@ -341,13 +378,13 @@ h4.fecha {
 }
 
 .fechaSolicitadaSlider {
-	text-align: center;
+	text-align: left;
 	margin-top: 20px;
 }
 
 .horarioAclarado {
 	/*font-size: small;*/
-	text-align: center;
+	text-align: left;
 	margin-bottom: 20px;
 }
 
@@ -359,7 +396,7 @@ h4.fecha {
 .reserva {
 	padding: 5px 10px 20px 10px;
 	margin-bottom: 20px;
-	border: 2px solid #D1D1D1;
+	border: 2px solid #000000;
 }
 
 #divBotonListo, #divBotonCancelar {
@@ -413,7 +450,7 @@ h4.fecha {
 }
 
 .tabla_normal {
-	border: 4px solid #D1D1D1;
+	border: 4px solid #9C9E9F;
 	/*width: 730px;*/
 	width: 100%;
 	margin-left: auto;
@@ -421,9 +458,9 @@ h4.fecha {
 }
 
 .tabla_normal thead th {
-    background: #0E5875;
+    background: #000000;
 	color: white;
-	border: 2px solid #D1D1D1;
+	border: 2px solid #9C9E9F;
 }
 
 .tabla_normal th, .tabla_normal td {
@@ -431,7 +468,7 @@ h4.fecha {
     vertical-align:middle;
 	/*padding: 10px 30px 10px 30px;*/
 	padding: 4px;
-	border: 2px solid #D1D1D1;
+	border: 2px solid #9C9E9F;
 	height: 52px;
 }
 

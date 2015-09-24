@@ -10,6 +10,7 @@ angular.module('reservasApp').service('ayudaService',function($state){
     var altura = {'height': (margenMinimo).toString() + 'px'};
     var usuario = {};
 
+    //Colores
     var reservadoAlDocente='#088A08';
     var pedidoPorMasDeUnDocente='#B4045F';
     var inhabilitado='#DF0101';
@@ -17,6 +18,7 @@ angular.module('reservasApp').service('ayudaService',function($state){
     var reservadoPorUnDocente='#DF0101';
     var contraoferta='#04B4AE';
     var pedidosAunNoAceptados='#D7DF01';
+
 
 
     var explicaciones = {
