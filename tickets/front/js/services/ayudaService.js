@@ -12,33 +12,37 @@ angular.module('reservasApp').service('ayudaService',function($state){
 
     var reservadoAlDocente='#088A08';
     var pedidoPorMasDeUnDocente='#B4045F';
-    var inhabilitado='#A4A4A4';
+    var inhabilitado='#DF0101';
     var libre='#FFFFFF';
-    var reservadoPorUnDocente='#FA5858';
+    var reservadoPorUnDocente='#DF0101';
     var contraoferta='#04B4AE';
     var pedidosAunNoAceptados='#D7DF01';
 
 
     var explicaciones = {
         'planillaReservas': [
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Inhabilitado.', color: inhabilitado},
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Contraofertado aún sin confirmar.', color: contraoferta},
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Libre, a\xFAn no se ha asignado a ning\xFAn docente.', color: libre},
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Reservado por alg\xFAn docente.', color: reservadoPorUnDocente},
+            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Turno disponible.', color: libre},
+            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Turno no disponible.', color: inhabilitado},
+            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Mis pedidos de reserva contraofertados por el encargado.', color: contraoferta},
+            
+            
             {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Solicitado por uno o m\xE1s docentes.', color: pedidoPorMasDeUnDocente},
             {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Reservado a nombre del docente seleccionado.', color: reservadoAlDocente},
             {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Pedido pendiente a nombre de un docente seleccionado.', color: pedidosAunNoAceptados},
 
-            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Inhabilitado.', color: inhabilitado},
-            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Libre, a\xFAn no se ha asignado a ning\xFAn docente.', color: libre},
-            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Reservado por otros docentes.', color: reservadoPorUnDocente},
-            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Pedidos a mi nombre que a\xFAn no me aceptaron.', color: pedidosAunNoAceptados},
-            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Reservas confirmadas a mi nombre.', color: reservadoAlDocente},
-            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Contraoferta que aún debo confirmar o rechazar.', color: contraoferta},
+            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Turno disponible.', color: libre},
+            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Turno no disponible.', color: inhabilitado},
+           
+            
+            
+            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Mis pedidos de reserva confirmados por el encargado.', color: reservadoAlDocente},
+            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Mis pedidos de reserva a\xFAn no confirmados por el encargado.', color: pedidosAunNoAceptados},
+            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Mis pedidos de reserva contraofertados por el encargado.', color: contraoferta},
 
-            {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Inhabilitado.', color: inhabilitado},
-            {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Libre, a\xFAn no se ha asignado a ning\xFAn docente.', color: libre},
-            {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Reservado por alg\xFAn docente.', color: reservadoPorUnDocente}
+            {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Turno disponible.', color: libre},
+            {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Turno no disponible.', color: inhabilitado}
+            
+            
         ],
         'pedidoDeReserva': [ // Esto está abierto a que en un futuro agreguen más ayudas al usuario en las distintas vistas.
 

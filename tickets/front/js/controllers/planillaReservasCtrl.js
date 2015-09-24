@@ -5,13 +5,13 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
     });
 
 	//Colores
-	var reservadoAlDocente='#088A08';
-	var pedidoPorMasDeUnDocente='#B4045F';
-	var inhabilitado='#A4A4A4';
-	var libre='#FFFFFF';
-	var reservadoPorUnDocente='#FA5858';
-	var contraoferta='#04B4AE';
-	var pedidosAunNoAceptados='#D7DF01';
+   	var reservadoAlDocente='#088A08';
+    var pedidoPorMasDeUnDocente='#B4045F';
+    var inhabilitado='#DF0101';
+    var libre='#FFFFFF';
+    var reservadoPorUnDocente='#DF0101';
+    var contraoferta='#04B4AE';
+    var pedidosAunNoAceptados='#D7DF01';
 
     var pedidos = [];
     var sePudieronTraerPedidosEstaVuelta = false;
