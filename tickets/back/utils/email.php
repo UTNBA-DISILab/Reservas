@@ -34,8 +34,8 @@ $html ='<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://w
 </body>
 </html>';
 
-/*
 
+/*
 function mails(){
   
   // Crear una nueva  instancia de PHPMailer habilitando el tratamiento de excepciones
@@ -83,31 +83,35 @@ function mails(){
 */
 
 function mails() {
+  $subject = "Subject 3.0";
+  $body = "Body3.0";
+  $address = "costanzo.ji@gmail.com";
+  $name = "Juan";
+
   $mail = new PHPMailer;
 
   $mail->IsSMTP();
-  //$mail->Host = '10.2.0.34'; //"smtp.frba.utn.edu.ar"
   $mail->Host = "smtp.frba.utn.edu.ar";
   $mail->SMTPAuth = false; //No hace falta autenticarse en el SMTP server de la facultad
   $mail->SMTPSecure = 'tls';
   $mail->Port = 25;
 
   $mail->SetFrom('disilab-soporte@sistemas.frba.utn.edu.ar', 'UTN-DisiLAB');
-  $mail->AddAddress('costanzo.ji@gmail.com', 'Juan');
+  $mail->AddAddress($address);
 
   $mail->IsHTML(true);
-  $mail->Subject = 'nuevo y mejorado Super Subject';
-  $mail->Body ='Nuevo y mejorado super Body';
+  $mail->Subject = $subject;
+  $mail->Body = $body;
 
-  $mail->SMTPDebug = 3;
+  $mail->SMTPDebug = 3; //Usar 3 cuando es para testing, usar 0 para produccion
 
   if (!$mail->Send()) {
     error_log('Error de mailing: ' . $mail->ErrorInfo);
   } else {
-    error_log('Nuevo y mejorado todo legal');
+    error_log('Nuevo y mejorado todo legal 3.0');
   }
 }
 
-mails();
+//mails();
 
 ?>
