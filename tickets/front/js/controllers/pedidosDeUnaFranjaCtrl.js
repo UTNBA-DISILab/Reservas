@@ -79,7 +79,6 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 		servidor.rechazarReserva(reserva.id, reserva.description)
 		.success(function(data, status, headers, config) {
 			console.log('La reserva ' + reserva.id + ' ha sido rechazada correctamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
-			reserva.listo = true;
 		})
 		.error(function(data, status, headers, config) {
 			console.log('Se produjo un error al rechazar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
@@ -92,13 +91,10 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 		servidor.confirmarReserva(reserva.id)
 		.success(function(data, status, headers, config) {
 			console.log('Confirmada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
-			reserva.listo = true;
 		})
 		.error(function(data, status, headers, config) {
 			console.log('Se produjo un error al confirmar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
 
-			// TEMP
-			reserva.listo = true;
 		});
 
 		actualizarPendientes();
@@ -218,10 +214,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	var obtenerPedidos = function() {
 
 		var comportamientoSiRequestExitoso = function(pedidosRecibidos) {
-			
-			//pedidos.splice(0,pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
-				//pedido.tipo = 'pedido';
 				convertirTimestampADate(pedido);
 				pedido.labContraofertable = comunicador.getNombreDelLab(pedido.lab_id);
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
@@ -301,15 +294,16 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	 	$scope.pedidos = [];
 	 	todas_reservas = [];
 
+	 	$scope.docentes = [];
+		sePudieronTraerDocentes = false;
+
 		if(!sePudieronTraerLaboratorios) {
 			sePudieronTraerLaboratoriosEstaVuelta = false;
 			obtenerLaboratorios();
 		};
 		
-		if(!sePudieronTraerDocentes && $scope.usuario.esEncargado) {
-			obtenerDocentes();
-		};
 		
+		obtenerDocentes();
 	
 		sePudieronTraerPedidosEstaVuelta = false;
 		obtenerPedidos();

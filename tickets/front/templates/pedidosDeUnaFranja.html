@@ -47,7 +47,7 @@
 			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="aceptarJustificacion(pedido)" ng-show="pedido.requiereJustificacion">Aceptar</button>
 			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="cancelarJustificacion(pedido)" ng-show="pedido.requiereJustificacion">Cancelar</button>
 			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="confirmar(pedido)" ng-hide="seContraoferto(pedido) || seSuperponeConOtraReserva(pedido) || pedido.listo || pedido.requiereJustificacion">Confirmar</button>
-			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="iniciarContraofertar(pedido)" ng-show="seContraoferto(pedido) && !seSuperponeConOtraReserva(pedido) && !pedido.listo ">Contraofertar</button>
+			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="iniciarContraofertar(pedido)" ng-show="seContraoferto(pedido) && seSuperponeConOtraReserva(pedido)">Contraofertar</button>
 			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="iniciarRechazar(pedido)" ng-hide="pedido.listo || pedido.requiereJustificacion">Rechazar</button>
 
 		</div>

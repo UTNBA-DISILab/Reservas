@@ -108,7 +108,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			// return $http.post( url + '/add_subject.php', materiaNueva);
 		},
 		
-		enviarNuevaReserva: function(desde, hasta, idDeLaboratorio, materia, comentario) {
+		enviarNuevaReserva: function(docenteId, hechoPorDocente, desde, hasta, idDeLaboratorio, materia, comentario) {
 			
 			var reservaNueva = {};
 			
@@ -123,6 +123,9 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			reservaNueva.lab_id = idDeLaboratorio;
 			reservaNueva.subject = materia;
 			reservaNueva.description = comentario;
+			if(hechoPorDocente){
+				reservaNueva.for_user_id = docenteId;
+			}
 			
 			// el state lo completa el servidor
 			// (add_reservation.php linea 141)
