@@ -134,7 +134,7 @@ function loginSigmaUser() {
     		$attributes = $auth->getAttributes();
 			return array("id"=>$attributes['uid'][0],"name"=>$attributes['cn'][0],"email"=>$attributes['mail'][0]);
 		}
-	else{
+		else{
 			return array("id"=>-1,"name"=>null,"email"=>null);
 		}
 	} else { //harcode it
