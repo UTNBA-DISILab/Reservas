@@ -2,8 +2,8 @@
 		
 	<div class="reserva">
 		<div class="fechaSolicitadaSlider">
-			<p><h2 align="center" style="'Helvetica Neue', bold, Helvetica, Arial, sans-serif;"><strong>SOLICITUD DE RESERVA</h1></strong></p>
-			<span><strong>Fecha:</strong> {{evento.begin.getFechaLargaConAnio()}}</span>
+			<p><h2 align="center" style="'Helvetica Neue', bold, Helvetica, Arial, sans-serif;"><strong>SOLICITUD DE RESERVA</h2></strong></p>
+			<span><strong>Fecha solicitada:</strong> {{evento.begin.getFechaLargaConAnio()}}</span>
 		</div>
 		<br>
 		
@@ -13,7 +13,7 @@
 		<span><p align="right" style="font-size: 12px"><i>Arrastre los extremos para definir el horario deseado</i></p></span>
 		
 		<div class="horarioAclarado">
-			<span><strong>Horario:</strong> de <strong>{{franjaSeleccionada.desde | hourMinFilter}}hs</strong> a <strong>{{franjaSeleccionada.hasta | hourMinFilter}}hs</strong>.</span>
+			<span><strong>Horario solicitado:</strong> de <strong>{{franjaSeleccionada.desde | hourMinFilter}}</strong> hs a <strong>{{franjaSeleccionada.hasta | hourMinFilter}}</strong> hs.</span>
 		</div>
 		
 		<div>
@@ -28,7 +28,7 @@
 		</div>
 		
 		<div id="divBotonListo">
-				<button class="botonDeConfirmar" ng-click="enviarSolicitud()">Confirmar</button>
+				<button id="hover_boton" class="botonDeConfirmar" ng-click="enviarSolicitud()">Confirmar</button>
 		</div>
 	</div>
 	
@@ -48,6 +48,6 @@
 	</div>
 	-->
 
-	<button volver class= 'botonDeVolver'>Volver</button>
+	<button volver class= 'botonDeFormulario'>Volver</button>
 
 </div>

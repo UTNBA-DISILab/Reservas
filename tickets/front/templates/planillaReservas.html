@@ -34,19 +34,19 @@
 				<h3><button class="nombre_lab_span lab_{{laboratorio.nombre | lowercase}}" ng-click="laboratorio.clickEnInfo = true">{{laboratorio.nombre}}</span></h3>
 				<modal-dialog show="laboratorio.clickEnInfo">
 					<div id="hoverbox_{{laboratorio.nombre | lowercase}}" class="hoverbox lab_{{laboratorio.nombre | lowercase}}">
-						<div class="titulo_hoverbox" >Prestaciones del laboratorio <span class="primera_mayus">{{laboratorio.nombre}}</span></div>
+						<div class="titulo_hoverbox" ><h2 style="text-transform: uppercase"><u>Información del laboratorio<span> {{laboratorio.nombre}}</span></u></h2></div>
 						<table>
 							<tbody>
 								<tr>
-									<td>Sede:</td>
+									<td><strong>Sede:</strong></td>
 									<td>{{laboratorio.sede}}</td>
 								</tr>
 								<tr>
-									<td>Cantidad de puestos:</td>
+									<td><strong>Cantidad de puestos:</strong></td>
 									<td>{{laboratorio.cant_puestos}}</td>
 								</tr>
 								<tr>
-									<td>Equipamiento:</td>
+									<td><strong>Equipamiento:</strong></td>
 									<td>{{laboratorio.equipamiento}}</td>
 								</tr>
 							</tbody>

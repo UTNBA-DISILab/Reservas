@@ -6,7 +6,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
 	//Colores
    	var reservadoAlDocente='#088A08';
-    var pedidoPorMasDeUnDocente='#B4045F';
+    var pedidoPorMasDeUnDocente='#EEAF30';
     var inhabilitado='#DF0101';
     var libre='#FFFFFF';
     var reservadoPorUnDocente='#DF0101';

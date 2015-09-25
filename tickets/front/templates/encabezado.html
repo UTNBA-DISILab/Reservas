@@ -15,14 +15,14 @@
 
 <form id='controlDePlanilla'>
 	<div>
-		<button class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && !usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irAlHistorial()">Historial de Reservas</button>
+		<button id="hover_boton" class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && !usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irAlHistorial()">Historial de Reservas</button>
 	</div>
 	<div>
-		<button class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irALasSolicitudesPendientes()">Solicitudes Pendientes</button>
+		<button id="hover_boton" class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irALasSolicitudesPendientes()">Solicitudes Pendientes</button>
 	</div>
 	<div>
-		<button class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irACargarMaterias()">Cargar Materias</button>
-		<button class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas") && usuario.esAdministrador' ng-click="verAsistencia()">Ver Asistencia</button>
+		<button id="hover_boton" class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irACargarMaterias()">Cargar Materias</button>
+		<button id="hover_boton" class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas") && usuario.esAdministrador' ng-click="verAsistencia()">Ver Asistencia</button>
 	</div>
 	<div class="checkbox opcionDeMostrarAyuda" ng-show="explicaciones.length"> 
 		<input type="checkbox" ng-model="mostrarAyuda.mostrar" id="mostrarAyuda.mostrar" name="mostrarAyudaCheck" ng-change="actualizarMargen()"/>

@@ -12,7 +12,7 @@ angular.module('reservasApp').service('ayudaService',function($state){
 
     //Colores
     var reservadoAlDocente='#088A08';
-    var pedidoPorMasDeUnDocente='#B4045F';
+    var pedidoPorMasDeUnDocente='#EEAF30';
     var inhabilitado='#DF0101';
     var libre='#FFFFFF';
     var reservadoPorUnDocente='#DF0101';
@@ -23,24 +23,24 @@ angular.module('reservasApp').service('ayudaService',function($state){
 
     var explicaciones = {
         'planillaReservas': [
+            
+            //Ayuda mostrada solo al Encargado
             {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Turno disponible.', color: libre},
             {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Turno no disponible.', color: inhabilitado},
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Mis pedidos de reserva contraofertados por el encargado.', color: contraoferta},
-            
-            
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Solicitado por uno o m\xE1s docentes.', color: pedidoPorMasDeUnDocente},
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Reservado a nombre del docente seleccionado.', color: reservadoAlDocente},
-            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Pedido pendiente a nombre de un docente seleccionado.', color: pedidosAunNoAceptados},
+            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Turno reservado a nombre del docente seleccionado.', color: reservadoAlDocente},
+            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Pedidos de reserva pendientes a nombre de un docente seleccionado.', color: pedidosAunNoAceptados},
+            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Pedidos de reserva contraofertados', color: contraoferta},
+            {debeHaberIniciadoSesion: true, esParaEncargado: true, texto: 'Pedidos de reserva por uno o m\xE1s docentes.', color: pedidoPorMasDeUnDocente},
 
+            
+            //Ayuda mostrada solo al Docente
             {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Turno disponible.', color: libre},
             {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Turno no disponible.', color: inhabilitado},
-           
-            
-            
-            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Mis pedidos de reserva confirmados por el encargado.', color: reservadoAlDocente},
+            {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Turno reservado a mi nombre.', color: reservadoAlDocente},
             {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Mis pedidos de reserva a\xFAn no confirmados por el encargado.', color: pedidosAunNoAceptados},
             {debeHaberIniciadoSesion: true, esParaEncargado: false, texto: 'Mis pedidos de reserva contraofertados por el encargado.', color: contraoferta},
 
+            //Ayuda mostrada solo al invitado (sin iniciar sesión)
             {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Turno disponible.', color: libre},
             {debeHaberIniciadoSesion: false, esParaEncargado: false, texto: 'Turno no disponible.', color: inhabilitado}
             

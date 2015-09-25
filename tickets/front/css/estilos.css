@@ -81,6 +81,17 @@ button {
     margin: -10px 0px 20px 0px;
 }
 
+.botonesDeSolicitudesPendientes{
+    font-size: 13px;
+    height: 35px;
+    /*padding: 0.5em 1.5em 0.5em;*/
+    
+    color: #FFFFFF;
+    border-radius: 5px;
+    background-color: #000000;
+    float: right;
+    margin: -20px 5px 20px 0px;
+}
 
 .botonDeVolver {
     font-size: 13px;
@@ -116,13 +127,21 @@ button {
 }
 
 button:hover {
+
+    background: #000000;
+
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#00000000', GradientType=0);
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(transparent), color-stop(40%, rgba(0,0,0, 0.05)), to(rgba(0,0,0, 0.05)));
     background-image: -webkit-linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.15));
     background-image: -moz-linear-gradient(top, rgba(0,0,0, 0.05) 0%, rgba(0,0,0, 0.05));
     background-image: -ms-linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.15));
     background-image: -o-linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.05));
-    background-image: linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.05));
+    background-image: linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.05)); 
+}
+
+
+#hover_boton:hover {
+    background: #A31235;
 }
 
 button:focus {
@@ -527,11 +546,11 @@ h4.fecha {
 	padding: 0px 5px 0px 5px;	
 	-webkit-border-radius:5px;
 	-moz-border-radius: 5px;
-	border-radius: 5px;
+	border-radius: 3px;
 	text-transform: capitalize;
 }
 
-.primera_mayus {
+.primera_mayus { 
 	text-transform: capitalize;
 }
 
