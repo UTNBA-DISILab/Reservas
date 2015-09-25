@@ -82,29 +82,32 @@ function mails(){
 }
 */
 
-$mail = new PHPMailer;
+function mails() {
+  $mail = new PHPMailer;
 
-$mail->IsSMTP();
-//$mail->Host = '10.2.0.34'; //"smtp.frba.utn.edu.ar"
-$mail->Host = "smtp.frba.utn.edu.ar";
-$mail->SMTPAuth = false; //No hace falta autenticarse en el SMTP server de la facultad
-$mail->SMTPSecure = 'tls';
-$mail->Port = 25;
+  $mail->IsSMTP();
+  //$mail->Host = '10.2.0.34'; //"smtp.frba.utn.edu.ar"
+  $mail->Host = "smtp.frba.utn.edu.ar";
+  $mail->SMTPAuth = false; //No hace falta autenticarse en el SMTP server de la facultad
+  $mail->SMTPSecure = 'tls';
+  $mail->Port = 25;
 
-$mail->SetFrom('disilab-soporte@sistemas.frba.utn.edu.ar', 'UTN-DisiLAB');
-$mail->AddAddress('costanzo.ji@gmail.com', 'Juan');
+  $mail->SetFrom('disilab-soporte@sistemas.frba.utn.edu.ar', 'UTN-DisiLAB');
+  $mail->AddAddress('costanzo.ji@gmail.com', 'Juan');
 
-$mail->IsHTML(true);
-$mail->Subject = 'Super Subject';
-$mail->Body ='Super Body';
+  $mail->IsHTML(true);
+  $mail->Subject = 'nuevo y mejorado Super Subject';
+  $mail->Body ='Nuevo y mejorado super Body';
 
-$mail->SMTPDebug = 3;
+  $mail->SMTPDebug = 3;
 
-if (!$mail->Send()) {
-  error_log('Error de mailing: ' . $mail->ErrorInfo);
-} else {
-  error_log('Todo Legal');
+  if (!$mail->Send()) {
+    error_log('Error de mailing: ' . $mail->ErrorInfo);
+  } else {
+    error_log('Nuevo y mejorado todo legal');
+  }
 }
 
+mails();
 
 ?>

@@ -178,16 +178,6 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 
     $scope.verAsistencia = function(){
     	$state.go('asistencia');
-    };
-
-
-    $scope.enviarMail = function(){
-    	servidor.enviarMail()
-    	.success(function(data, status, headers, config){
-    		console.log("Enviar Mail success (¿)");
-    	})
-    	.error(function(data, status, headers, config){
-    		console.log("Enviar Mail Error");
-    	});
     }
+
 });
