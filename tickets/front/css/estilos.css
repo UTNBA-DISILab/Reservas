@@ -119,6 +119,24 @@ button {
 }
 
 
+.botonDeVolverEspaciado {
+    font-size: 13px;
+    height: 35px;
+    /*padding: 0.5em 1.5em 0.5em;*/
+    margin: 0px 0px 0px 0px;
+    color: #FFFFFF;
+    border-radius: 5px;
+    background-color: #A31235;
+    float: left;
+}
+
+#Espaciado {
+    width: 50%;
+    text-align: left;
+    float: left;
+    margin-bottom: 40px;
+}
+
 #agregarTerminal {
     margin-left: 15px;
 }
@@ -408,6 +426,13 @@ h4.fecha {
     float: left;
 }
 
+/*
+#solicitar_reservas_div {
+    position: fixed;
+}
+
+*/
+
 
 
 
@@ -479,6 +504,7 @@ h4.fecha {
 	width: 50%;
 	text-align: left;
 	margin: 40px auto 40px auto;
+
 }
 
 #opciones_solicitud {
