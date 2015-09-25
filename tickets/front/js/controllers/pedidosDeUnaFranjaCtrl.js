@@ -1,4 +1,4 @@
-angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($scope, $state, $interval, $window, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService, ngDialog){
+angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($scope, $state, $interval, $window, comunicadorConServidorService, comunicadorEntreVistasService, ayudaService, valoresPorDefectoService){
 
 
 	var comunicador = comunicadorEntreVistasService;
