@@ -293,6 +293,9 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 
 	 var actualizarPendientes = function (){
 
+	 	$scope.pedidos = [];
+	 	todas_reservas = [];
+
 		if(!sePudieronTraerLaboratorios) {
 			sePudieronTraerLaboratoriosEstaVuelta = false;
 			obtenerLaboratorios();
