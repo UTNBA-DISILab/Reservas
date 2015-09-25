@@ -34,51 +34,77 @@ $html ='<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://w
 </body>
 </html>';
 
-
+/*
 
 function mails(){
-// Crear una nueva  instancia de PHPMailer habilitando el tratamiento de excepciones
-$mail = new PHPMailer(true);
-// Configuramos el protocolo SMTP con autenticación
+  
+  // Crear una nueva  instancia de PHPMailer habilitando el tratamiento de excepciones
+  $mail = new PHPMailer(true);
+  // Configuramos el protocolo SMTP con autenticación
 
-$mail->IsSMTP();
-$mail->SMTPAuth = false;
-//$mail->SMTPSecure = "tls";
-// $mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
-// Puerto de escucha del servidor
-$mail->Port       = 25;
-// Dirección del servidor SMTP
-$mail->Host       = "smtp.frba.utn.edu.ar";
+  $mail->IsSMTP();
+  $mail->SMTPAuth = false;
+  //$mail->SMTPSecure = "tls";
+  // $mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+  // Puerto de escucha del servidor
+  $mail->Port       = 25;
+  // Dirección del servidor SMTP
+  $mail->Host       = "smtp.frba.utn.edu.ar";
 
-// Usuario y contraseña para autenticación en el servidor
+  // Usuario y contraseña para autenticación en el servidor
 
-//$mail->Username   = "javier.sz.33@gmail.com";
+  //$mail->Username   = "javier.sz.33@gmail.com";
 
-//$mail->Password = "";
-$mail->IsHTML(true);
+  //$mail->Password = "";
+  $mail->IsHTML(true);
 
-$mail->    MsgHTML($html);
-//$mail->AddReplyTo("name@yourdomain.com","First Last");
+  $mail->    MsgHTML($html);
+  //$mail->AddReplyTo("name@yourdomain.com","First Last");
 
-$mail->Subject    = $asunto;
+  $mail->Subject    = $asunto;
 
-$mail->AltBody    = $body; // optional, comment out and test
+  $mail->AltBody    = $body; // optional, comment out and test
 
-$mail->  AddAddress($address, $nombre);
-$mail->AddBCC($addressCC);
+  $mail->  AddAddress($address, $nombre);
+  $mail->AddBCC($addressCC);
 
-$mail->SetFrom('disilab-soporte@sistemas.frba.utn.edu.ar', 'UTN-DisiLAB');
+  $mail->SetFrom('disilab-soporte@sistemas.frba.utn.edu.ar', 'UTN-DisiLAB');
 
-if(!$mail->Send()) {
+  if(!$mail->Send()) {
 
-    echo "Mailer Error: " . $mail->ErrorInfo;
+      echo "Mailer Error: " . $mail->ErrorInfo;
 
-} else {
+  } else {
 
-    echo "Message sent!";
+      echo "Message sent!";
 
+  }
 }
+*/
 
+function mails() {
+  $mail = new PHPMailer;
+
+  $mail->IsSMTP();
+  $mail->Host = '10.2.0.34'; //"smtp.frba.utn.edu.ar"
+  $mail->SMTPAuth = false; //No hace falta autenticarse en el SMTP server de la facultad
+  $mail->SMTPSecure = 'tls';
+  $mail->Port = 25;
+
+  $mail->SetFrom('disilab-soporte@sistemas.frba.utn.edu.ar', 'UTN-DisiLAB');
+  $mail->AddAddress('costanzo.ji@gmail.com', 'Juan');
+
+  $mail->IsHTML(true);
+  $mail->Subject = 'Super Subject';
+  $mail->Body ='Super Body';
+
+  $mail->SMTPDebug = 3;
+
+  if (!$mail->Send()) {
+    error_log('Mailer Error: ' . $mail->ErrorInfo);
+  } else {
+    error_log('Todo Legal');
+  }
 }
 
 ?>

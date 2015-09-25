@@ -227,9 +227,11 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 		
 		limpiarCredenciales: function() {
 			$http.defaults.headers.common.Authorization = undefined;
-		}
+		},
 		
-		
+		enviarMail: function(){
+			return $http.post( url + '/utils/email.php' );
+		}		
 	}
 
 })

@@ -28,6 +28,9 @@
 		<input type="checkbox" ng-model="mostrarAyuda.mostrar" id="mostrarAyuda.mostrar" name="mostrarAyudaCheck" ng-change="actualizarMargen()"/>
 		<label for="mostrarAyuda.mostrar" name="mostrarAyudaCheck"> Mostrar ayuda</label> 
 	</div>
+
+	<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="enviarMail()" >MAIL</button>
+
 </form>
 <div id='ayuda' ng-style='alturaDeAyudas'>
 	<div ng-show='mostrarAyuda.mostrar' class='explicacionDeColores' ng-repeat='explicacion in explicaciones'>
