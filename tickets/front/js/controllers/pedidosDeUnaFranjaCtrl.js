@@ -183,6 +183,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 			//$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
 			//$scope.docentes.push("Ninguno");
 			$scope.docentes = [];
+			
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
 			});
@@ -190,6 +191,9 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 			$scope.usuario.docenteElegido = $scope.docentes[0];
 			comunicador.setDocentes($scope.docentes);			
 			sePudieronTraerDocentes = true;
+			comunicador.getDocentes().forEach(function(a){
+				console.log(a);
+			});
 		};
 		
 		// primero se los pedimos al comunicador entre vistas, que viene a actuar como cache
@@ -214,7 +218,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	var obtenerPedidos = function() {
 
 		var comportamientoSiRequestExitoso = function(pedidosRecibidos) {
-			console.log(pedidosRecibidos);
+			
 			//pedidos.splice(0,pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
 				//pedido.tipo = 'pedido';
@@ -222,6 +226,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 				pedido.labContraofertable = comunicador.getNombreDelLab(pedido.lab_id);
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
 				pedido.endContraofertable = pedido.end.getMinutosDesdeMedianoche();
+				console.log(pedido);
 				pedido.docenteName = comunicador.getDocenteById(pedido.owner_id);
 				pedido.justificacion = "";
 				pedido.requiereJustificacion = false;

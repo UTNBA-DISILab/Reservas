@@ -81,6 +81,20 @@ button {
     margin: -10px 0px 20px 0px;
 }
 
+
+#botonAgregarTerminal{
+    font-size: 13px;
+    height: 35px;
+    /*padding: 0.5em 1.5em 0.5em;*/
+    
+    color: #FFFFFF;
+    border-radius: 5px;
+    background-color: #000000;
+    float: right;
+    margin: 5px 10px 20px 0px;
+}
+
+
 .botonesDeSolicitudesPendientes{
     font-size: 13px;
     height: 35px;
@@ -101,18 +115,23 @@ button {
     color: #FFFFFF;
     border-radius: 5px;
     background-color: #A31235;
-    float: right;
+    float: left;
+}
+
+
+#agregarTerminal {
+    margin-left: 15px;
 }
 
 #botonDeVolverEnAsistencia {
     font-size: 13px;
     height: 35px;
     /*padding: 0.5em 1.5em 0.5em;*/
-    margin: 3px 3px 0px 0px;
+    margin: 3px 0px 0px 0px;
     color: #FFFFFF;
     border-radius: 5px;
     background-color: #A31235;
-    float: right;
+    float: left;
 }
 
 
@@ -124,6 +143,17 @@ button {
     color: #FFFFFF;
     border-radius: 5px;
     background-color: #000000;
+}
+
+.botonDeAgregarTerminal {
+    font-size: 13px;
+    height: 35px;
+    /*padding: 0.5em 1.5em 0.5em;*/
+    margin: 4px  5px;
+    color: #FFFFFF;
+    border-radius: 5px;
+    background-color: #000000;
+    float: right;
 }
 
 button:hover {
