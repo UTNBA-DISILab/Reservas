@@ -43,14 +43,49 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 
 	$scope.aceptarJustificacion = function(pedido){
 		pedido.requiereJustificacion = false;
+		if(!pedido.r_flag){
+			rechazar(pedido);
+		}else{
+			contraofertar(pedido);
+		}
 	};
 	
 	$scope.cancelarJustificacion = function(pedido){
 		pedido.requiereJustificacion = false;
 	};
 
-	$scope.rechazar = function(pedido) {
-		pedido.requiereJustificacion = true;
+	
+	$scope.iniciarContraofertar = function(reserva){
+		reserva.requiereJustificacion = true;
+		reserva.r_flag = 1;
+	};
+
+	$scope.iniciarRechazar = function(reserva){
+		reserva.requiereJustificacion = true;
+		reserva.r_flag = 0;
+	};
+
+	var contraofertar = function(reserva) {
+		reserva.description = reserva.description + " ----- Motivo de Contraoferta: " + reserva.justificacion;
+		console.log(reserva.description);
+		console.log("Aca deberia haber codigo de contraofertar");
+		actualizarPendientes();
+	};
+
+	var rechazar = function(reserva) {
+		reserva.description = reserva.description + " ----- Motivo de Rechazo: " + reserva.justificacion;
+		console.log(reserva.description);
+		
+		servidor.rechazarReserva(reserva.id, reserva.description)
+		.success(function(data, status, headers, config) {
+			console.log('La reserva ' + reserva.id + ' ha sido rechazada correctamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
+			reserva.listo = true;
+		})
+		.error(function(data, status, headers, config) {
+			console.log('Se produjo un error al rechazar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
+		});
+
+		actualizarPendientes();
 	};
 
 	$scope.confirmar = function(reserva) {
@@ -65,30 +100,33 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 			// TEMP
 			reserva.listo = true;
 		});
+
+		actualizarPendientes();
 	};
 
 
 
 	$scope.seSuperponeConOtraReserva = function(pedido) {
-		var temporal = todas_reservas.slice();
+		var temporal = todas_reservas.concat($scope.pedidos);
 		var superpuestos = temporal.filter(function(s_pedido){
 			return(pedido.begin < s_pedido.end) 
 			   && (pedido.end > s_pedido.begin) 
 			   && (pedido.lab_id == s_pedido.lab_id) 
 			   && (pedido.id != s_pedido.id)
-			   && (pedido.state != 1);
+			   && (s_pedido.state != 1);
 		});
+
 		return superpuestos.length;
 	}
 
 	$scope.seSuperponeConOtroPedido = function(pedido) {
-		var temporal = todas_reservas.slice();
+		var temporal = todas_reservas.concat($scope.pedidos);
 		var superpuestos = temporal.filter(function(s_pedido){
 			return(pedido.begin < s_pedido.end) 
 			   && (pedido.end > s_pedido.begin) 
 			   && (pedido.lab_id == s_pedido.lab_id) 
 			   && (pedido.id != s_pedido.id)
-			   && (pedido.state == 1);
+			   && (s_pedido.state == 1);
 		});
 		return superpuestos.length;
 	}
@@ -176,7 +214,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	var obtenerPedidos = function() {
 
 		var comportamientoSiRequestExitoso = function(pedidosRecibidos) {
-			
+			console.log(pedidosRecibidos);
 			//pedidos.splice(0,pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
 				//pedido.tipo = 'pedido';
@@ -188,13 +226,8 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 				pedido.justificacion = "";
 				pedido.requiereJustificacion = false;
 
-				todas_reservas.push(pedido)
+				$scope.pedidos.push(pedido);
 			});
-			console.log(todas_reservas[0])
-			$scope.pedidos = todas_reservas.filter(function(reserva){
-					return reserva.state == 1;
-				});
-
 
 			$scope.pedidos.sort(function(first, second){
 				var a = new Date(first.begin);
@@ -236,16 +269,24 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 		//Pero mientras tanto:
 		servidor.obtenerPedidos(primerDiaSolicitado, porDefecto.getCuantosDiasMas())
 			.success(function(pedidosRecibidos, status, headers, config) {
-				console.log('Obtenidas los pedidos desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes exitosamente');
+				console.log('Obtenidos los pedidos desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes exitosamente');
 				comportamientoSiRequestExitoso(pedidosRecibidos);
 				
 				
 			})
 			.error(function(pedidosRecibidos, status, headers, config) {
 				console.log('Se produjo un error al obtener los pedidos desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes' );
-	
-				// TEMP
-				comportamientoSiRequestExitoso(porDefecto.getPedidos(comunicador.getUsuario()));
+			});
+
+		servidor.obtenerReservas(primerDiaSolicitado, porDefecto.getCuantosDiasMas())
+			.success(function(reservasRecibidas, status, headers, config) {
+				console.log('Obtenidas las reservas desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes exitosamente');
+				todas_reservas = reservasRecibidas;
+				
+				
+			})
+			.error(function(reservasRecibidas, status, headers, config) {
+				console.log('Se produjo un error al obtener las reservas desde ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("begin").valor) + ' hasta ' + Date.stringTimestampToDate(config.url.obtenerUnParametroDeURL("end").valor) + ' d\xEDas siguientes' );
 			});
 	};
 
