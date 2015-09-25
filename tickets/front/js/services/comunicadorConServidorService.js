@@ -156,6 +156,10 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			//return $http.post( url + '/reservations/' + id + '/update', reservaModificada);
 			return $http.post( url + '/modify_reservation.php?res_id=' + id, reservaModificada);
 		},
+
+		rechazarReserva: function(id, description){
+			return $http.post( url + '/reservations/' + id + '/delete', {description:description});
+		},
 		
 		cancelarReserva: function(id) {
 			//return $http.delete( url + '/reservations/' + id); // asi deberia ser para que la API sea RESTful

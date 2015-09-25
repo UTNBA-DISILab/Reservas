@@ -43,14 +43,49 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 
 	$scope.aceptarJustificacion = function(pedido){
 		pedido.requiereJustificacion = false;
+		if(!pedido.r_flag){
+			rechazar(pedido);
+		}else{
+			contraofertar(pedido);
+		}
 	};
 	
 	$scope.cancelarJustificacion = function(pedido){
 		pedido.requiereJustificacion = false;
 	};
 
-	$scope.rechazar = function(pedido) {
-		pedido.requiereJustificacion = true;
+	
+	$scope.iniciarContraofertar = function(reserva){
+		reserva.requiereJustificacion = true;
+		reserva.r_flag = 1;
+	};
+
+	$scope.iniciarRechazar = function(reserva){
+		reserva.requiereJustificacion = true;
+		reserva.r_flag = 0;
+	};
+
+	var contraofertar = function(reserva) {
+		reserva.description = reserva.description + " ----- Motivo de Contraoferta: " + reserva.justificacion;
+		console.log(reserva.description);
+		console.log("Aca deberia haber codigo de contraofertar");
+		actualizarPendientes();
+	};
+
+	var rechazar = function(reserva) {
+		reserva.description = reserva.description + " ----- Motivo de Rechazo: " + reserva.justificacion;
+		console.log(reserva.description);
+		
+		servidor.rechazarReserva(reserva.id, reserva.description)
+		.success(function(data, status, headers, config) {
+			console.log('La reserva ' + reserva.id + ' ha sido rechazada correctamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
+			reserva.listo = true;
+		})
+		.error(function(data, status, headers, config) {
+			console.log('Se produjo un error al rechazar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
+		});
+
+		actualizarPendientes();
 	};
 
 	$scope.confirmar = function(reserva) {
@@ -65,6 +100,8 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 			// TEMP
 			reserva.listo = true;
 		});
+
+		actualizarPendientes();
 	};
 
 
@@ -78,9 +115,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 			   && (pedido.id != s_pedido.id)
 			   && (s_pedido.state != 1);
 		});
-		superpuestos.forEach(function(a){
-				console.log(a)
-			});
+
 		return superpuestos.length;
 	}
 
@@ -93,9 +128,6 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 			   && (pedido.id != s_pedido.id)
 			   && (s_pedido.state == 1);
 		});
-		superpuestos.forEach(function(a){
-				console.log(a)
-			});
 		return superpuestos.length;
 	}
 
@@ -182,7 +214,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	var obtenerPedidos = function() {
 
 		var comportamientoSiRequestExitoso = function(pedidosRecibidos) {
-			
+			console.log(pedidosRecibidos);
 			//pedidos.splice(0,pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
 				//pedido.tipo = 'pedido';
@@ -195,8 +227,6 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 				pedido.requiereJustificacion = false;
 
 				$scope.pedidos.push(pedido);
-
-				console.log(pedido.state)
 			});
 
 			$scope.pedidos.sort(function(first, second){
