@@ -50,6 +50,24 @@
 		</div>
 </form>
 
+
+	
+	<table id="busquedas_table" class="tabla_normal" ng-show="especialidad && seConocenLasMateriasDe(especialidad)">
+		<thead>
+			<tr>
+				<th>
+					<input type="text" id="busqueda_materias" class="ingresarTextoMateria" ng-model="materia" placeholder="Buscar Materia..."></input>
+				</th>
+			</tr>
+		</thead>
+		<tbody id="cuerpo_tabla_reservas">
+			<tr ng-model="especialidad" name="especialidad" ng-repeat="esp in especialidad.materias | filter:materia | limitTo:5">
+				<td ng-click="materia='{{esp}}'">{{esp}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+
 <div id='calendario' infinite-scroll="cargarMasDias(7)">
 	<div id='columnaDeFechas'><!--Tamaño fijo para fechas-->
 		<div class='encabezado'>

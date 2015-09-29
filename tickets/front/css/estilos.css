@@ -281,6 +281,28 @@ input[type="checkbox"]:focus + label:before {
     -webkit-box-shadow: 0px 0px 8px #7bc1f7; 
 } 
 
+.ingresarTextoMateria { 
+    border: 1px solid #c4c4c4; 
+    height: 25px; 
+    width: 70%; 
+    font-size: 13px; 
+    padding: 4px 4px 4px 4px; 
+    border-radius: 4px; 
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px; 
+    box-shadow: 0px 0px 8px #d9d9d9; 
+    -moz-box-shadow: 0px 0px 8px #d9d9d9; 
+    -webkit-box-shadow: 0px 0px 8px #d9d9d9; 
+} 
+ 
+.ingresarTextoMateria:focus { 
+    outline: none; 
+    border: 1px solid #7bc1f7; 
+    box-shadow: 0px 0px 8px #7bc1f7; 
+    -moz-box-shadow: 0px 0px 8px #7bc1f7; 
+    -webkit-box-shadow: 0px 0px 8px #7bc1f7; 
+} 
+
 #titulo {
     margin-left: 10px;
     margin-top: 10px;
@@ -555,6 +577,11 @@ h4.fecha {
 	margin-bottom: 5px;
 }
 
+#busqueda_materias {
+    float: center;
+    margin-bottom: 5px;
+}
+
 .tabla_normal {
 	border: 4px solid #9C9E9F;
 	/*width: 730px;*/
@@ -584,6 +611,12 @@ h4.fecha {
 
 .tabla_normal tbody tr:hover {
 	background:#EEFFFF;
+}
+
+#busquedas_table{
+    float:left;
+    width: 490px;
+    margin: 10px 0px 20px 50px;
 }
 
 .solicitada {
