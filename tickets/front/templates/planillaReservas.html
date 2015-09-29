@@ -50,13 +50,16 @@
 		</div>
 </form>
 
+<div><button id="hover_boton" class="botonDeReserva botonEncabezado" ng-click="clickeoBoton=true" ng-show="especialidad && seConocenLasMateriasDe(especialidad)">Buscar Materias</button></div>
+
 
 	
-	<table id="busquedas_table" class="tabla_normal" ng-show="especialidad && seConocenLasMateriasDe(especialidad)">
+	<table id="busquedas_table" class="tabla_normal" ng-show="especialidad && seConocenLasMateriasDe(especialidad) && clickeoBoton">
 		<thead>
 			<tr>
 				<th>
 					<input type="text" id="busqueda_materias" class="ingresarTextoMateria" ng-model="materia" placeholder="Buscar Materia..."></input>
+					<button class='botonDeFormulario' ng-click="clickeoBoton=false">Cerrar</button>
 				</th>
 			</tr>
 		</thead>
