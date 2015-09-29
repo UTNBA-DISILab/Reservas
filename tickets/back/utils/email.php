@@ -257,6 +257,6 @@ function mails() {
   }
 }
 
-mails();
+//mails();
 
 ?>
