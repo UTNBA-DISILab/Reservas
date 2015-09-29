@@ -282,7 +282,11 @@ class DBObject {
 	}
 	
 	function sqlDateTime($phpDateTime) {
-		return date( 'Y-m-d H:i:s', $phpDateTime->getTimestamp() );
+		if($phpDateTime instanceof DateTime){
+			return date( 'Y-m-d H:i:s', $phpDateTime->getTimestamp() );
+		}else{
+			returnError(403, "invalid operation, " + $phpDateTime);
+		}
 	}
 	
 	function phpDateTime($sqlDateTime) {

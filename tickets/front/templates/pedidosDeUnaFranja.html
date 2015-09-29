@@ -37,17 +37,17 @@
 		<span ng-show="seSuperponeConOtraReserva(pedido)" style="color:red;font-weight:bold">Se superpone con otra reserva o contraoferta. Modifique el laboratorio y/o el horario para hacer una contraoferta.</span>
 		<span ng-show="seSuperponeConOtroPedido(pedido)" style="color:blue;font-weight:bold">Se Superpone con otro pedido sin confirmar.</span>
 		<div class="comentario" ng-show="pedido.requiereJustificacion">
-			<textarea ng-model="pedido.justificacion" rows="4" cols="60" maxlength="200" placeholder="Escriba una justificacion..."></textarea>
+			<textarea ng-model="pedido.justificacion" rows="4" cols="60" maxlength="400" placeholder="Escriba una justificacion..."></textarea>
 		</div>
 		<div class="comentario">
-			<textarea ng-model="pedido.description" rows="4" cols="60" maxlength="200" placeholder="Comentario&nbsp;opcional..."></textarea>
+			<textarea ng-model="pedido.description" rows="4" cols="60" maxlength="400" placeholder="Comentario&nbsp;opcional..."></textarea>
 		</div>
 
 		<div id="opciones_solicitud">
 			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="aceptarJustificacion(pedido)" ng-show="pedido.requiereJustificacion">Aceptar</button>
 			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="cancelarJustificacion(pedido)" ng-show="pedido.requiereJustificacion">Cancelar</button>
 			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="confirmar(pedido)" ng-hide="seContraoferto(pedido) || seSuperponeConOtraReserva(pedido) || pedido.listo || pedido.requiereJustificacion">Confirmar</button>
-			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="iniciarContraofertar(pedido)" ng-show="seContraoferto(pedido) && seSuperponeConOtraReserva(pedido)">Contraofertar</button>
+			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="iniciarContraofertar(pedido)" ng-show="seContraoferto(pedido) && !pedido.requiereJustificacion">Contraofertar</button>
 			<button id="hover_boton" class= 'botonesDeSolicitudesPendientes' ng-click="iniciarRechazar(pedido)" ng-hide="pedido.listo || pedido.requiereJustificacion">Rechazar</button>
 
 		</div>
