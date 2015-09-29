@@ -82,7 +82,7 @@ function mails(){
 }
 */
 
-function confirmacionReservaBody() {
+function confirmacionReservaBody($name, $labName, $from, $until, $subjectName, $labCapacity, $ticketNumber) {
   $body = 
   '
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -92,18 +92,16 @@ function confirmacionReservaBody() {
       <title>Reserva</title>
     </head>
     <body>    
-      Estimado/a [Nombre] [Apellido],<br />
+      Estimado/a '. $name .',<br />
       <br />
       Le informamos que el pedido realizado a través de nuestro sistema de reservas ha sido confirmado.<br />
       <br />
-      Queda reservado el Laboratorio [Lab] para el día [Nombre Día] [Día] [Mes] [Año] de [Hora Inicio] a 
-      [Hora Fin] para la materia [Materia] con capacidad para [Cantidad] de alumnos.<br />
+      Queda reservado el Laboratorio '. $labName .' para el día [DiaNombre] '. $from->format('d-m-Y') .' de '. $from->format('H:i:s') .' a 
+      '. $until->format('H:i:s') .' para la materia '. $subjectName .' con capacidad para '. $labCapacity .' de alumnos.<br />
       <br />
-      Esta reserva queda registrada bajo el Ticket N°: [Nro Ticket].<br />
+      Esta reserva queda registrada bajo el Ticket N°: '. $ticketNumber .'.<br />
       <br />
-      Desde ya muchas gracias.<br />
-
-      [USAR FIRMA DENTRO DE DOCUMENTACION]
+      Desde ya muchas gracias.<br />      
       <br />
       <div align="left" style=" border-style: double; width: 342px; height:92px" >
         <a href="http://www.frba.utn.edu.ar/"><img src="http://www.siga.frba.utn.edu.ar/imag/news/utnba.png" height="90" width="340"></a>
@@ -114,7 +112,7 @@ function confirmacionReservaBody() {
   return $body;
 }
 
-function pedidoCambioReservaBody(){
+function pedidoCambioReservaBody($name, $labName, $from, $until, $subjectName, $labCapacity){
   $body = 
   '
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -124,19 +122,17 @@ function pedidoCambioReservaBody(){
       <title>Reserva</title>
     </head>
     <body>    
-      Estimado/a [Nombre] [Apellido],<br />
+      Estimado/a '. $name .',<br />
       <br />
       Le informamos que el pedido realizado a través de nuestro sistema de reservas no se encuentra disponible. 
       Por esto, le pedimos que elija otra alternativa.<br />
       <br />
-      Su pedido fue para el Laboratorio [Lab] para el día [Nombre Día] [Día] [Mes] [Año] de [Hora Inicio] a 
-      [Hora Fin] para la materia [Materia] con capacidad para [Cantidad] de alumnos.<br />
+      Su pedido fue para el Laboratorio '. $labName .' para el día [Nombre Día] '. $from->format('d-m-Y') .' de '. $from->format('H:i:s') .' a 
+      '. $until->format('H:i:s') .' para la materia '. $subjectName .' con capacidad para '. $labCapacity .' de alumnos.<br />
       <br />
       Haga click en el siguiente link para elegir otra alternativa: [Link].<br />
       <br />
       Desde ya muchas gracias.<br />
-
-      [USAR FIRMA DENTRO DE DOCUMENTACION]
       <br />
       <div align="left" style=" border-style: double; width: 342px; height:92px" >
         <a href="http://www.frba.utn.edu.ar/"><img src="http://www.siga.frba.utn.edu.ar/imag/news/utnba.png" height="90" width="340"></a>
@@ -147,7 +143,7 @@ function pedidoCambioReservaBody(){
   return $body;
 }
 
-function noDisponibilidadReservaBody(){
+function noDisponibilidadReservaBody($name, $labName, $from, $until, $subjectName, $labCapacity){
   $body = 
   '
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -157,18 +153,16 @@ function noDisponibilidadReservaBody(){
       <title>Reserva</title>
     </head>
     <body>    
-      Estimado/a [Nombre] [Apellido],<br />
+      Estimado/a '. $name .',<br />
       <br />
       Le comunicamos que el pedido realizado a través de nuestro sistema de reservas no se encuentra disponible.<br />
       <br />
-      Su pedido fue para el Laboratorio [Lab] para el día [Nombre Día] [Día] [Mes] [Año] de [Hora Inicio] a 
-      [Hora Fin] para la materia [Materia] con capacidad para [Cantidad] de alumnos.<br />
+      Su pedido fue para el Laboratorio '. $labName .' para el día [Nombre Día] '. $from->format('d-m-Y') .' de '. $from->format('H:i:s') .' a 
+      '. $until->format('H:i:s') .' para la materia '. $subjectName .' con capacidad para '. $labCapacity .' de alumnos.<br />
       <br />
       Para obtener mayor información puede comunicarse respondiendo este email o llamando al 4867­7554.<br />
       <br />
       Desde ya muchas gracias.<br />
-
-      [USAR FIRMA DENTRO DE DOCUMENTACION]
       <br />
       <div align="left" style=" border-style: double; width: 342px; height:92px" >
         <a href="http://www.frba.utn.edu.ar/"><img src="http://www.siga.frba.utn.edu.ar/imag/news/utnba.png" height="90" width="340"></a>
@@ -179,7 +173,7 @@ function noDisponibilidadReservaBody(){
   return $body;
 }
 
-function avisoPedidoAlLaboratorioBody() {
+function avisoPedidoAlLaboratorioBody($name, $labName, $from, $until, $subjectName) {
   $body = 
   '
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -189,8 +183,8 @@ function avisoPedidoAlLaboratorioBody() {
       <title>Reserva</title>
     </head>
     <body>    
-      Hay un pedido de reserva para el Laboratorio [Lab] para el día [Nombre Día] [Día] [Mes] [Año] de 
-      [Hora Inicio] a [Hora Fin] para la materia [Materia] solicitado por [Nombre] [Apellido]. <br />
+      Hay un pedido de reserva para el Laboratorio '. $labName .' para el día [Nombre Día] '. $from->format('d-m-Y') .' de 
+      '. $from->format('H:i:s') .' a '. $until->format('H:i:s') .' para la materia '. $subjectName .' solicitado por '. $name .'. <br />
       <br />
       Esta solicitud está pendiente para procesar.
     </body>
@@ -200,19 +194,19 @@ function avisoPedidoAlLaboratorioBody() {
 }
 
 
-function generarBody($tipo) {
+function generarBody($tipo, $name, $labName, $from, $until, $subjectName, $labCapacity, $ticketNumber) {
   switch ($tipo) {
     case 'confirmacionReserva':
-      $body = confirmacionReservaBody();
+      return $body = confirmacionReservaBody($name, $labName, $from, $until, $subjectName, $labCapacity, $ticketNumber);
       break;
     case 'pedidoCambioReserva':
-      $body = pedidoCambioReservaBody();
+      return $body = pedidoCambioReservaBody($name, $labName, $from, $until, $subjectName, $labCapacity);
       break;
     case 'noDisponibilidadReserva':
-      $body = noDisponibilidadReservaBody();
+      return $body = noDisponibilidadReservaBody($name, $labName, $from, $until, $subjectName, $labCapacity);
       break;
     case 'avisoPedidoAlLaboratorio':
-      $body = avisoPedidoAlLaboratorioBody();
+      return $body = avisoPedidoAlLaboratorioBody($name, $labName, $from, $until, $subjectName);
       break;
     default:
       error_log("Error al generar el body del mail");
@@ -223,10 +217,22 @@ function generarBody($tipo) {
 function mails() {
   $subject = "Subject 3.0";  
   $address = "costanzo.ji@gmail.com";
-  $name = "Juan";
+  $name = "Juan Ignacio";
+
+  $labName ='Azul';
+  //Genero un DateTime random para probar cosas locaaasss
+  $from = new DateTime();
+  $until = new DateTime();   
+  /*$from->setDate(2015, 09, 29);
+  $from->setTime(16, 15);*/
+
+  $tipo = 'confirmacionReserva';  
+  $subjectName = 'Sistemas Operativos';
+  $labCapacity = '5000';
+  $ticketNumber = '1239875';
 
   //$body = file_get_contents('./mail_format/confirmacionReserva.html');
-  $body = pedidoCambioReservaBody();
+  $body = generarBody($tipo, $name, $labName, $from, $until, $subjectName, $labCapacity, $ticketNumber);
   $mail = new PHPMailer;
 
   $mail->IsSMTP();
