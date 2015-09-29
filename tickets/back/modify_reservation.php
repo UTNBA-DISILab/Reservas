@@ -98,9 +98,13 @@ if(isset($lab_id)) {
 }
 
 if(isset($begin)) {
+	error_log("begin " + $begin);
+
 	$beginDate = DateTime::createFromFormat('U', $begin / 1000);
 }
 if(isset($end)) {
+	error_log("end " + $end);
+
 	$endDate = DateTime::createFromFormat('U', $end / 1000);
 }
 
@@ -111,11 +115,16 @@ if(isset($beginDate) || isset($endDate)) {
 	if(!isset($endDate)) {
 		$endDate = $reservation->endDate;
 	}
+	/*
 	if(!validateTime($dbhandler, $reservation, $beginDate, $endDate)) {
 		returnError(500, "invalid params");
 		$dbhandler->disconnect();
 		return;
 	}
+	*/
+
+	error_log("beginDate  " + $beginDate);
+	error_log("endDate  " + $endDate);
 	$reservation->beginDate = $beginDate;
 	$reservation->endDate = $endDate;
 }
@@ -138,6 +147,9 @@ if($is_validator) {
 	$state = RES_STATE_APPROVED_BY_VALIDATOR;
 }
 
+//update reservation
+$reservation->commit($dbhandler);
+
 //push reservation state
 $resState = new ReservationState();
 $resState->reservation = $reservation;
@@ -145,9 +157,6 @@ $resState->state = $state;
 $resState->description = $description;
 $resState->user = $myUser;
 $resState->commit($dbhandler);
-
-//update reservation
-$reservation->commit($dbhandler);
 
 $dbhandler->disconnect();
 return;
