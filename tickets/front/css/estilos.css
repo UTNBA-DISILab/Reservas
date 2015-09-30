@@ -6,6 +6,7 @@ body {
 }
 
 
+
 #encabezado {
     width: 100%;
     overflow: hidden;
@@ -21,6 +22,44 @@ body {
 
 }
 
+/* Menu de INFO del Encabezado */
+
+.botonDeMenuInfo {
+    font-size: 13px;
+    height: 25px;
+    /*padding: 0.5em 1.5em 0.5em;*/
+    margin: 12px 0px 0px 0px;
+    padding-left: 0px; 
+    color: #FFFFFF;
+    border-style: outset; 
+    border-right-color: #FFFFFF; 
+    border-right-width: 1px; 
+    border-radius: 3px;
+    background-color: #000000;
+}
+
+
+.margenImagen {
+    margin: 0px 15px 0px 0px
+}
+
+/* FIN Menu de INFO del Encabezado */
+
+/*Linea Divisora */ 
+.LineaDivisora {
+    background: black;
+    height: 17px;
+    padding-top: 2px;
+    width: auto;
+    margin-bottom: 10px;
+    color: white;
+    opacity: 0.8; 
+    font-size: 12px;
+}
+
+/* Fin Linea Divisora */  
+
+
 #controlDePlanilla {
     background: white;
     padding-top: 5px;
@@ -34,6 +73,7 @@ body {
 
 .opcionDeMostrarAyuda {
     width: 230px;
+    margin: 0px 50px 0px 0px;
 }
 
 #ayuda {

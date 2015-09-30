@@ -1,12 +1,12 @@
 <header id='encabezado'>
 	
-	<img align="left" height="54px" width="135px" src="./img/logo_utn.jpg">
+	<img class='margenImagen' align="left" height="54px" width="135px" src="./img/logo_utn.jpg">
 
-	<button type='submit' class='botonDeFormulario'>Acerca De</button>
-	<button type='button' class='botonDeFormulario'>Infraestructura</button>
-	<button type='button' class='botonDeFormulario'>Staff</button>
-	<button type='button' class='botonDeFormulario'>Horarios</button>
-	<button type='button' class='botonDeFormulario'>Contacto</button>
+	<button type='button' id="hover_boton" class='botonDeMenuInfo'>Acerca De</button>
+	<button type='button' id="hover_boton" class='botonDeMenuInfo'>Infraestructura</button>
+	<button type='button' id="hover_boton" class='botonDeMenuInfo'>Horarios</button>
+	<button type='button' id="hover_boton" class='botonDeMenuInfo'>Staff</button>
+	<button type='button' id="hover_boton" class='botonDeMenuInfo'>Contacto</button>
 
 	<!-- <h1 id='titulo'>Sistema de solicitud de reservas DISI Labs</h1> -->
 	
@@ -35,7 +35,7 @@
 	</div>
 	<div class="checkbox opcionDeMostrarAyuda" ng-show="explicaciones.length"> 
 		<input type="checkbox" ng-model="mostrarAyuda.mostrar" id="mostrarAyuda.mostrar" name="mostrarAyudaCheck" ng-change="actualizarMargen()"/>
-		<label for="mostrarAyuda.mostrar" name="mostrarAyudaCheck"> Mostrar ayuda</label> 
+		<label for="mostrarAyuda.mostrar" name="mostrarAyudaCheck"> Mostrar ayuda</label>
 	</div>
 </form>
 <div id='ayuda' ng-style='alturaDeAyudas'>

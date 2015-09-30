@@ -1,12 +1,16 @@
 <form ng-style='margen'>
 		<div ng-show='usuario.inicioSesion'>
+			<div class="LineaDivisora"><label ng-show='usuario.esEncargado'><strong>REALICE LA RESERVA A NOMBRE DEL DOCENTE</strong></label>
+			<label  ng-show='usuario.inicioSesion && !usuario.esEncargado'><strong>REALICE SU PEDIDO DE RESERVA</strong></label>
+			</div>
+				
 			<!-- Campo Lista de Docentes (solo para el encargado) -->
-			<label class="nombre_campo_con_margen_izquierdo" ng-show='usuario.esEncargado'><i>• Docente:</i></label>
+			<label class="nombre_campo con_margen_izquierdo" ng-show='usuario.esEncargado'><i>• Docente:</i></label>
 			<select ng-model="usuario.docenteElegido" name="docente" ng-show='usuario.esEncargado'
 					ng-options="docente.name for docente in docentes">
 			</select>
 			<!-- Fin Campo Lista de Docentes (solo para el encargado) -->
-			<br>
+			
 			<!-- Campo Lista de Especialidades -->
 			<p><label class="nombre_campo con_margen_izquierdo"><i>• Especialidad:</i></label>
 			
@@ -80,7 +84,8 @@
 
 
 <!-- Fin Boton de Busqueda Rapida de Materias -->
-
+<br>
+<br>
 <!-- Calendario  -->
 <div id='calendario' infinite-scroll="cargarMasDias(7)">
 	<div id='columnaDeFechas'><!--Tamaño fijo para fechas-->
@@ -130,5 +135,6 @@
 			</div>
 		</div>
 	</div>
+
 </div>
 <!-- Fin Calendario -->
