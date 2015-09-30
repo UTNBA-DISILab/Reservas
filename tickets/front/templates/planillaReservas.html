@@ -72,7 +72,8 @@
 		</thead>
 		<tbody id="cuerpo_tabla_reservas">
 			<tr ng-model="especialidad" name="especialidad" ng-repeat="esp in especialidad.materias | filter:materia | limitTo:5">
-				<td ng-click="materia='{{esp}}'">{{esp}}</td>
+				<td ng-click="$parent.materia = esp;$parent.clickeoBoton=false">{{esp}}</td>
+				<td><button class='botonDeFormulario' ng-click="$parent.materia = esp;$parent.clickeoBoton=false">Seleccionar</button></td>
 			</tr>
 		</tbody>
 	</table>
