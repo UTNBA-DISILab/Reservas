@@ -1,34 +1,37 @@
 <form ng-style='margen'>
 		<div ng-show='usuario.inicioSesion'>
+			<!-- Campo Lista de Docentes (solo para el encargado) -->
 			<label class="nombre_campo_con_margen_izquierdo" ng-show='usuario.esEncargado'><i>• Docente:</i></label>
 			<select ng-model="usuario.docenteElegido" name="docente" ng-show='usuario.esEncargado'
 					ng-options="docente.name for docente in docentes">
 			</select>
+			<!-- Fin Campo Lista de Docentes (solo para el encargado) -->
 			<br>
-
+			<!-- Campo Lista de Especialidades -->
 			<p><label class="nombre_campo con_margen_izquierdo"><i>• Especialidad:</i></label>
 			
 			<select ng-model="especialidad" name="especialidad" ng-change="actualizarEspecialidad()"
 					ng-options="especialidad.nombre for especialidad in especialidades">
 			</select>
+			<!-- Fin Campo Lista de Especialidades -->
 
-			<!-- Boton Info / Ayuda -->
-			<div id='info_ayuda'>
-				<div class='columnaDeUnaAyuda'>
-					<div class='encabezadoAyuda'>
-						<h3><button class="nombre_lab_span lab_{{laboratorio.nombre | lowercase}}" ng-click="laboratorio.clickEnInfo = true"><img height="15px" width="15px" src="./img/info.png"></span></h3>
-						<modal-dialog show="laboratorio.clickEnInfo">
-							<div id="hoverbox">
-								<div class="titulo_hoverbox" >Seleccione la <strong><u>especialidad</u></strong> para que aparezca la lista de materias.</div>
-							
-							</div>
-						</modal-dialog>
+				<!-- Boton Información/Ayuda en Campo Lista de Especialidades -->
+				<div id='info_ayuda'>
+					<div class='columnaDeUnaAyuda'>
+						<div class='encabezadoAyuda'>
+							<h3><button class="nombre_lab_span lab_{{laboratorio.nombre | lowercase}}" ng-click="laboratorio.clickEnInfo = true"><img height="15px" width="15px" src="./img/info.png"></span></h3>
+							<modal-dialog show="laboratorio.clickEnInfo">
+								<div id="hoverbox">
+									<div class="titulo_hoverbox" >Seleccione la <strong><u>especialidad</u></strong> para que aparezca la lista de materias.</div>
+								
+								</div>
+							</modal-dialog>
+						</div>
 					</div>
 				</div>
-			</div>
-			<!-- Fin Boton Info / Ayuda -->
+				<!-- Fin Boton Información/Ayuda en Campo Lista de Especialidades -->
 			</p>
-
+			<!-- Campo Lista de Materias -->
 				<div class='diaDeLaboratorio' ng-repeat='dia in laboratorio.dias'>
 					<button class='franja' 
 					ng-style='estiloSegun(dia.franjas[$index-1], franja, dia.franjas[$index+1])' 
@@ -41,19 +44,22 @@
 					</button>
 				</div>
 			<br>
+			
 			<label class="nombre_campo con_margen_izquierdo" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" ><i>• Materia:</i></label>
 			<select ng-model="materia" name="materia" ng-show="especialidad && seConocenLasMateriasDe(especialidad)" ng-change="actualizarMateria()" ng-options="materia for materia in especialidad.materias">
 			</select>
+			<!-- Campo Lista de Materias -->
 
 		</div>
 		<div>
 		</div>
 </form>
 
-<div><button id="hover_boton" class="botonDeReserva botonEncabezado" ng-click="clickeoBoton=true" ng-show="especialidad && seConocenLasMateriasDe(especialidad)">Buscar Materias</button></div>
+<!-- Boton de Busqueda Rapida de Materias -->
+<button id="hover_boton" class="botonDeBusquedaRapida" ng-click="clickeoBoton=true" ng-show="especialidad && seConocenLasMateriasDe(especialidad)">Buscar Materia</button>
 
 
-	
+<div align="left">
 	<table id="busquedas_table" class="tabla_normal" ng-show="especialidad && seConocenLasMateriasDe(especialidad) && clickeoBoton">
 		<thead>
 			<tr>
@@ -69,8 +75,11 @@
 			</tr>
 		</tbody>
 	</table>
+</div>
 
+<!-- Fin Boton de Busqueda Rapida de Materias -->
 
+<!-- Calendario  -->
 <div id='calendario' infinite-scroll="cargarMasDias(7)">
 	<div id='columnaDeFechas'><!--Tamaño fijo para fechas-->
 		<div class='encabezado'>
@@ -120,3 +129,4 @@
 		</div>
 	</div>
 </div>
+<!-- Fin Calendario -->

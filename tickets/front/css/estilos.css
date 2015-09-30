@@ -163,6 +163,31 @@ button {
     background-color: #000000;
 }
 
+
+/*Boton de Busqueda de Materias */
+
+/*.botonEncabezado {
+
+}
+*/
+
+.botonDeBusquedaRapida {
+    font-size: 11px;
+    height: 22px;
+    padding: 2px;
+    /*padding: 0.5em 1.5em 0.5em;*/
+    margin: -21px 0px 0px 555px;
+    color: #FFFFFF;
+    border-radius: 5px;
+    background-color: #000000;
+    float: left;
+}
+
+
+/*Fin Boton de Busqueda de Materias */
+
+
+
 .botonDeAgregarTerminal {
     font-size: 13px;
     height: 35px;
