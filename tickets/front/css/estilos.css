@@ -173,14 +173,12 @@ button {
 
 .botonDeBusquedaRapida {
     font-size: 11px;
-    height: 22px;
-    padding: 2px;
-    /*padding: 0.5em 1.5em 0.5em;*/
-    margin: -21px 0px 0px 555px;
+    padding-top: 5px;
+    padding-bottom: 3px;
     color: #FFFFFF;
-    border-radius: 5px;
+    border-radius: 3px;
     background-color: #000000;
-    float: left;
+   
 }
 
 
@@ -641,7 +639,7 @@ h4.fecha {
 #busquedas_table{
     float:left;
     width: 490px;
-    margin: 10px 0px 20px 50px;
+    margin: 5px 0px 30px 60px;
 }
 
 .solicitada {
