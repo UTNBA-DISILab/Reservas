@@ -2,10 +2,10 @@
 	
 	<img class='margenImagen' align="left" height="54px" width="135px" src="./img/logo_utn.jpg">
 
-	<button type='button' id="hover_boton" class='botonDeMenuInfo'>Acerca De</button>
+	<a href="about.html"><button type='button' id="hover_boton" class='botonDeMenuInfo'>Acerca De</button></a>
 	<button type='button' id="hover_boton" class='botonDeMenuInfo'>Infraestructura</button>
 	<button type='button' id="hover_boton" class='botonDeMenuInfo'>Horarios</button>
-	<button type='button' id="hover_boton" class='botonDeMenuInfo'>Staff</button>
+	<a href="staff.html"><button type='button' id="hover_boton" class='botonDeMenuInfo'>Staff</button></a>
 	<button type='button' id="hover_boton" class='botonDeMenuInfo'>Contacto</button>
 
 	<!-- <h1 id='titulo'>Sistema de solicitud de reservas DISI Labs</h1> -->
@@ -33,14 +33,20 @@
 		<button id="hover_boton" class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas")' ng-click="irACargarMaterias()">Cargar Materias</button>
 		<button id="hover_boton" class="botonDeReserva botonEncabezado" ng-show='usuario.inicioSesion && usuario.esEncargado && $state.includes("planillaReservas") && usuario.esAdministrador' ng-click="verAsistencia()">Ver Asistencia</button>
 	</div>
+
+	<!-- Mostrar Ayuda (Checkbok) -->
 	<div class="checkbox opcionDeMostrarAyuda" ng-show="explicaciones.length"> 
 		<input type="checkbox" ng-model="mostrarAyuda.mostrar" id="mostrarAyuda.mostrar" name="mostrarAyudaCheck" ng-change="actualizarMargen()"/>
 		<label for="mostrarAyuda.mostrar" name="mostrarAyudaCheck"> Mostrar ayuda</label>
 	</div>
+	<!-- Fin Mostrar Ayuda (Ckeckbox) -->
+
 </form>
+<!-- Mostrar Ayuda (Opciones) -->
 <div id='ayuda' ng-style='alturaDeAyudas'>
 	<div ng-show='mostrarAyuda.mostrar' class='explicacionDeColores' ng-repeat='explicacion in explicaciones'>
 		<button class='color' ng-style='{"background-color" : explicacion.color}'>{{explicacion.nombreDeColor}}</button>
 		<p class='explicacion'>{{explicacion.texto}}</p>
 	</div>
+	<!-- Fin Mostrar Ayuda (Opciones) -->
 </div>

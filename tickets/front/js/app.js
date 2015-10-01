@@ -76,6 +76,11 @@ reservasApp.config(['$stateProvider','$urlRouterProvider',function($stateProvide
         url: '/modificarTerminal',
         templateUrl: 'templates/agregarOModificarTerminal.html',
         controller: 'agregarOModificarTerminalCtrl'
+    })
+     .state('acercaDe', {
+        url: '/acercaDe',
+        templateUrl: 'templates/acercaDe.html'
+
     });
 
     // Si no es ninguno de los anteriores, ir a:
