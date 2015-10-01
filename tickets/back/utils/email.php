@@ -214,6 +214,8 @@ function generarBody($tipo, $name, $labName, $from, $until, $subjectName, $labCa
   }
 }
 
+
+//SE ESTA EDITANDO MAL LA HORA DE $from y $until, NO REFLEJA EL HORARIO REAL.
 function mails($body) {
   $subject = "Subject 3.0";  
   $address = "costanzo.ji@gmail.com";
@@ -257,11 +259,10 @@ function mails($body) {
   }
 }
 
-//mails();
 
-function avisoPedidoAlLaboratorioMail($userID, $labID, $beginDate, $endDate, $subject) {
+function avisoPedidoAlLaboratorioMail($user, $lab, $beginDate, $endDate, $subject) {
   error_log("Entro en la funcion avisoPedidoAlLaboratorioMail");
-  $body = avisoPedidoAlLaboratorioBody($userID, $labID, $beginDate, $endDate, $subject);
+  $body = avisoPedidoAlLaboratorioBody($user->name, $lab->name, $beginDate, $endDate, $subject);
   mails($body);
 }
 

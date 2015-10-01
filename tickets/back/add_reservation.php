@@ -139,6 +139,15 @@ if(isset($description)) {
 $resState->user = $myUser;
 $resState->commit($dbhandler);
 
+//Send email
+//REVISAR EL IF PQ NO ENTIENDO BIEN QUE ES OWNER Y QUE ES myUser
+if (isset($owner)) {
+	$user_for_mail = $owner;
+} else {
+	$user_for_mail = $myUser;
+}
+avisoPedidoAlLaboratorioMail($user_for_mail, $lab, $beginDate, $endDate, $subject);
+
 $dbhandler->disconnect();
 return;
 ?>
