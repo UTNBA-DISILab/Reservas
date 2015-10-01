@@ -214,7 +214,7 @@ function generarBody($tipo, $name, $labName, $from, $until, $subjectName, $labCa
   }
 }
 
-function mails() {
+function mails($body) {
   $subject = "Subject 3.0";  
   $address = "costanzo.ji@gmail.com";
   $name = "Juan Ignacio";
@@ -232,7 +232,7 @@ function mails() {
   $ticketNumber = '1239875';
 
   //$body = file_get_contents('./mail_format/confirmacionReserva.html');
-  $body = generarBody($tipo, $name, $labName, $from, $until, $subjectName, $labCapacity, $ticketNumber);
+  //$body = generarBody($tipo, $name, $labName, $from, $until, $subjectName, $labCapacity, $ticketNumber);
   $mail = new PHPMailer;
 
   $mail->IsSMTP();
@@ -258,5 +258,11 @@ function mails() {
 }
 
 //mails();
+
+function avisoPedidoAlLaboratorioMail($userID, $labID, $beginDate, $endDate, $subject) {
+  error_log("Entro en la funcion avisoPedidoAlLaboratorioMail");
+  $body = avisoPedidoAlLaboratorioBody($userID, $labID, $beginDate, $endDate, $subject);
+  mails($body);
+}
 
 ?>
