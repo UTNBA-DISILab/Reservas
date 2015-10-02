@@ -261,8 +261,14 @@ function mails($body) {
 
 
 function avisoPedidoAlLaboratorioMail($user, $lab, $beginDate, $endDate, $subject) {
-  error_log("Entro en la funcion avisoPedidoAlLaboratorioMail");
   $body = avisoPedidoAlLaboratorioBody($user->name, $lab->name, $beginDate, $endDate, $subject);
+  mails($body);
+}
+
+function confirmacionReservaMail($user, $lab, $beginDate, $endDate, $subject){
+  //FALTA EL TICKET NUMBER!!!!
+  //$userMail = $user->email;
+  $body = confirmacionReservaBody($user->name, $lab->name, $beginDate, $endDate, $subject, $lab->size, 951753);
   mails($body);
 }
 
