@@ -8,6 +8,8 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 
 	var todas_reservas = []; 
 
+	$scope.contraofertas = [];
+
 	$scope.pedidos = [];
     var sePudieronTraerPedidosEstaVuelta = false;
     var pedidosAuxiliares = [];
@@ -65,21 +67,57 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 		reserva.r_flag = 0;
 	};
 
+	$scope.seContraoferto = function(solicitud) {
+		return comunicador.getNombreDelLab(solicitud.lab_id) != solicitud.labContraofertable
+				|| solicitud.begin.getMinutosDesdeMedianoche() != solicitud.beginContraofertable
+				|| solicitud.end.getMinutosDesdeMedianoche() != solicitud.endContraofertable;
+	};
+
 	var contraofertar = function(reserva) {
-		reserva.description = reserva.description + " ----- Motivo de Contraoferta: " + reserva.justificacion;
-		console.log(reserva.description);
-		console.log("Aca deberia haber codigo de contraofertar");
+		reserva.description = reserva.description + " ----- Se ofrece contraoferta de la reserva realizada. ----- \
+		  ->Datos de la reserva original:\
+		   Horario original de inicio: " + reserva.begin.getHours() + ":" + reserva.begin.getMinutes() +
+		"  Horario original de finalizacion: " + reserva.end.getHours() + ":" + reserva.end.getMinutes() +
+		"  Laboratorio original: " + comunicador.getNombreDelLab(reserva.lab_id) +
+		" ->Motivo de Contraoferta: " + reserva.justificacion;
+
+
+		if(reserva.begin.getMinutosDesdeMedianoche() != reserva.beginContraofertable){
+			var newBegin = new Date(reserva.begin);
+			newBegin.setHours(Math.floor(reserva.beginContraofertable/60),reserva.beginContraofertable % 60,0,0);
+
+			reserva.begin = newBegin;
+		}
+
+		if(reserva.end.getMinutosDesdeMedianoche() != reserva.endContraofertable){
+			var newEnd = new Date(reserva.end);
+			newEnd.setHours(Math.floor(reserva.endContraofertable/60),reserva.endContraofertable % 60,0,0);
+
+			reserva.end = newEnd;
+		}
+
+		if(reserva.labContraofertable != comunicador.getNombreDelLab(reserva.lab_id))
+			reserva.lab_id = comunicador.getIdDelLab(reserva.labContraofertable);
+	
+
+		servidor.modificarReserva(reserva)
+		.success(function(data, status, headers, config){
+			console.log('La reserva: ' + reserva.id + ' ha sido contraofertada correctamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
+		})
+		.error(function(data, status, headers, config){
+			console.log('Se produjo un error al contraofertar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
+		});
+
+
 		actualizarPendientes();
 	};
 
 	var rechazar = function(reserva) {
 		reserva.description = reserva.description + " ----- Motivo de Rechazo: " + reserva.justificacion;
-		console.log(reserva.description);
 		
 		servidor.rechazarReserva(reserva.id, reserva.description)
 		.success(function(data, status, headers, config) {
 			console.log('La reserva ' + reserva.id + ' ha sido rechazada correctamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
-			reserva.listo = true;
 		})
 		.error(function(data, status, headers, config) {
 			console.log('Se produjo un error al rechazar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
@@ -92,13 +130,10 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 		servidor.confirmarReserva(reserva.id)
 		.success(function(data, status, headers, config) {
 			console.log('Confirmada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
-			reserva.listo = true;
 		})
 		.error(function(data, status, headers, config) {
 			console.log('Se produjo un error al confirmar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
 
-			// TEMP
-			reserva.listo = true;
 		});
 
 		actualizarPendientes();
@@ -107,7 +142,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 
 
 	$scope.seSuperponeConOtraReserva = function(pedido) {
-		var temporal = todas_reservas.concat($scope.pedidos);
+		var temporal = todas_reservas.concat($scope.pedidos).concat($scope.contraofertas);
 		var superpuestos = temporal.filter(function(s_pedido){
 			return(pedido.begin < s_pedido.end) 
 			   && (pedido.end > s_pedido.begin) 
@@ -120,7 +155,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	}
 
 	$scope.seSuperponeConOtroPedido = function(pedido) {
-		var temporal = todas_reservas.concat($scope.pedidos);
+		var temporal = todas_reservas.concat($scope.pedidos).concat($scope.contraofertas);
 		var superpuestos = temporal.filter(function(s_pedido){
 			return(pedido.begin < s_pedido.end) 
 			   && (pedido.end > s_pedido.begin) 
@@ -132,7 +167,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	}
 
 	var convertirTimestampADate = function(evento) {
-		evento.begin = new Date(evento.begin);//Las fechas vienen en timestamp y es mucho más fácil manejarlas como Date.
+		evento.begin = new Date(evento.begin);
 		evento.end = new Date(evento.end);
 		evento.creation_date = new Date(evento.creation_date);
 	}
@@ -141,7 +176,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 
 		var comportamientoSiRequestExitoso = function(laboratoriosRecibidos) {
 			
-			$scope.laboratorios.splice(0,$scope.laboratorios.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener labs repetidos.
+			$scope.laboratorios.splice(0,$scope.laboratorios.length); 
 			laboratoriosRecibidos.forEach(function(laboratorio){
 				
 				$scope.laboratorios.push(laboratorio);
@@ -154,21 +189,18 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 			sePudieronTraerLaboratoriosEstaVuelta = true;
 		};
 		
-		// primero se los pedimos al comunicador entre vistas, que viene a actuar como cache
+		
 		if( comunicador.getLaboratorios().length < 1 ) {
 			servidor.obtenerLaboratorios()
 			.success(function(laboratoriosRecibidos, status, headers, config) {
-				// Esta devolución se llamará asincrónicamente cuando la respuesta esté disponible.
+				
 				console.log('Obtenidos los laboratorios exitosamente');
 				comportamientoSiRequestExitoso(laboratoriosRecibidos);
 			})
 			.error(function(laboratoriosRecibidos, status, headers, config) {
-				// called asynchronously if an error occurs
-				// or server returns response with an error status.
+				
 				console.log('Se produjo un error al obtener los laboratorios del servidor');
-				//algoTuvoUnError = true; -> Esto va descomentado cuando probemos con el server.
-	
-				// TEMP
+				
 				comportamientoSiRequestExitoso(porDefecto.getLaboratorios());
 			});
 		}
@@ -180,9 +212,8 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	var obtenerDocentes = function() {
 
 		var comportamientoSiRequestExitoso = function(docentesRecibidos) {
-			//$scope.docentes.splice(0,$scope.docentes.length); // Acá sí va esto, porque en este caso el server devuelve siempre lo mismo y no quiero tener docentes repetidos.
-			//$scope.docentes.push("Ninguno");
 			$scope.docentes = [];
+			
 			docentesRecibidos.forEach(function(docente){
 				$scope.docentes.push(docente);
 			});
@@ -190,9 +221,11 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 			$scope.usuario.docenteElegido = $scope.docentes[0];
 			comunicador.setDocentes($scope.docentes);			
 			sePudieronTraerDocentes = true;
+			comunicador.getDocentes().forEach(function(a){
+			});
 		};
 		
-		// primero se los pedimos al comunicador entre vistas, que viene a actuar como cache
+		
 		if( comunicador.getDocentes().length < 1 ) {
 			servidor.obtenerDocentes()
 			.success(function(docentesRecibidos, status, headers, config) {
@@ -201,8 +234,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 			})
 			.error(function(docentesRecibidos, status, headers, config) {
 				console.log('Se produjo un error al obtener los docentes del servidor');
-				//TODO:debería haber un alert acá, en lugar de cargarlo con valores hardcodeados en un js...
-				// TEMP
+				
 				comportamientoSiRequestExitoso(porDefecto.getDocentes());
 			});
 		}
@@ -214,10 +246,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	var obtenerPedidos = function() {
 
 		var comportamientoSiRequestExitoso = function(pedidosRecibidos) {
-			console.log(pedidosRecibidos);
-			//pedidos.splice(0,pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
-				//pedido.tipo = 'pedido';
 				convertirTimestampADate(pedido);
 				pedido.labContraofertable = comunicador.getNombreDelLab(pedido.lab_id);
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
@@ -225,8 +254,12 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 				pedido.docenteName = comunicador.getDocenteById(pedido.owner_id);
 				pedido.justificacion = "";
 				pedido.requiereJustificacion = false;
-
-				$scope.pedidos.push(pedido);
+				if(pedido.state == 1){
+					$scope.pedidos.push(pedido);
+				}else{
+					$scope.contraofertas.push(pedido);
+				}
+				
 			});
 
 			$scope.pedidos.sort(function(first, second){
@@ -293,15 +326,19 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 
 	 var actualizarPendientes = function (){
 
+	 	$scope.pedidos = [];
+	 	todas_reservas = [];
+
+	 	$scope.docentes = [];
+		sePudieronTraerDocentes = false;
+
 		if(!sePudieronTraerLaboratorios) {
 			sePudieronTraerLaboratoriosEstaVuelta = false;
 			obtenerLaboratorios();
 		};
 		
-		if(!sePudieronTraerDocentes && $scope.usuario.esEncargado) {
-			obtenerDocentes();
-		};
 		
+		obtenerDocentes();
 	
 		sePudieronTraerPedidosEstaVuelta = false;
 		obtenerPedidos();

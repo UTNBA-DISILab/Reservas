@@ -108,7 +108,7 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			// return $http.post( url + '/add_subject.php', materiaNueva);
 		},
 		
-		enviarNuevaReserva: function(desde, hasta, idDeLaboratorio, materia, comentario) {
+		enviarNuevaReserva: function(docenteId, hechoPorDocente, desde, hasta, idDeLaboratorio, materia, comentario) {
 			
 			var reservaNueva = {};
 			
@@ -123,6 +123,9 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			reservaNueva.lab_id = idDeLaboratorio;
 			reservaNueva.subject = materia;
 			reservaNueva.description = comentario;
+			if(hechoPorDocente){
+				reservaNueva.for_user_id = docenteId;
+			}
 			
 			// el state lo completa el servidor
 			// (add_reservation.php linea 141)
@@ -140,21 +143,15 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			// return $http.post( url + '/confirm_reservation.php?res_id=' + id); // OJO Post sin body es una mala practica, puede traer problemas
 		},
 		
-		modificarReserva: function(id, beginNuevo, endNuevo, labNuevo, beginAnterior, endAnterior, labAnterior) {
-			
-			var reservaModificada = {};
-			
-			reservaModificada.begin = beginNuevo.getTime();
-			reservaModificada.end = endNuevo.getTime();
-			reservaModificada.lab_id = labNuevo;
-			reservaModificada.description = "Pedido original: Laboratorio " +
-				comunicadorEntreVistasService.getNombreDelLab(labAnterior) +
-				", desde " + beginAnterior.getHours() + ":" + beginAnterior.getMinutes() +
-				"hs hasta " + endAnterior.getHours() + ":" + endAnterior.getMinutes();
+		modificarReserva: function(reserva) {
+			console.log(reserva);
 
+			reservaModificada = reserva;
+			reservaModificada.begin = reserva.begin.getTime();
+			reservaModificada.end = reserva.end.getTime();
 
-			//return $http.post( url + '/reservations/' + id + '/update', reservaModificada);
-			return $http.post( url + '/modify_reservation.php?res_id=' + id, reservaModificada);
+			return $http.post( url + '/reservations/' + reservaModificada.id + '/update', reservaModificada);
+			//return $http.post( url + '/modify_reservation.php?res_id=' + reservaModificada.id, reservaModificada);
 		},
 
 		rechazarReserva: function(id, description){

@@ -178,6 +178,10 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 
     $scope.verAsistencia = function(){
     	$state.go('asistencia');
+    };
+
+ 	$scope.acercaDe = function(){
+    	$state.go('acercaDe');
     }
 
 });

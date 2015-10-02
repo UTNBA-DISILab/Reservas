@@ -19,6 +19,7 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	$scope.hechoPorDocente = $scope.vistaAnterior.getUsuario().esEncargado && $scope.vistaAnterior.getUsuario().docenteElegido.name != "Ninguno";
 
 	if($scope.hechoPorDocente && $scope.evento.subject) {
+
 		$scope.docente = $scope.vistaAnterior.getUsuario().docenteElegido;
 	}
 	else {
@@ -43,7 +44,7 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	$scope.maximoPermitido = function() {
 		//return $scope.franjasHorariasEnMinutos[$scope.franjasHorariasEnMinutos.length - 1].a; No tenemos info sobre cursos
 		return $scope.rangoLibre.hasta;
-	}
+	};
 	
 	/* No tenemos info sobre cursos
 	var franjaClickeada = $scope.franjasHorariasEnMinutos.filter(
@@ -99,11 +100,10 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 	*/
 	
 	$scope.enviarSolicitud = function() {
-
 		$scope.evento.begin.ajustarHoraYMinutos($scope.franjaSeleccionada.desde);
 		$scope.evento.end.ajustarHoraYMinutos($scope.franjaSeleccionada.hasta);
 
-		servidor.enviarNuevaReserva($scope.evento.begin, $scope.evento.end, $scope.evento.lab_id, $scope.evento.subject, $scope.evento.description)
+		servidor.enviarNuevaReserva($scope.docente.id, $scope.hechoPorDocente, $scope.evento.begin, $scope.evento.end, $scope.evento.lab_id, $scope.evento.subject, $scope.evento.description)
 		.success(function(data, status, headers, config) {
 			console.log('Enviada la solicitud de reserva exitosamente' + ' (' + $scope.evento.subject + ' en el lab ' + $scope.vistaAnterior.getNombreDelLab($scope.evento.lab_id) + ' el d\xEDa ' + $scope.evento.begin + ')');
 			alert('Su solicitud fue recibida exitosamente!');
