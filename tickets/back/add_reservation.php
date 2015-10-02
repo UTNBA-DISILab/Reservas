@@ -130,23 +130,25 @@ $resState = new ReservationState();
 $resState->reservation = $reservation;
 if(isset($owner)) {
 	$resState->state = RES_STATE_CONFIRMED;
+	$confirmacionMail = true;	
 } else {
 	$resState->state = RES_STATE_APPROVED_BY_OWNER;
+	$confirmacionMail = false;	
 }
+
 if(isset($description)) {
 	$resState->description = $description;
 }
 $resState->user = $myUser;
 $resState->commit($dbhandler);
 
-//Send email
-//REVISAR EL IF PQ NO ENTIENDO BIEN QUE ES OWNER Y QUE ES myUser
-if (isset($owner)) {
-	$user_for_mail = $owner;
+
+if ($confirmacionMail) {
+	confirmacionReservaMail($owner, $lab, $beginDate, $endDate, $subject);
 } else {
-	$user_for_mail = $myUser;
+	avisoPedidoAlLaboratorioMail($myUser, $lab, $beginDate, $endDate, $subject);
 }
-avisoPedidoAlLaboratorioMail($user_for_mail, $lab, $beginDate, $endDate, $subject);
+
 
 $dbhandler->disconnect();
 return;

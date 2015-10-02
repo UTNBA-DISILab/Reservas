@@ -104,7 +104,7 @@ angular.module('reservasApp').controller('pedidoDeReservaCtrl',function($scope, 
 		$scope.evento.end.ajustarHoraYMinutos($scope.franjaSeleccionada.hasta);
 
 		servidor.enviarNuevaReserva($scope.docente.id, $scope.hechoPorDocente, $scope.evento.begin, $scope.evento.end, $scope.evento.lab_id, $scope.evento.subject, $scope.evento.description)
-		.success(function(data, status, headers, config) {
+		.success(function(data, status, headers, config) {			
 			console.log('Enviada la solicitud de reserva exitosamente' + ' (' + $scope.evento.subject + ' en el lab ' + $scope.vistaAnterior.getNombreDelLab($scope.evento.lab_id) + ' el d\xEDa ' + $scope.evento.begin + ')');
 			alert('Su solicitud fue recibida exitosamente!');
 			$state.go('planillaReservas');
