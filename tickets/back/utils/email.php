@@ -283,10 +283,11 @@ function enviarMail($tipo, $user, $labName, $labSize, $beginDate, $endDate, $sub
     $body = confirmacionReservaBody($user->name, $labName, $date['day'], $date['from'], $date['until'], $subject, $labSize, $ticketNumber);
   }
   if ($tipo == 'pedidoCambioReserva') {
-    $body = pedidoCambioReservaBody($name, $labName, $beginDate, $endDate, $subjectName, $labCapacity);
+    //Falta actualizar los parametros
+    $body = pedidoCambioReservaBody($name, $labName, $beginDate, $endDate, $subjectName, $labSize);
   }
   if ($tipo == 'noDisponibilidadReserva') {
-    $body = noDisponibilidadReservaBody($name, $labName, $beginDate, $endDate, $subjectName, $labCapacity);
+    $body = noDisponibilidadReservaBody($user->name, $labName, $date['day'], $date['from'], $date['until'], $subject, $labSize);
   }
   if ($tipo == 'avisoPedidoAlLaboratorio') {
     $body = avisoPedidoAlLaboratorioBody($user->name, $labName, $date['day'], $date['from'], $date['until'], $subject);

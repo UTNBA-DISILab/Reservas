@@ -7,6 +7,8 @@ POST
 params:
 - reservation_id
 + description
++ nombre_lab
++ capacidad_lab
 
 return:
 nothing
@@ -32,6 +34,14 @@ if(isset($body)) {
 	if($jsonparams) {
 		$description = $jsonparams["description"];
 	}
+	
+	if (isset($jsonparams["nombre_lab"])) {
+		$nombre_lab = $jsonparams["nombre_lab"];
+	}
+
+	if (isset($jsonparams["capacidad_lab"])) {
+		$capacidad_lab = $jsonparams["capacidad_lab"];
+	}
 }
 
 $dbhandler = getDatabase();
@@ -53,6 +63,15 @@ if(isset($description)) {
 }
 $resState->user = $myUser;
 $resState->commit($dbhandler);
+
+//Send mail + getting user for email
+if (isset($reservation->owner->id)) {
+    $user = validateUser($dbhandler, $reservation->owner->id);
+    if(!$user) {
+        error_log("Error al obtener el usuario de la base de datos desde confirmacion reserva");
+    }
+}
+enviarMail('noDisponibilidadReserva', $user, $nombre_lab, $capacidad_lab, $reservation->beginDate, $reservation->endDate, $reservation->subject, 0);
 
 $dbhandler->disconnect();
 return;

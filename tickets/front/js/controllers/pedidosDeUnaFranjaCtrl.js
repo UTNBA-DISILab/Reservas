@@ -115,7 +115,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	var rechazar = function(reserva) {
 		reserva.description = reserva.description + " ----- Motivo de Rechazo: " + reserva.justificacion;
 		
-		servidor.rechazarReserva(reserva.id, reserva.description)
+		servidor.rechazarReserva(reserva.id, reserva.description, comunicador.getNombreDelLab(reserva.lab_id), comunicador.getCapacidadDelLab(reserva.lab_id))
 		.success(function(data, status, headers, config) {
 			console.log('La reserva ' + reserva.id + ' ha sido rechazada correctamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
 		})

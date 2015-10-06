@@ -34,14 +34,14 @@ if(isset($body)) {
 	if($jsonparams) {
 		$description = $jsonparams["description"];
 	}
-}
+    
+    if (isset($jsonparams["nombre_lab"])) {
+        $nombre_lab = $jsonparams["nombre_lab"];
+    }
 
-if (isset($jsonparams["nombre_lab"])) {
-    $nombre_lab = $jsonparams["nombre_lab"];
-}
-
-if (isset($jsonparams["capacidad_lab"])) {
-    $capacidad_lab = $jsonparams["capacidad_lab"];
+    if (isset($jsonparams["capacidad_lab"])) {
+        $capacidad_lab = $jsonparams["capacidad_lab"];
+    }
 }
 
 $dbhandler = getDatabase();
@@ -120,7 +120,6 @@ if (isset($reservation->owner->id)) {
     }
 }
 enviarMail('confirmacionReserva', $user, $nombre_lab, $capacidad_lab, $reservation_for_mail->beginDate, $reservation_for_mail->endDate, $reservation_for_mail->subject, 123654);
-//confirmacionReservaMail($reservation_for_mail->owner, $reservation_for_mail->lab, $reservation_for_mail->beginDate, $reservation_for_mail->endDate, $reservation_for_mail->subject);
 
 if($state == RES_STATE_CONFIRMED) {
 

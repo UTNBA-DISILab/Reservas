@@ -165,8 +165,12 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			//return $http.post( url + '/modify_reservation.php?res_id=' + reservaModificada.id, reservaModificada);
 		},
 
-		rechazarReserva: function(id, description){
-			return $http.post( url + '/reservations/' + id + '/delete', {description:description});
+		rechazarReserva: function(id, description, nombre_lab, capacidad_lab){
+			var post_body = {};
+			post_body.nombre_lab = nombre_lab;
+			post_body.capacidad_lab = capacidad_lab;
+			post_body.description = description;
+			return $http.post( url + '/reservations/' + id + '/delete', post_body);
 		},
 		
 		cancelarReserva: function(id) {
