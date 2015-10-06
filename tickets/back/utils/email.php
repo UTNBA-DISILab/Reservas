@@ -284,7 +284,7 @@ function enviarMail($tipo, $user, $labName, $labSize, $beginDate, $endDate, $sub
   }
   if ($tipo == 'pedidoCambioReserva') {
     //Falta actualizar los parametros
-    $body = pedidoCambioReservaBody($name, $labName, $beginDate, $endDate, $subjectName, $labSize);
+    $body = pedidoCambioReservaBody($user->name, $labName, $date['day'], $date['from'], $date['until'], $subject, $labSize);
   }
   if ($tipo == 'noDisponibilidadReserva') {
     $body = noDisponibilidadReservaBody($user->name, $labName, $date['day'], $date['from'], $date['until'], $subject, $labSize);
