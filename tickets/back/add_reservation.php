@@ -148,11 +148,9 @@ $resState->commit($dbhandler);
 
 if ($confirmacionMail) {
 	//FALTA EL TICKET NUMBER
-	enviarMail('confirmacionReserva', $owner, $lab->name, $lab->size, $beginDate, $endDate, $subject, 123654);
-	//confirmacionReservaMail($owner, $lab, $beginDate, $endDate, $subject);
+	enviarMail('confirmacionReserva', $owner, $lab->name, $lab->size, $beginDate, $endDate, $subject, 123654);	
 } else {
-	enviarMail('avisoPedidoAlLaboratorio', $myUser, $lab->name, $lab->size, $beginDate, $endDate, $subject, 0);
-	//avisoPedidoAlLaboratorioMail($myUser, $lab, $beginDate, $endDate, $subject);
+	enviarMail('avisoPedidoAlLaboratorio', $myUser, $lab->name, $lab->size, $beginDate, $endDate, $subject, 0);	
 }
 
 

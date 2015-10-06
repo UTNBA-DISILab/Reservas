@@ -261,20 +261,6 @@ function generarFecha($beginDate, $endDate) {
   return $date;
 }
 
-function avisoPedidoAlLaboratorioMail($user, $lab, $beginDate, $endDate, $subject) {
-  $date = generarFecha($beginDate, $endDate);
-  $body = avisoPedidoAlLaboratorioBody($user->name, $lab->name, $date['day'], $date['from'], $date['until'], $subject);
-  mails($body);
-}
-
-function confirmacionReservaMail($user, $lab, $beginDate, $endDate, $subject){
-  //FALTA EL TICKET NUMBER!!!!
-  //$userMail = $user->email;
-  $date = generarFecha($beginDate, $endDate);
-  $body = confirmacionReservaBody($user->name, $lab->name, $date['day'], $date['from'], $date['until'], $subject, $lab->size, 951753);
-  mails($body);
-}
-
 function enviarMail($tipo, $user, $labName, $labSize, $beginDate, $endDate, $subject, $ticketNumber) {
   $date = generarFecha($beginDate, $endDate);
 
