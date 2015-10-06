@@ -93,6 +93,8 @@ body {
     color: white;
     opacity: 0.8; 
     font-size: 12px;
+    position: relative;
+    z-index: -1
 }
 
 /* Fin Linea Divisora */  
