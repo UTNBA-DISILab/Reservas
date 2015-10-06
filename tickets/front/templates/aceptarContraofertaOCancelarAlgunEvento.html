@@ -1,6 +1,7 @@
 <div id="cancelarPedidoOReserva" ng-style='margen'>
 	<div class="pedidoOReserva" ng-repeat="evento in eventos">
-		<p><h2 align="center" style="'Helvetica Neue', bold, Helvetica, Arial, sans-serif;"><strong>CANCELAR SOLICITUD</h2></strong></p>
+		<label ng-show="evento.tipo == 'contraoferta'"><h2 align="center" style="'Helvetica Neue', bold, Helvetica, Arial, sans-serif;"><strong>CONTRAOFERTA</h2></strong></label>
+		<label ng-show="evento.tipo != 'contraoferta'"><h2 align="center" style="'Helvetica Neue', bold, Helvetica, Arial, sans-serif;"><strong>CANCELAR SOLICITUD</h2></strong></label>
 		<span class="fechaAltaSlider"><p align="right" style="font-size: 12px"><strong>Fecha y hora de alta:</strong> {{nuevoDate(evento.creation_date).getFechaLargaConAnio()}}, {{nuevoDate(evento.creation_date).getMinutosDesdeMedianoche() | hourMinFilter}}</span>
 		<br>
 		<div class="fechaSolicitadaSlider">
@@ -34,7 +35,7 @@
 	</div>
 	<br>
 	<br>
-	
+
 	<div id="Espaciado_2"><button volver class= 'botonDeFormulario'>Volver</button></div>
 
 </div>
