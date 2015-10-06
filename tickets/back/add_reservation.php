@@ -63,6 +63,9 @@ if(!isset($begin )|| !isset($end) || !isset($lab_id) ||
 $beginDate = DateTime::createFromFormat('U', $begin / 1000);
 $endDate = DateTime::createFromFormat('U', $end / 1000);
 
+
+
+
 $dbhandler = getDatabase();
 $dbhandler->connect();
 
@@ -78,6 +81,7 @@ if(!$lab) {
 $fields = array("begin_date", "end_date");
 $minvalues = array(Reservation::sqlDateTime($beginDate), Reservation::sqlDateTime($beginDate));
 $maxvalues = array(Reservation::sqlDateTime($endDate), Reservation::sqlDateTime($endDate));
+
 
 $existing_reservations = Reservation::listAllBetween($dbhandler, $fields, $minvalues, $maxvalues);
 if(!empty($existing_reservations)) {

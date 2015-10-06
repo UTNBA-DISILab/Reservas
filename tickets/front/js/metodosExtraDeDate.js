@@ -18,6 +18,10 @@ Date.prototype.getNombreDelMes = function() {
 	return this.MESES[this.getMonth()];
 };
 
+Date.prototype.getFechaCorta = function(){
+	return this.getDay() + "/" + this.getMonth() + "/" + this.getFullYear();
+};
+
 
 Date.prototype.getFechaLarga = function() {
 	return this.getDiaDeLaSemana() + ' ' + this.getDate() + ' de ' + this.getNombreDelMes().toLowerCase();
