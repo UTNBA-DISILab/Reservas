@@ -127,7 +127,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	};
 
 	$scope.confirmar = function(reserva) {
-		servidor.confirmarReserva(reserva.id)
+		servidor.confirmarReserva(reserva.id, comunicador.getNombreDelLab(reserva.lab_id), comunicador.getCapacidadDelLab(reserva.lab_id))
 		.success(function(data, status, headers, config) {
 			console.log('Confirmada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
 		})
@@ -178,7 +178,6 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 			
 			$scope.laboratorios.splice(0,$scope.laboratorios.length); 
 			laboratoriosRecibidos.forEach(function(laboratorio){
-				
 				$scope.laboratorios.push(laboratorio);
 				$scope.nombresDeLaboratorios.push(laboratorio.nombre);
 			});
@@ -250,7 +249,6 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 				convertirTimestampADate(pedido);
 				pedido.labContraofertable = comunicador.getNombreDelLab(pedido.lab_id);
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
-				
 				pedido.endContraofertable = pedido.end.getMinutosDesdeMedianoche();
 				pedido.docenteName = comunicador.getDocenteById(pedido.owner_id);
 				pedido.justificacion = "";

@@ -7,6 +7,8 @@ POST
 params:
 - reservation_id
 + description
++ nombre_lab
++ capacidad_lab
 
 return:
 nothing

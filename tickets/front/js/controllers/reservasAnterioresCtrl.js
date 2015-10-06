@@ -51,7 +51,7 @@ angular.module('reservasApp').controller('reservasAnterioresCtrl',function($scop
 					node.fecha_pedida = node.begin.getFechaCorta();
 					node.fecha_alta = node.creation_date.getFechaCorta();
 					if(node.state == -1){
-						node.state = 0;
+						node.state =0;
 					}
 					node.estado_completo = estados_completos[node.state];
 					node.estado = estados[node.state]
@@ -64,8 +64,8 @@ angular.module('reservasApp').controller('reservasAnterioresCtrl',function($scop
 			
 
 			$scope.historial.sort(function(first, second){
-				var a = new Date(first.begin);
-				var b = new Date(second.begin);
+				var a = new Date(first.creation_date);
+				var b = new Date(second.creation_date);
 				a.setHours(0,0,0,0);
 				b.setHours(0,0,0,0);
 				

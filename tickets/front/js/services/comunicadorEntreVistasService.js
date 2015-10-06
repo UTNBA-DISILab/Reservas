@@ -88,6 +88,9 @@ angular.module('reservasApp').service('comunicadorEntreVistasService',function($
         getIdDelLab: function(nombre){
             return laboratorios.filter(function(unLaboratorio) {return unLaboratorio.nombre == nombre})[0].id;
         },
+        getCapacidadDelLab: function(id){
+            return laboratorios.filter(function(unLaboratorio) {return unLaboratorio.id == id})[0].cant_puestos;
+        },
         setPlanilla: function(planillaConCalendario){
             planillaCalendario = planillaConCalendario;
         },
