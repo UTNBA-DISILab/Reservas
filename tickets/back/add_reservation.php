@@ -142,7 +142,6 @@ if(isset($description)) {
 $resState->user = $myUser;
 $resState->commit($dbhandler);
 
-
 if ($confirmacionMail) {
 	confirmacionReservaMail($owner, $lab, $beginDate, $endDate, $subject);
 } else {

@@ -82,7 +82,7 @@ function mails(){
 }
 */
 
-function confirmacionReservaBody($name, $labName, $from, $until, $subjectName, $labCapacity, $ticketNumber) {
+function confirmacionReservaBody($name, $labName, $day, $from, $until, $subjectName, $labCapacity, $ticketNumber) {
   $body = 
   '
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -96,8 +96,8 @@ function confirmacionReservaBody($name, $labName, $from, $until, $subjectName, $
       <br />
       Le informamos que el pedido realizado a través de nuestro sistema de reservas ha sido confirmado.<br />
       <br />
-      Queda reservado el Laboratorio '. $labName .' para el día [DiaNombre] '. $from->format('d-m-Y') .' de '. $from->format('H:i:s') .' a 
-      '. $until->format('H:i:s') .' para la materia '. $subjectName .' con capacidad para '. $labCapacity .' de alumnos.<br />
+      Queda reservado el Laboratorio '. $labName .' para el día '. $day .' de '. $from .' a 
+      '. $until .' para la materia '. $subjectName .' con capacidad para '. $labCapacity .' de alumnos.<br />
       <br />
       Esta reserva queda registrada bajo el Ticket N°: '. $ticketNumber .'.<br />
       <br />
@@ -112,7 +112,7 @@ function confirmacionReservaBody($name, $labName, $from, $until, $subjectName, $
   return $body;
 }
 
-function pedidoCambioReservaBody($name, $labName, $from, $until, $subjectName, $labCapacity){
+function pedidoCambioReservaBody($name, $labName, $day, $from, $until, $subjectName, $labCapacity){
   $body = 
   '
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -127,8 +127,8 @@ function pedidoCambioReservaBody($name, $labName, $from, $until, $subjectName, $
       Le informamos que el pedido realizado a través de nuestro sistema de reservas no se encuentra disponible. 
       Por esto, le pedimos que elija otra alternativa.<br />
       <br />
-      Su pedido fue para el Laboratorio '. $labName .' para el día [Nombre Día] '. $from->format('d-m-Y') .' de '. $from->format('H:i:s') .' a 
-      '. $until->format('H:i:s') .' para la materia '. $subjectName .' con capacidad para '. $labCapacity .' de alumnos.<br />
+      Su pedido fue para el Laboratorio '. $labName .' para el día '. $day .' de '. $from .' a 
+      '. $until .' para la materia '. $subjectName .' con capacidad para '. $labCapacity .' de alumnos.<br />
       <br />
       Haga click en el siguiente link para elegir otra alternativa: [Link].<br />
       <br />
@@ -143,7 +143,7 @@ function pedidoCambioReservaBody($name, $labName, $from, $until, $subjectName, $
   return $body;
 }
 
-function noDisponibilidadReservaBody($name, $labName, $from, $until, $subjectName, $labCapacity){
+function noDisponibilidadReservaBody($name, $labName, $day, $from, $until, $subjectName, $labCapacity){
   $body = 
   '
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -157,8 +157,8 @@ function noDisponibilidadReservaBody($name, $labName, $from, $until, $subjectNam
       <br />
       Le comunicamos que el pedido realizado a través de nuestro sistema de reservas no se encuentra disponible.<br />
       <br />
-      Su pedido fue para el Laboratorio '. $labName .' para el día [Nombre Día] '. $from->format('d-m-Y') .' de '. $from->format('H:i:s') .' a 
-      '. $until->format('H:i:s') .' para la materia '. $subjectName .' con capacidad para '. $labCapacity .' de alumnos.<br />
+      Su pedido fue para el Laboratorio '. $labName .' para el día '. $day .' de '. $from .' a 
+      '. $until .' para la materia '. $subjectName .' con capacidad para '. $labCapacity .' de alumnos.<br />
       <br />
       Para obtener mayor información puede comunicarse respondiendo este email o llamando al 4867­7554.<br />
       <br />
@@ -173,7 +173,7 @@ function noDisponibilidadReservaBody($name, $labName, $from, $until, $subjectNam
   return $body;
 }
 
-function avisoPedidoAlLaboratorioBody($name, $labName, $from, $until, $subjectName) {
+function avisoPedidoAlLaboratorioBody($name, $labName, $day, $from, $until, $subjectName) {
   $body = 
   '
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -183,8 +183,8 @@ function avisoPedidoAlLaboratorioBody($name, $labName, $from, $until, $subjectNa
       <title>Reserva</title>
     </head>
     <body>    
-      Hay un pedido de reserva para el Laboratorio '. $labName .' para el día [Nombre Día] '. $from->format('d-m-Y') .' de 
-      '. $from->format('H:i:s') .' a '. $until->format('H:i:s') .' para la materia '. $subjectName .' solicitado por '. $name .'. <br />
+      Hay un pedido de reserva para el Laboratorio '. $labName .' para el día '. $day .' de 
+      '. $from .' a '. $until .' para la materia '. $subjectName .' solicitado por '. $name .'. <br />
       <br />
       Esta solicitud está pendiente para procesar.
     </body>
@@ -255,20 +255,41 @@ function mails($body) {
   if (!$mail->Send()) {
     error_log('Error de mailing: ' . $mail->ErrorInfo);
   } else {
-    error_log('Nuevo y mejorado todo legal 3.0');
+    error_log('El mail ha sido enviado con exito');
   }
 }
 
+function transformarFechaEnDias($date) {
+  if ($date instanceof DateTime) {
+    return date('d-m-Y', $date->getTimestamp());
+  } else {
+    returnError(403, "invalid operation, " + $date);
+  }  
+}
+
+function transformarFechaEnHoras($date) {
+  if ($date instanceof DateTime) {
+    return date('H:i:s', $date->getTimestamp());
+  } else {
+    returnError(403, "invalid operation, " + $date);
+  }
+}
 
 function avisoPedidoAlLaboratorioMail($user, $lab, $beginDate, $endDate, $subject) {
-  $body = avisoPedidoAlLaboratorioBody($user->name, $lab->name, $beginDate, $endDate, $subject);
+  $day = transformarFechaEnDias($beginDate);
+  $from = transformarFechaEnHoras($beginDate);
+  $until = transformarFechaEnHoras($endDate);
+  $body = avisoPedidoAlLaboratorioBody($user->name, $lab->name, $day, $from, $until, $subject);
   mails($body);
 }
 
 function confirmacionReservaMail($user, $lab, $beginDate, $endDate, $subject){
   //FALTA EL TICKET NUMBER!!!!
   //$userMail = $user->email;
-  $body = confirmacionReservaBody($user->name, $lab->name, $beginDate, $endDate, $subject, $lab->size, 951753);
+  $day = transformarFechaEnDias($beginDate);
+  $from = transformarFechaEnHoras($beginDate);
+  $until = transformarFechaEnHoras($endDate);
+  $body = confirmacionReservaBody($user->name, $lab->name, $day, $from, $until, $subject, $lab->size, 951753);
   mails($body);
 }
 
