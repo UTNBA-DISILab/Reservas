@@ -1,6 +1,6 @@
 <div id="solicitudes_pendientes" ng-style='margen'>
 	<p><h2 align="center" style="'Helvetica Neue', bold, Helvetica, Arial, sans-serif;"><strong>SOLICITUDES PENDIENTES</h2></strong></p>
-	<div class="reserva" ng-repeat="pedido in pedidos">
+	<div class="formato_solicitudes_pendientes" ng-repeat="pedido in pedidos">
 	
 		<span class="fechaAltaSlider"><p align="right" style="font-size: 12px"><strong>Fecha y hora de alta:</strong> {{pedido.creation_date.getFechaLargaConAnio()}}, {{pedido.creation_date.getMinutosDesdeMedianoche() | hourMinFilter}}</span></p>
 		<br>
