@@ -8,9 +8,6 @@
 					Fecha de Alta
 				</th>
 				<th>
-					Alumnos
-				</th>
-				<th>
 					Laboratorio
 				</th>
 				<th>
@@ -22,15 +19,14 @@
 			</tr>
 		</thead>
 		<tbody id="cuerpo_tabla_reservas">
-			<tr ng-hide="reservas">
+			<tr ng-hide="historialVacio()">
 				<td colspan="5">Consultando la base de datos...</td>
 			</tr>
-			<tr ng-repeat="reserva in reservas | filter:query | orderBy:'fecha_alta'">
+			<tr ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta'">
 				<td>{{reserva.fecha_alta}}</td>
-				<td>{{reserva.cant_alumnos}}</td>
-				<td><span class="nombre_lab_span lab_{{reserva.laboratorio}}">{{reserva.laboratorio}}</span></td>
+				<td><span class="nombre_lab_span lab_{{reserva.laboratorio.toLowerCase()}}">{{reserva.laboratorio}}</span></td>
 				<td>{{reserva.fecha_pedida}}<br>{{reserva.hora_inicio}}-{{reserva.hora_fin}}</td>
-				<td class="{{reserva.estado}} primera_mayus">{{reserva.estado}}<span ng-if="reserva.lab_ofrecido"><br>&#40;Lab&nbsp;<span class="nombre_lab_span lab_{{reserva.lab_ofrecido}}">{{reserva.lab_ofrecido}}</span>&#41;</span></td>
+				<td class="{{reserva.estado}} primera_mayus">{{reserva.estado_completo}}</td>
 			</tr>
 		</tbody>
 	</table>

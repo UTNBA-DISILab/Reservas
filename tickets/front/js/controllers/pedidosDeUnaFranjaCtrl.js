@@ -250,6 +250,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 				convertirTimestampADate(pedido);
 				pedido.labContraofertable = comunicador.getNombreDelLab(pedido.lab_id);
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
+				
 				pedido.endContraofertable = pedido.end.getMinutosDesdeMedianoche();
 				pedido.docenteName = comunicador.getDocenteById(pedido.owner_id);
 				pedido.justificacion = "";

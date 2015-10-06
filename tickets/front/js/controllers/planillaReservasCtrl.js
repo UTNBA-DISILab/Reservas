@@ -336,7 +336,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 				pedido.beginContraofertable = pedido.begin.getMinutosDesdeMedianoche();
 				pedido.endContraofertable = pedido.end.getMinutosDesdeMedianoche();
 				
-				pedidos.push(pedido)
+				pedidos.push(pedido);
 			});
 			
 			pedidosAuxiliares = pedidos;
@@ -435,7 +435,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
 		pedidos.forEach( function(pedido) {
 			//convertirTimestampADate(pedido);
-			if(pedido.description !== "undefined" && pedido.description.substr(0,16)=="Pedido original:"){
+			if(pedido.state == 2){
 				pedido.tipo = 'contraoferta';
 			} else {
 				pedido.tipo = 'pedido';

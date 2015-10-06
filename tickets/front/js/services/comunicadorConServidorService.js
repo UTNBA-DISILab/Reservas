@@ -82,6 +82,14 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			// siempre en el rango de timestamps mandados.
 		},
 
+		obtenerTodos: function (primerDiaSolicitado, cantDiasSolicitados) {
+			
+			var begin = primerDiaSolicitado.getTime();
+			var end = begin + cantDiasSolicitados * (24 * 60 * 60 * 1000);
+				
+			return $http.get( url + '/reservations/all' + '?begin=' + begin + '&end=' + end + '&open_only=true');
+		},
+
 		obtenerCursosDelDocente: function(cantDiasSolicitados, usuario){
 			//El server debe traernos las materias que dicta el docente.
 			//Los sistemas de la UTN aún no están preparados para esto,
