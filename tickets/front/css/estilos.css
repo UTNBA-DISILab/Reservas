@@ -5,6 +5,12 @@ body {
     /*background: "./img/logo_utn.jpg"; */
 }
 
+#infraestructura  {
+ height: auto;
+ width: auto;
+ margin: 90px 30px 3px 30px;
+}
+
 .encabezado_info {
     width: 100%;
     overflow: hidden;
@@ -890,7 +896,7 @@ h4.fecha {
 }
 
 .cuadro_info {
-    margin-top: 125px;
+    margin-top: 25px;
     margin-left: 30px;
     margin-right: 30px;
     opacity: 0.7;
@@ -901,6 +907,52 @@ h4.fecha {
     padding-left: 15px;
     padding-right: 15px;
     height: 500px;
+}
+
+.cuadro_preguntas {
+    margin-top: 25px;
+    margin-left: 30px;
+    margin-right: 30px;
+    opacity: 0.7;
+    color: white;
+    background-color: black;
+    opacity: 0.9;
+    padding-top: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 360px;
+}
+
+.cuadro_personal {
+    margin-top: 25px;
+    margin-left: 30px;
+    margin-right: 30px;
+    opacity: 0.7;
+    color: white;
+    background-color: black;
+    opacity: 0.9;
+    padding-top: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 450px;
+}
+
+.pagina_contacto {
+ height: auto;
+ width: auto;
+ margin: 90px 30px 90px 30px;
+}
+
+.pagina_horarios {
+ height: auto;
+ width: auto;
+ margin: 90px 30px 10px 30px;
+}
+
+.pagina_infraestructura {
+ height: auto;
+ width: auto;
+ margin: 90px 10px 90px 10px;
 }
 
 #contacto {
