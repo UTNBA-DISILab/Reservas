@@ -3,22 +3,23 @@
 	<form id="materias">
 		<div class="especialidad">
 			<label class="nombre_campo">Especialidad: </label>
-			<select ng-model="especialidadSeleccionada" name="especialidad"
-					ng-options="especialidad.name for especialidad in especialidades">
+			<select ng-model="especialidadSeleccionada" name="especialidad"	ng-change="actualizarEspecialidad();seleccionoEspecialidad=true" ng-options="especialidad.name for especialidad in especialidades">
 			</select>
 		</div>
-		<span ng-show="especialidadSeleccionada">Materias cargadas:</span>
-		<div class="materias_cargadas" ng-show="especialidadSeleccionada">
+		<span ng-show="especialidadSeleccionada && seleccionoEspecialidad==true">Materias cargadas:</span>
+		<div class="materias_cargadas" ng-show="especialidadSeleccionada && seleccionoEspecialidad==true">
 			<ul>
 				<li ng-repeat="materia in especialidadSeleccionada.subjects">
 					{{materia.name}}
 				</li>
 			</ul>
 		</div>
-		<div ng-show="especialidadSeleccionada">
+		<div ng-show="especialidadSeleccionada && seleccionoEspecialidad==true">
 			<label class="nombre_campo" for="materia">Materia nueva: </label><input type="text" id="materia" name="materia" ng-model="materiaIngresada" ng-disabled="cargando" maxlength="50" />
-			<button type="submit" id="cargar" class="botonDeFormulario" ng-disabled="cargando" ng-click="cargarMateria()">Cargar</button>
+			<label class="nombre_campo" for="codigo">Codigo: </label><input type="text" id="codigo" name="codigo" ng-model="codigoIngresado" ng-disabled="cargando" maxlength="20" />
+			<button type="submit" id="cargar" class="botonDeFormulario" ng-disabled="cargando" ng-click="seleccionoEspecialidad=false;cargarMateria();">Cargar</button>
 			<span class="cargando" ng-show="cargando">Cargando...</span>
+			
 		</div>
 		
 		
