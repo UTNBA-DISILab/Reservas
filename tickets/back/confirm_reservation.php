@@ -36,6 +36,14 @@ if(isset($body)) {
 	}
 }
 
+if (isset($jsonparams["nombre_lab"])) {
+    $nombre_lab = $jsonparams["nombre_lab"];
+}
+
+if (isset($jsonparams["capacidad_lab"])) {
+    $capacidad_lab = $jsonparams["capacidad_lab"];
+}
+
 $dbhandler = getDatabase();
 $dbhandler->connect();
 
@@ -104,8 +112,15 @@ if(isset($description)) {
 $resState->user = $myUser;
 $resState->commit($dbhandler);
 
-//Send mail
-confirmacionReservaMail($reservation_for_mail->owner, $reservation_for_mail->lab, $reservation_for_mail->beginDate, $reservation_for_mail->endDate, $reservation_for_mail->subject);
+//Send mail + getting user for email
+if (isset($reservation->owner->id)) {
+    $user = validateUser($dbhandler, $reservation->owner->id);
+    if(!$user) {
+        error_log("Error al obtener el usuario de la base de datos desde confirmacion reserva");
+    }
+}
+enviarMail('confirmacionReserva', $user, $nombre_lab, $capacidad_lab, $reservation_for_mail->beginDate, $reservation_for_mail->endDate, $reservation_for_mail->subject, 123654);
+//confirmacionReservaMail($reservation_for_mail->owner, $reservation_for_mail->lab, $reservation_for_mail->beginDate, $reservation_for_mail->endDate, $reservation_for_mail->subject);
 
 if($state == RES_STATE_CONFIRMED) {
 

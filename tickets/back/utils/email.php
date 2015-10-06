@@ -275,12 +275,12 @@ function confirmacionReservaMail($user, $lab, $beginDate, $endDate, $subject){
   mails($body);
 }
 
-function enviarMail($tipo, $user, $lab, $beginDate, $endDate, $subject, $ticketNumber) {
+function enviarMail($tipo, $user, $labName, $labSize, $beginDate, $endDate, $subject, $ticketNumber) {
   $date = generarFecha($beginDate, $endDate);
 
   if ($tipo == 'confirmacionReserva') {
     //FALTA GENERAR EL TICKET
-    $body = confirmacionReservaBody($user->name, $lab->name, $date['day'], $date['from'], $date['until'], $subject, $lab->size, $ticketNumber);
+    $body = confirmacionReservaBody($user->name, $labName, $date['day'], $date['from'], $date['until'], $subject, $labSize, $ticketNumber);
   }
   if ($tipo == 'pedidoCambioReserva') {
     $body = pedidoCambioReservaBody($name, $labName, $beginDate, $endDate, $subjectName, $labCapacity);
@@ -289,7 +289,7 @@ function enviarMail($tipo, $user, $lab, $beginDate, $endDate, $subject, $ticketN
     $body = noDisponibilidadReservaBody($name, $labName, $beginDate, $endDate, $subjectName, $labCapacity);
   }
   if ($tipo == 'avisoPedidoAlLaboratorio') {
-    $body = avisoPedidoAlLaboratorioBody($user->name, $lab->name, $date['day'], $date['from'], $date['until'], $subject);
+    $body = avisoPedidoAlLaboratorioBody($user->name, $labName, $date['day'], $date['from'], $date['until'], $subject);
   }
 
   mails($body);  
