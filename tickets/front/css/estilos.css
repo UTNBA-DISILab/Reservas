@@ -93,6 +93,8 @@ body {
     color: white;
     opacity: 0.8; 
     font-size: 12px;
+    position: relative;
+    z-index: -1
 }
 
 /* Fin Linea Divisora */  
@@ -671,6 +673,7 @@ h4.fecha {
 	/*text-align: center;*/
 	margin-left: auto;
 	margin-right: auto;
+    margin-bottom: 70px;
 }
 
 #busqueda_reservas {
