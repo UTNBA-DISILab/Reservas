@@ -13,7 +13,8 @@
 			model-max="pedido.endContraofertable" 
 			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
 
-		<span><p align="right" style="font-size: 12px"><i>Arrastre los extremos para definir el horario deseado</i></p></span>
+		<span ng-show='usuario.inicioSesion && usuario.esEncargado'><p align="right" style="font-size: 12px"><i>Arrastre los extremos para definir el horario.</i></p></span>
+		<span ng-show='usuario.inicioSesion && !usuario.esEncargado'><p align="right" style="font-size: 12px"><i>Arrastre los extremos para definir el horario deseado.</i></p></span>
 		<div class="horarioAclarado">
 			<span><strong>Horario solicitado:</strong> de
 				<strong>
@@ -33,6 +34,7 @@
 		<br>
 		<p><span><strong>Docente:</strong> {{pedido.docenteName}}</span></p>
 		<p><span><strong>Materia:</strong> {{pedido.subject}}</span></p>
+		<label ng-show='usuario.inicioSesion && usuario.esEncargado'align="right" style="font-size: 12px; color: #A31235"><i><strong>Puede modificar los datos de la solicitud de reserva. Al realizar esta acción solo podrá contraofertarla.</strong></i></label>
 		<br>
 		<span ng-show="seSuperponeConOtraReserva(pedido)" style="color:red;font-weight:bold">Se superpone con otra reserva o contraoferta. Modifique el laboratorio y/o el horario para hacer una contraoferta.</span>
 		<span ng-show="seSuperponeConOtroPedido(pedido)" style="color:blue;font-weight:bold">Se Superpone con otro pedido sin confirmar.</span>
