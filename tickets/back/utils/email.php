@@ -209,9 +209,7 @@ function mails($body) {
   $subjectName = 'Sistemas Operativos';
   $labCapacity = '5000';
   $ticketNumber = '1239875';
-
-  //$body = file_get_contents('./mail_format/confirmacionReserva.html');
-  //$body = generarBody($tipo, $name, $labName, $from, $until, $subjectName, $labCapacity, $ticketNumber);
+  
   $mail = new PHPMailer;
 
   $mail->IsSMTP();
