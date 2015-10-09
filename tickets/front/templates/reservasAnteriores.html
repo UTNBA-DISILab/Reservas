@@ -26,25 +26,25 @@
 			<tr ng-hide="historialVacio()">
 				<td colspan="5">Consultando la base de datos...</td>
 			</tr>
-			<tr ng-show="clickTodas==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta'">
+			<tr ng-show="clickTodas==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta':true">
 				<td>{{reserva.fecha_alta}}</td>
 				<td><span class="nombre_lab_span lab_{{reserva.laboratorio.toLowerCase()}}">{{reserva.laboratorio}}</span></td>
 				<td>{{reserva.fecha_pedida}}<br>{{reserva.hora_inicio}}-{{reserva.hora_fin}}</td>
 				<td class="{{reserva.estado}} primera_mayus">{{reserva.estado_completo}}</td>
 			</tr>
-			<tr ng-show="click20==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta' | limitTo:20">
+			<tr ng-show="click20==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta':true | limitTo:20">
 				<td>{{reserva.fecha_alta}}</td>
 				<td><span class="nombre_lab_span lab_{{reserva.laboratorio.toLowerCase()}}">{{reserva.laboratorio}}</span></td>
 				<td>{{reserva.fecha_pedida}}<br>{{reserva.hora_inicio}}-{{reserva.hora_fin}}</td>
 				<td class="{{reserva.estado}} primera_mayus">{{reserva.estado_completo}}</td>
 			</tr>
-			<tr ng-show="click50==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta' | limitTo:50">
+			<tr ng-show="click50==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta':true | limitTo:50">
 				<td>{{reserva.fecha_alta}}</td>
 				<td><span class="nombre_lab_span lab_{{reserva.laboratorio.toLowerCase()}}">{{reserva.laboratorio}}</span></td>
 				<td>{{reserva.fecha_pedida}}<br>{{reserva.hora_inicio}}-{{reserva.hora_fin}}</td>
 				<td class="{{reserva.estado}} primera_mayus">{{reserva.estado_completo}}</td>
 			</tr>
-			<tr ng-show="click100==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta' | limitTo:100">
+			<tr ng-show="click100==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta':true | limitTo:100">
 				<td>{{reserva.fecha_alta}}</td>
 				<td><span class="nombre_lab_span lab_{{reserva.laboratorio.toLowerCase()}}">{{reserva.laboratorio}}</span></td>
 				<td>{{reserva.fecha_pedida}}<br>{{reserva.hora_inicio}}-{{reserva.hora_fin}}</td>
