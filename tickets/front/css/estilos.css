@@ -161,6 +161,17 @@ button {
     margin: -10px 0px 20px 0px;
 }
 
+.botonFiltroDeReservas{
+    font-size: 13px;
+    height: 20px;
+    /*padding: 0.5em 1.5em 0.5em;*/
+    
+    color: #FFFFFF;
+    border-radius: 3px;
+    background-color: #000000;
+    margin: 15px 2px 0px 0px;
+}
+
 
 #botonAgregarTerminal{
     font-size: 13px;
