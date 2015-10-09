@@ -9,6 +9,7 @@
 			<select ng-model="usuario.docenteElegido" name="docente" ng-show='usuario.esEncargado'
 					ng-options="docente.name for docente in docentes">
 			</select>
+			<button id="hover_boton" class="botonDeBusquedaRapida" ng-click="clickeoBotonBuscarDocente=true" ng-show="usuario.esEncargado">Buscar Docente</button>
 			<!-- Fin Campo Lista de Docentes (solo para el encargado) -->
 			
 			<!-- Campo Lista de Especialidades -->
@@ -61,29 +62,51 @@
 		</div>
 </form>
 
-<!-- Boton de Busqueda Rapida de Materias -->
-<!-- <button id="hover_boton" class="botonDeBusquedaRapida" ng-click="clickeoBoton=true" ng-show="especialidad && seConocenLasMateriasDe(especialidad)">Buscar Materia</button> -->
+			<!-- Boton de Busqueda Rapida de Docentes -->
 
 
-	<table id="busquedas_table" class="tabla_normal" ng-show="especialidad && seConocenLasMateriasDe(especialidad) && clickeoBoton">
-		<thead>
-			<tr>
-				<th>
-					<input type="text" id="busqueda_materias" class="ingresarTextoMateria" ng-model="materia" placeholder="Buscar Materia..."></input>
-					<button class='botonDeFormulario' ng-click="clickeoBoton=false">Cerrar</button>
-				</th>
-			</tr>
-		</thead>
-		<tbody id="cuerpo_tabla_reservas">
-			<tr ng-model="especialidad" name="especialidad" ng-repeat="esp in especialidad.materias | filter:materia | limitTo:5">
-				<td ng-click="$parent.materia = esp;$parent.clickeoBoton=false">{{esp}}</td>
-				<td><button class='botonDeFormulario' ng-click="$parent.materia = esp;$parent.clickeoBoton=false">Seleccionar</button></td>
-			</tr>
-		</tbody>
-	</table>
+			<table id="busquedas_table" class="tabla_normal" ng-show="usuario.esEncargado && clickeoBotonBuscarDocente">
+				<thead>
+					<tr>
+						<th>
+							<input type="text" id="busqueda_materias" class="ingresarTextoMateria" ng-model="docente" placeholder="Buscar Docente..."></input>
+							<button class='botonDeFormulario' ng-click="clickeoBotonBuscarDocente=false">Cerrar</button>
+						</th>
+					</tr>
+				</thead>
+				<tbody id="cuerpo_tabla_reservas">
+					<tr ng-model="docente" name="docente" ng-repeat="doc in docentes | filter:docente | limitTo:5">
+						<td ng-click="usuario.docenteElegido = doc;$parent.clickeoBotonBuscarDocente=false">{{doc.name}}</td>
+						<td><button class='botonDeFormulario' ng-click="usuario.docenteElegido = doc;$parent.clickeoBotonBuscarDocente=false">Seleccionar</button></td>
+					</tr>
+				</tbody>
+			</table>
 
 
-<!-- Fin Boton de Busqueda Rapida de Materias -->
+			<!-- Fin Boton de Busqueda Rapida de Docentes -->
+
+		<!-- Boton de Busqueda Rapida de Materias -->
+
+
+		<table id="busquedas_table" class="tabla_normal" ng-show="especialidad && seConocenLasMateriasDe(especialidad) && clickeoBoton">
+			<thead>
+				<tr>
+					<th>
+						<input type="text" id="busqueda_materias" class="ingresarTextoMateria" ng-model="materia" placeholder="Buscar Materia..."></input>
+						<button class='botonDeFormulario' ng-click="clickeoBoton=false">Cerrar</button>
+					</th>
+				</tr>
+			</thead>
+			<tbody id="cuerpo_tabla_reservas">
+				<tr ng-model="especialidad" name="especialidad" ng-repeat="esp in especialidad.materias | filter:materia | limitTo:5">
+					<td ng-click="$parent.materia = esp;$parent.clickeoBoton=false">{{esp}}</td>
+					<td><button class='botonDeFormulario' ng-click="$parent.materia = esp;$parent.clickeoBoton=false">Seleccionar</button></td>
+				</tr>
+			</tbody>
+		</table>
+
+
+		<!-- Fin Boton de Busqueda Rapida de Materias -->
 <br>
 <br>
 <!-- Calendario  -->
