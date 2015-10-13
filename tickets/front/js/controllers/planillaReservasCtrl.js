@@ -609,7 +609,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	
 	$scope.seConocenLasMateriasDe = function(especialidad) {
 		if( !(typeof especialidad === 'undefined') && especialidad != '' && !(typeof especialidad.nombre === 'undefined') && especialidad.nombre != '')
-			return especialidad.nombre.indexOf('Sistemas de Informaci') > -1
+			return especialidad.nombre.indexOf(especialidad.nombre) > -1
 		else
 			return false;
 	}
