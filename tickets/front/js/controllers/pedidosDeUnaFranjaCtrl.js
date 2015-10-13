@@ -47,8 +47,10 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 		pedido.requiereJustificacion = false;
 		if(!pedido.r_flag){
 			rechazar(pedido);
+			alert('El pedido ha sido rechazado.');
 		}else{
 			contraofertar(pedido);
+			alert('El pedido ha sido contraofertado.');
 		}
 	};
 	
@@ -130,10 +132,11 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 		servidor.confirmarReserva(reserva.id, comunicador.getNombreDelLab(reserva.lab_id), comunicador.getCapacidadDelLab(reserva.lab_id))
 		.success(function(data, status, headers, config) {
 			console.log('Confirmada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
+			alert('El pedido ha sido confirmado!');
 		})
 		.error(function(data, status, headers, config) {
 			console.log('Se produjo un error al confirmar la reserva ' + reserva.id + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
-
+			alert('Se produjo un error al confirmar la reserva. Intente nuevamente');
 		});
 
 		actualizarPendientes();
