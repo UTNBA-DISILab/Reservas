@@ -4,7 +4,7 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 	var servidor = comunicadorConServidorService;
 	var porDefecto = valoresPorDefectoService;
     ayuda.actualizarExplicaciones();
-    $scope.margen = ayuda.getMargen();
+    $scope.margen = ayuda.getMargen();    
 	
 	$scope.obtenerMaterias = function() {
 		servidor.obtenerMaterias()
@@ -46,20 +46,23 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 
 			//si no se ingreso el codigo para que no tire error
 			if (!$scope.codigoIngresado){
-				$scope.codigoIngresado='';
+				$scope.codigoIngresado = '';
 			}
 
 			servidor.cargarMateria($scope.materiaIngresada, $scope.especialidadSeleccionada.name, $scope.codigoIngresado)
 			.success(function(data, status, headers, config) {
 				
 				// Se agrega a la lista visible de materias la nueva
-				$scope.especialidades[$scope.especialidades.indexOf($scope.especialidadSeleccionada)].subjects.push($scope.materiaIngresada);
+				var materiaNueva = new Array();
+				materiaNueva.name = $scope.materiaIngresada;
+				materiaNueva.code = $scope.codigoIngresado;
+				$scope.especialidades[$scope.especialidades.indexOf($scope.especialidadSeleccionada)].subjects.push(materiaNueva);
 				
 				console.log('Se ha cargado exitosamente la materia ' + $scope.materiaIngresada + ' (' +  $scope.especialidadSeleccionada.name + ').');
 				
 
 				alert('Se ha cargado exitosamente la materia: ' + $scope.materiaIngresada + ' (' +  $scope.especialidadSeleccionada.name + ').');
-				$scope.obtenerMaterias();
+				//$scope.obtenerMaterias();
 				$scope.materiaIngresada = '';
 				$scope.codigoIngresado = '';
 
@@ -79,8 +82,11 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 			});
 		}
 		else {
-			alert('Esa materia o codigo ya est\xE1 cargado.');
-			$scope.especialidadSeleccionada = '';
+			if (yaEstaCargada())
+			alert('Esa materia ya est\xE1 cargada.');
+			else
+			alert('Ese codigo ya est\xE1 cargado.');
+				
 			$scope.materiaIngresada = '';
 			$scope.codigoIngresado = '';
 		}

@@ -1,6 +1,10 @@
-<div id="estado_reservas" ng-style='margen'>
+<div id="estado_reservas" ng-style='margen' ng-init="clickTodas=true">
 	<h3 style="font-size: 30px">Estado de sus reservas</h3>
 	<input type="text" id="busqueda_reservas" class="ingresarTexto" ng-model="query" placeholder="Buscar..."></input>
+	<button id="hover_boton" class="botonFiltroDeReservas" ng-click="click20=true;click50=false;click100=false;clickTodas=false">Últimas 20</button>
+	<button id="hover_boton" class="botonFiltroDeReservas" ng-click="click20=false;click50=true;click100=false;clickTodas=false">Últimas 50</button>
+	<button id="hover_boton" class="botonFiltroDeReservas" ng-click="click20=false;click50=false;click100=true;clickTodas=false">Últimas 100</button>
+	<button id="hover_boton" class="botonFiltroDeReservas" ng-click="click20=false;click50=false;click100=false;clickTodas=true">Todas las reservas</button>
 	<table id="reservas_table" class="tabla_normal">
 		<thead>
 			<tr>
@@ -22,7 +26,25 @@
 			<tr ng-hide="historialVacio()">
 				<td colspan="5">Consultando la base de datos...</td>
 			</tr>
-			<tr ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta'">
+			<tr ng-show="clickTodas==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta':true">
+				<td>{{reserva.fecha_alta}}</td>
+				<td><span class="nombre_lab_span lab_{{reserva.laboratorio.toLowerCase()}}">{{reserva.laboratorio}}</span></td>
+				<td>{{reserva.fecha_pedida}}<br>{{reserva.hora_inicio}}-{{reserva.hora_fin}}</td>
+				<td class="{{reserva.estado}} primera_mayus">{{reserva.estado_completo}}</td>
+			</tr>
+			<tr ng-show="click20==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta':true | limitTo:20">
+				<td>{{reserva.fecha_alta}}</td>
+				<td><span class="nombre_lab_span lab_{{reserva.laboratorio.toLowerCase()}}">{{reserva.laboratorio}}</span></td>
+				<td>{{reserva.fecha_pedida}}<br>{{reserva.hora_inicio}}-{{reserva.hora_fin}}</td>
+				<td class="{{reserva.estado}} primera_mayus">{{reserva.estado_completo}}</td>
+			</tr>
+			<tr ng-show="click50==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta':true | limitTo:50">
+				<td>{{reserva.fecha_alta}}</td>
+				<td><span class="nombre_lab_span lab_{{reserva.laboratorio.toLowerCase()}}">{{reserva.laboratorio}}</span></td>
+				<td>{{reserva.fecha_pedida}}<br>{{reserva.hora_inicio}}-{{reserva.hora_fin}}</td>
+				<td class="{{reserva.estado}} primera_mayus">{{reserva.estado_completo}}</td>
+			</tr>
+			<tr ng-show="click100==true" ng-repeat="reserva in historial | filter:query | orderBy:'fecha_alta':true | limitTo:100">
 				<td>{{reserva.fecha_alta}}</td>
 				<td><span class="nombre_lab_span lab_{{reserva.laboratorio.toLowerCase()}}">{{reserva.laboratorio}}</span></td>
 				<td>{{reserva.fecha_pedida}}<br>{{reserva.hora_inicio}}-{{reserva.hora_fin}}</td>
@@ -30,5 +52,6 @@
 			</tr>
 		</tbody>
 	</table>
+	<br>
 	<button volver class= "botonDeVolver">Volver</button>
 </div>

@@ -1,6 +1,6 @@
 <div id="solicitudes_pendientes" ng-style='margen'>
 	<p><h2 align="center" style="'Helvetica Neue', bold, Helvetica, Arial, sans-serif;"><strong>SOLICITUDES PENDIENTES</h2></strong></p>
-	<div class="reserva" ng-repeat="pedido in pedidos">
+	<div class="formato_solicitudes_pendientes" ng-repeat="pedido in pedidos">
 	
 		<span class="fechaAltaSlider"><p align="right" style="font-size: 12px"><strong>Fecha y hora de alta:</strong> {{pedido.creation_date.getFechaLargaConAnio()}}, {{pedido.creation_date.getMinutosDesdeMedianoche() | hourMinFilter}}</span></p>
 		<br>
@@ -13,7 +13,8 @@
 			model-max="pedido.endContraofertable" 
 			attach-handle-values="true" prevent-equal-min-max="true" step="5" filter="hourMinFilter"></div>
 
-		<span><p align="right" style="font-size: 12px"><i>Arrastre los extremos para definir el horario deseado</i></p></span>
+		<span ng-show='usuario.inicioSesion && usuario.esEncargado'><p align="right" style="font-size: 12px"><i>Arrastre los extremos para definir el horario.</i></p></span>
+		<span ng-show='usuario.inicioSesion && !usuario.esEncargado'><p align="right" style="font-size: 12px"><i>Arrastre los extremos para definir el horario deseado.</i></p></span>
 		<div class="horarioAclarado">
 			<span><strong>Horario solicitado:</strong> de
 				<strong>
@@ -33,14 +34,18 @@
 		<br>
 		<p><span><strong>Docente:</strong> {{pedido.docenteName}}</span></p>
 		<p><span><strong>Materia:</strong> {{pedido.subject}}</span></p>
+		<label ng-show='usuario.inicioSesion && usuario.esEncargado && !seSuperponeConOtraReserva(pedido) && !seSuperponeConOtroPedido(pedido)'align="right" style="font-size: 12px; color: #A31235"><i><strong>Puede modificar los datos de la solicitud de reserva. Al realizar esta acción solo podrá contraofertarla.</strong></i></label>
 		<br>
-		<span ng-show="seSuperponeConOtraReserva(pedido)" style="color:red;font-weight:bold">Se superpone con otra reserva o contraoferta. Modifique el laboratorio y/o el horario para hacer una contraoferta.</span>
-		<span ng-show="seSuperponeConOtroPedido(pedido)" style="color:blue;font-weight:bold">Se Superpone con otro pedido sin confirmar.</span>
+		<label ng-show="seSuperponeConOtraReserva(pedido)" align="right" style="font-size: 12px; color: #FF0000"><i><strong>El pedido se superpone con una reserva ya confirmada. Modifique los datos para hacer una contraoferta.</strong></i></label>
+		<br>
+		<label ng-show="seSuperponeConOtroPedido(pedido) && !seSuperponeConOtraReserva(pedido)"  align="right" style="font-size: 12px; color: #DBA901"><i><strong>El pedido se superpone con otro pedido de reserva. Si acepta este pedido, el otro solo podrá contraofertarlo.</strong></i></label>
+		
+		<div class="comentario">
+			<label ng-model="pedido.description" rows="4" cols="60" maxlength="400" placeholder="Comentario&nbsp;opcional..."></label>
+		</div>
+
 		<div class="comentario" ng-show="pedido.requiereJustificacion">
 			<textarea ng-model="pedido.justificacion" rows="4" cols="60" maxlength="400" placeholder="Escriba una justificacion..."></textarea>
-		</div>
-		<div class="comentario">
-			<textarea ng-model="pedido.description" rows="4" cols="60" maxlength="400" placeholder="Comentario&nbsp;opcional..."></textarea>
 		</div>
 
 		<div id="opciones_solicitud">
