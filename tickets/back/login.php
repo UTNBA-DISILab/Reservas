@@ -81,6 +81,7 @@ if($from_sigma) {
 
 $user = new User();
 $success = $user->loadUsingValues($dbhandler, $fields, $params);
+
 if(!$success) {
 //must add
 	if($from_glpi) {
@@ -143,10 +144,10 @@ function loginSigmaUser() {
 }
 
 function loginGLPIUser($username, $password) {
-if(RD_USE_GLPI) {
-	return authorizeGLPIUser($username, $password);
-} else {
-	return array("id"=>"rgarbarini","name"=>"Ramiro Garbarini","email"=>"rgarbarini@frba.utn.edu.ar","level"=>2);
-}
+	if(RD_USE_GLPI) {
+		return authorizeGLPIUser($username, $password);
+	} else {
+		return array("id"=>"rgarbarini","name"=>"Ramiro Garbarini","email"=>"rgarbarini@frba.utn.edu.ar","level"=>2);
+	}
 }
 ?>

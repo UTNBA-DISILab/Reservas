@@ -7,7 +7,7 @@ include_once 'utils/init_db.php';*/
 function createSessionForUser(&$user) {
 	session_start();
 	$_SESSION["user_id"] = $user->id;
-	$ret = session_id();
+	$ret = session_id();	
 	return $ret;
 }
 

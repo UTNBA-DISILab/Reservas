@@ -75,13 +75,15 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
     $scope.mostrarAyuda = {mostrar: true};
 
 	//Inicio sesion y es un docente.
+	
 	if(!$scope.usuario.inicioSesion){
-		loginSinap();
+		//loginSinap();
 	}else{
 		if(!$scope.usuario.esEncargado){
 			cerrarSesion();
 		}
 	}
+	
 
 	$scope.clickSoyDocente = function() {
 		document.location.href="Auth.php";

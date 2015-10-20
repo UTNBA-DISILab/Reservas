@@ -326,7 +326,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 	var obtenerPedidos = function() {
 		
 		var comportamientoSiRequestExitoso = function(pedidosRecibidos) {
-			
+
 			//pedidos.splice(0,pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
 				//pedido.tipo = 'pedido';

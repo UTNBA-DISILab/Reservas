@@ -3,7 +3,7 @@
 // Defines to enable/disable some functionalities
 //----------------------------------------------------
 define("RD_USE_MAIL", false);
-define("RD_USE_GLPI", false);
+define("RD_USE_GLPI", true);
 define("RD_USE_SAML", false);
 
 // Includes
