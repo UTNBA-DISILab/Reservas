@@ -33,3 +33,5 @@ RewriteRule    ^reservations/?$    get_reservations.php    [NC,L]
 RewriteRule    ^reservations/all?$    get_all.php     [NC,L]
     # Handle connections requests
 RewriteRule    ^sessions/?$    get_connections.php    [NC,L]
+
+RewriteRule    ^glpi_reservations/?$    get_glpi_reservations.php    [NC,L]
