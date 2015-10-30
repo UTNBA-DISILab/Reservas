@@ -35,5 +35,6 @@ RewriteRule    ^reservations/all?$    get_all.php     [NC,L]
 RewriteRule    ^sessions/?$    get_connections.php    [NC,L]
 	# Handle glpi_reservation requests
 RewriteRule    ^glpi_reservations/?$    get_glpi_reservations.php    [NC,L]
+RewriteRule    ^glpi_reservations/add?$    add_glpi_reservation.php    [NC,L]
 	# Handle glpi_tracking requests
 RewriteRule    ^glpi_tracking/add?$    add_glpi_tracking.php    [NC,L]
