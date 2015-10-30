@@ -40,8 +40,8 @@ class Glpi_reservation_resa extends DBObject {
 		//Creo que a los strings hay que pasarles un segundo parametro
 		//Si no le pasas un segundo parametro a replaceNullValue toma -1 por default
 		$id_item = $this->replaceNullValue($this->id_item);
-		$begin = $this->replaceNullValue($this->begin);
-		$end = $this->replaceNullValue($this->end);
+		$begin = $this->sqlDateTime($this->begin);
+		$end = $this->sqlDateTime($this->end);
 		$id_user = $this->replaceNullValue($this->id_user);
 		$comment = $this->replaceNullValue($this->comment, "");
 		$recipient = $this->replaceNullValue($this->recipient);
@@ -52,14 +52,14 @@ class Glpi_reservation_resa extends DBObject {
 	}
 
 	function setValues($row){
-		$this->id_item = $this->replaceNullValue($row["id_item"]);
-		$this->begin = $this->replaceNullValue($row["begin"]);
-		$this->end = $this->replaceNullValue($row["end"]);
-		$this->id_user = $this->replaceNullValue($row["id_user"]);
-		$this->comment = $this->replaceNullValue($row["comment"]);
-		$this->recipient = $this->replaceNullValue($row["recipient"]);
-		$this->resa_usage = $this->replaceNullValue($row["resa_usage"]);
-		$this->ticket = $this->replaceNullValue($row["ticket"]);
+		$this->id_item = $this->replaceNull($row["id_item"]);
+		$this->begin = $this->phpDateTime($row["begin"]);
+		$this->end = $this->phpDateTime($row["end"]);
+		$this->id_user = $this->replaceNull($row["id_user"]);
+		$this->comment = $this->replaceNull($row["comment"]);
+		$this->recipient = $this->replaceNull($row["recipient"]);
+		$this->resa_usage = $this->replaceNull($row["resa_usage"]);
+		$this->ticket = $this->replaceNull($row["ticket"]);
 	}
 }
 ?>

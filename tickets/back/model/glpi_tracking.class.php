@@ -88,9 +88,9 @@ class Glpi_tracking extends DBObject {
 		//Si no le pasas un segundo parametro a replaceNullValue toma -1 por default
 		$FK_entities = $this->replaceNullValue($this->FK_entities);
 		$name = $this->replaceNullValue($this->name, "");
-		$date = $this->replaceNullValue($this->date);
-		$closedate = $this->replaceNullValue($this->closedate);
-		$date_mod = $this->replaceNullValue($this->date_mod);
+		$date = $this->sqlDateTime($this->date);
+		$closedate = $this->sqlDateTime($this->closedate);
+		$date_mod = $this->sqlDateTime($this->date_mod);
 		$status = $this->replaceNullValue($this->status, "");
 		$author = $this->replaceNullValue($this->author);
 		$recipient = $this->replaceNullValue($this->recipient);
@@ -123,35 +123,35 @@ class Glpi_tracking extends DBObject {
 	}
 
 	function setValues($row){
-		$this->FK_entities = $this->replaceNullValue($row["FK_entities"]);
-		$this->name = $this->replaceNullValue($row["name"]);
-		$this->date = $this->replaceNullValue($row["date"]);
-		$this->closedate = $this->replaceNullValue($row["closedate"]);
-		$this->date_mod = $this->replaceNullValue($row["date_mod"]);
-		$this->status = $this->replaceNullValue($row["status"]);
-		$this->author = $this->replaceNullValue($row["author"]);
-		$this->recipient = $this->replaceNullValue($row["recipient"]);
-		$this->FK_group = $this->replaceNullValue($row["FK_group"]);
-		$this->request_type = $this->replaceNullValue($row["request_type"]);
-		$this->assign = $this->replaceNullValue($row["assign"]);
-		$this->assign_ent = $this->replaceNullValue($row["assign_ent"]);
-		$this->assign_group = $this->replaceNullValue($row["assign_group"]);
-		$this->device_type = $this->replaceNullValue($row["device_type"]);
-		$this->computer = $this->replaceNullValue($row["computer"]);
-		$this->contents = $this->replaceNullValue($row["contents"]);
-		$this->priority = $this->replaceNullValue($row["priority"]);
-		$this->uemail = $this->replaceNullValue($row["uemail"]);
-		$this->emailupdates = $this->replaceNullValue($row["emailupdates"]);
-		$this->realtime = $this->replaceNullValue($row["realtime"]);
-		$this->category = $this->replaceNullValue($row["category"]);
-		$this->cost_time = $this->replaceNullValue($row["cost_time"]);
-		$this->cost_fixed = $this->replaceNullValue($row["cost_fixed"]);
-		$this->cost_material = $this->replaceNullValue($row["cost_material"]);
-		$this->location = $this->replaceNullValue($row["location"]);
-		$this->service_type = $this->replaceNullValue($row["service_type"]);
-		$this->ticket_type = $this->replaceNullValue($row["ticket_type"]);
-		$this->state_reason = $this->replaceNullValue($row["state_reason"]);
-		$this->applicant = $this->replaceNullValue($row["applicant"]);
+		$this->FK_entities = $this->replaceNull($row["FK_entities"]);
+		$this->name = $this->replaceNull($row["name"]);
+		$this->date = $this->phpDateTime($row["date"]);
+		$this->closedate = $this->phpDateTime($row["closedate"]);
+		$this->date_mod = $this->phpDateTime($row["date_mod"]);
+		$this->status = $this->replaceNull($row["status"]);
+		$this->author = $this->replaceNull($row["author"]);
+		$this->recipient = $this->replaceNull($row["recipient"]);
+		$this->FK_group = $this->replaceNull($row["FK_group"]);
+		$this->request_type = $this->replaceNull($row["request_type"]);
+		$this->assign = $this->replaceNull($row["assign"]);
+		$this->assign_ent = $this->replaceNull($row["assign_ent"]);
+		$this->assign_group = $this->replaceNull($row["assign_group"]);
+		$this->device_type = $this->replaceNull($row["device_type"]);
+		$this->computer = $this->replaceNull($row["computer"]);
+		$this->contents = $this->replaceNull($row["contents"]);
+		$this->priority = $this->replaceNull($row["priority"]);
+		$this->uemail = $this->replaceNull($row["uemail"]);
+		$this->emailupdates = $this->replaceNull($row["emailupdates"]);
+		$this->realtime = $this->replaceNull($row["realtime"]);
+		$this->category = $this->replaceNull($row["category"]);
+		$this->cost_time = $this->replaceNull($row["cost_time"]);
+		$this->cost_fixed = $this->replaceNull($row["cost_fixed"]);
+		$this->cost_material = $this->replaceNull($row["cost_material"]);
+		$this->location = $this->replaceNull($row["location"]);
+		$this->service_type = $this->replaceNull($row["service_type"]);
+		$this->ticket_type = $this->replaceNull($row["ticket_type"]);
+		$this->state_reason = $this->replaceNull($row["state_reason"]);
+		$this->applicant = $this->replaceNull($row["applicant"]);
 	}
 }
 ?>

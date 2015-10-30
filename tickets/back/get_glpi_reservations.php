@@ -30,9 +30,11 @@ function listAll() {
 	*/
 
 	//SOLO PARA TEST
+	//-----------------------------------------------------------------
 	$timestamp = strtotime('01-01-2014');
 	$begin = $timestamp;
 	$end = strtotime('01-05-2014');
+	//-----------------------------------------------------------------
 	//SOLO PARA TEST
 
 	//Para conectarme a GLPI
