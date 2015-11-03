@@ -16,6 +16,7 @@ return:
 nothing
 */
 include_once 'utils/includes.php';
+include_once 'add_glpi_tracking.php';
 
 $myUser = getUserFromSession();
 if(!$myUser) {
@@ -152,6 +153,9 @@ if ($confirmacionMail) {
 } else {
 	enviarMail('avisoPedidoAlLaboratorio', $myUser, $lab->name, $lab->size, $beginDate, $endDate, $subject, 0);	
 }
+
+
+newGlpiTracking($reservation);
 
 
 $dbhandler->disconnect();
