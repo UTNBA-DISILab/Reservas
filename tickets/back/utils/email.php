@@ -193,9 +193,9 @@ function avisoPedidoAlLaboratorioBody($name, $labName, $day, $from, $until, $sub
   return $body;
 }
 
-function mails($body) {
-  $subject = "Subject 3.0";  
-  $address = "costanzo.ji@gmail.com";
+function mails($body, $address) {
+  $subject = "Reserva UTN-DisiLAB";  
+  //$address = "costanzo.ji@gmail.com";
   $name = "Juan Ignacio";
 
   $labName ='Azul';
@@ -229,8 +229,6 @@ function mails($body) {
 
   if (!$mail->Send()) {
     error_log('Error de mailing: ' . $mail->ErrorInfo);
-  } else {
-    error_log('El mail ha sido enviado con exito');
   }
 }
 
@@ -277,7 +275,7 @@ function enviarMail($tipo, $user, $labName, $labSize, $beginDate, $endDate, $sub
     $body = avisoPedidoAlLaboratorioBody($user->name, $labName, $date['day'], $date['from'], $date['until'], $subject);
   }
 
-  mails($body);  
+  mails($body, $user->email);
 }
 
 ?>

@@ -92,19 +92,6 @@ angular.module('reservasApp').controller('cargarMateriasCtrl',function($scope, $
 		}
 		
 	};
-	
-
-
-
-    $scope.enviarMail = function(){
-    	servidor.enviarMail()
-    	.success(function(data, status, headers, config){
-    		console.log("Enviar Mail success (¿)");
-    	})
-    	.error(function(data, status, headers, config){
-    		console.log("Enviar Mail Error");
-    	});
-    };
 
 	$scope.obtenerMaterias();
 	
