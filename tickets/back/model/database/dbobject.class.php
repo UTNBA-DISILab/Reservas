@@ -232,7 +232,8 @@ class DBObject {
 					$wherestr .= " AND ";
 				}
 			}
-		}
+		}		
+
 		return static::_listAll($dbhandler, $wherestr );
 	}
 		

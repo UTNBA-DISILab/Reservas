@@ -155,7 +155,7 @@ if ($confirmacionMail) {
 }
 
 
-newGlpiTracking($reservation);
+addGlpiTracking($reservation, $description);
 
 
 $dbhandler->disconnect();

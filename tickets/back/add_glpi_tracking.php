@@ -1,8 +1,10 @@
 <?php
 
 include_once 'utils/includes.php';
+include_once 'get_glpi_tracking.php';
+include_once 'add_glpi_reservation.php';
 
-function newGlpiTracking($reservation) {
+function addGlpiTracking($reservation, $comment) {
 
 	//Para conectarme a GLPI
 	$host = "localhost";
@@ -10,16 +12,6 @@ function newGlpiTracking($reservation) {
 	$password = "17sistemassql06";
 	$database_name = "glpi";
 	$dbhandler = new MySqlDB($host, $user, $password, $database_name);
-
-	//SOLO PARA TEST
-	//-----------------------------------------------------------------
-	$begin = strtotime('29-10-2015');
-	$end = strtotime('29-10-2015');
-	//-----------------------------------------------------------------
-	//SOLO PARA TEST
-
-	$beginDate = DateTime::createFromFormat('U', $begin);
-	$endDate = DateTime::createFromFormat('U', $end);
 
 	$dbhandler->connect();
 
@@ -49,9 +41,10 @@ function newGlpiTracking($reservation) {
             "Azul" => "4",
             "Verde" => "2",
             "Rojo" => "1",
-            "Campus Lab" => "5",
-            "Campus Lab II" => "6",
-            "Multimedia" => "7");
+            "Campus" => "5",
+            "Campus Lab" => "6",
+            "Multimedia" => "7",
+            "Amarillo" => "3");//NO SE SI EL AMARILLO ES EL 3
 
 	$glpi_tracking->computer = $arrayLaboratorios[$reservation->lab->name];
 			//			"Laboratorio Azul" 			"4"
@@ -102,9 +95,18 @@ function newGlpiTracking($reservation) {
 
 	$glpi_tracking->commit($dbhandler);
 
-	$dbhandler->disconnect();
+	$dbhandler->disconnect();	
+
+	//Ahora hacemos el insert en glpi_reservation_resa
+
+	$begin = $glpi_tracking->date;
+	$end = $glpi_tracking->closedate;
+	$computer = $glpi_tracking->computer;
+
+	$new_tracking = getGlpiTracking($glpi_tracking->sqlDateTime($begin), $glpi_tracking->sqlDateTime($end), $computer);
+
+	addGlpiReservation($new_tracking->id, $glpi_tracking, $comment);
 
 }
-
 
 ?>

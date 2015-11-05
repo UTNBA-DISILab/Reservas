@@ -2,39 +2,33 @@
 
 include_once 'utils/includes.php';
 
-//Para conectarme a GLPI
-$host = "localhost";
-$user = "sistemasmysql";
-$password = "17sistemassql06";
-$database_name = "glpi";
-$dbhandler = new MySqlDB($host, $user, $password, $database_name);
+function addGlpiReservation($ticket, $glpi_tracking, $comment) {
 
-//SOLO PARA TEST
-//-----------------------------------------------------------------
-$begin = strtotime('29-10-2015');
-$end = strtotime('29-10-2015');
-//-----------------------------------------------------------------
-//SOLO PARA TEST
+	//Para conectarme a GLPI
+	$host = "localhost";
+	$user = "sistemasmysql";
+	$password = "17sistemassql06";
+	$database_name = "glpi";
+	$dbhandler = new MySqlDB($host, $user, $password, $database_name);
 
-$beginDate = DateTime::createFromFormat('U', $begin);
-$endDate = DateTime::createFromFormat('U', $end);
+	$dbhandler->connect();
 
-$dbhandler->connect();
+	//Add glpi_reservation
+	$glpi_reservation = new Glpi_reservation_resa();
 
-//Add glpi_reservation
-$glpi_reservation = new Glpi_reservation_resa();
+	$glpi_reservation->id_item = 5;
+	$glpi_reservation->begin = $glpi_tracking->date;
+	$glpi_reservation->end = $glpi_tracking->closedate;
+	$glpi_reservation->id_user = $glpi_tracking->author;
+	$glpi_reservation->comment = $comment;
+	$glpi_reservation->recipient = 0;
+	$glpi_reservation->resa_usage = 0;
+	$glpi_reservation->ticket = $ticket;
 
-$glpi_reservation->id_item = 5;
-$glpi_reservation->begin = $beginDate;
-$glpi_reservation->end = $endDate;
-$glpi_reservation->id_user = 11;
-$glpi_reservation->comment = "MI COMENTARIO GENIAL HECHO POR MI";
-$glpi_reservation->recipient = 0;
-$glpi_reservation->resa_usage = 0;
-$glpi_reservation->ticket = 3190;
+	$glpi_reservation->commit($dbhandler);
 
-$glpi_reservation->commit($dbhandler);
+	$dbhandler->disconnect();
 
-$dbhandler->disconnect();
+}
 
 ?>

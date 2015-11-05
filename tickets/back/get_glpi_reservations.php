@@ -12,8 +12,6 @@ return:
 */
 include_once 'utils/includes.php';
 
-error_log("GLPI RESERVATIONS");
-
 listAll();
 
 //----------------------------------------------------
