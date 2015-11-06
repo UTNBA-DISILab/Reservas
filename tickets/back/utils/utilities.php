@@ -67,4 +67,13 @@ function validateTerminal(&$dbhandler, $trm_id) {
 	}
 	return $x;
 }
+
+function validateTracking(&$dbhandler, $tracking_id) {
+	$x = new Glpi_tracking();
+	$x->id = $tracking_id;
+	if (!$x->load($dbhandler)) {
+		return false;
+	}
+	return $x;
+}
 ?>

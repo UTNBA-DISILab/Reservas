@@ -36,10 +36,4 @@ function getGlpiTracking($begin, $end, $computer) {
 	return $tracking;
 }
 
-//----------------------------------------------------
-
-function listId($tracking_id) {
-
-}
-
 ?>
