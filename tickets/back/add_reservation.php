@@ -135,10 +135,10 @@ $resState = new ReservationState();
 $resState->reservation = $reservation;
 if(isset($owner)) {
 	$resState->state = RES_STATE_CONFIRMED;
-	$confirmacionMail = true;	
+	$confirmacion = true;	
 } else {
 	$resState->state = RES_STATE_APPROVED_BY_OWNER;
-	$confirmacionMail = false;	
+	$confirmacion = false;	
 }
 
 if(isset($description)) {
@@ -147,16 +147,11 @@ if(isset($description)) {
 $resState->user = $myUser;
 $resState->commit($dbhandler);
 
-if ($confirmacionMail) {
-	//FALTA EL TICKET NUMBER
-	enviarMail('confirmacionReserva', $owner, $lab->name, $lab->size, $beginDate, $endDate, $subject, 123654);	
+if ($confirmacion) {	
+	addGlpiTracking($reservation, $description);
 } else {
 	enviarMail('avisoPedidoAlLaboratorio', $myUser, $lab->name, $lab->size, $beginDate, $endDate, $subject, 0);	
 }
-
-
-addGlpiTracking($reservation, $description);
-
 
 $dbhandler->disconnect();
 return;
