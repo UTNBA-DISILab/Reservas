@@ -129,7 +129,7 @@ angular.module('reservasApp').controller('pedidosDeUnaFranjaCtrl', function($sco
 	};
 
 	$scope.confirmar = function(reserva) {
-		servidor.confirmarReserva(reserva.id, comunicador.getNombreDelLab(reserva.lab_id), comunicador.getCapacidadDelLab(reserva.lab_id))
+		servidor.confirmarReserva(reserva.id, comunicador.getNombreDelLab(reserva.lab_id), comunicador.getCapacidadDelLab(reserva.lab_id), reserva.description)
 		.success(function(data, status, headers, config) {
 			console.log('Confirmada la reserva ' + reserva.id + ' exitosamente' + ' (' + reserva.subject + ' en el lab ' + comunicador.getNombreDelLab(reserva.lab_id) + ' el d\xEDa ' + reserva.begin + ')');
 			alert('El pedido ha sido confirmado!');
