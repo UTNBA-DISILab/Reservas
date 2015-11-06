@@ -14,6 +14,7 @@ return:
 nothing
 */
 include_once 'utils/includes.php';
+include_once 'add_glpi_tracking.php';
 
 $myUser = getUserFromSession();
 if(!$myUser) {
@@ -29,10 +30,14 @@ $res_id = $_GET["res_id"];
 $description = "";
 
 $body = file_get_contents('php://input');
+$printable = print_r($body, true);
+error_log("Confirm Reservation body: ");
+error_log($printable);
 if(isset($body)) {
 	$jsonparams = json_decode($body, true);
-	if($jsonparams) {
+	if(isset($jsonparams["description"])) {
 		$description = $jsonparams["description"];
+        error_log("Entre al if");
 	}
     
     if (isset($jsonparams["nombre_lab"])) {
@@ -59,6 +64,15 @@ if(!$reservation) {
     $reservation_for_mail = $reservation;
 }
 
+$lab = validateLab($dbhandler, $reservation->lab->id);
+if(!$lab) {
+    returnError(500, "invalid params");
+    $dbhandler->disconnect();
+    return;
+}
+
+$reservation->lab = $lab;
+
 $rstate = ReservationState::getLatestForReservationId($dbhandler, $reservation->id);
 if(!isset($rstate)) {
 	returnError(403, "invalid operation");
@@ -68,17 +82,12 @@ if(!isset($rstate)) {
 $oldstate = $rstate->state;
 
 //change state
-$is_owner = $myUser->id == $reservation->owner->id;
-$is_validator = $myUser->id == $reservation->validator->id;
-if(!$is_owner && !$is_validator) {
-	//check if can be a new validator
-	if($myUser->accessLvl < USR_LVL_IN_USR) {
-		returnError(403, "invalid operation");
-		$dbhandler->disconnect();
-		return;
-	}
-	$update_validator = true;
-	$is_validator = true;
+if($myUser->id == $reservation->owner->id){
+    $is_owner = true;
+    $is_validator = false;
+}else{
+    $is_validator = true;
+    $is_owner = false;
 }
 
 $state = RES_STATE_CONFIRMED;
@@ -96,11 +105,6 @@ if($is_owner && $oldstate == RES_STATE_APPROVED_BY_OWNER) {
 	}
 }
 
-if($owner_validator)
-{
-	$reservation->validator = $myUser;
-	$reservation->commit($dbhandler);
-}
 
 //push reservation state
 $resState = new ReservationState();
@@ -119,6 +123,9 @@ if (isset($reservation->owner->id)) {
         error_log("Error al obtener el usuario de la base de datos desde confirmacion reserva");
     }
 }
+
+$printable = print_r($reservation, true);
+error_log($printable);
 
 //Guardar la reserva en GLPI
 addGlpiTracking($reservation, $description);

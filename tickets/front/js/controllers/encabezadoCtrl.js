@@ -86,7 +86,8 @@ angular.module('reservasApp').controller('encabezadoCtrl',function($scope, $stat
 	
 
 	$scope.clickSoyDocente = function() {
-		document.location.href="Auth.php";
+		//document.location.href="Auth.php";
+		loginSinap();
 	};
 	
 	$scope.cerrarSesionSinap = function() {
