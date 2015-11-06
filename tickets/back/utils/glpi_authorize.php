@@ -5,7 +5,7 @@
 //include_once 'autoloader.php';
 
 function authorizeGLPIUser($username, $md5password) {
-	$dbhandler = getGLPIDatabase();
+	$dbhandler = getGLPIDB();
 	$dbhandler->connect();
 	
 	$result = authGLPIUserWithDB($dbhandler, $username, $md5password);
@@ -61,7 +61,7 @@ function getGLPIUserAccessLevel(&$dbhandler, $userid) {
 	return $level;
 }
 
-function getGLPIDatabase() {
+function getGLPIDB() {
 	$host = "localhost";
 	$user = "sistemasmysql";
 	$password = "17sistemassql06";

@@ -6,13 +6,7 @@ include_once 'add_glpi_reservation.php';
 
 function addGlpiTracking($reservation, $comment) {
 
-	//Para conectarme a GLPI
-	$host = "localhost";
-	$user = "sistemasmysql";
-	$password = "17sistemassql06";
-	$database_name = "glpi";
-	$dbhandler = new MySqlDB($host, $user, $password, $database_name);
-
+	$dbhandler = getGlpiDatabase();
 	$dbhandler->connect();
 
 	//Add glpi_tracking

@@ -35,13 +35,8 @@ function listAll() {
 	//-----------------------------------------------------------------
 	//SOLO PARA TEST
 
-	//Para conectarme a GLPI
-	$host = "localhost";
-	$user = "sistemasmysql";
-	$password = "17sistemassql06";
-	$database_name = "glpi";
-	$dbhandler = new MySqlDB($host, $user, $password, $database_name);
 
+	$dbhandler = getGlpiDatabase();
 	$dbhandler->connect();
 
 	$beginDate = DateTime::createFromFormat('U', $begin);

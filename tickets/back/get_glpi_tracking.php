@@ -17,12 +17,7 @@ include_once 'utils/includes.php';
 //----------------------------------------------------
 
 function getGlpiTracking($begin, $end, $computer) {
-	$host = "localhost";
-	$user = "sistemasmysql";
-	$password = "17sistemassql06";
-	$database_name = "glpi";
-	$dbhandler = new MySqlDB($host, $user, $password, $database_name);
-
+	$dbhandler = getGlpiDatabase();
 	$dbhandler->connect();
 
 	$query = "SELECT * FROM glpi_tracking WHERE date = '". $begin . "' AND closedate = '". $end . "' AND computer = ". $computer . ";";
@@ -39,6 +34,12 @@ function getGlpiTracking($begin, $end, $computer) {
 	$dbhandler->disconnect();
 
 	return $tracking;
+}
+
+//----------------------------------------------------
+
+function listId($tracking_id) {
+
 }
 
 ?>
