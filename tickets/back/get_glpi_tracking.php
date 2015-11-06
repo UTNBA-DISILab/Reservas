@@ -1,14 +1,16 @@
 <?php
 /**
-* Tickets System glpi_reservations information display
+* Tickets System glpi_tracking information display
 request:
 GET
 
 params:
-
+-begin
+-end
+-computer
 
 return:
-
+Glpi_tracking Object.
 */
 include_once 'utils/includes.php';
 
