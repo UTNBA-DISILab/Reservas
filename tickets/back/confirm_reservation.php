@@ -119,19 +119,16 @@ if (isset($reservation->owner->id)) {
         error_log("Error al obtener el usuario de la base de datos desde confirmacion reserva");
     }
 }
-enviarMail('confirmacionReserva', $user, $nombre_lab, $capacidad_lab, $reservation_for_mail->beginDate, $reservation_for_mail->endDate, $reservation_for_mail->subject, 123654);
 
+//Guardar la reserva en GLPI
+addGlpiTracking($reservation, $description);
+
+/*
 if($state == RES_STATE_CONFIRMED) {
 
     if(RD_USE_GLPI) {
         $login_name = "gsardon";
         $login_password = "ale";    /// GENERAR UN USUARIO GLPI  PARA EL SISTEMA DE RESERVAS
-
-        /******************************************************************************
-
-        Definicion del ticket
-
-         ******************************************************************************/
 
         $_POST["ticket_type"] = 1;
         //Abrir una peticion
@@ -198,40 +195,36 @@ if($state == RES_STATE_CONFIRMED) {
         //			"WorkGroup Lab 2" value=	"6"
         $_POST["state_reason"]="0";			//state_reason	Motivos para el estado  NO ASIGNADO EN GLPI
         $_POST["applicant"]="0";
-        /* applicant = 	"alumnos de otras carreras - " 		value="25"
-                        "Alumnos DISI - " 					value="17"
-                        "Ayudante DISI LAB - " 				value="20"
-                        "Comité Calidad - " 				value="22"
-                        "Coord. DISI LAB - " 				value="11"
-                        "Director DISI - " 					value="9"
-                        "Docente otros Departamentos - " 	value="16"
-                        "Docentes DISI - " 					value="15"
-                        "Jefe de Turno - " 					value="21"
-                        "Responsable de Aplicaciones - " 	value="13"
-                        "Responsable de Infraestrucura - " 	value="14"
-                        "Responsable de Redes - " 			value="24"
-                        "Responsable de Servicios - " 		value="12"
-                        "Secretarías - " 					value="18"
-        */
+        // applicant = 	"alumnos de otras carreras - " 		value="25"
+        //               "Alumnos DISI - " 					value="17"
+        //                "Ayudante DISI LAB - " 				value="20"
+        //                "Comité Calidad - " 				value="22"
+        //                "Coord. DISI LAB - " 				value="11"
+        //                "Director DISI - " 					value="9"
+        //                "Docente otros Departamentos - " 	value="16"
+        //                "Docentes DISI - " 					value="15"
+        //                "Jefe de Turno - " 					value="21"
+        //                "Responsable de Aplicaciones - " 	value="13"
+        //                "Responsable de Infraestrucura - " 	value="14"
+        //                "Responsable de Redes - " 			value="24"
+        //                "Responsable de Servicios - " 		value="12"
+        //                "Secretarías - " 					value="18"
+        
 
-        /******************************************************************************
+        
 
-        Definicion de la reserva
-
-         ******************************************************************************/
-
-        /*
-            La tabla de donde toma los id de laboratorios para los tickets es distinta a la de las reservas
-            para los siguientes laboratorios:
-            "Laboratorio Azul" 			"4" -> "4"
-            "Laboratorio Campus" 		"5" -> "8"
-            "Laboratorio Rojo" value=	"1" -> "2"
-            "Laboratorio Verde" 		"2" -> "3"
-            "Sala multimedia" 			"7" -> "9"
-            "Sala Servidores" 			"9" -> No asignada
-            "WorkGroup Lab 1" value=	"3" -> "5"
-            "WorkGroup Lab 2" value=	"6" -> "7"
-        */
+        
+        //    La tabla de donde toma los id de laboratorios para los tickets es distinta a la de las reservas
+        //    para los siguientes laboratorios:
+        //    "Laboratorio Azul" 			"4" -> "4"
+        //    "Laboratorio Campus" 		"5" -> "8"
+        //    "Laboratorio Rojo" value=	"1" -> "2"
+        //    "Laboratorio Verde" 		"2" -> "3"
+        //    "Sala multimedia" 			"7" -> "9"
+        //    "Sala Servidores" 			"9" -> No asignada
+        //    "WorkGroup Lab 1" value=	"3" -> "5"
+        //    "WorkGroup Lab 2" value=	"6" -> "7"
+        
         switch ($_POST['computer']) {
             case '1':
                 $_POST["items"] =  array("2");
@@ -267,20 +260,20 @@ if($state == RES_STATE_CONFIRMED) {
         }
         $_POST['begin'] = $reservation->beginDate->format('Y-m-d H:i:s');
         $_POST['end'] = $reservation->endDate->format('Y-m-d H:i:s');
-        /*
-            Comienzo y fin del uso del laboratorio, el primer día.
-            Si se repite la reserva en dias o semanas sucesivas, usa el mismo horario.
-            Ademas verifica la disponibilidad del recurso.
-        */
+        
+        //    Comienzo y fin del uso del laboratorio, el primer día.
+        //    Si se repite la reserva en dias o semanas sucesivas, usa el mismo horario.
+        //    Ademas verifica la disponibilidad del recurso.
+        
         $_POST['periodicity'] = "day";			// Periodicidad: si va a contar periodicity_times por dia "day" o por semana "week"
         $_POST['periodicity_times'] = "1";			// La cantidad de reservas "efectivas" a realizar
-        /*
-            $_POST["periodicity"] = "week";
-            $_POST["periodicity_times"] = 4; reserva 4 semanas seguidas
+        
+        //    $_POST["periodicity"] = "week";
+        //    $_POST["periodicity_times"] = 4; reserva 4 semanas seguidas
 
-            $_POST["periodicity"] = "day";
-            $_POST["periodicity_times"] = 4; reserva 4 dias seguidos
-        */
+        //    $_POST["periodicity"] = "day";
+        //    $_POST["periodicity_times"] = 4; reserva 4 dias seguidos
+        
         $_POST['comment'] = "Materia: ".$reservation->subject." Profesor: ".$reservation->owner->name;	// Comentario de la reserva
         $_POST['addReservation'] = "on";				// Crear la reserva
 
@@ -288,6 +281,7 @@ if($state == RES_STATE_CONFIRMED) {
         include('../tickets/reservations/reservations.php');
     }
 }
+*/
 
 $dbhandler->disconnect();
 return;

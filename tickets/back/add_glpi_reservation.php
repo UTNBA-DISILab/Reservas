@@ -15,8 +15,8 @@ function addGlpiReservation($ticket, $glpi_tracking, $comment) {
 		"1" => "2", //Rojo
 		"2" => "3", //Verde
 		"3" => "5", //Amarillo - Workgroup 1
-		"5" => "7", //Campus - Workgroup 2
-		"6" => "8", //Campus lab
+		"5" => "8", //Campus - Workgroup 2
+		"6" => "7", //Campus lab
 		"7" => "9"); //Multimedia
 
 	$glpi_reservation->id_item = $arrayLaboratorios[$glpi_tracking->computer];
