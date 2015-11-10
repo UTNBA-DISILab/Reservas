@@ -45,9 +45,6 @@ function addGlpiTracking($reservation, $comment) {
             "Multimedia" => "7",
             "Amarillo" => "3");
 
-	$printable = print_r($reservation->lab,true);
-	error_log($printable);
-
 	$glpi_tracking->computer = $arrayLaboratorios[$reservation->lab->name];
 			//			"Laboratorio Azul" 			"4"
 	        //			"Laboratorio Campus" 		"5"
@@ -107,14 +104,12 @@ function addGlpiTracking($reservation, $comment) {
 
 	$new_tracking = getGlpiTracking($glpi_tracking->sqlDateTime($begin), $glpi_tracking->sqlDateTime($end), $computer);
 
-	$printable = print_r($new_tracking, true);
-	error_log($printable);
-
 	addGlpiReservation($new_tracking->id, $glpi_tracking, "Materia: ".$reservation->subject." Profesor: ".$reservation->owner->name);
 
 	//Enviar mail de confirmacion
 	enviarMail('confirmacionReserva', $reservation->owner, $reservation->lab->name, $reservation->lab->size, $reservation->beginDate, $reservation->endDate, $reservation->subject, $new_tracking->id);
 
+	return;
 }
 
 ?>

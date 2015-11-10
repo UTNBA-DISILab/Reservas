@@ -35,53 +35,6 @@ $html ='<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://w
 </html>';
 
 
-/*
-function mails(){
-  
-  // Crear una nueva  instancia de PHPMailer habilitando el tratamiento de excepciones
-  $mail = new PHPMailer(true);
-  // Configuramos el protocolo SMTP con autenticación
-
-  $mail->IsSMTP();
-  $mail->SMTPAuth = false;
-  //$mail->SMTPSecure = "tls";
-  // $mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
-  // Puerto de escucha del servidor
-  $mail->Port       = 25;
-  // Dirección del servidor SMTP
-  $mail->Host       = "smtp.frba.utn.edu.ar";
-
-  // Usuario y contraseña para autenticación en el servidor
-
-  //$mail->Username   = "javier.sz.33@gmail.com";
-
-  //$mail->Password = "";
-  $mail->IsHTML(true);
-
-  $mail->    MsgHTML($html);
-  //$mail->AddReplyTo("name@yourdomain.com","First Last");
-
-  $mail->Subject    = $asunto;
-
-  $mail->AltBody    = $body; // optional, comment out and test
-
-  $mail->  AddAddress($address, $nombre);
-  $mail->AddBCC($addressCC);
-
-  $mail->SetFrom('disilab-soporte@sistemas.frba.utn.edu.ar', 'UTN-DisiLAB');
-
-  if(!$mail->Send()) {
-
-      echo "Mailer Error: " . $mail->ErrorInfo;
-
-  } else {
-
-      echo "Message sent!";
-
-  }
-}
-*/
-
 function confirmacionReservaBody($name, $labName, $day, $from, $until, $subjectName, $labCapacity, $ticketNumber) {
   $body = 
   '
@@ -230,6 +183,8 @@ function mails($body, $address) {
   if (!$mail->Send()) {
     error_log('Error de mailing: ' . $mail->ErrorInfo);
   }
+
+  return;
 }
 
 function transformarFechaEnDias($date) {
@@ -276,6 +231,7 @@ function enviarMail($tipo, $user, $labName, $labSize, $beginDate, $endDate, $sub
   }
 
   mails($body, $user->email);
+  return;
 }
 
 ?>

@@ -31,7 +31,7 @@ function addGlpiReservation($ticket, $glpi_tracking, $comment) {
 	$glpi_reservation->commit($dbhandler);
 
 	$dbhandler->disconnect();
-
+	return;
 }
 
 ?>

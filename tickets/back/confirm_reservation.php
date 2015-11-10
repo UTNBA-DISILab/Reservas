@@ -30,9 +30,7 @@ $res_id = $_GET["res_id"];
 $description = "";
 
 $body = file_get_contents('php://input');
-$printable = print_r($body, true);
-error_log("Confirm Reservation body: ");
-error_log($printable);
+
 if(isset($body)) {
 	$jsonparams = json_decode($body, true);
 	if(isset($jsonparams["description"])) {
@@ -58,11 +56,11 @@ $reservation = validateReservation($dbhandler, $res_id);
 if(!$reservation) {
 	returnError(404, "reservation not found");
 	$dbhandler->disconnect();
-} else {
-    //Salvo el reservation para mandar mail
-    error_log("Se salvo el objeto reservation");
-    $reservation_for_mail = $reservation;
+    return;
 }
+//----------------------------------------------
+$reservation->validator = $myUser;
+//----------------------------------------------
 
 $lab = validateLab($dbhandler, $reservation->lab->id);
 if(!$lab) {
@@ -125,9 +123,6 @@ if (isset($reservation->owner->id)) {
         $reservation->owner = $user;
     }
 }
-
-$printable = print_r($reservation, true);
-error_log($printable);
 
 //Guardar la reserva en GLPI
 addGlpiTracking($reservation, $description);

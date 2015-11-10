@@ -65,9 +65,6 @@ function listAll() {
 		}
 	}
 
-	$result =print_r($return, true);
-	error_log($result);
-
 	$dbhandler->disconnect();
 }
 
