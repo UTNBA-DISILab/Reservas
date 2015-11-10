@@ -33,7 +33,11 @@ function getGlpiTracking($begin, $end, $computer) {
 	
 	$dbhandler->disconnect();
 
-	return $tracking;
+	if(isset($tracking)){
+		return $tracking;
+	}else{
+		returnError(500, "Glpi impact error");
+	}
 }
 
 ?>

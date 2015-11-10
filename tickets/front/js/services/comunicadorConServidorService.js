@@ -142,13 +142,14 @@ angular.module('reservasApp').service('comunicadorConServidorService',function($
 			// return $http.post( url + '/add_reservation.php', reservaNueva);
 		},
 		
-		confirmarReserva: function(id, nombre_lab, capacidad_lab) {
+		confirmarReserva: function(id, nombre_lab, capacidad_lab, description) {
 			//return $http.get( url + '/reservas/' + id + '?action=confirm');
 			//return $http.get( url + '/reservations/' + id + '?action=confirm');
 			// return $http.get( url + '/reservations/' + id + '/confirm'); este anda
 			var post_body = {};
 			post_body.nombre_lab = nombre_lab;
 			post_body.capacidad_lab = capacidad_lab;
+			post_body.description = description;
 
 			return $http.post( url + '/reservations/' + id + '/confirm', post_body); // OJO Post sin body es una mala practica, puede traer problemas
 			// return $http.post( url + '/confirm_reservation.php?res_id=' + id); // OJO Post sin body es una mala practica, puede traer problemas
