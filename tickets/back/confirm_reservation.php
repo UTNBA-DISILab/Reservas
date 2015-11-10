@@ -112,11 +112,13 @@ if(isset($description)) {
 $resState->user = $myUser;
 $resState->commit($dbhandler);
 
-//Send mail + getting user for email
+//Getting user for email
 if (isset($reservation->owner->id)) {
     $user = validateUser($dbhandler, $reservation->owner->id);
     if(!$user) {
         error_log("Error al obtener el usuario de la base de datos desde confirmacion reserva");
+    } else {
+        $reservation->owner = $user;
     }
 }
 

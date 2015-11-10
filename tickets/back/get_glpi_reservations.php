@@ -18,8 +18,7 @@ listAll();
 
 function listAll() {
 	/*
-	if(!isset($_GET["begin"]) ||
-	   !isset($_GET["end"])) {
+	if(!isset($_GET["begin"]) || !isset($_GET["end"])) {
 	   returnError(500, "missing values");
 	   return;
 	}
