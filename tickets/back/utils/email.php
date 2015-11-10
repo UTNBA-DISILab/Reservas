@@ -183,8 +183,7 @@ function mails($body, $address) {
   if (!$mail->Send()) {
     error_log('Error de mailing: ' . $mail->ErrorInfo);
   }
-
-  return;
+  
 }
 
 function transformarFechaEnDias($date) {
@@ -231,7 +230,7 @@ function enviarMail($tipo, $user, $labName, $labSize, $beginDate, $endDate, $sub
   }
 
   mails($body, $user->email);
-  return;
+  
 }
 
 ?>

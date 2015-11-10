@@ -286,7 +286,10 @@ class DBObject {
 		if($phpDateTime instanceof DateTime){
 			return date( 'Y-m-d H:i:s', $phpDateTime->getTimestamp() );
 		}else{
-			returnError(403, "invalid operation, " + $phpDateTime);
+			//NO SE POR QUE ESTA ENTRANDO ACA CUANDO QUIERE EJECUTAR SQLDATETIME DESDE GLPI_TRACKING.CLASS
+			//PERO DEBIDO A ESTO RETORNA UN ERROR DESDE EL SERVIDOR.
+			//error_log("error en dbObject linea 289");
+			//returnError(403, "invalid operation, " + $phpDateTime);
 		}
 	}
 	

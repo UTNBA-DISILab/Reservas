@@ -87,10 +87,10 @@ class Glpi_tracking extends DBObject {
 		//Creo que a los strings hay que pasarles un segundo parametro
 		//Si no le pasas un segundo parametro a replaceNullValue toma -1 por default
 		$FK_entities = $this->replaceNullValue($this->FK_entities);
-		$name = $this->replaceNullValue($this->name, "");
+		$name = $this->replaceNullValue($this->name, "");		
 		$date = $this->sqlDateTime($this->date);
 		$closedate = $this->sqlDateTime($this->closedate);
-		$date_mod = $this->sqlDateTime($this->date_mod);
+		$date_mod = $this->sqlDateTime($this->date_mod);		
 		$status = $this->replaceNullValue($this->status, "");
 		$author = $this->replaceNullValue($this->author);
 		$recipient = $this->replaceNullValue($this->recipient);

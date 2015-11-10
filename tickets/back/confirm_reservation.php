@@ -35,7 +35,6 @@ if(isset($body)) {
 	$jsonparams = json_decode($body, true);
 	if(isset($jsonparams["description"])) {
 		$description = $jsonparams["description"];
-        error_log("Entre al if");
 	}
     
     if (isset($jsonparams["nombre_lab"])) {

@@ -109,7 +109,6 @@ function addGlpiTracking($reservation, $comment) {
 	//Enviar mail de confirmacion
 	enviarMail('confirmacionReserva', $reservation->owner, $reservation->lab->name, $reservation->lab->size, $reservation->beginDate, $reservation->endDate, $reservation->subject, $new_tracking->id);
 
-	return;
 }
 
 ?>

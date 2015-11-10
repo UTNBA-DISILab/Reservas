@@ -19,7 +19,7 @@ include_once 'utils/includes.php';
 include_once 'add_glpi_tracking.php';
 
 $myUser = getUserFromSession();
-if(!$myUser) {
+if(!$myUser) {	
 	returnError(401, "unauthorized");
 	return;
 }
@@ -147,7 +147,10 @@ if(isset($description)) {
 $resState->user = $myUser;
 $resState->commit($dbhandler);
 
-if ($confirmacion) {	
+if ($confirmacion) {
+	if (!isset($description)) {
+		$description = "";
+	}
 	addGlpiTracking($reservation, $description);
 } else {
 	enviarMail('avisoPedidoAlLaboratorio', $myUser, $lab->name, $lab->size, $beginDate, $endDate, $subject, 0);	
