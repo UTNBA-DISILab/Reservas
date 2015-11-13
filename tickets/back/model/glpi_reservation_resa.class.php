@@ -39,7 +39,7 @@ class Glpi_reservation_resa extends DBObject {
 	function values(){
 		//Creo que a los strings hay que pasarles un segundo parametro
 		//Si no le pasas un segundo parametro a replaceNullValue toma -1 por default
-		$id_item = $this->replaceNullValue($this->id_item);
+		$id_item = $this->replaceNullValue($this->id_item);		
 		$begin = $this->sqlDateTime($this->begin);
 		$end = $this->sqlDateTime($this->end);
 		$id_user = $this->replaceNullValue($this->id_user);

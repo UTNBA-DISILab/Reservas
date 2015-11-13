@@ -14,6 +14,7 @@ return:
 nothing
 */
 include_once 'utils/includes.php';
+include_once 'delete_glpi_reservation.php';
 
 $myUser = getUserFromSession();
 if(!$myUser) {
@@ -54,6 +55,12 @@ if(!$reservation) {
 	$dbhandler->disconnect();
 }
 
+$lab = validateLab($dbhandler, $reservation->lab->id);
+if(!$lab) {
+	returnError(404, "lab not found");
+	$dbhandler->disconnect();
+}
+
 //push reservation state
 $resState = new ReservationState();
 $resState->reservation = $reservation;
@@ -64,15 +71,11 @@ if(isset($description)) {
 $resState->user = $myUser;
 $resState->commit($dbhandler);
 
-//Send mail + getting user for email
-if (isset($reservation->owner->id)) {
-    $user = validateUser($dbhandler, $reservation->owner->id);
-    if(!$user) {
-        error_log("Error al obtener el usuario de la base de datos desde confirmacion reserva");
-    }
-}
-enviarMail('noDisponibilidadReserva', $user, $nombre_lab, $capacidad_lab, $reservation->beginDate, $reservation->endDate, $reservation->subject, 0);
-
 $dbhandler->disconnect();
+
+//Delete the tracking and reservation from GLPI
+delete_glpi_reservation($reservation->beginDate, $reservation->endDate, $lab->name);
+
 return;
+
 ?>

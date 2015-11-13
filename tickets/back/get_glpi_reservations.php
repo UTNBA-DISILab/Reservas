@@ -12,20 +12,18 @@ return:
 */
 include_once 'utils/includes.php';
 
-listAll();
-
-//----------------------------------------------------
+//----------------------------------------------------------------------
 
 function listAll() {
-	/*
+	
 	if(!isset($_GET["begin"]) || !isset($_GET["end"])) {
 	   returnError(500, "missing values");
 	   return;
 	}
 	$begin = $_GET["begin"];
 	$end = $_GET["end"];
-	*/
-
+	
+/*
 	//SOLO PARA TEST
 	//-----------------------------------------------------------------
 	$timestamp = strtotime('01-01-2014');
@@ -33,7 +31,7 @@ function listAll() {
 	$end = strtotime('01-05-2014');
 	//-----------------------------------------------------------------
 	//SOLO PARA TEST
-
+*/
 
 	$dbhandler = getGlpiDatabase();
 	$dbhandler->connect();
@@ -66,6 +64,32 @@ function listAll() {
 	}
 
 	$dbhandler->disconnect();
+}
+
+//----------------------------------------------------------------------
+
+function getGlpiReservationResa($ticket) {
+	$dbhandler = getGlpiDatabase();
+	$dbhandler->connect();
+
+	$query = "SELECT * FROM glpi_reservation_resa WHERE ticket = ". $ticket . ";";	
+	
+	$result = $dbhandler->query($query);
+	if($result) {
+		while($row = mysqli_fetch_array($result)) {
+			$tracking = new Glpi_reservation_resa();
+			$tracking->id = $row['ID'];
+			$tracking->setValues($row);	
+		}
+	}
+	
+	$dbhandler->disconnect();
+
+	if(isset($tracking)){
+		return $tracking;
+	}else{
+		returnError(500, "Glpi impact error");
+	}
 }
 
 ?>
