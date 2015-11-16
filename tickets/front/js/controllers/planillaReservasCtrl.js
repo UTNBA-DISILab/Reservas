@@ -437,8 +437,12 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			//convertirTimestampADate(pedido);
 			if(pedido.state == 2){
 				pedido.tipo = 'contraoferta';
-			} else {
+			} 
+			if(pedido.state == 1){
 				pedido.tipo = 'pedido';
+			}
+			if(pedido.state == 3){
+				pedido.tipo = 'reserva';
 			}
 			meterEnElCalendario(pedido);
 		});

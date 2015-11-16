@@ -14,14 +14,7 @@ include_once 'utils/includes.php';
 
 //----------------------------------------------------------------------
 
-function listAll() {
-	
-	if(!isset($_GET["begin"]) || !isset($_GET["end"])) {
-	   returnError(500, "missing values");
-	   return;
-	}
-	$begin = $_GET["begin"];
-	$end = $_GET["end"];
+function get_glpi_reservations($begin, $end) {
 	
 /*
 	//SOLO PARA TEST
@@ -36,8 +29,8 @@ function listAll() {
 	$dbhandler = getGlpiDatabase();
 	$dbhandler->connect();
 
-	$beginDate = DateTime::createFromFormat('U', $begin);
-	$endDate = DateTime::createFromFormat('U', $end);
+	$beginDate = DateTime::createFromFormat('U', $begin / 1000);
+	$endDate = DateTime::createFromFormat('U', $end / 1000);
 
 	$fields = array("begin");
 	$minvalues = array(Glpi_reservation_resa::sqlDateTime($beginDate));
@@ -47,23 +40,34 @@ function listAll() {
 
 	$return = array();
 	if (is_array($glpi_reservations)) {
+		
+		$arrayLaboratorios = array(
+		"4" => "1", //Azul
+		"2" => "2", //Rojo
+		"3" => "3", //Verde
+		"5" => "4", //Amarillo - Workgroup 1
+		"8" => "6", //Campus - Workgroup 2
+		"7" => "7", //Campus lab
+		"9" => "5"); //Multimedia
+
 		foreach ($glpi_reservations as &$glpi_reservation) {
 			$glpi_reservation_info = array(
-				"id"=>$glpi_reservation->id,
-				"id_item"=>$glpi_reservation->id_item,
-				"begin"=>$glpi_reservation->begin,
-				"end"=>$glpi_reservation->end,
-				"id_user"=>$glpi_reservation->id_user,
-				"comment"=>$glpi_reservation->comment,
-				"recipient"=>$glpi_reservation->recipient,
-				"resa_usage"=>$glpi_reservation->resa_usage,
-				"ticket"=>$glpi_reservation->ticket);
+				"id"=>-1,
+				"lab_id"=>$arrayLaboratorios[$glpi_reservation->id_item],
+				"begin"=>$glpi_reservation->begin->getTimestamp() * 1000,
+				"end"=>$glpi_reservation->end->getTimestamp() * 1000,
+				"description"=>$glpi_reservation->comment,
+				"owner_id"=>-1,
+				"subject"=>-1,
+				"creation_date"=>$glpi_reservation->begin->getTimestamp() * 1000,
+				"state"=> RES_STATE_CONFIRMED);
 			array_push($return, $glpi_reservation_info);
 			unset($glpi_reservation);
 		}
 	}
 
 	$dbhandler->disconnect();
+	return $return;
 }
 
 //----------------------------------------------------------------------

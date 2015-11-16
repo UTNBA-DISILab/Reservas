@@ -128,7 +128,51 @@ function listAll() {
 		}
 	}
 
-	echo json_encode(objToUTF8($return));
+	include_once 'get_glpi_reservations.php';
+	$from_glpi_resa = get_glpi_reservations($begin,$end);
+
+	$printable = print_r($from_glpi_resa, true);
+	error_log("FROM_GLPI_RESA");
+	error_log($printable);
+
+	$merged_return = array_merge($return, $from_glpi_resa);
+	
+	$printable = print_r($merged_return, true);
+	error_log("MERGE_RETURN");
+	error_log($printable);
+
+	$full_return=[];
+
+	foreach($merged_return as &$node){
+		$eval_array = array_filter($full_return, array(new Check_Filter($node['begin'], $node['end'], $node['lab_id']), 'date_lab_filter'));
+		if(empty($eval_array)){
+			array_push($full_return, $node);
+		}
+	}
+
+	$printable = print_r($full_return, true);
+	error_log("FULL_RETURN");
+	error_log($printable);
+
+	echo json_encode(objToUTF8($full_return));
 	$dbhandler->disconnect();
+}
+
+class Check_filter {
+        private $beginDate;
+        private $endDate;
+        private $lab_id;
+
+        function __construct($beginDate, $endDate, $lab_id) {
+                $this->beginDate = $beginDate;
+                $this->endDate = $endDate;
+                $this->lab_id = $lab_id;
+        }
+
+        function date_lab_filter($node) {
+                
+                return $node['begin'] == $this->beginDate && $node['end'] == $this->endDate && $node['lab_id'] == $this->lab_id;
+
+        }
 }
 ?>
