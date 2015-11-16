@@ -5,7 +5,6 @@ include_once 'get_glpi_tracking.php';
 include_once 'add_glpi_reservation.php';
 
 function addGlpiTracking($reservation, $comment) {
-
 	$dbhandler = getGlpiDatabase();
 	$dbhandler->connect();
 
@@ -16,7 +15,7 @@ function addGlpiTracking($reservation, $comment) {
 	$glpi_tracking->name = "Materia: ".$reservation->subject." Profesor: ".$reservation->owner->name . ". Reserva realizada por Sistema de Reservas"; //No se que va aca, en las tablas no hay nada consistente
 	$glpi_tracking->date = $reservation->beginDate; //Dia de la reserva, seria el beginDate
 	$glpi_tracking->closedate = $reservation->endDate; //Dia y hora cuando termina la reserva
-	$glpi_tracking->date_mod = null; //No se que es esto
+	$glpi_tracking->date_mod = new DateTime('NOW'); //No se que es esto
 	$glpi_tracking->status = "assign"; //Estado: 	"Nueva (no asignado)" "new"/"Asignado" "assign"/"Planificado" "plan"/"En espera" "waiting"
 										//"Resuelto" "old_done"/"Cancelado" "old_notdone"
 
