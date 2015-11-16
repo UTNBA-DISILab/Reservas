@@ -298,7 +298,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 			
 			//reservas.splice(0,reservas.length); Por qué? cuando pida las de febrero, no quiero que se vayan del calendario las de maniana que ya tenia.
 			reservasRecibidas.forEach(function(reserva) {
-				//reserva.tipo = 'reserva';
+				reserva.tipo = 'reserva';
 				convertirTimestampADate(reserva);
 				reservas.push(reserva);
 			});
@@ -329,7 +329,7 @@ angular.module('reservasApp').controller('planillaReservasCtrl',function($scope,
 
 			//pedidos.splice(0,pedidos.length); //Por qué? cuando pida los de febrero, no quiero que se vayan del calendario los de maniana que ya tenia.
 			pedidosRecibidos.forEach(function(pedido) {
-				//pedido.tipo = 'pedido';
+				pedido.tipo = 'pedido';
 				convertirTimestampADate(pedido);
 
 				pedido.labContraofertable = comunicador.getNombreDelLab(pedido.lab_id);

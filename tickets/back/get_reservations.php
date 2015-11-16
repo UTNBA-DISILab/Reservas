@@ -129,7 +129,10 @@ function listAll() {
 	}
 
 	include_once 'get_glpi_reservations.php';
-	$from_glpi_resa = get_glpi_reservations($begin,$end);
+	$from_glpi_resa = [];
+	if(!isset($_GET["open_only"])) {
+		$from_glpi_resa = get_glpi_reservations($begin,$end);
+	}	
 
 	$printable = print_r($from_glpi_resa, true);
 	error_log("FROM_GLPI_RESA");
@@ -143,11 +146,15 @@ function listAll() {
 
 	$full_return=[];
 
-	foreach($merged_return as &$node){
-		$eval_array = array_filter($full_return, array(new Check_Filter($node['begin'], $node['end'], $node['lab_id']), 'date_lab_filter'));
-		if(empty($eval_array)){
-			array_push($full_return, $node);
+	if(!empty($from_glpi_resa)){
+		foreach($merged_return as &$node){
+			$eval_array = array_filter($full_return, array(new Check_Filter($node['begin'], $node['end'], $node['lab_id']), 'date_lab_filter'));
+			if(empty($eval_array)){
+				array_push($full_return, $node);
+			}
 		}
+	}else{
+		$full_return = $merged_return;
 	}
 
 	$printable = print_r($full_return, true);
